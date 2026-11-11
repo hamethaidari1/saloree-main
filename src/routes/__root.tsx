@@ -14,6 +14,8 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { CartProvider } from "@/components/marketplace/cart-context";
 import { AuthProvider } from "@/lib/auth";
+import { LOGO } from "@/lib/brand";
+import { CountryProvider } from "@/lib/country";
 import { Navbar, Footer } from "@/components/marketplace/shared";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -104,7 +106,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.png", type: "image/png" },
+      { rel: "icon", href: LOGO.src, type: LOGO.type },
+      { rel: "apple-touch-icon", href: LOGO.src },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -139,12 +142,14 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <CartProvider>
-          <Navbar />
-          <Outlet />
-          <Footer />
-          <Toaster position="bottom-right" />
-        </CartProvider>
+        <CountryProvider>
+          <CartProvider>
+            <Navbar />
+            <Outlet />
+            <Footer />
+            <Toaster position="bottom-right" />
+          </CartProvider>
+        </CountryProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

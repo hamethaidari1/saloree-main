@@ -3,8 +3,11 @@ import { Browse } from "@/components/marketplace/browse";
 import { catalogQuery } from "@/services/catalog";
 import { CatalogSkeleton } from "@/components/marketplace/shared";
 export const Route = createFileRoute("/products")({
-  validateSearch: (s: Record<string, unknown>): { q?: string; sort?: string; sale?: boolean } => ({
+  validateSearch: (
+    s: Record<string, unknown>,
+  ): { q?: string; category?: string; sort?: string; sale?: boolean } => ({
     ...(typeof s["q"] === "string" ? { q: s["q"] } : {}),
+    ...(typeof s["category"] === "string" && s["category"] ? { category: s["category"] } : {}),
     ...(typeof s["sort"] === "string" ? { sort: s["sort"] } : {}),
     ...(s["sale"] === true || s["sale"] === "true" ? { sale: true } : {}),
   }),
@@ -30,11 +33,12 @@ export const Route = createFileRoute("/products")({
   component: ProductsPage,
 });
 function ProductsPage() {
-  const { q, sort, sale } = Route.useSearch();
+  const { q, category, sort, sale } = Route.useSearch();
   return (
     <Browse
-      key={`${q}-${sort}-${sale}`}
+      key={`${q}-${category}-${sort}-${sale}`}
       query={q ?? ""}
+      category={category ?? ""}
       initialSort={sort ?? "newest"}
       sale={sale ?? false}
     />

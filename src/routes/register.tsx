@@ -6,6 +6,9 @@ import { AuthCard } from "@/components/marketplace/auth-form";
 import { signUp, type SignupRole } from "@/lib/auth";
 
 export const Route = createFileRoute("/register")({
+  // ?role=seller preselects "Sell" (used by "Sell on Saloree").
+  validateSearch: (s: Record<string, unknown>): { role?: SignupRole } =>
+    s["role"] === "seller" || s["role"] === "customer" ? { role: s["role"] } : {},
   head: () => ({
     meta: [
       { title: "Create an account — Saloree" },
@@ -17,7 +20,8 @@ export const Route = createFileRoute("/register")({
 
 function RegisterPage() {
   const router = useRouter();
-  const [role, setRole] = useState<SignupRole>("customer");
+  const search = Route.useSearch();
+  const [role, setRole] = useState<SignupRole>(search.role ?? "customer");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [sentTo, setSentTo] = useState<string | null>(null);

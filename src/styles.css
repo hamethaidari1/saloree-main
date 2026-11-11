@@ -34,6 +34,12 @@
   --color-rose: var(--rose);
   --color-blue: var(--blue);
   --color-peach: var(--peach);
+  --color-nav: var(--nav-bg);
+  --color-nav-sub: var(--nav-sub-bg);
+  --color-nav-foreground: var(--nav-fg);
+  --color-nav-muted: var(--nav-fg-muted);
+  --color-nav-accent: var(--nav-accent);
+  --color-nav-accent-foreground: var(--nav-accent-fg);
 }
 :root {
   --radius: 0.5rem;
@@ -60,6 +66,22 @@
   --peach: oklch(0.94 0.03 65);
   --hero-shade: oklch(0.91 0.022 110 / 0.9);
   --shadow-soft: 0 8px 28px oklch(0.25 0.018 175 / 0.06);
+
+  /* Header palette — change these to re-theme the whole navbar. */
+  --nav-bg: oklch(0.27 0.05 181); /* row 1 */
+  --nav-sub-bg: oklch(0.22 0.045 181); /* row 2, slightly darker */
+  --nav-fg: oklch(0.99 0 0);
+  --nav-fg-muted: oklch(0.86 0.02 181); /* small labels */
+  --nav-outline: oklch(0.99 0 0 / 0.75); /* hover outline on nav items */
+  --nav-focus: oklch(0.84 0.15 85); /* keyboard focus ring (visible on dark & light) */
+  --nav-strip-bg: oklch(0.36 0.065 181); /* mobile "Deliver to" strip, a little lighter */
+  --nav-accent: var(--brand); /* search button */
+  --nav-accent-fg: var(--primary-foreground);
+  --nav-badge-bg: var(--brand);
+  --nav-badge-fg: var(--primary-foreground);
+  --nav-search-bg: var(--background);
+  --nav-search-fg: var(--foreground);
+  --nav-search-scope-bg: var(--muted);
 }
 @layer base {
   * {
@@ -101,102 +123,256 @@
   width: min(1280px, calc(100% - 96px));
   margin-inline: auto;
 }
+/* Height follows the image's own 800 × 335 ratio, so it never squashes. */
 .logo-image {
-  width: 135px;
-  height: 55px;
-  object-fit: contain;
+  display: block;
+  width: 134px;
+  height: auto;
 }
-.announcement {
-  background: var(--primary);
-  color: var(--primary-foreground);
-  font-size: 11px;
-  min-height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-}
-.main-header {
-  border-bottom: 1px solid var(--border);
-  background: var(--background);
-}
-.header-main {
-  display: grid;
-  grid-template-columns: 185px minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 36px;
-  min-height: 88px;
-}
-.search-field {
-  display: flex;
-  align-items: center;
-  border: 1px solid var(--border);
-  background: var(--muted);
-  height: 43px;
-  border-radius: 5px;
-  padding-inline-start: 16px;
-  max-width: 560px;
-  width: 100%;
-  gap: 12px;
-}
-.search-field input {
-  background: transparent;
-  min-width: 0;
-  flex: 1;
-  border: 0;
-  font-size: 12px;
-  outline: none;
-}
-.search-field button {
-  height: 33px;
-  width: 37px;
-  margin-inline-end: 4px;
-}
-.header-actions {
-  display: flex;
-  gap: 22px;
-  align-items: center;
-  font-size: 12px;
-}
-.header-action {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  position: relative;
-  white-space: nowrap;
-}
-.cart-count {
-  position: absolute;
-  inset-inline-start: 12px;
-  top: -6px;
-  background: var(--brand);
-  color: var(--primary-foreground);
-  font-size: 9px;
-  border: 2px solid var(--background);
-  border-radius: 100%;
-  min-width: 17px;
-  height: 17px;
-  display: grid;
-  place-items: center;
-}
-.nav-row {
-  display: flex;
-  align-items: center;
-  gap: 34px;
-  min-height: 47px;
-  font-size: 12px;
-}
-.nav-row a {
-  transition: color 0.2s;
-}
-.nav-row a:hover {
-  color: var(--brand);
-}
-.nav-row .nav-special {
-  margin-inline-start: auto;
-  display: flex;
-  gap: 8px;
-  color: var(--brand);
+/* ---------------------------------------------------------------------------
+   Site header (two rows). Colours come only from the --nav-* tokens in :root.
+   Logical properties (inline-start/end) keep it ready for RTL.
+   In the components layer so Tailwind utilities (hidden, lg:flex…) can override.
+   --------------------------------------------------------------------------- */
+@layer components {
+  .site-header {
+    background: var(--nav-bg);
+    color: var(--nav-fg);
+  }
+  /* Every clickable block on the dark bars: hover outline + strong focus ring. */
+  .nav-hit {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    padding-inline: 8px;
+    border-radius: 4px;
+    outline: 1px solid transparent;
+    outline-offset: -2px;
+    color: inherit;
+    white-space: nowrap;
+    transition: outline-color 0.15s;
+  }
+  .nav-hit:hover,
+  .nav-hit[data-state="open"],
+  .nav-hit[aria-expanded="true"] {
+    outline-color: var(--nav-outline);
+  }
+  .nav-hit:focus-visible,
+  .nav-focus:focus-visible {
+    outline: 2px solid var(--nav-focus);
+    outline-offset: 1px;
+  }
+  .nav-small {
+    display: block;
+    font-size: 11px;
+    line-height: 1.2;
+    color: var(--nav-fg-muted);
+  }
+  .nav-strong {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+  /* White wordmark straight on the bar (public/logo-white.png). */
+  .nav-logo {
+    display: block;
+    padding-block: 2px;
+  }
+  .nav-logo .logo-image {
+    width: 112px;
+  }
+  /* Mobile "Deliver to …" strip under the search */
+  .nav-strip {
+    background: var(--nav-strip-bg);
+    color: var(--nav-fg);
+  }
+  .nav-strip-hit {
+    min-height: 40px;
+    width: 100%;
+    padding-inline: 0;
+    font-size: 14px;
+  }
+  /* Search */
+  .nav-search {
+    display: flex;
+    align-items: stretch;
+    height: 42px;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 6px;
+    background: var(--nav-search-bg);
+    color: var(--nav-search-fg);
+  }
+  .nav-search:focus-within {
+    outline: 3px solid var(--nav-focus);
+  }
+  .nav-search select {
+    max-width: 170px;
+    padding-inline: 10px 6px;
+    border: 0;
+    border-inline-end: 1px solid var(--border);
+    background: var(--nav-search-scope-bg);
+    color: var(--nav-search-fg);
+    font-size: 12px;
+    cursor: pointer;
+    outline: none;
+  }
+  .nav-search input {
+    flex: 1;
+    min-width: 0;
+    padding-inline: 12px;
+    border: 0;
+    background: transparent;
+    font-size: 14px;
+    outline: none;
+  }
+  .nav-search button {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    border: 0;
+    background: var(--nav-accent);
+    color: var(--nav-accent-fg);
+    cursor: pointer;
+  }
+  .nav-search button:hover {
+    filter: brightness(1.08);
+  }
+  /* Language select on the dark bar */
+  .nav-lang {
+    appearance: none;
+    min-height: 44px;
+    padding-inline: 8px 22px;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--nav-fg);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .nav-lang option {
+    background: var(--background);
+    color: var(--foreground);
+  }
+  .nav-cart-badge {
+    position: absolute;
+    top: 2px;
+    inset-inline-start: 22px;
+    min-width: 19px;
+    height: 19px;
+    padding-inline: 4px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    background: var(--nav-badge-bg);
+    color: var(--nav-badge-fg);
+    font-size: 11px;
+    font-weight: 700;
+  }
+  /* Row 2 */
+  .nav-sub {
+    background: var(--nav-sub-bg);
+    color: var(--nav-fg);
+    font-size: 13px;
+  }
+  .nav-sub .nav-hit {
+    min-height: 38px;
+  }
+  /* Drawer (light surface) */
+  .nav-drawer-section {
+    padding-block: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-drawer-section h3 {
+    margin-bottom: 6px;
+    padding-inline: 4px;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .nav-drawer-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 40px;
+    padding-inline: 4px;
+    border-radius: 4px;
+    font-size: 14px;
+    text-align: start;
+  }
+  .nav-drawer-link:hover {
+    background: var(--muted);
+  }
+  .nav-drawer-link:focus-visible,
+  .nav-panel-link:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 1px;
+  }
+  /* Account & country panels (light popovers, reused inside the drawer) */
+  .nav-panel-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+    min-height: 36px;
+    padding-inline: 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    text-align: start;
+  }
+  .nav-panel-link:hover:not([aria-disabled="true"]) {
+    background: var(--muted);
+  }
+  .nav-panel-link[aria-disabled="true"] {
+    color: var(--muted-foreground);
+    cursor: not-allowed;
+  }
+  .nav-panel-link[aria-pressed="true"] {
+    font-weight: 700;
+    background: var(--secondary);
+    color: var(--secondary-foreground);
+  }
+  .nav-soon {
+    font-size: 11px;
+    color: var(--muted-foreground);
+  }
+  .nav-skeleton {
+    height: 14px;
+    margin-block: 13px;
+    border-radius: 4px;
+    background: var(--muted);
+    animation: pulse 1.5s infinite;
+  }
+  /* Customer Service page */
+  .help-list {
+    max-width: 760px;
+    border-top: 1px solid var(--border);
+  }
+  .help-item {
+    border-bottom: 1px solid var(--border);
+  }
+  .help-item summary {
+    padding-block: 16px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .help-item summary:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+  .help-item p {
+    padding-bottom: 16px;
+    color: var(--muted-foreground);
+    line-height: 1.7;
+  }
+  .help-item a {
+    color: var(--primary);
+    font-weight: 600;
+  }
 }
 .home-hero {
   position: relative;
@@ -1210,7 +1386,7 @@
   border-radius: 999px;
   background: var(--background);
   color: var(--foreground);
-  box-shadow: 0 1px 3px rgb(0 0 0 / 0.15);
+  box-shadow: var(--shadow-soft);
 }
 .seller-thumb-action.left {
   left: 6px;
@@ -1557,7 +1733,6 @@
   line-height: 1.7;
   margin-top: 17px;
 }
-.mobile-menu-toggle,
 .mobile-filter-toggle {
   display: none;
 }
@@ -1589,19 +1764,6 @@
 @media (max-width: 1100px) {
   .market-container {
     width: calc(100% - 48px);
-  }
-  .header-main {
-    grid-template-columns: 145px minmax(0, 1fr) auto;
-    gap: 20px;
-  }
-  .header-actions {
-    gap: 13px;
-  }
-  .header-action-label {
-    display: none;
-  }
-  .nav-row {
-    gap: 23px;
   }
   .hero-content {
     padding: 35px;
@@ -1635,47 +1797,21 @@
   .market-container {
     width: calc(100% - 32px);
   }
-  .announcement {
-    font-size: 9px;
-  }
-  .header-main {
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 8px;
-    padding-block: 9px 14px;
-  }
   .logo-image {
     width: 111px;
-    height: 44px;
   }
-  .search-field {
-    grid-column: 1/-1;
-    grid-row: 2;
-    max-width: none;
+  .nav-logo .logo-image {
+    width: 96px;
   }
-  .header-actions {
-    gap: 12px;
+  .nav-search {
+    height: 46px;
+    border-radius: 8px;
   }
-  .header-main {
-    min-height: 110px;
+  .nav-search input {
+    font-size: 16px; /* 16px stops iOS Safari zooming into the field */
   }
-  .mobile-menu-toggle {
-    display: inline-flex;
-  }
-  .desktop-wishlist {
-    display: none;
-  }
-  .nav-row {
-    gap: 24px;
-    overflow-x: auto;
-    min-height: 42px;
-    white-space: nowrap;
-    font-size: 10px;
-  }
-  .nav-row > a:nth-child(n + 5) {
-    display: none;
-  }
-  .nav-row .nav-special {
-    display: none;
+  .nav-search button {
+    width: 54px;
   }
   .home-hero {
     height: 390px;

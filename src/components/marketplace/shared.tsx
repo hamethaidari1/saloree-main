@@ -1,161 +1,30 @@
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
 import {
   ArrowRight,
-  Search,
   ShoppingBag,
   Heart,
-  UserRound,
-  Menu,
-  ChevronDown,
   Star,
   Plus,
   Minus,
-  Truck,
   ShieldCheck,
   PackageCheck,
   Store as StoreIcon,
-  Sparkles,
-  X,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import logo from "@/assets/saloree-wordmark.png.asset.json";
+import { Logo } from "./logo";
 import { useQuery } from "@tanstack/react-query";
 import type { Catalog, Product, Store } from "@/data/catalog";
 import { catalogQuery, money } from "@/services/catalog";
-import { useAuth } from "@/lib/auth";
 import { useCart } from "./cart-context";
 const EMPTY_CATALOG: Catalog = { products: [], stores: [], categories: [] };
 /** Non-suspending catalog access for layout pieces that render on every page. */
 export function useCatalog(): Catalog {
   return useQuery(catalogQuery).data ?? EMPTY_CATALOG;
 }
-function AccountLink() {
-  const { user, ready, isSeller, isAdmin } = useAuth();
-  if (ready && user)
-    return (
-      <Link to={isAdmin ? "/admin" : isSeller ? "/seller" : "/account"} className="header-action">
-        <UserRound size={19} />
-        <span className="header-action-label">
-          {isAdmin ? "Admin" : isSeller ? "My store" : "Account"}
-        </span>
-      </Link>
-    );
-  return (
-    <Link to="/login" className="header-action">
-      <UserRound size={19} />
-      <span className="header-action-label">Sign in</span>
-    </Link>
-  );
-}
-export function Navbar() {
-  const [query, setQuery] = useState("");
-  const [menu, setMenu] = useState(false);
-  const navigate = useNavigate();
-  const { items } = useCart();
-  const { categories } = useCatalog();
-  const count = items.reduce((s, i) => s + i.quantity, 0);
-  return (
-    <>
-      <div className="announcement">
-        <Sparkles size={12} />
-        <span>Independent stores. Extraordinary finds. All in one place.</span>
-      </div>
-      <header className="main-header">
-        <div className="market-container header-main">
-          <Link to="/" aria-label="Saloree home">
-            <img src={logo.url} alt="Saloree" className="logo-image" width="135" height="55" />
-          </Link>
-          <form
-            className="search-field"
-            onSubmit={(e) => {
-              e.preventDefault();
-              navigate({ to: "/products", search: { q: query } });
-            }}
-          >
-            <Search size={16} className="text-muted-foreground" />
-            <input
-              aria-label="Search products and stores"
-              placeholder="Search for something you’ll love…"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-            <Button type="submit" aria-label="Search" size="icon">
-              <ArrowRight />
-            </Button>
-          </form>
-          <div className="header-actions">
-            <Button
-              variant="ghost"
-              size="icon"
-              aria-label="Wishlist"
-              className="desktop-wishlist"
-              onClick={() => toast.info("Save your favorites using the heart on any product.")}
-            >
-              <Heart size={19} />
-            </Button>
-            <AccountLink />
-            <Link to="/cart" className="header-action" aria-label={`Shopping cart, ${count} items`}>
-              <ShoppingBag size={20} />
-              {count > 0 && <span className="cart-count">{count}</span>}
-              <span className="header-action-label">Cart</span>
-            </Link>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="mobile-menu-toggle"
-              aria-label={menu ? "Close menu" : "Open menu"}
-              onClick={() => setMenu(!menu)}
-            >
-              {menu ? <X /> : <Menu />}
-            </Button>
-          </div>
-        </div>
-        <nav aria-label="Main navigation" className="market-container nav-row">
-          <Link to="/products" className="flex items-center gap-2">
-            <Menu size={14} />
-            All categories
-            <ChevronDown size={12} />
-          </Link>
-          <Link to="/products">Discover</Link>
-          <Link to="/products" search={{ sort: "newest" }}>
-            New arrivals
-          </Link>
-          <Link to="/products" search={{ sort: "popular" }}>
-            Bestsellers
-          </Link>
-          <Link to="/stores">Our stores</Link>
-          <Link to="/products" search={{ sale: true }} className="nav-special">
-            <Sparkles size={13} />
-            Little prices, big finds
-          </Link>
-        </nav>
-        {menu && (
-          <nav
-            aria-label="Mobile categories"
-            className="market-container grid grid-cols-2 gap-3 py-4"
-          >
-            {categories.map((c) => (
-              <Link
-                key={c.slug}
-                to="/category/$slug"
-                params={{ slug: c.slug }}
-                onClick={() => setMenu(false)}
-                className="text-xs py-2"
-              >
-                {c.name}
-              </Link>
-            ))}
-            <Link to="/stores" onClick={() => setMenu(false)} className="text-xs py-2">
-              Our stores
-            </Link>
-          </nav>
-        )}
-      </header>
-    </>
-  );
-}
+/** The site header lives in ./header; re-exported under its old name for the root layout. */
+export { SiteHeader as Navbar } from "./header/site-header";
 export function Footer() {
   const { categories } = useCatalog();
   return (
@@ -164,14 +33,7 @@ export function Footer() {
         <div className="footer-columns">
           <div className="footer-about">
             <Link to="/" aria-label="Saloree home">
-              <img
-                src={logo.url}
-                alt="Saloree"
-                className="logo-image"
-                width="135"
-                height="55"
-                loading="lazy"
-              />
+              <Logo lazy />
             </Link>
             <p>
               A world of thoughtful finds from independent stores. Something special, for every day.
