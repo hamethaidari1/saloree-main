@@ -4,9 +4,9 @@ import { catalogQuery } from "@/services/catalog";
 import { CatalogSkeleton } from "@/components/marketplace/shared";
 export const Route = createFileRoute("/products")({
   validateSearch: (s: Record<string, unknown>): { q?: string; sort?: string; sale?: boolean } => ({
-    ...(typeof s['q'] === "string" ? { q: s['q'] } : {}),
-    ...(typeof s['sort'] === "string" ? { sort: s['sort'] } : {}),
-    ...(s['sale'] === true || s['sale'] === "true" ? { sale: true } : {}),
+    ...(typeof s["q"] === "string" ? { q: s["q"] } : {}),
+    ...(typeof s["sort"] === "string" ? { sort: s["sort"] } : {}),
+    ...(s["sale"] === true || s["sale"] === "true" ? { sale: true } : {}),
   }),
   head: () => ({
     meta: [
@@ -31,5 +31,12 @@ export const Route = createFileRoute("/products")({
 });
 function ProductsPage() {
   const { q, sort, sale } = Route.useSearch();
-  return <Browse key={`${q}-${sort}-${sale}`} query={q ?? ''} initialSort={sort ?? 'newest'} sale={sale ?? false} />;
+  return (
+    <Browse
+      key={`${q}-${sort}-${sale}`}
+      query={q ?? ""}
+      initialSort={sort ?? "newest"}
+      sale={sale ?? false}
+    />
+  );
 }

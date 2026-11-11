@@ -13,12 +13,14 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as CartRouteImport } from './routes/cart'
+import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ProductsRouteImport } from './routes/products'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as SellerRouteImport } from './routes/seller'
 import { Route as StoresRouteImport } from './routes/stores'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
+import { Route as OrderConfirmationGroupIdRouteImport } from './routes/order-confirmation.$groupId'
 import { Route as ProductIdRouteImport } from './routes/product.$id'
 import { Route as StoreSlugRouteImport } from './routes/store.$slug'
 
@@ -40,6 +42,11 @@ const AdminRoute = AdminRouteImport.update({
 const CartRoute = CartRouteImport.update({
   id: '/cart',
   path: '/cart',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutRoute = CheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -72,6 +79,12 @@ const CategorySlugRoute = CategorySlugRouteImport.update({
   path: '/category/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OrderConfirmationGroupIdRoute =
+  OrderConfirmationGroupIdRouteImport.update({
+    id: '/order-confirmation/$groupId',
+    path: '/order-confirmation/$groupId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ProductIdRoute = ProductIdRouteImport.update({
   id: '/product/$id',
   path: '/product/$id',
@@ -88,12 +101,14 @@ export interface FileRoutesByFullPath {
   '/account': typeof AccountRoute
   '/admin': typeof AdminRoute
   '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
   '/login': typeof LoginRoute
   '/products': typeof ProductsRoute
   '/register': typeof RegisterRoute
   '/seller': typeof SellerRoute
   '/stores': typeof StoresRoute
   '/category/$slug': typeof CategorySlugRoute
+  '/order-confirmation/$groupId': typeof OrderConfirmationGroupIdRoute
   '/product/$id': typeof ProductIdRoute
   '/store/$slug': typeof StoreSlugRoute
 }
@@ -102,12 +117,14 @@ export interface FileRoutesByTo {
   '/account': typeof AccountRoute
   '/admin': typeof AdminRoute
   '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
   '/login': typeof LoginRoute
   '/products': typeof ProductsRoute
   '/register': typeof RegisterRoute
   '/seller': typeof SellerRoute
   '/stores': typeof StoresRoute
   '/category/$slug': typeof CategorySlugRoute
+  '/order-confirmation/$groupId': typeof OrderConfirmationGroupIdRoute
   '/product/$id': typeof ProductIdRoute
   '/store/$slug': typeof StoreSlugRoute
 }
@@ -117,12 +134,14 @@ export interface FileRoutesById {
   '/account': typeof AccountRoute
   '/admin': typeof AdminRoute
   '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
   '/login': typeof LoginRoute
   '/products': typeof ProductsRoute
   '/register': typeof RegisterRoute
   '/seller': typeof SellerRoute
   '/stores': typeof StoresRoute
   '/category/$slug': typeof CategorySlugRoute
+  '/order-confirmation/$groupId': typeof OrderConfirmationGroupIdRoute
   '/product/$id': typeof ProductIdRoute
   '/store/$slug': typeof StoreSlugRoute
 }
@@ -133,12 +152,14 @@ export interface FileRouteTypes {
     | '/account'
     | '/admin'
     | '/cart'
+    | '/checkout'
     | '/login'
     | '/products'
     | '/register'
     | '/seller'
     | '/stores'
     | '/category/$slug'
+    | '/order-confirmation/$groupId'
     | '/product/$id'
     | '/store/$slug'
   fileRoutesByTo: FileRoutesByTo
@@ -147,12 +168,14 @@ export interface FileRouteTypes {
     | '/account'
     | '/admin'
     | '/cart'
+    | '/checkout'
     | '/login'
     | '/products'
     | '/register'
     | '/seller'
     | '/stores'
     | '/category/$slug'
+    | '/order-confirmation/$groupId'
     | '/product/$id'
     | '/store/$slug'
   id:
@@ -161,12 +184,14 @@ export interface FileRouteTypes {
     | '/account'
     | '/admin'
     | '/cart'
+    | '/checkout'
     | '/login'
     | '/products'
     | '/register'
     | '/seller'
     | '/stores'
     | '/category/$slug'
+    | '/order-confirmation/$groupId'
     | '/product/$id'
     | '/store/$slug'
   fileRoutesById: FileRoutesById
@@ -176,12 +201,14 @@ export interface RootRouteChildren {
   AccountRoute: typeof AccountRoute
   AdminRoute: typeof AdminRoute
   CartRoute: typeof CartRoute
+  CheckoutRoute: typeof CheckoutRoute
   LoginRoute: typeof LoginRoute
   ProductsRoute: typeof ProductsRoute
   RegisterRoute: typeof RegisterRoute
   SellerRoute: typeof SellerRoute
   StoresRoute: typeof StoresRoute
   CategorySlugRoute: typeof CategorySlugRoute
+  OrderConfirmationGroupIdRoute: typeof OrderConfirmationGroupIdRoute
   ProductIdRoute: typeof ProductIdRoute
   StoreSlugRoute: typeof StoreSlugRoute
 }
@@ -214,6 +241,13 @@ declare module '@tanstack/react-router' {
       path: '/cart'
       fullPath: '/cart'
       preLoaderRoute: typeof CartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout': {
+      id: '/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof CheckoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -258,6 +292,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CategorySlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/order-confirmation/$groupId': {
+      id: '/order-confirmation/$groupId'
+      path: '/order-confirmation/$groupId'
+      fullPath: '/order-confirmation/$groupId'
+      preLoaderRoute: typeof OrderConfirmationGroupIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/product/$id': {
       id: '/product/$id'
       path: '/product/$id'
@@ -280,12 +321,14 @@ const rootRouteChildren: RootRouteChildren = {
   AccountRoute: AccountRoute,
   AdminRoute: AdminRoute,
   CartRoute: CartRoute,
+  CheckoutRoute: CheckoutRoute,
   LoginRoute: LoginRoute,
   ProductsRoute: ProductsRoute,
   RegisterRoute: RegisterRoute,
   SellerRoute: SellerRoute,
   StoresRoute: StoresRoute,
   CategorySlugRoute: CategorySlugRoute,
+  OrderConfirmationGroupIdRoute: OrderConfirmationGroupIdRoute,
   ProductIdRoute: ProductIdRoute,
   StoreSlugRoute: StoreSlugRoute,
 }

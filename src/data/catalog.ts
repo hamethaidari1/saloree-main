@@ -52,6 +52,8 @@ export interface Product {
   badge?: string;
 }
 export interface Store {
+  /** Database id (absent on test fixtures). */
+  id?: string;
   slug: string;
   name: string;
   initials: string;

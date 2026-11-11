@@ -62,6 +62,7 @@ export function toProduct(row: ProductQueryRow): Product {
 
 export function toStore(row: StoreRow): Store {
   return {
+    id: row.id,
     slug: row.slug,
     name: row.name,
     initials: initialsFor(row.name),
@@ -130,8 +131,17 @@ export const catalogQuery = queryOptions({
   staleTime: 60_000,
 });
 
-export const money = (amount: number) =>
-  new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(amount);
+export const money = (amount: number, currency: string | null = "USD") => {
+  try {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: (currency || "USD").toUpperCase(),
+    }).format(amount);
+  } catch {
+    // Unknown currency code from the server: still show the amount.
+    return `${amount.toFixed(2)} ${currency}`;
+  }
+};
 
 export function filterProducts(
   options: {

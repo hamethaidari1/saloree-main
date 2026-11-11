@@ -8,6 +8,7 @@ interface CartContextValue {
   ready: boolean;
   add: (id: string, quantity?: number) => void;
   setQuantity: (id: string, q: number) => void;
+  clear: () => void;
 }
 const CartContext = createContext<CartContextValue | undefined>(undefined);
 export function CartProvider({ children }: { children: ReactNode }) {
@@ -47,7 +48,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     toast.success("Added to your cart");
   };
   return (
-    <CartContext.Provider value={{ items, ready, add, setQuantity }}>
+    <CartContext.Provider value={{ items, ready, add, setQuantity, clear: () => setItems([]) }}>
       {children}
     </CartContext.Provider>
   );

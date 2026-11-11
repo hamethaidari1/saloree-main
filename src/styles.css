@@ -1362,6 +1362,109 @@
   background: var(--muted);
   animation: pulse 1.5s ease-in-out infinite;
 }
+/* Seller order details */
+.seller-order-customer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 8px 16px;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.seller-order-customer .wide {
+  grid-column: 1 / -1;
+}
+.seller-order-customer dt {
+  font-size: 11px;
+  color: var(--muted-foreground);
+}
+.seller-order-customer a {
+  color: var(--primary);
+}
+.seller-order-table {
+  width: 100%;
+  margin-top: 12px;
+  font-size: 13px;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.seller-order-table th,
+.seller-order-table td {
+  padding: 6px 8px 6px 0;
+  text-align: right;
+  border-bottom: 1px solid var(--border);
+}
+.seller-order-table th:first-child,
+.seller-order-table td:first-child {
+  text-align: left;
+}
+.seller-order-table thead th {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted-foreground);
+}
+.seller-order-table tfoot th,
+.seller-order-table tfoot td {
+  border-bottom: 0;
+}
+/* Checkout */
+.checkout-legend {
+  grid-column: 1 / -1;
+  margin-bottom: 4px;
+  font-size: 16px;
+  font-weight: 600;
+}
+.checkout-wide {
+  grid-column: 1 / -1;
+}
+.checkout-payments {
+  display: grid;
+  gap: 10px;
+}
+.checkout-payment {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+}
+.checkout-payment.selected {
+  border-color: var(--primary);
+  background: var(--secondary);
+}
+.checkout-payment.disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.checkout-payment span {
+  display: grid;
+}
+.checkout-payment small,
+.checkout-lines small {
+  display: block;
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+.checkout-lines {
+  display: grid;
+  gap: 10px;
+  margin-block: 14px;
+  font-size: 13px;
+}
+.checkout-lines > li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.my-order {
+  display: grid;
+  gap: 4px;
+}
+.confirmation {
+  max-width: 520px;
+}
 /* Admin panel */
 .admin-tabs {
   max-width: 100%;

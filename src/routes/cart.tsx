@@ -127,18 +127,14 @@ function CartPage() {
               <span>Subtotal</span>
               <span>{money(total)}</span>
             </div>
-            <Button
-              className="w-full h-11 mt-4"
-              onClick={() =>
-                toast.info("Checkout will be available in the next stage. Your cart is saved.")
-              }
-            >
-              Continue to checkout
-              <ArrowRight />
+            <Button asChild className="w-full h-11 mt-4">
+              <Link to="/checkout">
+                Continue to checkout
+                <ArrowRight />
+              </Link>
             </Button>
             <p className="checkout-note">
-              Checkout is coming next. Your finds are saved in this browser; no payment will be
-              taken.
+              Pay on delivery. Final prices are confirmed when you place your order.
             </p>
             <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground mt-5">
               <ShieldCheck size={14} />

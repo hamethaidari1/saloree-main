@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import type { StoreRow } from "@/data/db";
 import { money } from "@/services/catalog";
-import { orderTotal } from "@/services/orders";
+import { formatAddress, lineAmounts, orderTotal } from "@/services/orders";
 import {
   friendlyError,
   ORDER_STATUSES,
@@ -70,20 +70,90 @@ export function OrdersPanel({ stores }: { stores: StoreRow[] }) {
                         {stores.length > 1 && <> · {storeName(o.store_id)}</>}
                       </span>
                     </h3>
-                    <p className="seller-row-meta">
-                      {o.full_name ?? "Customer"}
-                      {o.email && <> · {o.email}</>}
-                      {o.payment_status && <> · Payment: {o.payment_status}</>}
-                    </p>
-                    <ul className="seller-order-items">
-                      {o.order_items.map((i) => (
-                        <li key={i.id}>
-                          {i.quantity} × {i.title ?? "Item"}
-                        </li>
-                      ))}
-                    </ul>
+                    <dl className="seller-order-customer">
+                      <div>
+                        <dt>Customer</dt>
+                        <dd>{o.full_name || "—"}</dd>
+                      </div>
+                      <div>
+                        <dt>Phone</dt>
+                        <dd>
+                          {o.phone ? (
+                            <a href={`tel:${o.phone.replace(/[^\d+]/g, "")}`}>{o.phone}</a>
+                          ) : (
+                            "—"
+                          )}
+                        </dd>
+                      </div>
+                      <div className="wide">
+                        <dt>Address</dt>
+                        <dd>{formatAddress(o) || "—"}</dd>
+                      </div>
+                      {o.email && (
+                        <div>
+                          <dt>Email</dt>
+                          <dd>{o.email}</dd>
+                        </div>
+                      )}
+                      <div>
+                        <dt>Payment</dt>
+                        <dd>
+                          {o.payment_provider === "cod"
+                            ? "Pay on delivery"
+                            : (o.payment_provider ?? "—")}
+                          {o.payment_status && ` · ${o.payment_status}`}
+                        </dd>
+                      </div>
+                      {o.notes && (
+                        <div className="wide">
+                          <dt>Notes</dt>
+                          <dd>{o.notes}</dd>
+                        </div>
+                      )}
+                    </dl>
+                    <table className="seller-order-table">
+                      <caption className="sr-only">Items in order {o.id.slice(0, 8)}</caption>
+                      <thead>
+                        <tr>
+                          <th scope="col">Item</th>
+                          <th scope="col">Qty</th>
+                          <th scope="col">Price</th>
+                          <th scope="col">Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {o.order_items.map((i) => {
+                          const { unit, line } = lineAmounts(i);
+                          return (
+                            <tr key={i.id}>
+                              <td>{i.title ?? "Item"}</td>
+                              <td>{i.quantity}</td>
+                              <td>{money(unit, o.currency)}</td>
+                              <td>{money(line, o.currency)}</td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                      <tfoot>
+                        {o.subtotal != null && Number(o.subtotal) !== orderTotal(o) && (
+                          <tr>
+                            <th scope="row" colSpan={3}>
+                              Subtotal
+                            </th>
+                            <td>{money(Number(o.subtotal), o.currency)}</td>
+                          </tr>
+                        )}
+                        <tr>
+                          <th scope="row" colSpan={3}>
+                            Order total
+                          </th>
+                          <td>
+                            <strong>{money(orderTotal(o), o.currency)}</strong>
+                          </td>
+                        </tr>
+                      </tfoot>
+                    </table>
                   </div>
-                  <strong className="seller-order-total">{money(orderTotal(o))}</strong>
                   <label className="seller-order-status">
                     <span className="sr-only">Status for order {o.id.slice(0, 8)}</span>
                     <select

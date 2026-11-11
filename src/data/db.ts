@@ -64,6 +64,12 @@ export interface OrderRow {
   total: number | null;
   total_amount: number | null;
   payment_status: string | null;
+  payment_provider: string | null;
+  checkout_group_id: string | null;
+  currency: string | null;
+  country: string | null;
+  city: string | null;
+  address: string | null;
   shipping_address: unknown;
   full_name: string | null;
   email: string | null;
