@@ -28,17 +28,43 @@ export function safeRedirect(value: unknown, fallback = "/") {
     : fallback;
 }
 
+export type Access = "allowed" | "login" | "forbidden";
+
+/** Pure access decision: no user → login; missing role → forbidden. */
+export function decideAccess(user: User | null, roles: readonly string[], role?: AppRole): Access {
+  if (!user) return "login";
+  if (role && !roles.includes(role)) return "forbidden";
+  return "allowed";
+}
+
 /**
- * Route guard for `beforeLoad`. Use with `ssr: false`: the session lives in
+ * Route guards for `beforeLoad`. Use with `ssr: false`: the session lives in
  * browser storage, so the server cannot see it. This is UX only — the data
- * itself is protected by RLS.
+ * itself is protected by RLS. If roles cannot be read, the error propagates
+ * (fail closed) instead of granting access.
  */
 export function requireAuth(role?: AppRole) {
   return async ({ location }: { location: { href: string } }) => {
     const { user, roles } = await getAuthState();
-    if (!user) throw redirect({ to: "/login", search: { redirect: location.href } });
-    if (role && !roles.includes(role)) throw redirect({ to: "/account" });
+    const access = decideAccess(user, roles, role);
+    if (access === "login" || !user)
+      throw redirect({ to: "/login", search: { redirect: location.href } });
+    if (access === "forbidden") throw redirect({ to: "/account" });
     return { user, roles };
+  };
+}
+
+/**
+ * Like requireAuth, but a signed-in user without the role stays on the page
+ * and the route renders a "not allowed" screen (`allowed: false`).
+ */
+export function requireRoleOrForbid(role: AppRole) {
+  return async ({ location }: { location: { href: string } }) => {
+    const { user, roles } = await getAuthState();
+    const access = decideAccess(user, roles, role);
+    if (access === "login" || !user)
+      throw redirect({ to: "/login", search: { redirect: location.href } });
+    return { user, roles, allowed: access === "allowed" };
   };
 }
 
@@ -78,12 +104,14 @@ interface AuthContextValue {
   roles: AppRole[];
   ready: boolean;
   isSeller: boolean;
+  isAdmin: boolean;
 }
 const AuthContext = createContext<AuthContextValue>({
   user: null,
   roles: [],
   ready: false,
   isSeller: false,
+  isAdmin: false,
 });
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -124,7 +152,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [userId]);
 
   return (
-    <AuthContext.Provider value={{ user, roles, ready, isSeller: roles.includes("seller") }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        roles,
+        ready,
+        isSeller: roles.includes("seller"),
+        isAdmin: roles.includes("admin"),
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

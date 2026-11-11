@@ -40,6 +40,21 @@ export interface ProductRow {
   created_at: string;
 }
 
+export interface ProfileRow {
+  id: string;
+  full_name: string | null;
+  email: string | null;
+  created_at: string;
+}
+
+/** Single-row table (id is always true); see saloree-admin-draft.sql. */
+export interface PlatformSettingsRow {
+  id: true;
+  commission_percent: number;
+  updated_at: string;
+  updated_by: string | null;
+}
+
 export interface OrderRow {
   id: string;
   customer_id: string;

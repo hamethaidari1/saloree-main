@@ -32,12 +32,14 @@ export function useCatalog(): Catalog {
   return useQuery(catalogQuery).data ?? EMPTY_CATALOG;
 }
 function AccountLink() {
-  const { user, ready, isSeller } = useAuth();
+  const { user, ready, isSeller, isAdmin } = useAuth();
   if (ready && user)
     return (
-      <Link to={isSeller ? "/seller" : "/account"} className="header-action">
+      <Link to={isAdmin ? "/admin" : isSeller ? "/seller" : "/account"} className="header-action">
         <UserRound size={19} />
-        <span className="header-action-label">{isSeller ? "My store" : "Account"}</span>
+        <span className="header-action-label">
+          {isAdmin ? "Admin" : isSeller ? "My store" : "Account"}
+        </span>
       </Link>
     );
   return (
