@@ -60,7 +60,11 @@ describe("Deliver to picker", () => {
     fireEvent.click(trigger());
     const panel = await screen.findByRole("dialog");
     const options = within(panel).getAllByRole("button");
-    expect(options.map((o) => o.textContent)).toEqual(COUNTRIES.map((c) => c.name));
+    // Names come from Intl.DisplayNames in the active language (English here).
+    const display = new Intl.DisplayNames(["en"], { type: "region" });
+    expect(options.map((o) => o.textContent)).toEqual(
+      COUNTRIES.map((c) => (c.code === "OTHER" ? "Other" : display.of(c.code))),
+    );
 
     fireEvent.click(within(panel).getByRole("button", { name: "Germany" }));
     await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
@@ -88,7 +92,11 @@ describe("Deliver to picker", () => {
         <DeliverTo variant="strip" />
       </CountryProvider>,
     );
-    await waitFor(() => expect(trigger()).toHaveTextContent("Deliver to Turkey"));
+    await waitFor(() =>
+      expect(trigger()).toHaveTextContent(
+        `Deliver to ${new Intl.DisplayNames(["en"], { type: "region" }).of("TR")}`,
+      ),
+    );
     fireEvent.click(trigger());
     const panel = await screen.findByRole("dialog");
     fireEvent.click(within(panel).getByRole("button", { name: "Finland" }));

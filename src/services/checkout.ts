@@ -52,12 +52,41 @@ const amount = z.coerce.number().finite().nonnegative();
 export const placeOrderResultSchema = z.object({
   checkout_group_id: z.string().min(1),
   total: amount,
+  discount_total: amount.default(0),
   currency: z.string().min(1).default("USD"),
+  payment_provider: z.string().nullish(),
   orders: z
-    .array(z.object({ id: z.string().min(1), store_id: z.string().min(1), total: amount }))
+    .array(
+      z.object({
+        id: z.string().min(1),
+        store_id: z.string().min(1),
+        total: amount,
+        discount: amount.default(0),
+      }),
+    )
     .min(1),
 });
 export type PlaceOrderResult = z.output<typeof placeOrderResultSchema>;
+
+/** Same rule as the seller's Discounts form; the server is the source of truth. */
+export const discountCodeSchema = z
+  .string()
+  .trim()
+  .transform((s) => s.toUpperCase())
+  .pipe(
+    z.union([
+      z.literal(""),
+      z.string().regex(/^[A-Z0-9_-]{3,32}$/, "That doesn't look like a discount code."),
+    ]),
+  )
+  .transform((s) => s || null);
+
+export const INVALID_DISCOUNT_MESSAGE =
+  "This discount code is not valid for the items in your cart";
+/** True when place_order rejected the discount code (cart stays as it is). */
+export const isInvalidDiscountError = (e: unknown) =>
+  typeof (e as { message?: unknown } | null)?.message === "string" &&
+  (e as { message: string }).message.includes(INVALID_DISCOUNT_MESSAGE);
 
 /** Merges duplicate lines and drops invalid quantities; prices are not sent. */
 export function toOrderItems(items: CartItem[]) {
@@ -73,12 +102,14 @@ export const checkoutService = {
     items: CartItem[],
     customer: CheckoutCustomerInput,
     provider: PaymentProvider = "cod",
+    discountCode: string | null = null,
   ): Promise<PlaceOrderResult> => {
     if (!PAYMENT_METHODS.some((m) => m.id === provider && m.enabled))
       throw new Error("That payment method isn't available yet.");
     const p_items = toOrderItems(items);
     if (!p_items.length) throw new Error("Your bag is empty.");
     const p_customer = checkoutCustomerSchema.parse(customer);
+    const p_discount_code = discountCodeSchema.parse(discountCode ?? "");
     const {
       data: { session },
     } = await supabase.auth.getSession();
@@ -88,6 +119,7 @@ export const checkoutService = {
       p_items,
       p_customer,
       p_payment_provider: provider,
+      p_discount_code,
     });
     if (error) throw error;
     const parsed = placeOrderResultSchema.safeParse(data);
@@ -101,7 +133,7 @@ export const checkoutService = {
   getCheckoutGroup: async (groupId: string): Promise<PlaceOrderResult | null> => {
     const { data, error } = await supabase
       .from("orders")
-      .select("id, store_id, total, total_amount, currency")
+      .select("id, store_id, total, total_amount, currency, discount_amount, payment_provider")
       .eq("checkout_group_id", groupId);
     if (error) throw error;
     const rows = (data ?? []) as {
@@ -110,18 +142,25 @@ export const checkoutService = {
       total: number | string | null;
       total_amount: number | string | null;
       currency: string | null;
+      discount_amount: number | string | null;
+      payment_provider: string | null;
     }[];
     if (!rows.length) return null;
     const orders = rows.map((o) => ({
       id: o.id,
       store_id: o.store_id,
       total: Number(o.total ?? o.total_amount ?? 0),
+      discount: Number(o.discount_amount ?? 0),
     }));
+    // Cents-safe sums of the server-calculated values.
+    const sum = (k: "total" | "discount") =>
+      Math.round(orders.reduce((s, o) => s + o[k] * 100, 0)) / 100;
     return {
       checkout_group_id: groupId,
-      // Cents-safe sum of the server-calculated order totals.
-      total: Math.round(orders.reduce((s, o) => s + o.total * 100, 0)) / 100,
+      total: sum("total"),
+      discount_total: sum("discount"),
       currency: rows[0]?.currency ?? "USD",
+      payment_provider: rows[0]?.payment_provider ?? null,
       orders,
     };
   },

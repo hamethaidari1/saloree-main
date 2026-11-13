@@ -1,0 +1,55 @@
+{
+  "verified": "Saloree 인증 상점",
+  "homeLink": "{{store}} 홈",
+  "account": "계정",
+  "signIn": "로그인",
+  "help": "도움말",
+  "poweredBy": "<1>Saloree</1> 제공",
+  "copyright": "© {{year}} {{store}}",
+  "notFound": {
+    "title": "상점을 찾을 수 없습니다",
+    "text": "이 상점은 존재하지 않거나 아직 열리지 않았습니다. Saloree의 다른 독립 상점에서 계속 쇼핑하실 수 있습니다.",
+    "link": "Saloree로 가기"
+  },
+  "stores": {
+    "metaTitle": "입점 독립 상점 — Saloree",
+    "metaDescription": "좋아하는 Saloree 상품 뒤에 있는 독립 상점을 만나 보세요.",
+    "ogDescription": "작지만 개성 넘치는 상점들. 좋아하는 상품 뒤에 있는 사람들을 만나 보세요.",
+    "title": "작은 상점. 큰 개성.",
+    "subtitle": "좋아하는 상품 뒤에 있는 독립 사업자를 만나 보세요.",
+    "crumb": "입점 상점"
+  },
+  "page": {
+    "fallbackName": "상점",
+    "description": "Saloree에서 독립 상점을 만나 보세요.",
+    "ogDescription": "독립 상점의 정성 어린 상품을 쇼핑하세요."
+  },
+  "template": {
+    "featured": "추천 상품",
+    "allProducts": "전체 상품",
+    "allProductsCount_other": "전체 상품({{count}})",
+    "productsFallback": "상품",
+    "selectedPieces": "엄선된 아이템",
+    "collection": "컬렉션",
+    "deals": "특가",
+    "edit": "에디터 추천",
+    "topPicks": "인기 상품",
+    "shopEverything": "전체 쇼핑하기",
+    "about": "소개",
+    "ourStory": "우리 이야기",
+    "aboutStore": "{{store}} 소개",
+    "thisIs": "{{store}}입니다",
+    "stories": "스토리",
+    "storyNumber": "No. {{number}}",
+    "categoryShortcuts": "카테고리 바로가기",
+    "shopByCategory": "카테고리별 쇼핑",
+    "all": "전체",
+    "empty": "{{store}}에 아직 등록된 상품이 없습니다. 곧 다시 방문해 주세요.",
+    "outOfStock": "품절",
+    "onlyLeft_other": "{{count}}개 남음",
+    "inStock": "재고 있음",
+    "soldOut": "품절",
+    "addToCart": "장바구니에 담기",
+    "addAria": "{{title}} 장바구니에 담기"
+  }
+}

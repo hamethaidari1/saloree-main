@@ -1,79 +1,76 @@
+import { useTranslation } from "react-i18next";
+import { headT } from "@/i18n/head";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ChevronRight, ShieldCheck } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { catalogService, catalogQuery } from "@/services/catalog";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import {
-  ProductCard,
-  Rating,
-  SectionHeading,
-  CatalogSkeleton,
-} from "@/components/marketplace/shared";
+import { CatalogSkeleton } from "@/components/marketplace/shared";
+import { StoreAddressLink } from "@/components/marketplace/store-link";
+import { loadThemeForStorefront } from "@/services/themes";
+import { templateDataFromCatalog } from "@/templates/data";
+import { resolveTheme } from "@/templates/registry";
+import { TemplateView } from "@/templates/render";
+
 export const Route = createFileRoute("/store/$slug")({
   loader: async ({ params, context }) => {
     await context.queryClient.ensureQueryData(catalogQuery);
     const store = await catalogService.getStore(params.slug);
     if (!store) throw notFound();
-    return store;
+    // Same saved template + settings as the store's own address.
+    const theme = await loadThemeForStorefront(
+      (q) => context.queryClient.ensureQueryData(q),
+      store.id,
+    );
+    return { store, theme };
   },
-  head: ({ loaderData }) => ({
-    meta: [
-      { title: `${loaderData?.name ?? "Store"} — Saloree` },
-      {
-        name: "description",
-        content: loaderData?.description ?? "Discover independent stores on Saloree.",
-      },
-      { property: "og:title", content: `${loaderData?.name ?? "Store"} — Saloree` },
-      {
-        property: "og:description",
-        content: loaderData?.description ?? "Shop thoughtful finds from independent stores.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: ({ loaderData, matches }) => {
+    const t = headT(matches, "store");
+    const store = loaderData?.store;
+    const title = t("titleWithSite", {
+      ns: "common",
+      title: store?.name ?? t("page.fallbackName"),
+      site: "Saloree",
+    });
+    return {
+      meta: [
+        { title },
+        { name: "description", content: store?.description || t("page.description") },
+        { property: "og:title", content: title },
+        { property: "og:description", content: store?.description || t("page.ogDescription") },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
+      ],
+    };
+  },
   pendingComponent: CatalogSkeleton,
   component: StorePage,
 });
+
 function StorePage() {
-  const store = Route.useLoaderData();
-  const {
-    data: { products },
-  } = useSuspenseQuery(catalogQuery);
-  const items = products.filter((p) => p.storeSlug === store.slug);
+  const { t } = useTranslation("store");
+  const { store, theme } = Route.useLoaderData();
+  const { data: catalog } = useSuspenseQuery(catalogQuery);
+  const { template, settings } = resolveTheme(theme);
   return (
-    <main className="market-container">
-      <div className="breadcrumb">
-        <Link to="/">Home</Link>
-        <ChevronRight />
-        <Link to="/stores">Our stores</Link>
-        <ChevronRight />
-        <span>{store.name}</span>
-      </div>
-      <div className={`store-banner tone-${store.tone}`}>
-        <img src={store.image} alt={`${store.name} collection`} width="1280" height="245" />
-      </div>
-      <section className="store-page-identity">
-        <span className="store-avatar">{store.initials}</span>
-        <div className="min-w-0">
-          <div className="flex items-center gap-3">
-            <h1 className="page-title">{store.name}</h1>
-            <ShieldCheck size={20} className="text-primary" />
-          </div>
-          <Rating rating={store.rating} />
-          <p>{store.description}</p>
+    <main>
+      <div className="market-container">
+        <div className="breadcrumb">
+          <Link to="/">{t("home", { ns: "common" })}</Link>
+          <ChevronRight className="rtl:-scale-x-100" />
+          <Link to="/stores">{t("stores.crumb")}</Link>
+          <ChevronRight className="rtl:-scale-x-100" />
+          <span>{store.name}</span>
         </div>
-      </section>
-      <section className="market-section all-products">
-        <SectionHeading
-          title={`From ${store.name}`}
-          subtitle={`${items.length} thoughtfully selected finds`}
-        />
-        <div className="product-grid">
-          {items.map((p) => (
-            <ProductCard product={p} key={p.id} />
-          ))}
-        </div>
-      </section>
+        <p className="mb-3">
+          <StoreAddressLink slug={store.slug} />
+        </p>
+      </div>
+      <TemplateView
+        template={template}
+        settings={settings}
+        data={templateDataFromCatalog(store, catalog)}
+        mode="live"
+      />
     </main>
   );
 }

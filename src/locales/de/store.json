@@ -1,0 +1,57 @@
+{
+  "verified": "Verifizierter Saloree-Shop",
+  "homeLink": "{{store}} Startseite",
+  "account": "Konto",
+  "signIn": "Anmelden",
+  "help": "Hilfe",
+  "poweredBy": "Bereitgestellt von <1>Saloree</1>",
+  "copyright": "© {{year}} {{store}}",
+  "notFound": {
+    "title": "Shop nicht gefunden",
+    "text": "Diesen Shop gibt es nicht oder er ist noch nicht geöffnet. Du kannst weiterhin in den anderen unabhängigen Shops auf Saloree einkaufen.",
+    "link": "Zu Saloree"
+  },
+  "stores": {
+    "metaTitle": "Unsere unabhängigen Shops — Saloree",
+    "metaDescription": "Lerne die unabhängigen Shops hinter deinen Lieblingsfundstücken auf Saloree kennen.",
+    "ogDescription": "Kleine Shops mit großer Persönlichkeit. Lerne die Menschen hinter deinen Lieblingsfundstücken kennen.",
+    "title": "Kleine Shops. Große Persönlichkeit.",
+    "subtitle": "Lerne die unabhängigen Unternehmen hinter deinen Lieblingsfundstücken kennen.",
+    "crumb": "Unsere Shops"
+  },
+  "page": {
+    "fallbackName": "Shop",
+    "description": "Entdecke unabhängige Shops auf Saloree.",
+    "ogDescription": "Kaufe durchdachte Fundstücke aus unabhängigen Shops."
+  },
+  "template": {
+    "featured": "Empfohlen",
+    "allProducts": "Alle Produkte",
+    "allProductsCount_one": "Alle Produkte ({{count}})",
+    "allProductsCount_other": "Alle Produkte ({{count}})",
+    "productsFallback": "Produkte",
+    "selectedPieces": "Ausgewählte Stücke",
+    "collection": "Die Kollektion",
+    "deals": "Angebote",
+    "edit": "Die Auswahl",
+    "topPicks": "Top-Empfehlungen",
+    "shopEverything": "Alles ansehen",
+    "about": "Über uns",
+    "ourStory": "Unsere Geschichte",
+    "aboutStore": "Über {{store}}",
+    "thisIs": "Das ist {{store}}",
+    "stories": "Geschichten",
+    "storyNumber": "Nr. {{number}}",
+    "categoryShortcuts": "Kategorie-Schnellzugriffe",
+    "shopByCategory": "Nach Kategorie einkaufen",
+    "all": "Alle",
+    "empty": "{{store}} hat noch keine Produkte hinzugefügt. Schau bald wieder vorbei.",
+    "outOfStock": "Nicht auf Lager",
+    "onlyLeft_one": "Nur noch {{count}} verfügbar",
+    "onlyLeft_other": "Nur noch {{count}} verfügbar",
+    "inStock": "Auf Lager",
+    "soldOut": "Ausverkauft",
+    "addToCart": "In den Warenkorb",
+    "addAria": "{{title}} in den Warenkorb legen"
+  }
+}

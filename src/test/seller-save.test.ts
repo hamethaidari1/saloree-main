@@ -55,9 +55,13 @@ vi.mock("@/lib/supabase", () => {
 import {
   productInputSchema,
   sellerService,
+  storeError,
   storeInputSchema,
+  storeSlugSchema,
+  toStoreSlug,
   type SellerProduct,
 } from "@/services/seller";
+import { isValidStoreSlug, RESERVED_STORE_SLUGS } from "@/lib/host";
 
 const STORE = "11111111-1111-4111-8111-111111111111";
 const formValues = {
@@ -159,14 +163,22 @@ describe("optional fields", () => {
   it("store schema nulls blank description, category and location, and is idempotent", () => {
     const once = storeInputSchema.parse({
       name: "Shop",
+      slug: " My-Shop ",
       description: "",
       category: "  ",
       location: null,
     });
-    expect(once).toEqual({ name: "Shop", description: null, category: null, location: null });
-    expect(storeInputSchema.parse(once)).toEqual(once);
-    expect(storeInputSchema.parse({ name: "Shop" })).toEqual({
+    expect(once).toEqual({
       name: "Shop",
+      slug: "my-shop",
+      description: null,
+      category: null,
+      location: null,
+    });
+    expect(storeInputSchema.parse(once)).toEqual(once);
+    expect(storeInputSchema.parse({ name: "Shop", slug: "my-shop" })).toEqual({
+      name: "Shop",
+      slug: "my-shop",
       description: null,
       category: null,
       location: null,
@@ -177,7 +189,7 @@ describe("optional fields", () => {
 describe("store saves", () => {
   it("creates a draft store with blank optional fields as null", async () => {
     await sellerService.createStore(
-      { name: "My Shop", description: "", category: "", location: "" },
+      { name: "My Shop", slug: "my-shop", description: "", category: "", location: "" },
       {},
     );
     const insert = db.writes.find((w) => w.table === "stores" && w.op === "insert");
@@ -192,5 +204,131 @@ describe("store saves", () => {
       logo_url: null,
       banner_url: null,
     });
+  });
+
+  it("uses the seller's chosen address and never renames it", async () => {
+    await sellerService.createStore({ name: "My Shop", slug: "best-shop-kabul" }, {});
+    const insert = db.writes.find((w) => w.table === "stores" && w.op === "insert");
+    expect((insert?.payload as Payload)["slug"]).toBe("best-shop-kabul");
+    expect(db.writes.filter((w) => w.table === "stores" && w.op === "insert")).toHaveLength(1);
+  });
+
+  it("rejects an invalid or reserved address before calling the database", async () => {
+    for (const slug of ["ab", "-shop", "shop-", "my shop!", "admin", "www", "x".repeat(64)])
+      await expect(sellerService.createStore({ name: "My Shop", slug }, {})).rejects.toThrow();
+    expect(db.writes.filter((w) => w.table === "stores")).toEqual([]);
+  });
+});
+
+describe("reserved store addresses", () => {
+  const EXPECTED = [
+    "www",
+    "app",
+    "admin",
+    "api",
+    "seller",
+    "sellers",
+    "store",
+    "stores",
+    "shop",
+    "shops",
+    "mail",
+    "email",
+    "smtp",
+    "imap",
+    "ftp",
+    "cdn",
+    "static",
+    "assets",
+    "img",
+    "images",
+    "help",
+    "support",
+    "blog",
+    "status",
+    "dev",
+    "test",
+    "staging",
+    "checkout",
+    "cart",
+    "account",
+    "login",
+    "signup",
+    "auth",
+    "billing",
+    "pay",
+    "payments",
+    "docs",
+    "saloree",
+    "ns1",
+    "ns2",
+    "dashboard",
+    "root",
+    "secure",
+  ];
+  const msg = (slug: string) => storeSlugSchema.safeParse(slug).error?.issues[0]?.message;
+
+  it("is exactly the agreed list (one shared constant)", () => {
+    expect([...RESERVED_STORE_SLUGS]).toEqual(EXPECTED);
+  });
+
+  it.each(EXPECTED)("the form rejects %j before saving", (slug) => {
+    expect(msg(slug)).toBe("That address is reserved. Choose another.");
+    expect(msg(slug.toUpperCase())).toBe("That address is reserved. Choose another.");
+    expect(isValidStoreSlug(slug)).toBe(false);
+  });
+
+  it("only blocks exact matches, not addresses that merely contain a reserved word", () => {
+    for (const ok of ["shop-kabul", "my-store", "helpful-home", "testing-lab", "saloree-fans"])
+      expect(storeSlugSchema.safeParse(ok).success).toBe(true);
+  });
+
+  it("enforces the address rules", () => {
+    expect(storeSlugSchema.safeParse("abc").success).toBe(true); // 3 chars
+    expect(storeSlugSchema.safeParse("a".repeat(63)).success).toBe(true); // 63 chars
+    expect(storeSlugSchema.safeParse("a1-b2").success).toBe(true);
+    expect(msg("ab")).toMatch(/at least 3/);
+    expect(msg("a".repeat(64))).toMatch(/at most 63/);
+    expect(msg("-abc")).toMatch(/dash/);
+    expect(msg("abc-")).toMatch(/dash/);
+    for (const bad of ["my_shop", "my shop", "my.shop", "café", "shop!"])
+      expect(msg(bad)).toMatch(/lowercase letters/);
+  });
+
+  it("never reaches the database with a reserved address", async () => {
+    await expect(
+      sellerService.createStore({ name: "Help Desk", slug: "support" }, {}),
+    ).rejects.toThrow();
+    expect(db.writes.filter((w) => w.table === "stores")).toEqual([]);
+  });
+});
+
+describe("store address rules", () => {
+  const msg = (slug: string) => storeSlugSchema.safeParse(slug).error?.issues[0]?.message;
+  it("accepts DNS-safe addresses and lowercases", () => {
+    expect(storeSlugSchema.parse("NextGen-Tech")).toBe("nextgen-tech");
+    expect(storeSlugSchema.parse("abc")).toBe("abc");
+    expect(storeSlugSchema.parse("a".repeat(63))).toHaveLength(63);
+  });
+  it("explains each problem", () => {
+    expect(msg("ab")).toMatch(/at least 3/);
+    expect(msg("a".repeat(64))).toMatch(/at most 63/);
+    expect(msg("-abc")).toMatch(/start or end with a dash/);
+    expect(msg("abc-")).toMatch(/start or end with a dash/);
+    expect(msg("my_shop")).toMatch(/lowercase letters/);
+    expect(msg("café")).toMatch(/lowercase letters/);
+    for (const r of ["www", "admin", "api", "app", "seller", "checkout"])
+      expect(msg(r)).toMatch(/reserved/);
+  });
+  it("suggests an address from the store name", () => {
+    expect(toStoreSlug("Kabul Fresh Market!")).toBe("kabul-fresh-market");
+    expect(toStoreSlug("x".repeat(80))).toHaveLength(63);
+  });
+  it("maps the database's taken / reserved errors to clear messages", () => {
+    expect(storeError({ code: "23505", message: "duplicate key" })).toMatch(/already taken/);
+    expect(storeError({ code: "23514", message: "check violation" })).toMatch(/reserved/);
+    expect(storeError({ code: "P0001", message: "Store slug is reserved" })).toBe(
+      "Store slug is reserved",
+    );
   });
 });

@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import type { ReactNode } from "react";
 import {
   AlertDialog,
@@ -31,6 +32,7 @@ export function ConfirmDialog({
   busy: boolean;
   onClose: () => void;
 }) {
+  const { t } = useTranslation();
   return (
     <AlertDialog open={!!request} onOpenChange={(open) => !open && !busy && onClose()}>
       <AlertDialogContent>
@@ -39,7 +41,9 @@ export function ConfirmDialog({
           <AlertDialogDescription>{request?.description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={busy}>{request?.cancelLabel ?? "Cancel"}</AlertDialogCancel>
+          <AlertDialogCancel disabled={busy}>
+            {request?.cancelLabel ?? t("cancel")}
+          </AlertDialogCancel>
           <AlertDialogAction
             disabled={busy}
             className={
@@ -57,7 +61,7 @@ export function ConfirmDialog({
               }
             }}
           >
-            {busy ? "Working…" : request?.confirmLabel}
+            {busy ? t("working") : request?.confirmLabel}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

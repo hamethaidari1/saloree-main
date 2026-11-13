@@ -1,0 +1,46 @@
+{
+  "home": "首頁",
+  "viewAll": "查看全部",
+  "tryAgain": "再試一次",
+  "goHome": "返回首頁",
+  "cancel": "取消",
+  "working": "處理中…",
+  "pleaseWait": "請稍候…",
+  "loadingProducts": "正在載入商品",
+  "exploreProducts": "瀏覽商品",
+  "quantity": "數量",
+  "decreaseQuantity": "減少數量",
+  "increaseQuantity": "增加數量",
+  "page": "第 {{page}} 頁",
+  "titleWithSite": "{{title}} — {{site}}",
+  "meta": {
+    "defaultTitle": "Saloree — 用心挑選的好物",
+    "defaultDescription": "在 Saloree 選購來自獨立店家的非凡好物。",
+    "storeDescription": "在 Saloree 選購 {{store}} 的商品。",
+    "storeNotFound": "找不到店家"
+  },
+  "notFound": {
+    "title": "找不到頁面",
+    "text": "你要找的頁面不存在或已移動。"
+  },
+  "error": {
+    "title": "頁面無法載入",
+    "text": "我們這邊發生問題。你可以重新整理頁面或返回首頁。"
+  },
+  "help": {
+    "metaTitle": "顧客服務 — Saloree",
+    "metaDescription": "關於訂單、取消、貨到付款以及在 Saloree 銷售的說明。",
+    "title": "顧客服務",
+    "subtitle": "常見問題的解答。",
+    "ordersQ": "我的訂單在哪裡？",
+    "ordersA": "登入後開啟<1>我的訂單</1>，即可查看每筆訂單、訂單狀態，以及正在備貨的店家。",
+    "cancelQ": "我可以取消訂單嗎？",
+    "cancelA": "可以，只要訂單仍是<1>待處理</1>狀態。在<3>我的訂單</3>中點選該訂單旁的取消按鈕即可。店家開始處理後，就無法再於線上取消。",
+    "payQ": "要怎麼付款？",
+    "payA": "目前 Saloree 支援貨到付款：訂單送達時再付款。信用卡和 HesabPay 付款即將推出。",
+    "splitQ": "我向多家店家訂購，為什麼會有多筆訂單？",
+    "splitA": "每家獨立店家會自行備貨與出貨，因此一次結帳會為每家店家各建立一筆訂單。確認頁面會顯示所有訂單的總金額。",
+    "sellQ": "要如何在 Saloree 銷售？",
+    "sellA": "<1>建立賣家帳號</1>，設定你的商店並新增商品。商店通過審核後就會上線。"
+  }
+}

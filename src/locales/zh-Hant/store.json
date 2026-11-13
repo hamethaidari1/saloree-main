@@ -1,0 +1,55 @@
+{
+  "verified": "Saloree 認證店家",
+  "homeLink": "{{store}} 首頁",
+  "account": "帳號",
+  "signIn": "登入",
+  "help": "說明",
+  "poweredBy": "由 <1>Saloree</1> 提供技術支援",
+  "copyright": "© {{year}} {{store}}",
+  "notFound": {
+    "title": "找不到店家",
+    "text": "此店家不存在或尚未開幕。你仍然可以在 Saloree 的其他獨立店家購物。",
+    "link": "前往 Saloree"
+  },
+  "stores": {
+    "metaTitle": "認識我們的獨立店家 — Saloree",
+    "metaDescription": "認識你喜愛的 Saloree 好物背後的獨立店家。",
+    "ogDescription": "小店家，大個性。認識你喜愛的好物背後的人。",
+    "title": "小店家，大個性。",
+    "subtitle": "認識你喜愛的好物背後的獨立商家。",
+    "crumb": "我們的店家"
+  },
+  "page": {
+    "fallbackName": "店家",
+    "description": "在 Saloree 探索獨立店家。",
+    "ogDescription": "選購來自獨立店家的用心好物。"
+  },
+  "template": {
+    "featured": "精選推薦",
+    "allProducts": "全部商品",
+    "allProductsCount_other": "全部商品（{{count}}）",
+    "productsFallback": "商品",
+    "selectedPieces": "精選單品",
+    "collection": "系列",
+    "deals": "優惠",
+    "edit": "編輯精選",
+    "topPicks": "人氣推薦",
+    "shopEverything": "選購全部",
+    "about": "關於",
+    "ourStory": "我們的故事",
+    "aboutStore": "關於 {{store}}",
+    "thisIs": "這就是 {{store}}",
+    "stories": "故事",
+    "storyNumber": "No. {{number}}",
+    "categoryShortcuts": "分類捷徑",
+    "shopByCategory": "依分類選購",
+    "all": "全部",
+    "empty": "{{store}} 尚未上架商品，請稍後再來。",
+    "outOfStock": "缺貨",
+    "onlyLeft_other": "僅剩 {{count}} 件",
+    "inStock": "有現貨",
+    "soldOut": "已售完",
+    "addToCart": "加入購物車",
+    "addAria": "將 {{title}} 加入購物車"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "metaTitle": "Finalizar compra — Saloree",
+  "yourBag": "Sua sacola",
+  "title": "Finalizar compra",
+  "subtitle": "Para onde devemos enviar seus achados?",
+  "emptyTitle": "Sua sacola está vazia",
+  "emptyText": "Adicione algo que você ame e volte para finalizar a compra.",
+  "delivery": "Dados de entrega",
+  "fields": {
+    "full_name": "Nome completo",
+    "phone": "Telefone",
+    "email": "E-mail",
+    "country": "País",
+    "city": "Cidade",
+    "address": "Endereço",
+    "notes": "Observações para a entrega (opcional)"
+  },
+  "payment": "Pagamento",
+  "methods": {
+    "cod": "Pagamento na entrega",
+    "codDescription": "Pague em dinheiro quando o pedido chegar.",
+    "stripe": "Cartão (Stripe)",
+    "hesabpay": "HesabPay",
+    "comingSoon": "Em breve"
+  },
+  "yourOrder": "Seu pedido",
+  "line": "{{quantity}} × {{title}}",
+  "estimatedTotal": "Total estimado",
+  "discount": "Código de desconto",
+  "discountPlaceholder": "Opcional",
+  "discountHelp": "A loja verifica o código quando você faz o pedido; seu total mostrará a economia.",
+  "note": "A Saloree confirma preços, estoque e frete quando você faz o pedido. Itens de lojas diferentes viram pedidos separados.",
+  "place": "Fazer pedido",
+  "placing": "Fazendo seu pedido…"
+}

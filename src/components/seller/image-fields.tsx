@@ -60,6 +60,7 @@ export function SingleImageField({
         type="file"
         accept={IMAGE_ACCEPT}
         className="sr-only"
+        tabIndex={-1}
         aria-label={label}
         onChange={(e) => {
           const picked = e.target.files?.[0];
@@ -162,6 +163,7 @@ export function ProductImagesField({
         multiple
         accept={IMAGE_ACCEPT}
         className="sr-only"
+        tabIndex={-1}
         aria-label="Add product images"
         onChange={(e) => {
           const files = Array.from(e.target.files ?? []);

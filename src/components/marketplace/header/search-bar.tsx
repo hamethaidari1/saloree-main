@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+import { useCategoryName } from "@/i18n/hooks";
 import { useEffect, useId, useState } from "react";
 import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
@@ -10,6 +12,8 @@ import { catalogQuery } from "@/services/catalog";
  * the category filter is then chosen on the results page.
  */
 export function SearchBar({ compact = false }: { compact?: boolean }) {
+  const { t } = useTranslation("nav");
+  const categoryName = useCategoryName();
   const id = useId();
   const navigate = useNavigate();
   const catalog = useQuery(catalogQuery);
@@ -28,7 +32,7 @@ export function SearchBar({ compact = false }: { compact?: boolean }) {
   return (
     <form
       role="search"
-      aria-label="Search Saloree"
+      aria-label={t("search.label")}
       className="nav-search"
       onSubmit={(e) => {
         e.preventDefault();
@@ -43,7 +47,7 @@ export function SearchBar({ compact = false }: { compact?: boolean }) {
       {!compact && (
         <>
           <label htmlFor={`${id}-category`} className="sr-only">
-            Search in category
+            {t("search.category")}
           </label>
           <select
             id={`${id}-category`}
@@ -52,30 +56,32 @@ export function SearchBar({ compact = false }: { compact?: boolean }) {
             disabled={catalog.isPending}
             aria-busy={catalog.isPending}
           >
-            <option value="">All</option>
-            {catalog.isPending && <option disabled>Loading categories…</option>}
-            {catalog.isError && <option disabled>Categories unavailable</option>}
-            {catalog.isSuccess && !categories.length && <option disabled>No categories yet</option>}
+            <option value="">{t("search.all")}</option>
+            {catalog.isPending && <option disabled>{t("search.loadingCategories")}</option>}
+            {catalog.isError && <option disabled>{t("search.unavailable")}</option>}
+            {catalog.isSuccess && !categories.length && (
+              <option disabled>{t("search.none")}</option>
+            )}
             {categories.map((c) => (
               <option key={c.slug} value={c.slug}>
-                {c.name}
+                {categoryName(c.slug, c.name)}
               </option>
             ))}
           </select>
         </>
       )}
       <label htmlFor={`${id}-q`} className="sr-only">
-        Search products and stores
+        {t("search.input")}
       </label>
       <input
         id={`${id}-q`}
         type="search"
         enterKeyHint="search"
-        placeholder="Search Saloree"
+        placeholder={t("search.placeholder")}
         value={query}
         onChange={(e) => setQuery(e.target.value)}
       />
-      <button type="submit" aria-label="Search">
+      <button type="submit" aria-label={t("search.submit")}>
         <Search size={20} aria-hidden />
       </button>
     </form>

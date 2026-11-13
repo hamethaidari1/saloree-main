@@ -1,0 +1,58 @@
+{
+  "confirmation": {
+    "metaTitle": "تم تأكيد الطلب — Saloree",
+    "notFoundTitle": "لم نعثر على هذا الطلب",
+    "notFoundText": "إذا كنت قد قدّمته للتو، فتحقّق من «طلباتي» في حسابك.",
+    "title": "شكرًا لك — تم تقديم طلبك",
+    "subtitle": "ستدفع عند الاستلام. سيجهّز كل متجر الجزء الخاص به من طلبك.",
+    "orderNumber": "الطلب رقم {{id}}",
+    "discount": "الخصم −{{amount}}",
+    "saved": "وفّرت",
+    "totalToPay": "المبلغ المستحق",
+    "delivery": "التوصيل",
+    "viewOrders": "عرض طلباتي",
+    "keepShopping": "مواصلة التسوّق"
+  },
+  "status": {
+    "pending": "قيد الانتظار",
+    "processing": "قيد التجهيز",
+    "shipped": "تم الشحن",
+    "delivered": "تم التسليم",
+    "cancelled": "ملغى"
+  },
+  "tracking": {
+    "loading": "جارٍ تحميل التتبّع",
+    "loadError": "تعذّر تحميل التتبّع.",
+    "cardLabel": "تتبّع التوصيل",
+    "notShipped": "لم يُشحن طلبك بعد.",
+    "package": "الطرد {{number}}",
+    "carrierFallback": "شركة الشحن",
+    "track": "تتبّع شحنتك",
+    "newTab": "(يفتح موقع شركة الشحن في علامة تبويب جديدة)",
+    "noUpdates": "لا توجد تحديثات بعد.",
+    "carrierUpdate": "تحديث من شركة الشحن",
+    "progressLabel": "مراحل التوصيل",
+    "stepDone": "(مكتملة)",
+    "stepCurrent": "(الحالية)",
+    "steps": {
+      "placed": "تم تقديم الطلب",
+      "processing": "قيد التجهيز",
+      "shipped": "تم الشحن",
+      "out_for_delivery": "خرج للتوصيل",
+      "delivered": "تم التسليم"
+    },
+    "shipmentStatus": {
+      "label_created": "تم إنشاء ملصق الشحن",
+      "in_transit": "في الطريق",
+      "out_for_delivery": "خرج للتوصيل",
+      "delivered": "تم التسليم",
+      "exception": "مشكلة في التوصيل",
+      "returned": "تم الإرجاع"
+    },
+    "alerts": {
+      "exception": "توجد مشكلة في التوصيل. سيتواصل معك المتجر أو شركة الشحن.",
+      "returned": "أُعيدت هذه الشحنة إلى المتجر.",
+      "cancelled": "تم إلغاء هذا الطلب."
+    }
+  }
+}

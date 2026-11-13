@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import type { FormEvent, ReactNode } from "react";
 import { useRouter } from "@tanstack/react-router";
 import { toast } from "sonner";
@@ -5,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { signOut } from "@/lib/auth";
 
 export function SignOutButton() {
+  const { t } = useTranslation("account");
   const router = useRouter();
   return (
     <Button
@@ -14,11 +16,11 @@ export function SignOutButton() {
           await signOut();
           router.history.push("/");
         } catch {
-          toast.error("Could not sign out. Please try again.");
+          toast.error(t("signOutFailed"));
         }
       }}
     >
-      Sign out
+      {t("signOut")}
     </Button>
   );
 }
@@ -31,6 +33,7 @@ export function AuthCard({
   error,
   onSubmit,
   footer,
+  oauth,
   children,
 }: {
   title: string;
@@ -40,8 +43,11 @@ export function AuthCard({
   error: string | null;
   onSubmit: (form: FormData) => void;
   footer: ReactNode;
+  /** "Continue with Google" + "or" divider, shown above the email form. */
+  oauth?: ReactNode;
   children: ReactNode;
 }) {
+  const { t } = useTranslation();
   return (
     <main className="market-container auth-page">
       <form
@@ -53,6 +59,7 @@ export function AuthCard({
       >
         <h1 className="page-title">{title}</h1>
         <p className="page-subtitle">{subtitle}</p>
+        {oauth}
         <div className="auth-fields">{children}</div>
         {error && (
           <p role="alert" className="auth-error">
@@ -60,7 +67,7 @@ export function AuthCard({
           </p>
         )}
         <Button type="submit" className="w-full h-11" disabled={busy}>
-          {busy ? "Please wait…" : submitLabel}
+          {busy ? t("pleaseWait") : submitLabel}
         </Button>
         <div className="auth-footer">{footer}</div>
       </form>

@@ -4,7 +4,7 @@ export interface CartItem {
   quantity: number;
 }
 type CartProduct = Pick<Product, "id" | "stock" | "price">;
-export const CART_KEY = "saloree-cart-v1";
+// Persistence lives in src/lib/cartStorage.ts (cookie across subdomains in production).
 export function normalizeCart(value: unknown, products: CartProduct[]): CartItem[] {
   if (!Array.isArray(value)) return [];
   const result: CartItem[] = [];

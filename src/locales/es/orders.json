@@ -1,0 +1,58 @@
+{
+  "confirmation": {
+    "metaTitle": "Pedido confirmado — Saloree",
+    "notFoundTitle": "No encontramos ese pedido",
+    "notFoundText": "Si acabas de hacerlo, revisa Mis pedidos en tu cuenta.",
+    "title": "Gracias, tu pedido está realizado",
+    "subtitle": "Pagarás contra reembolso. Cada tienda preparará su parte de tu pedido.",
+    "orderNumber": "Pedido n.º {{id}}",
+    "discount": "Descuento −{{amount}}",
+    "saved": "Has ahorrado",
+    "totalToPay": "Total a pagar",
+    "delivery": "Entrega",
+    "viewOrders": "Ver mis pedidos",
+    "keepShopping": "Seguir comprando"
+  },
+  "status": {
+    "pending": "Pendiente",
+    "processing": "En preparación",
+    "shipped": "Enviado",
+    "delivered": "Entregado",
+    "cancelled": "Cancelado"
+  },
+  "tracking": {
+    "loading": "Cargando el seguimiento",
+    "loadError": "No se pudo cargar el seguimiento.",
+    "cardLabel": "Seguimiento de la entrega",
+    "notShipped": "Tu pedido aún no se ha enviado.",
+    "package": "Paquete {{number}}",
+    "carrierFallback": "Transportista",
+    "track": "Seguir tu envío",
+    "newTab": "(abre el sitio web del transportista en una pestaña nueva)",
+    "noUpdates": "Aún no hay actualizaciones.",
+    "carrierUpdate": "actualización del transportista",
+    "progressLabel": "Progreso de la entrega",
+    "stepDone": "(completado)",
+    "stepCurrent": "(actual)",
+    "steps": {
+      "placed": "Pedido realizado",
+      "processing": "En preparación",
+      "shipped": "Enviado",
+      "out_for_delivery": "En reparto",
+      "delivered": "Entregado"
+    },
+    "shipmentStatus": {
+      "label_created": "Etiqueta creada",
+      "in_transit": "En tránsito",
+      "out_for_delivery": "En reparto",
+      "delivered": "Entregado",
+      "exception": "Problema con la entrega",
+      "returned": "Devuelto"
+    },
+    "alerts": {
+      "exception": "Hay un problema con la entrega. La tienda o el transportista se pondrán en contacto contigo.",
+      "returned": "Este envío se devolvió a la tienda.",
+      "cancelled": "Este pedido se canceló."
+    }
+  }
+}

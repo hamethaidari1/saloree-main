@@ -1,0 +1,74 @@
+{
+  "openMenu": "開啟選單",
+  "homeLink": "Saloree 首頁",
+  "cart": "購物車",
+  "cartAria_other": "購物車，{{count}} 件商品",
+  "orders": "訂單",
+  "all": "全部",
+  "shortcuts": "購物捷徑",
+  "deals": "優惠",
+  "newArrivals": "新品",
+  "bestsellers": "暢銷商品",
+  "ourStores": "我們的店家",
+  "customerService": "顧客服務",
+  "sell": "在 Saloree 開店",
+  "accountAndLists": "帳號與清單",
+  "greeting": {
+    "loading": "你好",
+    "user": "你好，{{name}}",
+    "guest": "你好，請登入"
+  },
+  "drawer": {
+    "description": "瀏覽分類和 Saloree 捷徑。",
+    "shopByCategory": "依分類選購",
+    "explore": "探索 Saloree",
+    "loadingCategories": "正在載入分類",
+    "categoriesError": "無法載入分類。",
+    "noCategories": "尚無分類。"
+  },
+  "account": {
+    "title": "我的帳號",
+    "welcome": "歡迎來到 Saloree",
+    "loading": "正在載入你的帳號",
+    "signIn": "登入",
+    "newCustomer": "新顧客？",
+    "startHere": "從這裡開始",
+    "myOrders": "我的訂單",
+    "wishlist": "願望清單",
+    "comingSoon": "即將推出",
+    "account": "帳號",
+    "myStore": "我的商店",
+    "admin": "管理後台",
+    "signOut": "登出",
+    "signOutFailed": "無法登出，請再試一次。",
+    "mobileAria": "我的帳號，{{name}}"
+  },
+  "search": {
+    "label": "搜尋 Saloree",
+    "category": "在分類中搜尋",
+    "all": "全部",
+    "loadingCategories": "正在載入分類…",
+    "unavailable": "無法使用分類",
+    "none": "尚無分類",
+    "input": "搜尋商品和店家",
+    "placeholder": "搜尋 Saloree",
+    "submit": "搜尋"
+  },
+  "deliver": {
+    "label": "配送至",
+    "strip": "配送至<1>{{name}}</1>",
+    "choose": "選擇國家/地區",
+    "aria": "配送至{{country}}。變更配送國家/地區",
+    "noneSelected": "未選擇國家/地區",
+    "title": "選擇配送國家/地區",
+    "hint": "我們會在結帳時依此顯示配送資訊。",
+    "countries": "配送國家/地區",
+    "other": "其他"
+  },
+  "language": {
+    "label": "語言",
+    "trigger": "語言：{{language}}。變更語言",
+    "change": "變更語言",
+    "priceNote": "價格以美元（USD）顯示。"
+  }
+}

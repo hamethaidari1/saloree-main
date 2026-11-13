@@ -34,6 +34,22 @@ export function formatAddress(
   return "";
 }
 
+/** Seller order list filter: exact status + case-insensitive name/phone match. */
+export function filterOrders<T extends Pick<OrderRow, "status" | "full_name" | "phone">>(
+  orders: T[],
+  { status, query }: { status: string; query: string },
+) {
+  const q = query.trim().toLowerCase();
+  const digits = q.replace(/\D/g, "");
+  return orders.filter(
+    (o) =>
+      (!status || o.status === status) &&
+      (!q ||
+        (o.full_name ?? "").toLowerCase().includes(q) ||
+        (digits.length >= 3 && (o.phone ?? "").replace(/\D/g, "").includes(digits))),
+  );
+}
+
 /** Customers may cancel only while the order is still pending. */
 export const canCancel = (o: Pick<OrderRow, "status">) => o.status === "pending";
 
@@ -51,6 +67,16 @@ export const ordersService = {
       .order("created_at", { ascending: false });
     if (error) throw error;
     return data as OrderWithItems[];
+  },
+
+  /** Current status of each of the given orders (RLS: only the customer's own). */
+  getStatuses: async (orderIds: string[]): Promise<Record<string, string>> => {
+    if (!orderIds.length) return {};
+    const { data, error } = await supabase.from("orders").select("id, status").in("id", orderIds);
+    if (error) throw error;
+    return Object.fromEntries(
+      (data as { id: string; status: string }[]).map((o) => [o.id, o.status]),
+    );
   },
 
   /** Cancellation runs in the database (`cancel_my_order`), which re-checks ownership and status. */

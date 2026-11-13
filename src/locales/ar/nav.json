@@ -1,0 +1,79 @@
+{
+  "openMenu": "فتح القائمة",
+  "homeLink": "الصفحة الرئيسية لـ Saloree",
+  "cart": "السلة",
+  "cartAria_zero": "السلة، لا توجد عناصر",
+  "cartAria_one": "السلة، عنصر واحد",
+  "cartAria_two": "السلة، عنصران",
+  "cartAria_few": "السلة، {{count}} عناصر",
+  "cartAria_many": "السلة، {{count}} عنصرًا",
+  "cartAria_other": "السلة، {{count}} عنصر",
+  "orders": "الطلبات",
+  "all": "الكل",
+  "shortcuts": "اختصارات التسوّق",
+  "deals": "العروض",
+  "newArrivals": "وصل حديثًا",
+  "bestsellers": "الأكثر مبيعًا",
+  "ourStores": "متاجرنا",
+  "customerService": "خدمة العملاء",
+  "sell": "البيع على Saloree",
+  "accountAndLists": "الحساب والقوائم",
+  "greeting": {
+    "loading": "مرحبًا",
+    "user": "مرحبًا، {{name}}",
+    "guest": "مرحبًا، سجّل الدخول"
+  },
+  "drawer": {
+    "description": "تصفّح الفئات واختصارات Saloree.",
+    "shopByCategory": "تسوّق حسب الفئة",
+    "explore": "استكشف Saloree",
+    "loadingCategories": "جارٍ تحميل الفئات",
+    "categoriesError": "تعذّر تحميل الفئات.",
+    "noCategories": "لا توجد فئات بعد."
+  },
+  "account": {
+    "title": "حسابك",
+    "welcome": "مرحبًا بك في Saloree",
+    "loading": "جارٍ تحميل حسابك",
+    "signIn": "تسجيل الدخول",
+    "newCustomer": "عميل جديد؟",
+    "startHere": "ابدأ من هنا",
+    "myOrders": "طلباتي",
+    "wishlist": "قائمة الأمنيات",
+    "comingSoon": "قريبًا",
+    "account": "الحساب",
+    "myStore": "متجري",
+    "admin": "الإدارة",
+    "signOut": "تسجيل الخروج",
+    "signOutFailed": "تعذّر تسجيل الخروج. يُرجى المحاولة مرة أخرى.",
+    "mobileAria": "حسابك، {{name}}"
+  },
+  "search": {
+    "label": "البحث في Saloree",
+    "category": "البحث في فئة",
+    "all": "الكل",
+    "loadingCategories": "جارٍ تحميل الفئات…",
+    "unavailable": "الفئات غير متاحة",
+    "none": "لا توجد فئات بعد",
+    "input": "ابحث عن المنتجات والمتاجر",
+    "placeholder": "ابحث في Saloree",
+    "submit": "بحث"
+  },
+  "deliver": {
+    "label": "التوصيل إلى",
+    "strip": "التوصيل إلى <1>{{name}}</1>",
+    "choose": "اختر الدولة",
+    "aria": "التوصيل إلى {{country}}. تغيير دولة التوصيل",
+    "noneSelected": "لم يتم اختيار دولة",
+    "title": "اختر دولة التوصيل",
+    "hint": "سنستخدمها لعرض تفاصيل التوصيل عند الدفع.",
+    "countries": "دول التوصيل",
+    "other": "أخرى"
+  },
+  "language": {
+    "label": "اللغة",
+    "trigger": "اللغة: {{language}}. تغيير اللغة",
+    "change": "تغيير اللغة",
+    "priceNote": "تُعرض الأسعار بالدولار الأمريكي (USD)."
+  }
+}

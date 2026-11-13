@@ -1,0 +1,27 @@
+{
+  "meta": {
+    "title": "Sua sacola de compras — Saloree",
+    "description": "Seus achados favoritos da Saloree juntos em um carrinho compartilhado, agrupados por loja independente.",
+    "ogDescription": "Todos os seus achados favoritos. Uma única sacola compartilhada."
+  },
+  "title": "Sua sacola de compras",
+  "subtitle": "Alguns bons achados, todos em um só lugar.",
+  "emptyTitle": "Coisas boas estão esperando",
+  "emptyText": "Sua sacola está vazia. Vamos encontrar algo que você ame.",
+  "each": "{{price}} cada",
+  "remove": "Remover {{title}}",
+  "removeTitle": "Remover item",
+  "removed": "Removido da sua sacola",
+  "added": "Adicionado ao carrinho",
+  "continue": "Continuar descobrindo",
+  "summary": "Resumo do pedido",
+  "subtotalItems_one": "Subtotal ({{count}} item)",
+  "subtotalItems_many": "Subtotal ({{count}} de itens)",
+  "subtotalItems_other": "Subtotal ({{count}} itens)",
+  "shipping": "Frete",
+  "shippingLater": "Calculado na finalização",
+  "subtotal": "Subtotal",
+  "toCheckout": "Continuar para o pagamento",
+  "note": "Pagamento na entrega. Os preços finais são confirmados quando você faz o pedido.",
+  "trust": "Lojas independentes. Uma sacola compartilhada."
+}

@@ -1,0 +1,46 @@
+{
+  "home": "Início",
+  "viewAll": "Ver tudo",
+  "tryAgain": "Tentar novamente",
+  "goHome": "Ir para o início",
+  "cancel": "Cancelar",
+  "working": "Processando…",
+  "pleaseWait": "Aguarde…",
+  "loadingProducts": "Carregando produtos",
+  "exploreProducts": "Explorar produtos",
+  "quantity": "Quantidade",
+  "decreaseQuantity": "Diminuir quantidade",
+  "increaseQuantity": "Aumentar quantidade",
+  "page": "Página {{page}}",
+  "titleWithSite": "{{title}} — {{site}}",
+  "meta": {
+    "defaultTitle": "Saloree — Achados especiais",
+    "defaultDescription": "Compre achados extraordinários de lojas independentes na Saloree.",
+    "storeDescription": "Compre na {{store}} pela Saloree.",
+    "storeNotFound": "Loja não encontrada"
+  },
+  "notFound": {
+    "title": "Página não encontrada",
+    "text": "A página que você procura não existe ou foi movida."
+  },
+  "error": {
+    "title": "Esta página não carregou",
+    "text": "Algo deu errado do nosso lado. Tente atualizar a página ou volte para o início."
+  },
+  "help": {
+    "metaTitle": "Atendimento ao cliente — Saloree",
+    "metaDescription": "Ajuda com pedidos, cancelamentos, pagamento na entrega e vendas na Saloree.",
+    "title": "Atendimento ao cliente",
+    "subtitle": "Respostas para as perguntas mais frequentes.",
+    "ordersQ": "Onde estão meus pedidos?",
+    "ordersA": "Entre na sua conta e abra <1>Meus pedidos</1> para ver cada pedido, o status e a loja que está preparando.",
+    "cancelQ": "Posso cancelar um pedido?",
+    "cancelA": "Sim, enquanto ele estiver <1>pendente</1>. Use o botão Cancelar ao lado do pedido em <3>Meus pedidos</3>. Depois que a loja começa a prepará-lo, não é mais possível cancelar on-line.",
+    "payQ": "Como eu pago?",
+    "payA": "Por enquanto a Saloree aceita pagamento na entrega: você paga quando o pedido chega. Pagamentos com cartão e HesabPay chegarão em breve.",
+    "splitQ": "Comprei de várias lojas — por que há vários pedidos?",
+    "splitA": "Cada loja independente prepara e envia a sua parte, então uma compra gera um pedido por loja. A página de confirmação mostra o total de todos eles.",
+    "sellQ": "Como vendo na Saloree?",
+    "sellA": "<1>Crie uma conta de vendedor</1>, configure sua loja e adicione produtos. Sua loja entra no ar depois de ser analisada."
+  }
+}

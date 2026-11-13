@@ -1,0 +1,35 @@
+{
+  "metaTitle": "Pago — Saloree",
+  "yourBag": "Tu bolsa",
+  "title": "Pago",
+  "subtitle": "¿A dónde enviamos tus hallazgos?",
+  "emptyTitle": "Tu bolsa está vacía",
+  "emptyText": "Añade algo que te encante y vuelve para pagar.",
+  "delivery": "Datos de entrega",
+  "fields": {
+    "full_name": "Nombre completo",
+    "phone": "Teléfono",
+    "email": "Correo electrónico",
+    "country": "País",
+    "city": "Ciudad",
+    "address": "Dirección",
+    "notes": "Notas de entrega (opcional)"
+  },
+  "payment": "Pago",
+  "methods": {
+    "cod": "Pago contra reembolso",
+    "codDescription": "Paga en efectivo cuando llegue tu pedido.",
+    "stripe": "Tarjeta (Stripe)",
+    "hesabpay": "HesabPay",
+    "comingSoon": "Próximamente"
+  },
+  "yourOrder": "Tu pedido",
+  "line": "{{quantity}} × {{title}}",
+  "estimatedTotal": "Total estimado",
+  "discount": "Código de descuento",
+  "discountPlaceholder": "Opcional",
+  "discountHelp": "La tienda lo comprueba al realizar el pedido; tu total mostrará el ahorro.",
+  "note": "Saloree confirma los precios, el stock y el envío al realizar el pedido. Los artículos de tiendas diferentes se convierten en pedidos separados.",
+  "place": "Realizar pedido",
+  "placing": "Realizando tu pedido…"
+}

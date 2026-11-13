@@ -1,0 +1,65 @@
+{
+  "generic": "出了点问题，请重试。",
+  "db": {
+    "permission": "你没有执行此操作的权限。",
+    "notReady": "此功能需要一项尚未应用的数据库更新。",
+    "duplicate": "该项已存在。",
+    "inUse": "此项正在使用中，无法删除。",
+    "network": "无法连接到 Saloree。请检查网络连接后重试。"
+  },
+  "auth": {
+    "invalidCredentials": "电子邮箱或密码不正确。",
+    "emailNotConfirmed": "请先验证你的电子邮箱地址。请在收件箱中查找验证链接。",
+    "alreadyRegistered": "该电子邮箱已注册账号，请尝试登录。",
+    "weakPassword": "请设置更安全的密码。",
+    "rateLimited": "尝试次数过多，请稍后再试。",
+    "providerDisabled": "Google 登录目前不可用。",
+    "userDenied": "你已在 Google 取消登录。"
+  },
+  "checkout": {
+    "signInAgain": "请重新登录后再下单。",
+    "discountNotValid": "此优惠码不适用于购物袋中的商品。请检查优惠码或将其移除后继续。",
+    "discountFormat": "这看起来不像优惠码。"
+  },
+  "orders": {
+    "cannotCancel": "此订单已无法取消。"
+  },
+  "tracking": {
+    "notReady": "物流跟踪功能尚未开放。"
+  },
+  "validation": {
+    "full_name": {
+      "required": "请输入你的姓名。",
+      "tooShort": "姓名似乎太短了。",
+      "tooLong": "姓名太长了。"
+    },
+    "phone": {
+      "required": "请输入你的电话号码。",
+      "invalid": "请输入有效的电话号码。"
+    },
+    "email": {
+      "required": "请输入你的电子邮箱。",
+      "invalid": "请输入有效的电子邮箱地址。",
+      "tooLong": "电子邮箱地址太长了。"
+    },
+    "country": {
+      "required": "请输入国家/地区。",
+      "tooShort": "国家/地区名称似乎太短了。",
+      "tooLong": "国家/地区名称太长了。"
+    },
+    "city": {
+      "required": "请输入城市。",
+      "tooShort": "城市名称似乎太短了。",
+      "tooLong": "城市名称太长了。"
+    },
+    "address": {
+      "required": "请输入地址。",
+      "tooShort": "地址似乎太短了。",
+      "tooLong": "地址太长了。"
+    },
+    "notes": {
+      "tooLong": "备注最多 500 个字符。"
+    },
+    "fallback": "请检查此字段。"
+  }
+}

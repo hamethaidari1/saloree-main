@@ -1,0 +1,55 @@
+{
+  "verified": "Saloree 认证店铺",
+  "homeLink": "{{store}} 首页",
+  "account": "账号",
+  "signIn": "登录",
+  "help": "帮助",
+  "poweredBy": "由 <1>Saloree</1> 提供支持",
+  "copyright": "© {{year}} {{store}}",
+  "notFound": {
+    "title": "找不到店铺",
+    "text": "此店铺不存在或尚未开业。你仍然可以在 Saloree 的其他独立店铺购物。",
+    "link": "前往 Saloree"
+  },
+  "stores": {
+    "metaTitle": "认识我们的独立店铺 — Saloree",
+    "metaDescription": "认识你喜爱的 Saloree 好物背后的独立店铺。",
+    "ogDescription": "小店铺，大个性。认识你喜爱的好物背后的人。",
+    "title": "小店铺，大个性。",
+    "subtitle": "认识你喜爱的好物背后的独立商家。",
+    "crumb": "我们的店铺"
+  },
+  "page": {
+    "fallbackName": "店铺",
+    "description": "在 Saloree 发现独立店铺。",
+    "ogDescription": "选购来自独立店铺的用心好物。"
+  },
+  "template": {
+    "featured": "精选推荐",
+    "allProducts": "全部商品",
+    "allProductsCount_other": "全部商品（{{count}}）",
+    "productsFallback": "商品",
+    "selectedPieces": "精选单品",
+    "collection": "系列",
+    "deals": "优惠",
+    "edit": "编辑精选",
+    "topPicks": "人气推荐",
+    "shopEverything": "选购全部",
+    "about": "关于",
+    "ourStory": "我们的故事",
+    "aboutStore": "关于 {{store}}",
+    "thisIs": "这就是 {{store}}",
+    "stories": "故事",
+    "storyNumber": "No. {{number}}",
+    "categoryShortcuts": "分类快捷入口",
+    "shopByCategory": "按分类选购",
+    "all": "全部",
+    "empty": "{{store}} 还没有上架商品，请稍后再来。",
+    "outOfStock": "缺货",
+    "onlyLeft_other": "仅剩 {{count}} 件",
+    "inStock": "有货",
+    "soldOut": "已售罄",
+    "addToCart": "加入购物车",
+    "addAria": "将 {{title}} 加入购物车"
+  }
+}

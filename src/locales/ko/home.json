@@ -1,0 +1,78 @@
+{
+  "meta": {
+    "title": "Saloree — 독립 상점. 특별한 발견.",
+    "description": "Saloree에서 독립 상점의 정성 어린 상품을 발견하세요. 홈, 패션, 테크, 생활용품을 하나의 공유 장바구니에서 쇼핑할 수 있습니다.",
+    "ogTitle": "Saloree — 정성껏 고른 발견의 세계",
+    "ogDescription": "독립 상점, 특별한 발견. 매일을 위한 특별한 무언가를 찾아보세요."
+  },
+  "hero": {
+    "imageAlt": "아늑한 라운지 의자, 도자기 꽃병, 자연스러운 질감으로 꾸민 집",
+    "eyebrow": "정성껏 고른 발견의 세계",
+    "titleLine1": "작은 상점.",
+    "titleLine2": "놀라운 발견.",
+    "text": "다음 최애 아이템을 만나 보세요. 독립 상점에서 정성껏 고른 상품을 한곳에서 만날 수 있습니다.",
+    "cta": "컬렉션 둘러보기"
+  },
+  "trust": {
+    "storesTitle": "독립 상점",
+    "storesText": "진짜 사람들이 만든 특별한 상품",
+    "confidenceTitle": "안심 쇼핑",
+    "confidenceText": "정성껏 고른 상품",
+    "cartTitle": "하나의 공유 장바구니",
+    "cartText": "좋아하는 상품을 한곳에",
+    "personalTitle": "조금 더 나답게",
+    "personalText": "나와 닮은 무언가를 찾아보세요"
+  },
+  "categories": {
+    "title": "나에게 맞는 것을 찾아보세요",
+    "subtitle": "일상의 모든 순간을 위한 작은 영감."
+  },
+  "featured": {
+    "title": "눈여겨볼 만한 상품",
+    "subtitle": "추천 상품. 곧 당신의 최애가 될 아이템."
+  },
+  "edit": {
+    "eyebrow": "일상 셀렉션",
+    "title": "좋은 물건. 매일의 삶.",
+    "text": "자연스러운 질감, 세심한 디테일, 큰 차이를 만드는 작은 것들.",
+    "cta": "편안하게 둘러보세요"
+  },
+  "fresh": {
+    "title": "새로 들어온 상품",
+    "subtitle": "특별함을 더한 신상품.",
+    "link": "신상품 쇼핑하기"
+  },
+  "stores": {
+    "title": "작은 상점. 큰 개성.",
+    "subtitle": "좋아하는 상품 뒤에 있는 사람들을 만나 보세요."
+  },
+  "discover": {
+    "title": "마음에 드는 무언가를 찾아보세요",
+    "subtitle": "모든 상점을 한곳에서 둘러보세요.",
+    "all": "전체 상품",
+    "more": "더 많은 상품 보기"
+  },
+  "carousel": {
+    "label": "주요 소식",
+    "roledescription": "캐러셀",
+    "slide": "슬라이드",
+    "slideLabel": "{{total}}개 중 {{number}}번째",
+    "dot": "슬라이드 {{number}}/{{total}}",
+    "previous": "이전 슬라이드",
+    "next": "다음 슬라이드",
+    "pause": "슬라이드쇼 일시정지",
+    "play": "슬라이드쇼 재생"
+  },
+  "slides": {
+    "stores": {
+      "title": "상점 뒤에 있는 사람들을 만나 보세요",
+      "text": "저마다의 이야기를 가진 독립 상점을 한곳에서 만나 보세요.",
+      "cta": "상점 둘러보기",
+      "imageAlt": "독립 상점의 상품 카드(홈·주방, 차량용 선풍기, 뷰티·셀프케어)와 “Independent stores”, “One shared cart”, “Shop with confidence” 문구."
+    },
+    "promo": {
+      "cta": "전체 상품 쇼핑하기",
+      "videoLabel": "짧은 영상: “작은 상점.” “놀라운 발견.” “당신이 좋아하는 모든 것, 만드는 사람들에게서.” “하나의 공유 장바구니.” Saloree 로고로 끝납니다."
+    }
+  }
+}

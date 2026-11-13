@@ -2,6 +2,7 @@ import { queryOptions } from "@tanstack/react-query";
 import type { Catalog, Category, Product, Store } from "@/data/catalog";
 import type { CategoryRow, ProductRow, StoreRow } from "@/data/db";
 import { supabase } from "@/lib/supabase";
+import { categoryImage } from "@/data/category-images";
 
 const PLACEHOLDER_IMAGE =
   "data:image/svg+xml;utf8," +
@@ -70,15 +71,18 @@ export function toStore(row: StoreRow): Store {
     rating: 0,
     specialty: row.category ?? row.location ?? "",
     image: row.banner_url || row.logo_url || PLACEHOLDER_IMAGE,
+    logo: row.logo_url || null,
+    banner: row.banner_url || null,
     tone: TONES[hash(row.slug) % TONES.length] ?? "sage",
   };
 }
 
-function toCategories(rows: CategoryRow[], products: Product[]): Category[] {
+/** Category images are bundled per slug; never borrowed from a product. "" = none. */
+export function toCategories(rows: Pick<CategoryRow, "slug" | "name">[]): Category[] {
   return rows.map((c) => ({
     slug: c.slug,
     name: c.name,
-    image: products.find((p) => p.category === c.slug)?.image ?? PLACEHOLDER_IMAGE,
+    image: categoryImage(c.slug)?.large ?? "",
   }));
 }
 
@@ -104,7 +108,7 @@ export const catalogService = {
     return {
       products,
       stores: (storesRes.data as StoreRow[]).map(toStore),
-      categories: toCategories(categoriesRes.data as CategoryRow[], products),
+      categories: toCategories(categoriesRes.data as CategoryRow[]),
     };
   },
   getProduct: async (id: string): Promise<Product | undefined> => {

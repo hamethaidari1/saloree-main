@@ -1,0 +1,58 @@
+{
+  "confirmation": {
+    "metaTitle": "ההזמנה אושרה — Saloree",
+    "notFoundTitle": "לא מצאנו את ההזמנה הזו",
+    "notFoundText": "אם ההזמנה בוצעה עכשיו, אפשר לבדוק ב„ההזמנות שלי” בחשבון.",
+    "title": "תודה — ההזמנה בוצעה",
+    "subtitle": "התשלום יתבצע במסירה. כל חנות תכין את החלק שלה בהזמנה.",
+    "orderNumber": "הזמנה מס' {{id}}",
+    "discount": "הנחה −{{amount}}",
+    "saved": "חסכת",
+    "totalToPay": "סה\"כ לתשלום",
+    "delivery": "משלוח",
+    "viewOrders": "צפייה בהזמנות שלי",
+    "keepShopping": "להמשיך בקניות"
+  },
+  "status": {
+    "pending": "ממתינה",
+    "processing": "בטיפול",
+    "shipped": "נשלחה",
+    "delivered": "נמסרה",
+    "cancelled": "בוטלה"
+  },
+  "tracking": {
+    "loading": "המעקב נטען",
+    "loadError": "לא ניתן היה לטעון את המעקב.",
+    "cardLabel": "מעקב משלוח",
+    "notShipped": "ההזמנה עדיין לא נשלחה.",
+    "package": "חבילה {{number}}",
+    "carrierFallback": "חברת שילוח",
+    "track": "מעקב אחר המשלוח",
+    "newTab": "(פותח את אתר חברת השילוח בכרטיסייה חדשה)",
+    "noUpdates": "עדיין אין עדכונים.",
+    "carrierUpdate": "עדכון מחברת השילוח",
+    "progressLabel": "התקדמות המשלוח",
+    "stepDone": "(הושלם)",
+    "stepCurrent": "(השלב הנוכחי)",
+    "steps": {
+      "placed": "ההזמנה בוצעה",
+      "processing": "בטיפול",
+      "shipped": "נשלחה",
+      "out_for_delivery": "בדרך למסירה",
+      "delivered": "נמסרה"
+    },
+    "shipmentStatus": {
+      "label_created": "נוצרה תווית משלוח",
+      "in_transit": "בדרך",
+      "out_for_delivery": "בדרך למסירה",
+      "delivered": "נמסר",
+      "exception": "בעיה במשלוח",
+      "returned": "הוחזר"
+    },
+    "alerts": {
+      "exception": "יש בעיה במשלוח. החנות או חברת השילוח ייצרו קשר.",
+      "returned": "המשלוח הזה הוחזר לחנות.",
+      "cancelled": "ההזמנה הזו בוטלה."
+    }
+  }
+}

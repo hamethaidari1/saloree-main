@@ -1,0 +1,35 @@
+{
+  "metaTitle": "Kasse — Saloree",
+  "yourBag": "Deine Tasche",
+  "title": "Kasse",
+  "subtitle": "Wohin sollen wir deine Fundstücke schicken?",
+  "emptyTitle": "Deine Tasche ist leer",
+  "emptyText": "Füge etwas hinzu, das du liebst, und komm dann zur Kasse zurück.",
+  "delivery": "Lieferdaten",
+  "fields": {
+    "full_name": "Vollständiger Name",
+    "phone": "Telefon",
+    "email": "E-Mail",
+    "country": "Land",
+    "city": "Stadt",
+    "address": "Straße und Hausnummer",
+    "notes": "Lieferhinweise (optional)"
+  },
+  "payment": "Zahlung",
+  "methods": {
+    "cod": "Zahlung bei Lieferung",
+    "codDescription": "Bezahle bar, wenn deine Bestellung ankommt.",
+    "stripe": "Karte (Stripe)",
+    "hesabpay": "HesabPay",
+    "comingSoon": "Demnächst"
+  },
+  "yourOrder": "Deine Bestellung",
+  "line": "{{quantity}} × {{title}}",
+  "estimatedTotal": "Voraussichtliche Summe",
+  "discount": "Rabattcode",
+  "discountPlaceholder": "Optional",
+  "discountHelp": "Der Shop prüft ihn bei der Bestellung; deine Summe zeigt dann die Ersparnis.",
+  "note": "Preise, Bestand und Versand bestätigt Saloree bei der Bestellung. Artikel aus verschiedenen Shops werden zu separaten Bestellungen.",
+  "place": "Bestellung aufgeben",
+  "placing": "Bestellung wird aufgegeben…"
+}

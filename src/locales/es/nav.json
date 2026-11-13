@@ -1,0 +1,76 @@
+{
+  "openMenu": "Abrir menú",
+  "homeLink": "Inicio de Saloree",
+  "cart": "Carrito",
+  "cartAria_one": "Carrito, {{count}} artículo",
+  "cartAria_many": "Carrito, {{count}} de artículos",
+  "cartAria_other": "Carrito, {{count}} artículos",
+  "orders": "Pedidos",
+  "all": "Todo",
+  "shortcuts": "Accesos directos",
+  "deals": "Ofertas",
+  "newArrivals": "Novedades",
+  "bestsellers": "Más vendidos",
+  "ourStores": "Nuestras tiendas",
+  "customerService": "Atención al cliente",
+  "sell": "Vende en Saloree",
+  "accountAndLists": "Cuenta y listas",
+  "greeting": {
+    "loading": "Hola",
+    "user": "Hola, {{name}}",
+    "guest": "Hola, identifícate"
+  },
+  "drawer": {
+    "description": "Explora categorías y accesos directos de Saloree.",
+    "shopByCategory": "Comprar por categoría",
+    "explore": "Explora Saloree",
+    "loadingCategories": "Cargando categorías",
+    "categoriesError": "No se pudieron cargar las categorías.",
+    "noCategories": "Aún no hay categorías."
+  },
+  "account": {
+    "title": "Tu cuenta",
+    "welcome": "Te damos la bienvenida a Saloree",
+    "loading": "Cargando tu cuenta",
+    "signIn": "Iniciar sesión",
+    "newCustomer": "¿Cliente nuevo?",
+    "startHere": "Empieza aquí",
+    "myOrders": "Mis pedidos",
+    "wishlist": "Lista de deseos",
+    "comingSoon": "Próximamente",
+    "account": "Cuenta",
+    "myStore": "Mi tienda",
+    "admin": "Administración",
+    "signOut": "Cerrar sesión",
+    "signOutFailed": "No se pudo cerrar la sesión. Inténtalo de nuevo.",
+    "mobileAria": "Tu cuenta, {{name}}"
+  },
+  "search": {
+    "label": "Buscar en Saloree",
+    "category": "Buscar en la categoría",
+    "all": "Todo",
+    "loadingCategories": "Cargando categorías…",
+    "unavailable": "Categorías no disponibles",
+    "none": "Aún no hay categorías",
+    "input": "Buscar productos y tiendas",
+    "placeholder": "Buscar en Saloree",
+    "submit": "Buscar"
+  },
+  "deliver": {
+    "label": "Enviar a",
+    "strip": "Enviar a <1>{{name}}</1>",
+    "choose": "Elegir país",
+    "aria": "Enviar a {{country}}. Cambiar el país de entrega",
+    "noneSelected": "ningún país seleccionado",
+    "title": "Elige tu país de entrega",
+    "hint": "Lo usaremos para mostrar los detalles de entrega al pagar.",
+    "countries": "Países de entrega",
+    "other": "Otro"
+  },
+  "language": {
+    "label": "Idioma",
+    "trigger": "Idioma: {{language}}. Cambiar idioma",
+    "change": "Cambiar idioma",
+    "priceNote": "Los precios se muestran en dólares estadounidenses (USD)."
+  }
+}

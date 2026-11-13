@@ -1,0 +1,27 @@
+{
+  "meta": {
+    "title": "Tu bolsa de compra — Saloree",
+    "description": "Tus hallazgos favoritos de Saloree, juntos en un carrito compartido y agrupados por tienda independiente.",
+    "ogDescription": "Todos tus hallazgos favoritos. Una sola bolsa compartida."
+  },
+  "title": "Tu bolsa de compra",
+  "subtitle": "Unos cuantos buenos hallazgos, todos en un mismo lugar.",
+  "emptyTitle": "Te esperan cosas buenas",
+  "emptyText": "Tu bolsa está vacía. Busquemos algo que te encante.",
+  "each": "{{price}} cada uno",
+  "remove": "Quitar {{title}}",
+  "removeTitle": "Quitar artículo",
+  "removed": "Quitado de tu bolsa",
+  "added": "Añadido a tu carrito",
+  "continue": "Seguir descubriendo",
+  "summary": "Resumen del pedido",
+  "subtotalItems_one": "Subtotal ({{count}} artículo)",
+  "subtotalItems_many": "Subtotal ({{count}} de artículos)",
+  "subtotalItems_other": "Subtotal ({{count}} artículos)",
+  "shipping": "Envío",
+  "shippingLater": "Se calcula al pagar",
+  "subtotal": "Subtotal",
+  "toCheckout": "Continuar con el pago",
+  "note": "Pago contra reembolso. Los precios finales se confirman al realizar el pedido.",
+  "trust": "Tiendas independientes. Una sola bolsa compartida."
+}

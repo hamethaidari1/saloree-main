@@ -1,0 +1,57 @@
+{
+  "verified": "Verified Saloree store",
+  "homeLink": "{{store}} home",
+  "account": "Account",
+  "signIn": "Sign in",
+  "help": "Help",
+  "poweredBy": "Powered by <1>Saloree</1>",
+  "copyright": "© {{year}} {{store}}",
+  "notFound": {
+    "title": "Store not found",
+    "text": "This store doesn't exist or isn't open yet. You can still shop the other independent stores on Saloree.",
+    "link": "Go to Saloree"
+  },
+  "stores": {
+    "metaTitle": "Meet Our Independent Stores — Saloree",
+    "metaDescription": "Meet the independent stores behind your favorite Saloree finds.",
+    "ogDescription": "Small stores with big personality. Discover the people behind your favorite finds.",
+    "title": "Small stores. Big personality.",
+    "subtitle": "Meet the independent businesses behind your favorite finds.",
+    "crumb": "Our stores"
+  },
+  "page": {
+    "fallbackName": "Store",
+    "description": "Discover independent stores on Saloree.",
+    "ogDescription": "Shop thoughtful finds from independent stores."
+  },
+  "template": {
+    "featured": "Featured",
+    "allProducts": "All products",
+    "allProductsCount_one": "All products ({{count}})",
+    "allProductsCount_other": "All products ({{count}})",
+    "productsFallback": "Products",
+    "selectedPieces": "Selected pieces",
+    "collection": "The collection",
+    "deals": "Deals",
+    "edit": "The edit",
+    "topPicks": "Top picks",
+    "shopEverything": "Shop everything",
+    "about": "About",
+    "ourStory": "Our story",
+    "aboutStore": "About {{store}}",
+    "thisIs": "This is {{store}}",
+    "stories": "Stories",
+    "storyNumber": "No. {{number}}",
+    "categoryShortcuts": "Category shortcuts",
+    "shopByCategory": "Shop by category",
+    "all": "All",
+    "empty": "{{store}} hasn't added products yet. Check back soon.",
+    "outOfStock": "Out of stock",
+    "onlyLeft_one": "Only {{count}} left",
+    "onlyLeft_other": "Only {{count}} left",
+    "inStock": "In stock",
+    "soldOut": "Sold out",
+    "addToCart": "Add to cart",
+    "addAria": "Add {{title}} to cart"
+  }
+}

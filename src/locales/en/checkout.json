@@ -1,0 +1,35 @@
+{
+  "metaTitle": "Checkout — Saloree",
+  "yourBag": "Your bag",
+  "title": "Checkout",
+  "subtitle": "Where should we send your finds?",
+  "emptyTitle": "Your bag is empty",
+  "emptyText": "Add something you love, then come back to check out.",
+  "delivery": "Delivery details",
+  "fields": {
+    "full_name": "Full name",
+    "phone": "Phone",
+    "email": "Email",
+    "country": "Country",
+    "city": "City",
+    "address": "Street address",
+    "notes": "Delivery notes (optional)"
+  },
+  "payment": "Payment",
+  "methods": {
+    "cod": "Pay on delivery",
+    "codDescription": "Pay in cash when your order arrives.",
+    "stripe": "Card (Stripe)",
+    "hesabpay": "HesabPay",
+    "comingSoon": "Coming soon"
+  },
+  "yourOrder": "Your order",
+  "line": "{{quantity}} × {{title}}",
+  "estimatedTotal": "Estimated total",
+  "discount": "Discount code",
+  "discountPlaceholder": "Optional",
+  "discountHelp": "Checked by the store when you place your order; your total will show the saving.",
+  "note": "Prices, stock and shipping are confirmed by Saloree when you place the order. Items from different stores become separate orders.",
+  "place": "Place order",
+  "placing": "Placing your order…"
+}

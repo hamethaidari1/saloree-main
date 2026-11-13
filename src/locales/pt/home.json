@@ -1,0 +1,78 @@
+{
+  "meta": {
+    "title": "Saloree — Lojas independentes. Achados extraordinários.",
+    "description": "Descubra produtos escolhidos com carinho de lojas independentes na Saloree. Compre casa, moda, tecnologia e itens do dia a dia em um único carrinho compartilhado.",
+    "ogTitle": "Saloree — Um mundo de achados especiais",
+    "ogDescription": "Lojas independentes, achados extraordinários. Descubra algo especial para todos os dias."
+  },
+  "hero": {
+    "imageAlt": "Casa decorada com carinho, com uma poltrona aconchegante, um vaso de cerâmica e texturas naturais",
+    "eyebrow": "UM MUNDO DE ACHADOS ESPECIAIS",
+    "titleLine1": "Lojas pequenas.",
+    "titleLine2": "Descobertas maravilhosas.",
+    "text": "Conheça seu próximo favorito. Descubra produtos escolhidos com carinho de lojas independentes, tudo em um só lugar.",
+    "cta": "Explorar a coleção"
+  },
+  "trust": {
+    "storesTitle": "Lojas independentes",
+    "storesText": "Pessoas reais, produtos incríveis",
+    "confidenceTitle": "Compre com confiança",
+    "confidenceText": "Achados selecionados com cuidado",
+    "cartTitle": "Um carrinho compartilhado",
+    "cartText": "Todos os seus favoritos, juntos",
+    "personalTitle": "Um pouco mais pessoal",
+    "personalText": "Encontre algo que tenha a sua cara"
+  },
+  "categories": {
+    "title": "Encontre o seu estilo",
+    "subtitle": "Um pouco de inspiração para cada canto da sua vida."
+  },
+  "featured": {
+    "title": "Vale a pena conferir",
+    "subtitle": "Nossos achados em destaque. Seus futuros favoritos."
+  },
+  "edit": {
+    "eyebrow": "A SELEÇÃO DO DIA A DIA",
+    "title": "Coisas boas. Para o dia a dia.",
+    "text": "Texturas naturais, detalhes cuidadosos e pequenas coisas que fazem uma grande diferença.",
+    "cta": "Fique à vontade"
+  },
+  "fresh": {
+    "title": "Acabou de chegar",
+    "subtitle": "Novidades com um toque especial.",
+    "link": "Ver novidades"
+  },
+  "stores": {
+    "title": "Lojas pequenas. Grande personalidade.",
+    "subtitle": "Conheça as pessoas por trás dos seus achados favoritos."
+  },
+  "discover": {
+    "title": "Descubra algo que você ame",
+    "subtitle": "Todas as nossas lojas. Um lugar encantador para explorar.",
+    "all": "Todos os achados",
+    "more": "Descobrir mais achados"
+  },
+  "carousel": {
+    "label": "Destaques",
+    "roledescription": "carrossel",
+    "slide": "slide",
+    "slideLabel": "{{number}} de {{total}}",
+    "dot": "Slide {{number}} de {{total}}",
+    "previous": "Slide anterior",
+    "next": "Próximo slide",
+    "pause": "Pausar apresentação",
+    "play": "Reproduzir apresentação"
+  },
+  "slides": {
+    "stores": {
+      "title": "Conheça as pessoas por trás das lojas",
+      "text": "Lojas independentes, cada uma com sua própria história, todas em um só lugar.",
+      "cta": "Descobrir lojas",
+      "imageAlt": "Cartões de produtos de lojas independentes (casa e cozinha, um ventilador automotivo, beleza e cuidados pessoais) com os textos “Independent stores”, “One shared cart” e “Shop with confidence”."
+    },
+    "promo": {
+      "cta": "Ver todos os produtos",
+      "videoLabel": "Vídeo curto: “Lojas pequenas.” “Descobertas maravilhosas.” “Tudo o que você ama, de quem faz.” “Um carrinho compartilhado.” Termina com o logotipo da Saloree."
+    }
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "openMenu": "Menü öffnen",
+  "homeLink": "Saloree Startseite",
+  "cart": "Warenkorb",
+  "cartAria_one": "Warenkorb, {{count}} Artikel",
+  "cartAria_other": "Warenkorb, {{count}} Artikel",
+  "orders": "Bestellungen",
+  "all": "Alle",
+  "shortcuts": "Shop-Schnellzugriffe",
+  "deals": "Angebote",
+  "newArrivals": "Neuheiten",
+  "bestsellers": "Bestseller",
+  "ourStores": "Unsere Shops",
+  "customerService": "Kundenservice",
+  "sell": "Auf Saloree verkaufen",
+  "accountAndLists": "Konto und Listen",
+  "greeting": {
+    "loading": "Hallo",
+    "user": "Hallo, {{name}}",
+    "guest": "Hallo, anmelden"
+  },
+  "drawer": {
+    "description": "Kategorien und Saloree-Schnellzugriffe durchsuchen.",
+    "shopByCategory": "Nach Kategorie einkaufen",
+    "explore": "Saloree entdecken",
+    "loadingCategories": "Kategorien werden geladen",
+    "categoriesError": "Die Kategorien konnten nicht geladen werden.",
+    "noCategories": "Noch keine Kategorien."
+  },
+  "account": {
+    "title": "Dein Konto",
+    "welcome": "Willkommen bei Saloree",
+    "loading": "Dein Konto wird geladen",
+    "signIn": "Anmelden",
+    "newCustomer": "Neu hier?",
+    "startHere": "Hier starten",
+    "myOrders": "Meine Bestellungen",
+    "wishlist": "Wunschliste",
+    "comingSoon": "Demnächst",
+    "account": "Konto",
+    "myStore": "Mein Shop",
+    "admin": "Verwaltung",
+    "signOut": "Abmelden",
+    "signOutFailed": "Abmelden fehlgeschlagen. Bitte versuche es erneut.",
+    "mobileAria": "Dein Konto, {{name}}"
+  },
+  "search": {
+    "label": "Saloree durchsuchen",
+    "category": "In Kategorie suchen",
+    "all": "Alle",
+    "loadingCategories": "Kategorien werden geladen…",
+    "unavailable": "Kategorien nicht verfügbar",
+    "none": "Noch keine Kategorien",
+    "input": "Produkte und Shops suchen",
+    "placeholder": "Saloree durchsuchen",
+    "submit": "Suchen"
+  },
+  "deliver": {
+    "label": "Liefern nach",
+    "strip": "Liefern nach <1>{{name}}</1>",
+    "choose": "Land wählen",
+    "aria": "Liefern nach {{country}}. Lieferland ändern",
+    "noneSelected": "kein Land ausgewählt",
+    "title": "Wähle dein Lieferland",
+    "hint": "Damit zeigen wir dir an der Kasse die Lieferdetails an.",
+    "countries": "Lieferländer",
+    "other": "Andere"
+  },
+  "language": {
+    "label": "Sprache",
+    "trigger": "Sprache: {{language}}. Sprache ändern",
+    "change": "Sprache ändern",
+    "priceNote": "Preise werden in US-Dollar (USD) angezeigt."
+  }
+}

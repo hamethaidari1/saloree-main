@@ -1,4 +1,6 @@
+import { headT } from "@/i18n/head";
 import { createFileRoute } from "@tanstack/react-router";
+import { storeFromMatches } from "@/lib/store-mode";
 import { Browse } from "@/components/marketplace/browse";
 import { catalogQuery } from "@/services/catalog";
 import { CatalogSkeleton } from "@/components/marketplace/shared";
@@ -11,23 +13,25 @@ export const Route = createFileRoute("/products")({
     ...(typeof s["sort"] === "string" ? { sort: s["sort"] } : {}),
     ...(s["sale"] === true || s["sale"] === "true" ? { sale: true } : {}),
   }),
-  head: () => ({
-    meta: [
-      { title: "Discover Products — Saloree" },
-      {
-        name: "description",
-        content:
-          "Browse all Saloree products. Filter by category, price, rating, and independent store.",
-      },
-      { property: "og:title", content: "Discover Products — Saloree" },
-      {
-        property: "og:description",
-        content: "Explore everyday favorites from all our independent stores.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: ({ matches }) => {
+    const t = headT(matches, "product");
+    const store = storeFromMatches(matches);
+    const title = t("titleWithSite", {
+      ns: "common",
+      title: store ? t("meta.storeProductsTitle") : t("meta.productsTitle"),
+      site: store?.name ?? "Saloree",
+    });
+    return {
+      meta: [
+        { title },
+        { name: "description", content: t("meta.productsDescription") },
+        { property: "og:title", content: title },
+        { property: "og:description", content: t("meta.productsOgDescription") },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
+      ],
+    };
+  },
   loader: ({ context }) => context.queryClient.ensureQueryData(catalogQuery),
   pendingComponent: CatalogSkeleton,
   component: ProductsPage,

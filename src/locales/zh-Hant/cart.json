@@ -1,0 +1,25 @@
+{
+  "meta": {
+    "title": "你的購物袋 — Saloree",
+    "description": "你喜愛的 Saloree 好物，集中在一個共用購物車中，並依獨立店家分組。",
+    "ogDescription": "所有心頭好，一個共用購物袋。"
+  },
+  "title": "你的購物袋",
+  "subtitle": "幾件好物，一次收齊。",
+  "emptyTitle": "好物正在等你",
+  "emptyText": "你的購物袋是空的。一起找找你會喜歡的東西吧。",
+  "each": "單價 {{price}}",
+  "remove": "移除 {{title}}",
+  "removeTitle": "移除商品",
+  "removed": "已從購物袋中移除",
+  "added": "已加入購物車",
+  "continue": "繼續探索",
+  "summary": "訂單摘要",
+  "subtotalItems_other": "小計（{{count}} 件商品）",
+  "shipping": "運費",
+  "shippingLater": "結帳時計算",
+  "subtotal": "小計",
+  "toCheckout": "前往結帳",
+  "note": "貨到付款。最終價格於下單時確認。",
+  "trust": "獨立店家，一個共用購物袋。"
+}

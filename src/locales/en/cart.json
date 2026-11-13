@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "title": "Your Shopping Bag — Saloree",
+    "description": "Your favorite Saloree finds, together in one shared cart, grouped by independent store.",
+    "ogDescription": "All your favorite finds. One shared shopping bag."
+  },
+  "title": "Your shopping bag",
+  "subtitle": "A few good finds, all in one place.",
+  "emptyTitle": "Good things are waiting",
+  "emptyText": "Your bag is empty. Let’s find something you love.",
+  "each": "{{price}} each",
+  "remove": "Remove {{title}}",
+  "removeTitle": "Remove item",
+  "removed": "Removed from your bag",
+  "added": "Added to your cart",
+  "continue": "Continue discovering",
+  "summary": "Order summary",
+  "subtotalItems_one": "Subtotal ({{count}} item)",
+  "subtotalItems_other": "Subtotal ({{count}} items)",
+  "shipping": "Shipping",
+  "shippingLater": "Calculated at checkout",
+  "subtotal": "Subtotal",
+  "toCheckout": "Continue to checkout",
+  "note": "Pay on delivery. Final prices are confirmed when you place your order.",
+  "trust": "Independent stores. One shared bag."
+}

@@ -43,6 +43,8 @@ vi.mock("@/lib/supabase", () => {
 import {
   checkoutCustomerSchema,
   checkoutService,
+  discountCodeSchema,
+  isInvalidDiscountError,
   PAYMENT_METHODS,
   toOrderItems,
 } from "@/services/checkout";
@@ -104,18 +106,71 @@ describe("placeOrder", () => {
           ],
           p_customer: { ...customer, notes: null },
           p_payment_provider: "cod",
+          p_discount_code: null,
         },
       },
     ]);
     expect(db.tableWrites).toEqual([]); // never inserts orders directly
+    // Older replies without discount fields read as "no discount".
     expect(result).toEqual({
       ...serverResult,
       total: 37.97,
+      discount_total: 0,
       orders: [
-        { id: "o-1", store_id: "s-1", total: 23.98 },
-        { id: "o-2", store_id: "s-2", total: 13.99 },
+        { id: "o-1", store_id: "s-1", total: 23.98, discount: 0 },
+        { id: "o-2", store_id: "s-2", total: 13.99, discount: 0 },
       ],
     });
+  });
+
+  it("sends the discount code (uppercased) as the 4th parameter and returns the server's discount", async () => {
+    db.rpcResult = {
+      data: {
+        checkout_group_id: "g-2",
+        total: "21.58",
+        discount_total: "2.40",
+        currency: "USD",
+        payment_provider: "cod",
+        orders: [{ id: "o-9", store_id: "s-1", total: "21.58", discount: "2.40" }],
+      },
+      error: null,
+    };
+    const result = await checkoutService.placeOrder(
+      [{ productId: P1, quantity: 2 }],
+      customer,
+      "cod",
+      "  summer10 ",
+    );
+    expect((db.rpcCalls[0]?.args as { p_discount_code: unknown }).p_discount_code).toBe("SUMMER10");
+    expect(result).toMatchObject({
+      total: 21.58,
+      discount_total: 2.4,
+      payment_provider: "cod",
+      orders: [{ id: "o-9", discount: 2.4 }],
+    });
+  });
+
+  it("rejects a malformed code before calling the server", async () => {
+    await expect(
+      checkoutService.placeOrder([{ productId: P1, quantity: 1 }], customer, "cod", "no spaces!"),
+    ).rejects.toThrow(/discount code/);
+    expect(db.rpcCalls).toEqual([]);
+  });
+
+  it("recognises the server's invalid-discount error (cart stays as is)", async () => {
+    db.rpcResult = {
+      data: null,
+      error: {
+        code: "P0001",
+        message: "This discount code is not valid for the items in your cart",
+      },
+    };
+    const err = await checkoutService
+      .placeOrder([{ productId: P1, quantity: 1 }], customer, "cod", "WRONG1")
+      .catch((e: unknown) => e);
+    expect(isInvalidDiscountError(err)).toBe(true);
+    expect(isInvalidDiscountError(new Error("Not enough stock"))).toBe(false);
+    expect(db.tableWrites).toEqual([]);
   });
 
   it("never sends prices — only product ids and quantities", async () => {
@@ -217,8 +272,46 @@ describe("confirmation after reload", () => {
       orders: [{ total: 0.1 }, { total: 0.2 }],
     });
   });
+  it("includes the saved discount amounts", async () => {
+    db.orderRows = [
+      {
+        id: "o-1",
+        store_id: "s-1",
+        total: "9.00",
+        total_amount: null,
+        currency: "USD",
+        discount_amount: "1.10",
+        payment_provider: "cod",
+      },
+      {
+        id: "o-2",
+        store_id: "s-2",
+        total: "5.00",
+        total_amount: null,
+        currency: "USD",
+        discount_amount: "0.20",
+        payment_provider: "cod",
+      },
+    ];
+    await expect(checkoutService.getCheckoutGroup("g-1")).resolves.toMatchObject({
+      total: 14,
+      discount_total: 1.3,
+      payment_provider: "cod",
+      orders: [{ discount: 1.1 }, { discount: 0.2 }],
+    });
+  });
   it("returns null for an unknown group", async () =>
     expect(await checkoutService.getCheckoutGroup("nope")).toBeNull());
+});
+
+describe("discount code field", () => {
+  it("is optional, uppercased and format-checked", () => {
+    expect(discountCodeSchema.parse("")).toBeNull();
+    expect(discountCodeSchema.parse("   ")).toBeNull();
+    expect(discountCodeSchema.parse(" save-5 ")).toBe("SAVE-5");
+    expect(discountCodeSchema.safeParse("AB").success).toBe(false);
+    expect(discountCodeSchema.safeParse("HAS SPACE").success).toBe(false);
+  });
 });
 
 describe("my orders", () => {

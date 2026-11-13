@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+import { headT } from "@/i18n/head";
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -8,8 +10,10 @@ import { CatalogSkeleton, EmptyState } from "@/components/marketplace/shared";
 import { SignOutButton } from "@/components/marketplace/auth-form";
 import { ConfirmDialog, type ConfirmRequest } from "@/components/marketplace/confirm-dialog";
 import { requireAuth } from "@/lib/auth";
-import { money } from "@/services/catalog";
-import { friendlyError } from "@/services/errors";
+import { CustomerTracking } from "@/components/tracking/customer-tracking";
+import { shippingService } from "@/services/shipping";
+import { useFormat } from "@/i18n/hooks";
+import { translateError } from "@/i18n/messages";
 import {
   canCancel,
   formatAddress,
@@ -22,24 +26,38 @@ import {
 export const Route = createFileRoute("/account")({
   ssr: false,
   beforeLoad: requireAuth(),
-  head: () => ({
-    meta: [{ title: "Your account — Saloree" }, { name: "robots", content: "noindex" }],
+  head: ({ matches }) => ({
+    meta: [
+      { title: headT(matches, "account")("metaTitle") },
+      { name: "robots", content: "noindex" },
+    ],
   }),
   pendingComponent: CatalogSkeleton,
   component: AccountPage,
 });
 
 function AccountPage() {
+  const { t } = useTranslation("account");
+  const format = useFormat();
   const { user } = Route.useRouteContext();
   const queryClient = useQueryClient();
   const key = ["orders", "mine", user.id];
   const orders = useQuery({ queryKey: key, queryFn: ordersService.getMyOrders });
+  // Loaded separately so My orders still works if tracking isn't available.
+  const orderIds = (orders.data ?? []).map((o) => o.id);
+  const shipments = useQuery({
+    queryKey: ["shipments", "orders", ...orderIds],
+    queryFn: () => shippingService.forOrders(orderIds),
+    enabled: orderIds.length > 0,
+    retry: false,
+  });
+  const shipmentsFor = (orderId: string) =>
+    (shipments.data ?? []).filter((s) => s.order_id === orderId);
   const [confirm, setConfirm] = useState<ConfirmRequest | null>(null);
   const cancel = useMutation({
     mutationFn: (o: OrderWithItems) => ordersService.cancelMyOrder(o.id),
-    onSuccess: (_d, o) => toast.success(`Order #${o.id.slice(0, 8)} was cancelled`),
-    onError: (e) =>
-      toast.error(friendlyError(e, { "42501": "This order can no longer be cancelled." })),
+    onSuccess: (_d, o) => toast.success(t("cancelled", { id: o.id.slice(0, 8) })),
+    onError: (e) => toast.error(translateError(t, e, { "42501": "orders.cannotCancel" })),
     onSettled: () =>
       Promise.all([
         queryClient.invalidateQueries({ queryKey: ["orders"] }),
@@ -51,29 +69,28 @@ function AccountPage() {
     <main className="market-container pb-16">
       <div className="account-header">
         <div>
-          <h1 className="page-title">Your account</h1>
-          <p className="page-subtitle">{user.email}</p>
+          <h1 className="page-title">{t("title")}</h1>
+          <p className="page-subtitle">
+            <bdi>{user.email}</bdi>
+          </p>
         </div>
         <SignOutButton />
       </div>
       <h2 id="my-orders" className="text-xl font-semibold mt-10 mb-4">
-        My orders
+        {t("myOrders")}
       </h2>
       {orders.isPending ? (
         <CatalogSkeleton />
       ) : orders.isError ? (
         <div role="alert" className="seller-empty">
-          <h3>Your orders could not be loaded.</h3>
-          <p>{friendlyError(orders.error)}</p>
+          <h3>{t("loadError")}</h3>
+          <p>{translateError(t, orders.error)}</p>
           <Button variant="outline" size="sm" onClick={() => orders.refetch()}>
-            Try again
+            {t("tryAgain", { ns: "common" })}
           </Button>
         </div>
       ) : !orders.data.length ? (
-        <EmptyState
-          title="No orders yet"
-          description="When you place an order, it will appear here."
-        />
+        <EmptyState title={t("emptyTitle")} description={t("emptyText")} />
       ) : (
         <ul className="order-list" aria-labelledby="my-orders">
           {orders.data.map((o) => {
@@ -82,9 +99,9 @@ function AccountPage() {
               <li key={o.id} className="order-summary my-order">
                 <div className="summary-row">
                   <span>
-                    <strong>Order #{o.id.slice(0, 8)}</strong>
+                    <strong>{t("orderNumber", { id: o.id.slice(0, 8) })}</strong>
                     <small className="block text-muted-foreground">
-                      {new Date(o.created_at).toLocaleString()}
+                      {format.dateTime(o.created_at)}
                       {o.stores?.name && (
                         <>
                           {" · "}
@@ -100,7 +117,7 @@ function AccountPage() {
                     </small>
                   </span>
                   <Badge variant={o.status === "cancelled" ? "outline" : "secondary"}>
-                    {o.status}
+                    {t(`status.${o.status}`, { ns: "orders", defaultValue: o.status })}
                   </Badge>
                 </div>
                 <ul className="checkout-lines">
@@ -109,27 +126,48 @@ function AccountPage() {
                     return (
                       <li key={i.id}>
                         <span>
-                          {i.quantity} × {i.title ?? "Item"}
-                          <small>{money(unit, o.currency)} each</small>
+                          {t("line", {
+                            quantity: format.number(i.quantity),
+                            title: i.title ?? t("itemFallback"),
+                          })}
+                          <small>{t("each", { price: format.price(unit, o.currency) })}</small>
                         </span>
-                        <span>{money(line, o.currency)}</span>
+                        <span>{format.price(line, o.currency)}</span>
                       </li>
                     );
                   })}
                 </ul>
                 {formatAddress(o) && (
-                  <p className="text-xs text-muted-foreground">Deliver to: {formatAddress(o)}</p>
+                  <p className="text-xs text-muted-foreground" dir="auto">
+                    {t("deliverTo", { address: formatAddress(o) })}
+                  </p>
+                )}
+                <CustomerTracking
+                  orderStatus={o.status}
+                  shipments={shipmentsFor(o.id)}
+                  loading={shipments.isPending && shipments.fetchStatus !== "idle"}
+                  error={shipments.error}
+                />
+                {Number(o.discount_amount ?? 0) > 0 && (
+                  <div className="summary-row">
+                    <span>
+                      {o.discount_code
+                        ? t("discountWithCode", { code: o.discount_code })
+                        : t("discount")}
+                    </span>
+                    <span>−{format.price(Number(o.discount_amount), o.currency)}</span>
+                  </div>
                 )}
                 <div className="summary-row summary-total">
                   <span>
-                    Total
+                    {t("total")}
                     {o.payment_provider === "cod" && (
                       <small className="block font-normal text-muted-foreground">
-                        Pay on delivery
+                        {t("payOnDelivery")}
                       </small>
                     )}
                   </span>
-                  <span>{money(orderTotal(o), o.currency)}</span>
+                  <span>{format.price(orderTotal(o), o.currency)}</span>
                 </div>
                 {canCancel(o) && (
                   <div className="flex justify-end">
@@ -139,17 +177,16 @@ function AccountPage() {
                       disabled={busy}
                       onClick={() =>
                         setConfirm({
-                          title: `Cancel order #${o.id.slice(0, 8)}?`,
-                          description:
-                            "The store will be told not to send it. This can't be undone.",
-                          confirmLabel: "Cancel order",
-                          cancelLabel: "Keep order",
+                          title: t("cancelTitle", { id: o.id.slice(0, 8) }),
+                          description: t("cancelText"),
+                          confirmLabel: t("cancelOrder"),
+                          cancelLabel: t("keepOrder"),
                           destructive: true,
                           run: () => cancel.mutateAsync(o),
                         })
                       }
                     >
-                      {busy ? "Cancelling…" : "Cancel order"}
+                      {busy ? t("cancelling") : t("cancelOrder")}
                     </Button>
                   </div>
                 )}

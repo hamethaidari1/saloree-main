@@ -62,6 +62,9 @@ export interface Store {
   specialty: string;
   image: string;
   tone: string;
+  /** Store's own logo / banner (null when not uploaded; absent on fixtures). */
+  logo?: string | null;
+  banner?: string | null;
 }
 export const categories: Category[] = [
   { slug: "home-living", name: "Home & Living", image: p8 },

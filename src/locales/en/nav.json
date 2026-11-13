@@ -1,0 +1,75 @@
+{
+  "openMenu": "Open menu",
+  "homeLink": "Saloree home",
+  "cart": "Cart",
+  "cartAria_one": "Cart, {{count}} item",
+  "cartAria_other": "Cart, {{count}} items",
+  "orders": "Orders",
+  "all": "All",
+  "shortcuts": "Shop shortcuts",
+  "deals": "Deals",
+  "newArrivals": "New arrivals",
+  "bestsellers": "Bestsellers",
+  "ourStores": "Our stores",
+  "customerService": "Customer Service",
+  "sell": "Sell on Saloree",
+  "accountAndLists": "Account & Lists",
+  "greeting": {
+    "loading": "Hello",
+    "user": "Hello, {{name}}",
+    "guest": "Hello, sign in"
+  },
+  "drawer": {
+    "description": "Browse categories and Saloree shortcuts.",
+    "shopByCategory": "Shop by category",
+    "explore": "Explore Saloree",
+    "loadingCategories": "Loading categories",
+    "categoriesError": "Categories couldn't be loaded.",
+    "noCategories": "No categories yet."
+  },
+  "account": {
+    "title": "Your account",
+    "welcome": "Welcome to Saloree",
+    "loading": "Loading your account",
+    "signIn": "Sign in",
+    "newCustomer": "New customer?",
+    "startHere": "Start here",
+    "myOrders": "My orders",
+    "wishlist": "Wishlist",
+    "comingSoon": "Coming soon",
+    "account": "Account",
+    "myStore": "My store",
+    "admin": "Admin",
+    "signOut": "Sign out",
+    "signOutFailed": "Could not sign out. Please try again.",
+    "mobileAria": "Your account, {{name}}"
+  },
+  "search": {
+    "label": "Search Saloree",
+    "category": "Search in category",
+    "all": "All",
+    "loadingCategories": "Loading categories…",
+    "unavailable": "Categories unavailable",
+    "none": "No categories yet",
+    "input": "Search products and stores",
+    "placeholder": "Search Saloree",
+    "submit": "Search"
+  },
+  "deliver": {
+    "label": "Deliver to",
+    "strip": "Deliver to <1>{{name}}</1>",
+    "choose": "Choose country",
+    "aria": "Deliver to {{country}}. Change delivery country",
+    "noneSelected": "no country selected",
+    "title": "Choose your delivery country",
+    "hint": "We'll use it to show delivery details at checkout.",
+    "countries": "Delivery countries",
+    "other": "Other"
+  },
+  "language": {
+    "label": "Language",
+    "trigger": "Language: {{language}}. Change language",
+    "change": "Change language",
+    "priceNote": "Prices are shown in US dollars (USD)."
+  }
+}

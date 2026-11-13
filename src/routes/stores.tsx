@@ -1,45 +1,42 @@
+import { useTranslation } from "react-i18next";
+import { headT } from "@/i18n/head";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ChevronRight } from "lucide-react";
 import { catalogQuery } from "@/services/catalog";
 import { StoreCard, CatalogSkeleton } from "@/components/marketplace/shared";
 export const Route = createFileRoute("/stores")({
-  head: () => ({
-    meta: [
-      { title: "Meet Our Independent Stores — Saloree" },
-      {
-        name: "description",
-        content: "Meet the independent stores behind your favorite Saloree finds.",
-      },
-      { property: "og:title", content: "Meet Our Independent Stores — Saloree" },
-      {
-        property: "og:description",
-        content:
-          "Small stores with big personality. Discover the people behind your favorite finds.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: ({ matches }) => {
+    const t = headT(matches, "store");
+    return {
+      meta: [
+        { title: t("stores.metaTitle") },
+        { name: "description", content: t("stores.metaDescription") },
+        { property: "og:title", content: t("stores.metaTitle") },
+        { property: "og:description", content: t("stores.ogDescription") },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
+      ],
+    };
+  },
   loader: ({ context }) => context.queryClient.ensureQueryData(catalogQuery),
   pendingComponent: CatalogSkeleton,
   component: StoresPage,
 });
 function StoresPage() {
+  const { t } = useTranslation("store");
   const {
     data: { stores },
   } = useSuspenseQuery(catalogQuery);
   return (
     <main className="market-container pb-16">
       <div className="breadcrumb">
-        <Link to="/">Home</Link>
-        <ChevronRight />
-        <span>Our stores</span>
+        <Link to="/">{t("home", { ns: "common" })}</Link>
+        <ChevronRight className="rtl:-scale-x-100" />
+        <span>{t("stores.crumb")}</span>
       </div>
-      <h1 className="page-title">Small stores. Big personality.</h1>
-      <p className="page-subtitle mb-8">
-        Meet the independent businesses behind your favorite finds.
-      </p>
+      <h1 className="page-title">{t("stores.title")}</h1>
+      <p className="page-subtitle mb-8">{t("stores.subtitle")}</p>
       <div className="store-grid">
         {stores.map((s) => (
           <StoreCard key={s.slug} store={s} />

@@ -58,10 +58,26 @@ describe("product validation", () => {
 describe("store validation", () => {
   it("trims and nulls optional fields", () =>
     expect(
-      storeInputSchema.parse({ name: " Shop ", description: " ", category: "", location: "" }),
-    ).toEqual({ name: "Shop", description: null, category: null, location: null }));
+      storeInputSchema.parse({
+        name: " Shop ",
+        slug: "my-shop",
+        description: " ",
+        category: "",
+        location: "",
+      }),
+    ).toEqual({
+      name: "Shop",
+      slug: "my-shop",
+      description: null,
+      category: null,
+      location: null,
+    }));
   it("requires a name", () =>
-    expect(storeInputSchema.safeParse({ name: "a", description: "" }).success).toBe(false));
+    expect(
+      storeInputSchema.safeParse({ name: "a", slug: "my-shop", description: "" }).success,
+    ).toBe(false));
+  it("requires a store address", () =>
+    expect(storeInputSchema.safeParse({ name: "Shop" }).success).toBe(false));
 });
 
 describe("uploads", () => {

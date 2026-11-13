@@ -1,0 +1,65 @@
+{
+  "generic": "Something went wrong. Please try again.",
+  "db": {
+    "permission": "You don't have permission to do that.",
+    "notReady": "This feature needs a database update that hasn't been applied yet.",
+    "duplicate": "That already exists.",
+    "inUse": "This item is in use and can't be removed.",
+    "network": "We couldn't reach Saloree. Check your connection and try again."
+  },
+  "auth": {
+    "invalidCredentials": "The email or password is incorrect.",
+    "emailNotConfirmed": "Please confirm your email address first. Check your inbox for the link.",
+    "alreadyRegistered": "An account with this email already exists. Try signing in.",
+    "weakPassword": "Choose a stronger password.",
+    "rateLimited": "Too many attempts. Please wait a moment and try again.",
+    "providerDisabled": "Google sign-in isn't available right now.",
+    "userDenied": "You cancelled the sign-in at Google."
+  },
+  "checkout": {
+    "signInAgain": "Please sign in again to place your order.",
+    "discountNotValid": "This code can't be used with the items in your bag. Check the code or remove it to continue.",
+    "discountFormat": "That doesn't look like a discount code."
+  },
+  "orders": {
+    "cannotCancel": "This order can no longer be cancelled."
+  },
+  "tracking": {
+    "notReady": "Shipment tracking isn't available yet."
+  },
+  "validation": {
+    "full_name": {
+      "required": "Enter your full name.",
+      "tooShort": "Your full name looks too short.",
+      "tooLong": "Your full name is too long."
+    },
+    "phone": {
+      "required": "Enter your phone number.",
+      "invalid": "Enter a valid phone number."
+    },
+    "email": {
+      "required": "Enter your email address.",
+      "invalid": "Enter a valid email address.",
+      "tooLong": "Your email address is too long."
+    },
+    "country": {
+      "required": "Enter your country.",
+      "tooShort": "Your country looks too short.",
+      "tooLong": "Your country is too long."
+    },
+    "city": {
+      "required": "Enter your city.",
+      "tooShort": "Your city looks too short.",
+      "tooLong": "Your city is too long."
+    },
+    "address": {
+      "required": "Enter your address.",
+      "tooShort": "Your address looks too short.",
+      "tooLong": "Your address is too long."
+    },
+    "notes": {
+      "tooLong": "Notes can be up to 500 characters."
+    },
+    "fallback": "Check this field."
+  }
+}

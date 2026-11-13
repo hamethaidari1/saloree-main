@@ -1,0 +1,35 @@
+{
+  "metaTitle": "결제 — Saloree",
+  "yourBag": "쇼핑백",
+  "title": "결제",
+  "subtitle": "상품을 어디로 보내 드릴까요?",
+  "emptyTitle": "쇼핑백이 비어 있습니다",
+  "emptyText": "마음에 드는 상품을 담은 후 다시 결제해 주세요.",
+  "delivery": "배송 정보",
+  "fields": {
+    "full_name": "이름",
+    "phone": "전화번호",
+    "email": "이메일",
+    "country": "국가",
+    "city": "도시",
+    "address": "상세 주소",
+    "notes": "배송 메모(선택 사항)"
+  },
+  "payment": "결제",
+  "methods": {
+    "cod": "착불 결제",
+    "codDescription": "주문이 도착하면 현금으로 결제합니다.",
+    "stripe": "카드(Stripe)",
+    "hesabpay": "HesabPay",
+    "comingSoon": "준비 중"
+  },
+  "yourOrder": "주문 내역",
+  "line": "{{quantity}} × {{title}}",
+  "estimatedTotal": "예상 합계",
+  "discount": "할인 코드",
+  "discountPlaceholder": "선택 사항",
+  "discountHelp": "주문 시 상점에서 코드를 확인하며, 할인 금액이 합계에 표시됩니다.",
+  "note": "가격, 재고, 배송은 주문 시 Saloree에서 확정합니다. 다른 상점의 상품은 별도의 주문으로 처리됩니다.",
+  "place": "주문하기",
+  "placing": "주문하는 중…"
+}

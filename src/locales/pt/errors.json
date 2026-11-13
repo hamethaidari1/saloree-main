@@ -1,0 +1,65 @@
+{
+  "generic": "Algo deu errado. Tente novamente.",
+  "db": {
+    "permission": "Você não tem permissão para fazer isso.",
+    "notReady": "Este recurso precisa de uma atualização do banco de dados que ainda não foi aplicada.",
+    "duplicate": "Isso já existe.",
+    "inUse": "Este item está em uso e não pode ser removido.",
+    "network": "Não conseguimos acessar a Saloree. Verifique sua conexão e tente novamente."
+  },
+  "auth": {
+    "invalidCredentials": "O e-mail ou a senha estão incorretos.",
+    "emailNotConfirmed": "Confirme seu endereço de e-mail primeiro. Procure o link na sua caixa de entrada.",
+    "alreadyRegistered": "Já existe uma conta com este e-mail. Tente entrar.",
+    "weakPassword": "Escolha uma senha mais forte.",
+    "rateLimited": "Muitas tentativas. Aguarde um momento e tente novamente.",
+    "providerDisabled": "O login com o Google não está disponível no momento.",
+    "userDenied": "Você cancelou o login no Google."
+  },
+  "checkout": {
+    "signInAgain": "Entre novamente para fazer seu pedido.",
+    "discountNotValid": "Este código não pode ser usado com os itens da sua sacola. Verifique o código ou remova-o para continuar.",
+    "discountFormat": "Isso não parece um código de desconto."
+  },
+  "orders": {
+    "cannotCancel": "Este pedido não pode mais ser cancelado."
+  },
+  "tracking": {
+    "notReady": "O rastreamento de envios ainda não está disponível."
+  },
+  "validation": {
+    "full_name": {
+      "required": "Informe seu nome completo.",
+      "tooShort": "Seu nome parece curto demais.",
+      "tooLong": "Seu nome é longo demais."
+    },
+    "phone": {
+      "required": "Informe seu telefone.",
+      "invalid": "Informe um telefone válido."
+    },
+    "email": {
+      "required": "Informe seu e-mail.",
+      "invalid": "Informe um e-mail válido.",
+      "tooLong": "Seu e-mail é longo demais."
+    },
+    "country": {
+      "required": "Informe seu país.",
+      "tooShort": "O país parece curto demais.",
+      "tooLong": "O país é longo demais."
+    },
+    "city": {
+      "required": "Informe sua cidade.",
+      "tooShort": "A cidade parece curta demais.",
+      "tooLong": "A cidade é longa demais."
+    },
+    "address": {
+      "required": "Informe seu endereço.",
+      "tooShort": "Seu endereço parece curto demais.",
+      "tooLong": "Seu endereço é longo demais."
+    },
+    "notes": {
+      "tooLong": "As observações podem ter até 500 caracteres."
+    },
+    "fallback": "Verifique este campo."
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "generic": "Etwas ist schiefgelaufen. Bitte versuche es erneut.",
+  "db": {
+    "permission": "Dazu fehlt dir die Berechtigung.",
+    "notReady": "Diese Funktion benötigt ein Datenbank-Update, das noch nicht eingespielt wurde.",
+    "duplicate": "Das gibt es bereits.",
+    "inUse": "Dieser Eintrag wird verwendet und kann nicht entfernt werden.",
+    "network": "Saloree ist nicht erreichbar. Prüfe deine Verbindung und versuche es erneut."
+  },
+  "auth": {
+    "invalidCredentials": "E-Mail-Adresse oder Passwort ist falsch.",
+    "emailNotConfirmed": "Bitte bestätige zuerst deine E-Mail-Adresse. Den Link findest du in deinem Posteingang.",
+    "alreadyRegistered": "Es gibt bereits ein Konto mit dieser E-Mail-Adresse. Versuche, dich anzumelden.",
+    "weakPassword": "Wähle ein sichereres Passwort.",
+    "rateLimited": "Zu viele Versuche. Warte einen Moment und versuche es erneut.",
+    "providerDisabled": "Die Anmeldung mit Google ist gerade nicht verfügbar.",
+    "userDenied": "Du hast die Anmeldung bei Google abgebrochen."
+  },
+  "checkout": {
+    "signInAgain": "Bitte melde dich erneut an, um deine Bestellung aufzugeben.",
+    "discountNotValid": "Dieser Code gilt nicht für die Artikel in deiner Tasche. Prüfe den Code oder entferne ihn, um fortzufahren.",
+    "discountFormat": "Das sieht nicht nach einem Rabattcode aus."
+  },
+  "orders": {
+    "cannotCancel": "Diese Bestellung kann nicht mehr storniert werden."
+  },
+  "tracking": {
+    "notReady": "Die Sendungsverfolgung ist noch nicht verfügbar."
+  },
+  "validation": {
+    "full_name": {
+      "required": "Gib deinen vollständigen Namen ein.",
+      "tooShort": "Dein Name scheint zu kurz zu sein.",
+      "tooLong": "Dein Name ist zu lang."
+    },
+    "phone": {
+      "required": "Gib deine Telefonnummer ein.",
+      "invalid": "Gib eine gültige Telefonnummer ein."
+    },
+    "email": {
+      "required": "Gib deine E-Mail-Adresse ein.",
+      "invalid": "Gib eine gültige E-Mail-Adresse ein.",
+      "tooLong": "Deine E-Mail-Adresse ist zu lang."
+    },
+    "country": {
+      "required": "Gib dein Land ein.",
+      "tooShort": "Das Land scheint zu kurz zu sein.",
+      "tooLong": "Das Land ist zu lang."
+    },
+    "city": {
+      "required": "Gib deine Stadt ein.",
+      "tooShort": "Die Stadt scheint zu kurz zu sein.",
+      "tooLong": "Die Stadt ist zu lang."
+    },
+    "address": {
+      "required": "Gib deine Adresse ein.",
+      "tooShort": "Deine Adresse scheint zu kurz zu sein.",
+      "tooLong": "Deine Adresse ist zu lang."
+    },
+    "notes": {
+      "tooLong": "Hinweise dürfen höchstens 500 Zeichen lang sein."
+    },
+    "fallback": "Bitte prüfe dieses Feld."
+  }
+}

@@ -1,24 +1,30 @@
+import { Trans, useTranslation } from "react-i18next";
+import { headT } from "@/i18n/head";
+import { errorKey, translateError } from "@/i18n/messages";
+import { errorText } from "@/lib/oauth";
 import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AuthCard } from "@/components/marketplace/auth-form";
+import { GoogleButton } from "@/components/marketplace/google-button";
 import { signUp, type SignupRole } from "@/lib/auth";
 
 export const Route = createFileRoute("/register")({
   // ?role=seller preselects "Sell" (used by "Sell on Saloree").
   validateSearch: (s: Record<string, unknown>): { role?: SignupRole } =>
     s["role"] === "seller" || s["role"] === "customer" ? { role: s["role"] } : {},
-  head: () => ({
+  head: ({ matches }) => ({
     meta: [
-      { title: "Create an account — Saloree" },
-      { name: "description", content: "Join Saloree as a shopper or open your own store." },
+      { title: headT(matches, "auth")("register.metaTitle") },
+      { name: "description", content: headT(matches, "auth")("register.metaDescription") },
     ],
   }),
   component: RegisterPage,
 });
 
 function RegisterPage() {
+  const { t } = useTranslation("auth");
   const router = useRouter();
   const search = Route.useSearch();
   const [role, setRole] = useState<SignupRole>(search.role ?? "customer");
@@ -30,9 +36,14 @@ function RegisterPage() {
     return (
       <main className="market-container auth-page">
         <div className="auth-card">
-          <h1 className="page-title">Check your inbox</h1>
+          <h1 className="page-title">{t("register.inboxTitle")}</h1>
           <p className="page-subtitle">
-            We sent a confirmation link to {sentTo}. Open it, then <Link to="/login">sign in</Link>.
+            <Trans
+              t={t}
+              i18nKey="register.inboxText"
+              values={{ email: sentTo }}
+              components={{ 1: <Link to="/login" /> }}
+            />
           </p>
         </div>
       </main>
@@ -40,14 +51,14 @@ function RegisterPage() {
 
   return (
     <AuthCard
-      title="Create your account"
-      subtitle="Shop independent stores, or open one of your own."
-      submitLabel={role === "seller" ? "Create seller account" : "Create account"}
+      title={t("register.title")}
+      subtitle={t("register.subtitle")}
+      submitLabel={role === "seller" ? t("register.submitSeller") : t("register.submit")}
       busy={busy}
       error={error}
       onSubmit={async (form) => {
         const password = String(form.get("password"));
-        if (password.length < 8) return setError("Use at least 8 characters for your password.");
+        if (password.length < 8) return setError(t("register.passwordShort"));
         setBusy(true);
         setError(null);
         const email = String(form.get("email"));
@@ -61,47 +72,53 @@ function RegisterPage() {
           if (needsConfirmation) setSentTo(email);
           else router.history.push(role === "seller" ? "/seller" : "/account");
         } catch (e) {
-          setError(e instanceof Error ? e.message : "Could not create your account.");
+          setError(errorKey(e) || errorText(e) ? translateError(t, e) : t("register.failed"));
         } finally {
           setBusy(false);
         }
       }}
       footer={
         <>
-          Already have an account? <Link to="/login">Sign in</Link>
+          <Trans t={t} i18nKey="register.have" components={{ 1: <Link to="/login" /> }} />
+        </>
+      }
+      oauth={
+        <>
+          {/* Above the Google button: "Sell" makes Google sign-up a seller account too. */}
+          <fieldset className="auth-roles">
+            <legend>{t("register.iWant")}</legend>
+            {(
+              [
+                ["customer", t("register.shop")],
+                ["seller", t("register.sell")],
+              ] as const
+            ).map(([value, label]) => (
+              <label key={value} className={role === value ? "selected" : ""}>
+                <input
+                  type="radio"
+                  name="role"
+                  value={value}
+                  checked={role === value}
+                  onChange={() => setRole(value)}
+                />
+                {label}
+              </label>
+            ))}
+          </fieldset>
+          <GoogleButton intent={role} />
         </>
       }
     >
-      <fieldset className="auth-roles">
-        <legend>I want to</legend>
-        {(
-          [
-            ["customer", "Shop"],
-            ["seller", "Sell"],
-          ] as const
-        ).map(([value, label]) => (
-          <label key={value} className={role === value ? "selected" : ""}>
-            <input
-              type="radio"
-              name="role"
-              value={value}
-              checked={role === value}
-              onChange={() => setRole(value)}
-            />
-            {label}
-          </label>
-        ))}
-      </fieldset>
       <div>
-        <Label htmlFor="fullName">Full name</Label>
+        <Label htmlFor="fullName">{t("fullName")}</Label>
         <Input id="fullName" name="fullName" autoComplete="name" required />
       </div>
       <div>
-        <Label htmlFor="email">Email</Label>
+        <Label htmlFor="email">{t("email")}</Label>
         <Input id="email" name="email" type="email" autoComplete="email" required />
       </div>
       <div>
-        <Label htmlFor="password">Password</Label>
+        <Label htmlFor="password">{t("password")}</Label>
         <Input
           id="password"
           name="password"

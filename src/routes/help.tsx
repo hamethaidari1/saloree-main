@@ -1,80 +1,61 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ChevronRight } from "lucide-react";
+import { Trans, useTranslation } from "react-i18next";
+import type { ReactNode } from "react";
+import { headT } from "@/i18n/head";
 
 export const Route = createFileRoute("/help")({
-  head: () => ({
-    meta: [
-      { title: "Customer Service — Saloree" },
-      {
-        name: "description",
-        content: "Help with orders, cancellations, paying on delivery and selling on Saloree.",
-      },
-    ],
-  }),
+  head: ({ matches }) => {
+    const t = headT(matches);
+    return {
+      meta: [
+        { title: t("help.metaTitle") },
+        { name: "description", content: t("help.metaDescription") },
+      ],
+    };
+  },
   component: HelpPage,
 });
 
-const TOPICS = [
-  {
-    q: "Where are my orders?",
-    a: (
-      <>
-        Sign in and open{" "}
-        <Link to="/account" hash="my-orders">
-          My orders
-        </Link>{" "}
-        to see every order, its status and the store that's preparing it.
-      </>
-    ),
-  },
-  {
-    q: "Can I cancel an order?",
-    a: (
-      <>
-        Yes, while it's still <strong>pending</strong>. Use the Cancel button next to the order in{" "}
-        <Link to="/account" hash="my-orders">
-          My orders
-        </Link>
-        . Once a store starts processing it, it can no longer be cancelled online.
-      </>
-    ),
-  },
-  {
-    q: "How do I pay?",
-    a: "For now Saloree supports pay on delivery: you pay when your order arrives. Card and HesabPay payments are coming soon.",
-  },
-  {
-    q: "I ordered from several stores — why are there several orders?",
-    a: "Each independent store prepares and ships its own part, so one checkout creates one order per store. The confirmation page shows the total for all of them.",
-  },
-  {
-    q: "How do I sell on Saloree?",
-    a: (
-      <>
-        <Link to="/register" search={{ role: "seller" }}>
-          Create a seller account
-        </Link>
-        , set up your store and add products. Your store goes live once it's been reviewed.
-      </>
-    ),
-  },
-];
-
 function HelpPage() {
+  const { t } = useTranslation();
+  const ordersLink = <Link to="/account" hash="my-orders" />;
+  const topics: { q: string; a: ReactNode }[] = [
+    {
+      q: t("help.ordersQ"),
+      a: <Trans t={t} i18nKey="help.ordersA" components={{ 1: ordersLink }} />,
+    },
+    {
+      q: t("help.cancelQ"),
+      a: <Trans t={t} i18nKey="help.cancelA" components={{ 1: <strong />, 3: ordersLink }} />,
+    },
+    { q: t("help.payQ"), a: t("help.payA") },
+    { q: t("help.splitQ"), a: t("help.splitA") },
+    {
+      q: t("help.sellQ"),
+      a: (
+        <Trans
+          t={t}
+          i18nKey="help.sellA"
+          components={{ 1: <Link to="/register" search={{ role: "seller" }} /> }}
+        />
+      ),
+    },
+  ];
   return (
     <main className="market-container pb-16">
       <div className="breadcrumb">
-        <Link to="/">Home</Link>
+        <Link to="/">{t("home")}</Link>
         <ChevronRight className="rtl:-scale-x-100" />
-        <span>Customer Service</span>
+        <span>{t("help.title")}</span>
       </div>
-      <h1 className="page-title">Customer Service</h1>
-      <p className="page-subtitle">Answers to the questions we hear most.</p>
+      <h1 className="page-title">{t("help.title")}</h1>
+      <p className="page-subtitle">{t("help.subtitle")}</p>
       <div className="help-list mt-8">
-        {TOPICS.map((t) => (
-          <details key={t.q} className="help-item">
-            <summary>{t.q}</summary>
-            <p>{t.a}</p>
+        {topics.map((topic) => (
+          <details key={topic.q} className="help-item">
+            <summary>{topic.q}</summary>
+            <p>{topic.a}</p>
           </details>
         ))}
       </div>

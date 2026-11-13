@@ -1,0 +1,59 @@
+{
+  "verified": "חנות מאומתת ב-Saloree",
+  "homeLink": "דף הבית של {{store}}",
+  "account": "חשבון",
+  "signIn": "התחברות",
+  "help": "עזרה",
+  "poweredBy": "מופעל על ידי <1>Saloree</1>",
+  "copyright": "© {{year}} {{store}}",
+  "notFound": {
+    "title": "החנות לא נמצאה",
+    "text": "החנות הזו לא קיימת או שעדיין לא נפתחה. אפשר להמשיך לקנות בחנויות העצמאיות האחרות ב-Saloree.",
+    "link": "מעבר ל-Saloree"
+  },
+  "stores": {
+    "metaTitle": "להכיר את החנויות העצמאיות שלנו — Saloree",
+    "metaDescription": "להכיר את החנויות העצמאיות שמאחורי המציאות האהובות עליך ב-Saloree.",
+    "ogDescription": "חנויות קטנות עם אישיות גדולה. להכיר את האנשים שמאחורי המציאות האהובות עליך.",
+    "title": "חנויות קטנות. אישיות גדולה.",
+    "subtitle": "להכיר את העסקים העצמאיים שמאחורי המציאות האהובות עליך.",
+    "crumb": "החנויות שלנו"
+  },
+  "page": {
+    "fallbackName": "חנות",
+    "description": "לגלות חנויות עצמאיות ב-Saloree.",
+    "ogDescription": "קניות של מציאות שנבחרו בקפידה מחנויות עצמאיות."
+  },
+  "template": {
+    "featured": "מומלצים",
+    "allProducts": "כל המוצרים",
+    "allProductsCount_one": "כל המוצרים ({{count}})",
+    "allProductsCount_two": "כל המוצרים ({{count}})",
+    "allProductsCount_other": "כל המוצרים ({{count}})",
+    "productsFallback": "מוצרים",
+    "selectedPieces": "פריטים נבחרים",
+    "collection": "הקולקציה",
+    "deals": "מבצעים",
+    "edit": "הבחירה שלנו",
+    "topPicks": "הכי מומלצים",
+    "shopEverything": "לקנות הכול",
+    "about": "אודות",
+    "ourStory": "הסיפור שלנו",
+    "aboutStore": "אודות {{store}}",
+    "thisIs": "זו {{store}}",
+    "stories": "סיפורים",
+    "storyNumber": "מס' {{number}}",
+    "categoryShortcuts": "קיצורי דרך לקטגוריות",
+    "shopByCategory": "קניות לפי קטגוריה",
+    "all": "הכול",
+    "empty": "{{store}} עדיין לא הוסיפה מוצרים. כדאי לחזור בקרוב.",
+    "outOfStock": "אזל מהמלאי",
+    "onlyLeft_one": "נשארה יחידה אחת בלבד",
+    "onlyLeft_two": "נשארו שתי יחידות בלבד",
+    "onlyLeft_other": "נשארו {{count}} יחידות בלבד",
+    "inStock": "במלאי",
+    "soldOut": "אזל",
+    "addToCart": "הוספה לעגלה",
+    "addAria": "הוספת {{title}} לעגלה"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "meta": {
+    "title": "쇼핑백 — Saloree",
+    "description": "좋아하는 Saloree 상품을 하나의 공유 장바구니에 독립 상점별로 모아 두세요.",
+    "ogDescription": "좋아하는 상품을 모두 하나의 쇼핑백에."
+  },
+  "title": "쇼핑백",
+  "subtitle": "마음에 드는 상품을 한곳에 모았어요.",
+  "emptyTitle": "좋은 상품이 기다리고 있어요",
+  "emptyText": "쇼핑백이 비어 있습니다. 마음에 드는 상품을 찾아보세요.",
+  "each": "개당 {{price}}",
+  "remove": "{{title}} 삭제",
+  "removeTitle": "상품 삭제",
+  "removed": "쇼핑백에서 삭제했습니다",
+  "added": "장바구니에 담았습니다",
+  "continue": "계속 둘러보기",
+  "summary": "주문 요약",
+  "subtotalItems_other": "소계(상품 {{count}}개)",
+  "shipping": "배송비",
+  "shippingLater": "결제 시 계산",
+  "subtotal": "소계",
+  "toCheckout": "결제하기",
+  "note": "착불 결제입니다. 최종 가격은 주문 시 확정됩니다.",
+  "trust": "독립 상점. 하나의 공유 쇼핑백."
+}

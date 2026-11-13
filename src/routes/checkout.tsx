@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+import { headT } from "@/i18n/head";
 import { useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -11,38 +13,45 @@ import { useCart } from "@/components/marketplace/cart-context";
 import { CatalogSkeleton, EmptyState, useCatalog } from "@/components/marketplace/shared";
 import { requireAuth } from "@/lib/auth";
 import { cartTotal } from "@/services/cart";
-import { money } from "@/services/catalog";
+import { useFormat } from "@/i18n/hooks";
+import { translateError, validationMessage } from "@/i18n/messages";
 import {
   checkoutCustomerSchema,
   checkoutService,
+  discountCodeSchema,
+  isInvalidDiscountError,
   PAYMENT_METHODS,
   type CheckoutCustomerInput,
   type PaymentProvider,
 } from "@/services/checkout";
-import { friendlyError } from "@/services/errors";
 
 export const Route = createFileRoute("/checkout")({
   ssr: false,
   beforeLoad: requireAuth(),
-  head: () => ({
-    meta: [{ title: "Checkout — Saloree" }, { name: "robots", content: "noindex" }],
+  head: ({ matches }) => ({
+    meta: [
+      { title: headT(matches, "checkout")("metaTitle") },
+      { name: "robots", content: "noindex" },
+    ],
   }),
   pendingComponent: CatalogSkeleton,
   component: CheckoutPage,
 });
 
 type Field = keyof CheckoutCustomerInput;
-const FIELDS: { key: Field; label: string; autoComplete: string; type?: string; wide?: boolean }[] =
-  [
-    { key: "full_name", label: "Full name", autoComplete: "name" },
-    { key: "phone", label: "Phone", autoComplete: "tel", type: "tel" },
-    { key: "email", label: "Email", autoComplete: "email", type: "email", wide: true },
-    { key: "country", label: "Country", autoComplete: "country-name" },
-    { key: "city", label: "City", autoComplete: "address-level2" },
-    { key: "address", label: "Street address", autoComplete: "street-address", wide: true },
-  ];
+/** Labels come from checkout:fields.<key>. */
+const FIELDS: { key: Field; autoComplete: string; type?: string; wide?: boolean }[] = [
+  { key: "full_name", autoComplete: "name" },
+  { key: "phone", autoComplete: "tel", type: "tel" },
+  { key: "email", autoComplete: "email", type: "email", wide: true },
+  { key: "country", autoComplete: "country-name" },
+  { key: "city", autoComplete: "address-level2" },
+  { key: "address", autoComplete: "street-address", wide: true },
+];
 
 function CheckoutPage() {
+  const { t } = useTranslation("checkout");
+  const format = useFormat();
   const { user } = Route.useRouteContext();
   const { items, ready, clear } = useCart();
   const { products, stores } = useCatalog();
@@ -59,9 +68,11 @@ function CheckoutPage() {
   });
   const [errors, setErrors] = useState<Partial<Record<Field, string>>>({});
   const [provider, setProvider] = useState<PaymentProvider>("cod");
+  const [discountCode, setDiscountCode] = useState("");
+  const [discountError, setDiscountError] = useState<string | null>(null);
 
   const place = useMutation({
-    mutationFn: () => checkoutService.placeOrder(items, values, provider),
+    mutationFn: () => checkoutService.placeOrder(items, values, provider, discountCode),
     onSuccess: async (result) => {
       queryClient.setQueryData(["checkout", result.checkout_group_id], result);
       await navigate({
@@ -73,18 +84,22 @@ function CheckoutPage() {
       void queryClient.invalidateQueries({ queryKey: ["orders"] });
       void queryClient.invalidateQueries({ queryKey: ["catalog"] }); // stock changed
     },
-    onError: (e) =>
-      toast.error(friendlyError(e, { "42501": "Please sign in again to place your order." })),
+    onError: (e) => {
+      // Nothing was ordered and the bag is untouched; let the shopper fix the code.
+      if (isInvalidDiscountError(e)) {
+        setDiscountError(t("checkout.discountNotValid", { ns: "errors" }));
+        document.getElementById("checkout-discount")?.focus();
+        return;
+      }
+      toast.error(translateError(t, e, { "42501": "checkout.signInAgain" }));
+    },
   });
 
   if (!ready) return <CatalogSkeleton />;
   if (!items.length)
     return (
       <main className="market-container">
-        <EmptyState
-          title="Your bag is empty"
-          description="Add something you love, then come back to check out."
-        />
+        <EmptyState title={t("emptyTitle")} description={t("emptyText")} />
       </main>
     );
 
@@ -97,12 +112,12 @@ function CheckoutPage() {
   return (
     <main className="market-container pb-16">
       <div className="breadcrumb">
-        <Link to="/cart">Your bag</Link>
-        <ChevronRight />
-        <span>Checkout</span>
+        <Link to="/cart">{t("yourBag")}</Link>
+        <ChevronRight className="rtl:-scale-x-100" />
+        <span>{t("title")}</span>
       </div>
-      <h1 className="page-title">Checkout</h1>
-      <p className="page-subtitle">Where should we send your finds?</p>
+      <h1 className="page-title">{t("title")}</h1>
+      <p className="page-subtitle">{t("subtitle")}</p>
       <form
         className="cart-layout"
         noValidate
@@ -111,21 +126,33 @@ function CheckoutPage() {
           if (place.isPending) return;
           const parsed = checkoutCustomerSchema.safeParse(values);
           if (!parsed.success) {
-            const fe = parsed.error.flatten().fieldErrors;
-            setErrors(Object.fromEntries(Object.entries(fe).map(([k, v]) => [k, v?.[0]])));
-            document.getElementById(`checkout-${Object.keys(fe)[0]}`)?.focus();
+            // One translated message per field (word order may differ per language).
+            const next: Partial<Record<Field, string>> = {};
+            for (const issue of parsed.error.issues) {
+              const field = issue.path[0] as Field;
+              next[field] ??= validationMessage(t, field, issue, values[field]);
+            }
+            setErrors(next);
+            document.getElementById(`checkout-${Object.keys(next)[0]}`)?.focus();
+            return;
+          }
+          const code = discountCodeSchema.safeParse(discountCode);
+          if (!code.success) {
+            setDiscountError(t("checkout.discountFormat", { ns: "errors" }));
+            document.getElementById("checkout-discount")?.focus();
             return;
           }
           setErrors({});
+          setDiscountError(null);
           place.mutate();
         }}
       >
         <div className="seller-form">
           <fieldset className="seller-form-row" disabled={place.isPending}>
-            <legend className="checkout-legend">Delivery details</legend>
+            <legend className="checkout-legend">{t("delivery")}</legend>
             {FIELDS.map((f) => (
               <div key={f.key} className={`seller-field ${f.wide ? "checkout-wide" : ""}`}>
-                <Label htmlFor={`checkout-${f.key}`}>{f.label}</Label>
+                <Label htmlFor={`checkout-${f.key}`}>{t(`fields.${f.key}`)}</Label>
                 <Input
                   id={`checkout-${f.key}`}
                   type={f.type ?? "text"}
@@ -144,7 +171,7 @@ function CheckoutPage() {
               </div>
             ))}
             <div className="seller-field checkout-wide">
-              <Label htmlFor="checkout-notes">Delivery notes (optional)</Label>
+              <Label htmlFor="checkout-notes">{t("fields.notes")}</Label>
               <Textarea
                 id="checkout-notes"
                 rows={3}
@@ -157,7 +184,7 @@ function CheckoutPage() {
           </fieldset>
 
           <fieldset className="checkout-payments" disabled={place.isPending}>
-            <legend className="checkout-legend">Payment</legend>
+            <legend className="checkout-legend">{t("payment")}</legend>
             {PAYMENT_METHODS.map((m) => (
               <label
                 key={m.id}
@@ -172,8 +199,8 @@ function CheckoutPage() {
                   onChange={() => m.enabled && setProvider(m.id)}
                 />
                 <span>
-                  <strong>{m.label}</strong>
-                  <small>{m.description}</small>
+                  <strong>{t(`methods.${m.id}`)}</strong>
+                  <small>{m.enabled ? t("methods.codDescription") : t("methods.comingSoon")}</small>
                 </span>
               </label>
             ))}
@@ -181,29 +208,51 @@ function CheckoutPage() {
         </div>
 
         <aside className="order-summary">
-          <h2>Your order</h2>
+          <h2>{t("yourOrder")}</h2>
           <ul className="checkout-lines">
             {lines.map((l) => (
               <li key={l.productId}>
                 <span className="min-w-0">
-                  {l.quantity} × {l.product.title}
+                  {t("line", { quantity: format.number(l.quantity), title: l.product.title })}
                   <small>{l.store?.name}</small>
                 </span>
-                <span>{money(l.product.price * l.quantity)}</span>
+                <span>{format.price(l.product.price * l.quantity)}</span>
               </li>
             ))}
           </ul>
           <div className="summary-row summary-total">
-            <span>Estimated total</span>
-            <span>{money(estimate)}</span>
+            <span>{t("estimatedTotal")}</span>
+            <span>{format.price(estimate)}</span>
           </div>
-          <p className="checkout-note">
-            Prices, stock and shipping are confirmed by Saloree when you place the order. Items from
-            different stores become separate orders.
-          </p>
+          <div className="seller-field mt-4">
+            <Label htmlFor="checkout-discount">{t("discount")}</Label>
+            <Input
+              id="checkout-discount"
+              autoComplete="off"
+              autoCapitalize="characters"
+              spellCheck={false}
+              placeholder={t("discountPlaceholder")}
+              value={discountCode}
+              disabled={place.isPending}
+              aria-invalid={!!discountError}
+              aria-describedby="checkout-discount-help"
+              onChange={(e) => {
+                setDiscountCode(e.target.value.toUpperCase());
+                setDiscountError(null);
+              }}
+            />
+            <p
+              id="checkout-discount-help"
+              className={discountError ? "seller-error" : "seller-hint"}
+              role={discountError ? "alert" : undefined}
+            >
+              {discountError ?? t("discountHelp")}
+            </p>
+          </div>
+          <p className="checkout-note">{t("note")}</p>
           <Button type="submit" className="w-full h-11 mt-4" disabled={place.isPending}>
             <Lock />
-            {place.isPending ? "Placing your order…" : "Place order"}
+            {place.isPending ? t("placing") : t("place")}
           </Button>
         </aside>
       </form>

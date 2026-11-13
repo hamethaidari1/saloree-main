@@ -1,0 +1,78 @@
+{
+  "meta": {
+    "title": "Saloree — 独立店铺，非凡好物",
+    "description": "在 Saloree 发现来自独立店铺的用心好物。家居、时尚、科技和日常必需品，一个共享购物车全搞定。",
+    "ogTitle": "Saloree — 用心好物的世界",
+    "ogDescription": "独立店铺，非凡好物。每天都能发现特别之物。"
+  },
+  "hero": {
+    "imageAlt": "精心布置的家居空间，有舒适的休闲椅、陶瓷花瓶和自然质感的装饰",
+    "eyebrow": "用心好物的世界",
+    "titleLine1": "小店铺。",
+    "titleLine2": "大惊喜。",
+    "text": "遇见你的下一件心头好。在这里发现独立店铺精心挑选的商品，尽在一处。",
+    "cta": "探索精选系列"
+  },
+  "trust": {
+    "storesTitle": "独立店铺",
+    "storesText": "真实的人，出色的商品",
+    "confidenceTitle": "放心购物",
+    "confidenceText": "用心挑选的好物",
+    "cartTitle": "一个共享购物车",
+    "cartText": "所有心头好，尽在一起",
+    "personalTitle": "多一点个性",
+    "personalText": "找到属于你的那一件"
+  },
+  "categories": {
+    "title": "找到你的心头好",
+    "subtitle": "为生活的每个角落带来一点灵感。"
+  },
+  "featured": {
+    "title": "值得一看",
+    "subtitle": "我们的精选好物，你即将爱上的单品。"
+  },
+  "edit": {
+    "eyebrow": "日常精选",
+    "title": "好物，点亮日常。",
+    "text": "自然质感、用心细节，以及带来大不同的小物件。",
+    "cta": "宾至如归"
+  },
+  "fresh": {
+    "title": "新品上架",
+    "subtitle": "别具一格的新品。",
+    "link": "选购新品"
+  },
+  "stores": {
+    "title": "小店铺，大个性。",
+    "subtitle": "认识你喜爱的好物背后的人。"
+  },
+  "discover": {
+    "title": "发现你喜欢的好物",
+    "subtitle": "所有店铺，一个美好的探索之地。",
+    "all": "全部好物",
+    "more": "发现更多好物"
+  },
+  "carousel": {
+    "label": "精选",
+    "roledescription": "轮播",
+    "slide": "幻灯片",
+    "slideLabel": "第 {{number}} 张，共 {{total}} 张",
+    "dot": "第 {{number}} 张幻灯片，共 {{total}} 张",
+    "previous": "上一张",
+    "next": "下一张",
+    "pause": "暂停轮播",
+    "play": "播放轮播"
+  },
+  "slides": {
+    "stores": {
+      "title": "认识店铺背后的人",
+      "text": "每家独立店铺都有自己的故事，尽在一处。",
+      "cta": "发现店铺",
+      "imageAlt": "来自独立店铺的商品卡片（家居厨房、车载风扇、美妆个护），带有“Independent stores”“One shared cart”和“Shop with confidence”字样。"
+    },
+    "promo": {
+      "cta": "选购全部商品",
+      "videoLabel": "短视频：“小店铺。”“大惊喜。”“你喜爱的一切，来自用心制作的人。”“一个共享购物车。”最后显示 Saloree 标志。"
+    }
+  }
+}

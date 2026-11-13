@@ -1,7 +1,9 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { useTranslation } from "react-i18next";
+import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { CART_KEY, normalizeCart, updateCart, type CartItem } from "@/services/cart";
+import { defaultCartStorage, type CartStorage } from "@/lib/cartStorage";
+import { normalizeCart, updateCart, type CartItem } from "@/services/cart";
 import { catalogQuery } from "@/services/catalog";
 interface CartContextValue {
   items: CartItem[];
@@ -12,28 +14,42 @@ interface CartContextValue {
 }
 const CartContext = createContext<CartContextValue | undefined>(undefined);
 export function CartProvider({ children }: { children: ReactNode }) {
+  const { t } = useTranslation("cart");
   const [items, setItems] = useState<CartItem[]>([]);
   const [ready, setReady] = useState(false);
+  const storage = useRef<CartStorage | null>(null);
   // Stored items are validated against live stock, so restore only once the catalog has loaded.
   const { data: catalog } = useQuery(catalogQuery);
   const products = catalog?.products;
+
+  // Restore after hydration (the server never sees the visitor's cart).
   useEffect(() => {
     if (!products || ready) return;
-    try {
-      setItems(normalizeCart(JSON.parse(localStorage.getItem(CART_KEY) ?? "[]"), products));
-    } catch {
-      setItems([]);
-    }
+    storage.current = defaultCartStorage();
+    setItems(normalizeCart(storage.current.load(), products));
     setReady(true);
   }, [products, ready]);
+
+  // The cart is shared with other tabs and store subdomains: re-read it when
+  // this tab comes back, so a stale copy never overwrites newer changes.
   useEffect(() => {
-    if (ready)
-      try {
-        localStorage.setItem(CART_KEY, JSON.stringify(items));
-      } catch {
-        /* Shopping remains available without browser storage. */
-      }
+    if (!ready || !products) return;
+    const reload = () => {
+      if (document.visibilityState !== "visible" || !storage.current) return;
+      setItems(normalizeCart(storage.current.load(), products));
+    };
+    document.addEventListener("visibilitychange", reload);
+    window.addEventListener("focus", reload);
+    return () => {
+      document.removeEventListener("visibilitychange", reload);
+      window.removeEventListener("focus", reload);
+    };
+  }, [ready, products]);
+
+  useEffect(() => {
+    if (ready) storage.current?.save(items);
   }, [items, ready]);
+
   const setQuantity = (id: string, q: number) =>
     setItems((prev) => updateCart(prev, id, q, products ?? []));
   const add = (id: string, q = 1) => {
@@ -45,7 +61,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         products ?? [],
       ),
     );
-    toast.success("Added to your cart");
+    toast.success(t("added"));
   };
   return (
     <CartContext.Provider value={{ items, ready, add, setQuantity, clear: () => setItems([]) }}>

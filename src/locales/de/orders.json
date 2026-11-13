@@ -1,0 +1,58 @@
+{
+  "confirmation": {
+    "metaTitle": "Bestellung bestätigt — Saloree",
+    "notFoundTitle": "Wir konnten diese Bestellung nicht finden",
+    "notFoundText": "Wenn du gerade bestellt hast, sieh unter „Meine Bestellungen“ in deinem Konto nach.",
+    "title": "Danke – deine Bestellung ist aufgegeben",
+    "subtitle": "Du bezahlst bei Lieferung. Jeder Shop bereitet seinen Teil deiner Bestellung vor.",
+    "orderNumber": "Bestellung Nr. {{id}}",
+    "discount": "Rabatt −{{amount}}",
+    "saved": "Du sparst",
+    "totalToPay": "Zu zahlender Betrag",
+    "delivery": "Lieferung",
+    "viewOrders": "Meine Bestellungen ansehen",
+    "keepShopping": "Weiter einkaufen"
+  },
+  "status": {
+    "pending": "Ausstehend",
+    "processing": "In Bearbeitung",
+    "shipped": "Versandt",
+    "delivered": "Zugestellt",
+    "cancelled": "Storniert"
+  },
+  "tracking": {
+    "loading": "Sendungsverfolgung wird geladen",
+    "loadError": "Die Sendungsverfolgung konnte nicht geladen werden.",
+    "cardLabel": "Sendungsverfolgung",
+    "notShipped": "Deine Bestellung wurde noch nicht versandt.",
+    "package": "Paket {{number}}",
+    "carrierFallback": "Versanddienst",
+    "track": "Sendung verfolgen",
+    "newTab": "(öffnet die Website des Versanddienstes in einem neuen Tab)",
+    "noUpdates": "Noch keine Updates.",
+    "carrierUpdate": "Update vom Versanddienst",
+    "progressLabel": "Lieferfortschritt",
+    "stepDone": "(erledigt)",
+    "stepCurrent": "(aktuell)",
+    "steps": {
+      "placed": "Bestellung aufgegeben",
+      "processing": "In Bearbeitung",
+      "shipped": "Versandt",
+      "out_for_delivery": "In Zustellung",
+      "delivered": "Zugestellt"
+    },
+    "shipmentStatus": {
+      "label_created": "Versandetikett erstellt",
+      "in_transit": "Unterwegs",
+      "out_for_delivery": "In Zustellung",
+      "delivered": "Zugestellt",
+      "exception": "Lieferproblem",
+      "returned": "Zurückgesendet"
+    },
+    "alerts": {
+      "exception": "Es gibt ein Problem mit der Lieferung. Der Shop oder der Versanddienst meldet sich bei dir.",
+      "returned": "Diese Sendung wurde an den Shop zurückgeschickt.",
+      "cancelled": "Diese Bestellung wurde storniert."
+    }
+  }
+}

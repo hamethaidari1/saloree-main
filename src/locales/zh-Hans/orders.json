@@ -1,0 +1,58 @@
+{
+  "confirmation": {
+    "metaTitle": "订单已确认 — Saloree",
+    "notFoundTitle": "找不到该订单",
+    "notFoundText": "如果你刚刚下单，请在账号的“我的订单”中查看。",
+    "title": "谢谢！你的订单已提交",
+    "subtitle": "你将在收货时付款。每家店铺会各自准备你订单中的商品。",
+    "orderNumber": "订单号 {{id}}",
+    "discount": "优惠 −{{amount}}",
+    "saved": "已节省",
+    "totalToPay": "应付总额",
+    "delivery": "配送",
+    "viewOrders": "查看我的订单",
+    "keepShopping": "继续购物"
+  },
+  "status": {
+    "pending": "待处理",
+    "processing": "处理中",
+    "shipped": "已发货",
+    "delivered": "已送达",
+    "cancelled": "已取消"
+  },
+  "tracking": {
+    "loading": "正在加载物流信息",
+    "loadError": "无法加载物流信息。",
+    "cardLabel": "物流跟踪",
+    "notShipped": "你的订单尚未发货。",
+    "package": "包裹 {{number}}",
+    "carrierFallback": "承运商",
+    "track": "跟踪你的包裹",
+    "newTab": "（在新标签页中打开承运商网站）",
+    "noUpdates": "暂无更新。",
+    "carrierUpdate": "承运商更新",
+    "progressLabel": "配送进度",
+    "stepDone": "（已完成）",
+    "stepCurrent": "（当前）",
+    "steps": {
+      "placed": "已下单",
+      "processing": "处理中",
+      "shipped": "已发货",
+      "out_for_delivery": "派送中",
+      "delivered": "已送达"
+    },
+    "shipmentStatus": {
+      "label_created": "已创建运单",
+      "in_transit": "运输中",
+      "out_for_delivery": "派送中",
+      "delivered": "已送达",
+      "exception": "配送异常",
+      "returned": "已退回"
+    },
+    "alerts": {
+      "exception": "配送出现问题。店铺或承运商会与你联系。",
+      "returned": "此包裹已退回店铺。",
+      "cancelled": "此订单已取消。"
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "verified": "Loja verificada da Saloree",
+  "homeLink": "Início da {{store}}",
+  "account": "Conta",
+  "signIn": "Entrar",
+  "help": "Ajuda",
+  "poweredBy": "Desenvolvido com <1>Saloree</1>",
+  "copyright": "© {{year}} {{store}}",
+  "notFound": {
+    "title": "Loja não encontrada",
+    "text": "Esta loja não existe ou ainda não está aberta. Você ainda pode comprar nas outras lojas independentes da Saloree.",
+    "link": "Ir para a Saloree"
+  },
+  "stores": {
+    "metaTitle": "Conheça nossas lojas independentes — Saloree",
+    "metaDescription": "Conheça as lojas independentes por trás dos seus achados favoritos da Saloree.",
+    "ogDescription": "Lojas pequenas com grande personalidade. Conheça as pessoas por trás dos seus achados favoritos.",
+    "title": "Lojas pequenas. Grande personalidade.",
+    "subtitle": "Conheça os negócios independentes por trás dos seus achados favoritos.",
+    "crumb": "Nossas lojas"
+  },
+  "page": {
+    "fallbackName": "Loja",
+    "description": "Descubra lojas independentes na Saloree.",
+    "ogDescription": "Compre achados especiais de lojas independentes."
+  },
+  "template": {
+    "featured": "Destaques",
+    "allProducts": "Todos os produtos",
+    "allProductsCount_one": "Todos os produtos ({{count}})",
+    "allProductsCount_many": "Todos os produtos ({{count}})",
+    "allProductsCount_other": "Todos os produtos ({{count}})",
+    "productsFallback": "Produtos",
+    "selectedPieces": "Peças selecionadas",
+    "collection": "A coleção",
+    "deals": "Ofertas",
+    "edit": "A seleção",
+    "topPicks": "Os favoritos",
+    "shopEverything": "Ver tudo",
+    "about": "Sobre",
+    "ourStory": "Nossa história",
+    "aboutStore": "Sobre a {{store}}",
+    "thisIs": "Esta é a {{store}}",
+    "stories": "Histórias",
+    "storyNumber": "Nº {{number}}",
+    "categoryShortcuts": "Atalhos de categorias",
+    "shopByCategory": "Comprar por categoria",
+    "all": "Todos",
+    "empty": "{{store}} ainda não adicionou produtos. Volte em breve.",
+    "outOfStock": "Esgotado",
+    "onlyLeft_one": "Só resta {{count}}",
+    "onlyLeft_many": "Só restam {{count}}",
+    "onlyLeft_other": "Só restam {{count}}",
+    "inStock": "Em estoque",
+    "soldOut": "Esgotado",
+    "addToCart": "Adicionar ao carrinho",
+    "addAria": "Adicionar {{title}} ao carrinho"
+  }
+}

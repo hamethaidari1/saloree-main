@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import type { User } from "@supabase/supabase-js";
@@ -7,21 +8,28 @@ import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { signOut, useAuth } from "@/lib/auth";
 
-/** "Sara" from "Sara Ahmadi", else the email's local part. */
-export function firstName(user: Pick<User, "email" | "user_metadata"> | null) {
-  const full = String(user?.user_metadata?.["full_name"] ?? "").trim();
+/**
+ * "Sara" from "Sara Ahmadi": profiles.full_name first, then the sign-up
+ * metadata, else the email's local part.
+ */
+export function firstName(
+  user: Pick<User, "email" | "user_metadata"> | null,
+  profileName?: string | null,
+) {
+  const full = (profileName ?? String(user?.user_metadata?.["full_name"] ?? "")).trim();
   if (full) return full.split(/\s+/)[0] ?? full;
   return user?.email?.split("@")[0] ?? "";
 }
 
 /** Account links; shared by the header dropdown and the mobile drawer. */
 export function AccountMenuPanel({ onNavigate }: { onNavigate?: () => void }) {
+  const { t } = useTranslation("nav");
   const { user, ready, isSeller, isAdmin } = useAuth();
   const navigate = useNavigate();
 
   if (!ready)
     return (
-      <div aria-busy="true" aria-label="Loading your account">
+      <div aria-busy="true" aria-label={t("account.loading")}>
         <div className="nav-skeleton" />
         <div className="nav-skeleton w-2/3" />
       </div>
@@ -32,51 +40,51 @@ export function AccountMenuPanel({ onNavigate }: { onNavigate?: () => void }) {
       <div className="grid gap-2 text-center">
         <Button asChild className="w-full">
           <Link to="/login" onClick={onNavigate}>
-            Sign in
+            {t("account.signIn")}
           </Link>
         </Button>
         <p className="text-xs text-muted-foreground">
-          New customer?{" "}
+          {t("account.newCustomer")}{" "}
           <Link
             to="/register"
             onClick={onNavigate}
             className="font-semibold text-primary underline-offset-2 hover:underline"
           >
-            Start here
+            {t("account.startHere")}
           </Link>
         </p>
       </div>
     );
 
   return (
-    <nav aria-label="Your account">
+    <nav aria-label={t("account.title")}>
       <ul className="grid gap-0.5">
         <li>
           <Link to="/account" hash="my-orders" className="nav-panel-link" onClick={onNavigate}>
-            My orders
+            {t("account.myOrders")}
           </Link>
         </li>
         <li>
           <span className="nav-panel-link" aria-disabled="true">
-            Wishlist <span className="nav-soon">Coming soon</span>
+            {t("account.wishlist")} <span className="nav-soon">{t("account.comingSoon")}</span>
           </span>
         </li>
         <li>
           <Link to="/account" className="nav-panel-link" onClick={onNavigate}>
-            Account
+            {t("account.account")}
           </Link>
         </li>
         {isSeller && (
           <li>
             <Link to="/seller" className="nav-panel-link" onClick={onNavigate}>
-              My store
+              {t("account.myStore")}
             </Link>
           </li>
         )}
         {isAdmin && (
           <li>
             <Link to="/admin" className="nav-panel-link" onClick={onNavigate}>
-              Admin
+              {t("account.admin")}
             </Link>
           </li>
         )}
@@ -90,11 +98,11 @@ export function AccountMenuPanel({ onNavigate }: { onNavigate?: () => void }) {
                 onNavigate?.();
                 await navigate({ to: "/" });
               } catch {
-                toast.error("Could not sign out. Please try again.");
+                toast.error(t("account.signOutFailed"));
               }
             }}
           >
-            Sign out
+            {t("account.signOut")}
             <LogOut size={15} aria-hidden className="rtl:-scale-x-100" />
           </button>
         </li>
@@ -105,17 +113,24 @@ export function AccountMenuPanel({ onNavigate }: { onNavigate?: () => void }) {
 
 /** Small screens: "Sign in ›" / "Sara ›" next to a person icon. */
 export function MobileAccountLink() {
-  const { user, ready } = useAuth();
-  const name = user ? firstName(user) : "";
+  const { t } = useTranslation("nav");
+  const { user, ready, fullName } = useAuth();
+  const name = user ? firstName(user, fullName) : "";
   return (
     <Link
       to={user ? "/account" : "/login"}
       className="nav-hit"
-      aria-label={!ready ? "Account" : user ? `Your account, ${name}` : "Sign in"}
+      aria-label={
+        !ready
+          ? t("account.account")
+          : user
+            ? t("account.mobileAria", { name })
+            : t("account.signIn")
+      }
     >
       {ready && (
         <span className="flex max-w-28 items-center text-sm">
-          <span className="truncate">{user ? name : "Sign in"}</span>
+          <span className="truncate">{user ? name : t("account.signIn")}</span>
           <ChevronRight size={14} aria-hidden className="shrink-0 rtl:-scale-x-100" />
         </span>
       )}
@@ -126,7 +141,8 @@ export function MobileAccountLink() {
 
 /** "Hello, …" block in the header; opens on hover (mouse) or click/keyboard. */
 export function AccountMenu() {
-  const { user, ready } = useAuth();
+  const { t } = useTranslation("nav");
+  const { user, ready, fullName } = useAuth();
   const [open, setOpen] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const openedByHover = useRef(false);
@@ -147,7 +163,11 @@ export function AccountMenu() {
     setOpen(false);
   };
 
-  const greeting = !ready ? "Hello" : user ? `Hello, ${firstName(user)}` : "Hello, sign in";
+  const greeting = !ready
+    ? t("greeting.loading")
+    : user
+      ? t("greeting.user", { name: firstName(user, fullName) })
+      : t("greeting.guest");
   return (
     <Popover open={open} onOpenChange={(next) => (next ? setOpen(true) : close())}>
       <PopoverTrigger
@@ -164,7 +184,7 @@ export function AccountMenu() {
         <span className="text-start">
           <span className="nav-small">{greeting}</span>
           <span className="nav-strong flex items-center gap-1">
-            Account &amp; Lists <ChevronDown size={14} aria-hidden />
+            {t("accountAndLists")} <ChevronDown size={14} aria-hidden />
           </span>
         </span>
       </PopoverTrigger>
@@ -175,7 +195,7 @@ export function AccountMenu() {
         onPointerLeave={hoverClose}
       >
         <h2 className="mb-2 px-2 text-sm font-semibold">
-          {user ? "Your account" : "Welcome to Saloree"}
+          {user ? t("account.title") : t("account.welcome")}
         </h2>
         <AccountMenuPanel onNavigate={close} />
       </PopoverContent>

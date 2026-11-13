@@ -1,0 +1,58 @@
+{
+  "confirmation": {
+    "metaTitle": "Order confirmed — Saloree",
+    "notFoundTitle": "We couldn't find that order",
+    "notFoundText": "If you just placed it, check My orders in your account.",
+    "title": "Thank you — your order is placed",
+    "subtitle": "You'll pay on delivery. Each store will prepare its part of your order.",
+    "orderNumber": "Order #{{id}}",
+    "discount": "Discount −{{amount}}",
+    "saved": "You saved",
+    "totalToPay": "Total to pay",
+    "delivery": "Delivery",
+    "viewOrders": "View my orders",
+    "keepShopping": "Keep shopping"
+  },
+  "status": {
+    "pending": "Pending",
+    "processing": "Processing",
+    "shipped": "Shipped",
+    "delivered": "Delivered",
+    "cancelled": "Cancelled"
+  },
+  "tracking": {
+    "loading": "Loading tracking",
+    "loadError": "Tracking couldn't be loaded.",
+    "cardLabel": "Delivery tracking",
+    "notShipped": "Your order has not shipped yet.",
+    "package": "Package {{number}}",
+    "carrierFallback": "Carrier",
+    "track": "Track your shipment",
+    "newTab": "(opens the carrier's website in a new tab)",
+    "noUpdates": "No updates yet.",
+    "carrierUpdate": "carrier update",
+    "progressLabel": "Delivery progress",
+    "stepDone": "(done)",
+    "stepCurrent": "(current)",
+    "steps": {
+      "placed": "Order placed",
+      "processing": "Processing",
+      "shipped": "Shipped",
+      "out_for_delivery": "Out for delivery",
+      "delivered": "Delivered"
+    },
+    "shipmentStatus": {
+      "label_created": "Label created",
+      "in_transit": "In transit",
+      "out_for_delivery": "Out for delivery",
+      "delivered": "Delivered",
+      "exception": "Delivery problem",
+      "returned": "Returned"
+    },
+    "alerts": {
+      "exception": "There is a problem with the delivery. The store or carrier will be in touch.",
+      "returned": "This shipment was returned to the store.",
+      "cancelled": "This order was cancelled."
+    }
+  }
+}

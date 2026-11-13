@@ -1,0 +1,46 @@
+{
+  "home": "Inicio",
+  "viewAll": "Ver todo",
+  "tryAgain": "Intentar de nuevo",
+  "goHome": "Ir al inicio",
+  "cancel": "Cancelar",
+  "working": "Procesando…",
+  "pleaseWait": "Espera un momento…",
+  "loadingProducts": "Cargando productos",
+  "exploreProducts": "Explorar productos",
+  "quantity": "Cantidad",
+  "decreaseQuantity": "Reducir cantidad",
+  "increaseQuantity": "Aumentar cantidad",
+  "page": "Página {{page}}",
+  "titleWithSite": "{{title}} — {{site}}",
+  "meta": {
+    "defaultTitle": "Saloree — Hallazgos con encanto",
+    "defaultDescription": "Compra hallazgos extraordinarios de tiendas independientes en Saloree.",
+    "storeDescription": "Compra en {{store}} a través de Saloree.",
+    "storeNotFound": "Tienda no encontrada"
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "text": "La página que buscas no existe o se ha movido."
+  },
+  "error": {
+    "title": "Esta página no se cargó",
+    "text": "Algo salió mal por nuestra parte. Puedes actualizar la página o volver al inicio."
+  },
+  "help": {
+    "metaTitle": "Atención al cliente — Saloree",
+    "metaDescription": "Ayuda con pedidos, cancelaciones, pago contra reembolso y ventas en Saloree.",
+    "title": "Atención al cliente",
+    "subtitle": "Respuestas a las preguntas más frecuentes.",
+    "ordersQ": "¿Dónde están mis pedidos?",
+    "ordersA": "Inicia sesión y abre <1>Mis pedidos</1> para ver cada pedido, su estado y la tienda que lo está preparando.",
+    "cancelQ": "¿Puedo cancelar un pedido?",
+    "cancelA": "Sí, mientras siga <1>pendiente</1>. Usa el botón Cancelar junto al pedido en <3>Mis pedidos</3>. Cuando una tienda empieza a prepararlo, ya no se puede cancelar en línea.",
+    "payQ": "¿Cómo pago?",
+    "payA": "Por ahora Saloree admite el pago contra reembolso: pagas cuando llega tu pedido. Los pagos con tarjeta y HesabPay llegarán pronto.",
+    "splitQ": "Hice un pedido a varias tiendas: ¿por qué hay varios pedidos?",
+    "splitA": "Cada tienda independiente prepara y envía su parte, así que un mismo pago crea un pedido por tienda. La página de confirmación muestra el total de todos ellos.",
+    "sellQ": "¿Cómo vendo en Saloree?",
+    "sellA": "<1>Crea una cuenta de vendedor</1>, configura tu tienda y añade productos. Tu tienda se publica una vez revisada."
+  }
+}

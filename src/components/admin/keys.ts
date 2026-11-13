@@ -8,4 +8,7 @@ export const adminKeys = {
   users: ["admin", "users"] as const,
   orders: ["admin", "orders"] as const,
   settings: ["admin", "settings"] as const,
+  carriers: ["admin", "carriers"] as const,
+  templates: ["admin", "templates"] as const,
+  templateGrants: ["admin", "template-grants"] as const,
 };

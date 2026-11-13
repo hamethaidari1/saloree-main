@@ -1,0 +1,35 @@
+{
+  "metaTitle": "結帳 — Saloree",
+  "yourBag": "你的購物袋",
+  "title": "結帳",
+  "subtitle": "要將你的好物寄到哪裡？",
+  "emptyTitle": "你的購物袋是空的",
+  "emptyText": "先加入喜歡的商品，再回來結帳。",
+  "delivery": "配送資訊",
+  "fields": {
+    "full_name": "姓名",
+    "phone": "電話",
+    "email": "電子郵件",
+    "country": "國家/地區",
+    "city": "城市",
+    "address": "詳細地址",
+    "notes": "配送備註（選填）"
+  },
+  "payment": "付款方式",
+  "methods": {
+    "cod": "貨到付款",
+    "codDescription": "訂單送達時以現金付款。",
+    "stripe": "信用卡（Stripe）",
+    "hesabpay": "HesabPay",
+    "comingSoon": "即將推出"
+  },
+  "yourOrder": "你的訂單",
+  "line": "{{quantity}} × {{title}}",
+  "estimatedTotal": "預估總額",
+  "discount": "折扣碼",
+  "discountPlaceholder": "選填",
+  "discountHelp": "下單時由店家確認，折抵金額會顯示在總額中。",
+  "note": "下單時由 Saloree 確認價格、庫存和運費。來自不同店家的商品會分成不同訂單。",
+  "place": "送出訂單",
+  "placing": "正在送出訂單…"
+}

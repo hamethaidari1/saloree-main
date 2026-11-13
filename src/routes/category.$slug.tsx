@@ -1,4 +1,6 @@
+import { headT } from "@/i18n/head";
 import { createFileRoute, notFound } from "@tanstack/react-router";
+import { storeFromMatches } from "@/lib/store-mode";
 import { Browse } from "@/components/marketplace/browse";
 import { catalogQuery } from "@/services/catalog";
 import { CatalogSkeleton } from "@/components/marketplace/shared";
@@ -9,22 +11,27 @@ export const Route = createFileRoute("/category/$slug")({
     if (!category) throw notFound();
     return category;
   },
-  head: ({ loaderData }) => ({
-    meta: [
-      { title: `${loaderData?.name ?? "Category"} — Saloree` },
-      {
-        name: "description",
-        content: `Discover ${loaderData?.name ?? "thoughtful products"} from independent stores on Saloree.`,
-      },
-      { property: "og:title", content: `${loaderData?.name ?? "Category"} — Saloree` },
-      {
-        property: "og:description",
-        content: "Find your next everyday favorite from an independent store.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: ({ loaderData, matches }) => {
+    const t = headT(matches, "product");
+    const name = loaderData
+      ? headT(matches, "categories")(loaderData.slug, { defaultValue: loaderData.name })
+      : t("meta.categoryFallback");
+    const title = t("titleWithSite", {
+      ns: "common",
+      title: name,
+      site: storeFromMatches(matches)?.name ?? "Saloree",
+    });
+    return {
+      meta: [
+        { title },
+        { name: "description", content: t("meta.categoryDescription", { category: name }) },
+        { property: "og:title", content: title },
+        { property: "og:description", content: t("meta.categoryOgDescription") },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
+      ],
+    };
+  },
   pendingComponent: CatalogSkeleton,
   component: CategoryPage,
 });

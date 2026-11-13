@@ -1,0 +1,58 @@
+{
+  "confirmation": {
+    "metaTitle": "주문 완료 — Saloree",
+    "notFoundTitle": "주문을 찾을 수 없습니다",
+    "notFoundText": "방금 주문하셨다면 계정의 내 주문을 확인하세요.",
+    "title": "감사합니다. 주문이 완료되었습니다",
+    "subtitle": "착불로 결제하시면 됩니다. 각 상점에서 주문 상품을 준비합니다.",
+    "orderNumber": "주문 번호 {{id}}",
+    "discount": "할인 −{{amount}}",
+    "saved": "할인 금액",
+    "totalToPay": "결제할 금액",
+    "delivery": "배송",
+    "viewOrders": "내 주문 보기",
+    "keepShopping": "계속 쇼핑하기"
+  },
+  "status": {
+    "pending": "대기 중",
+    "processing": "처리 중",
+    "shipped": "배송 중",
+    "delivered": "배송 완료",
+    "cancelled": "취소됨"
+  },
+  "tracking": {
+    "loading": "배송 조회를 불러오는 중",
+    "loadError": "배송 조회를 불러오지 못했습니다.",
+    "cardLabel": "배송 조회",
+    "notShipped": "아직 배송되지 않았습니다.",
+    "package": "{{number}}번 소포",
+    "carrierFallback": "택배사",
+    "track": "배송 조회하기",
+    "newTab": "(택배사 웹사이트가 새 탭에서 열림)",
+    "noUpdates": "아직 업데이트가 없습니다.",
+    "carrierUpdate": "택배사 업데이트",
+    "progressLabel": "배송 진행 상황",
+    "stepDone": "(완료)",
+    "stepCurrent": "(현재)",
+    "steps": {
+      "placed": "주문 완료",
+      "processing": "처리 중",
+      "shipped": "발송됨",
+      "out_for_delivery": "배송 출발",
+      "delivered": "배송 완료"
+    },
+    "shipmentStatus": {
+      "label_created": "운송장 생성됨",
+      "in_transit": "배송 중",
+      "out_for_delivery": "배송 출발",
+      "delivered": "배송 완료",
+      "exception": "배송 문제",
+      "returned": "반송됨"
+    },
+    "alerts": {
+      "exception": "배송에 문제가 있습니다. 상점이나 택배사에서 연락드릴 예정입니다.",
+      "returned": "이 배송은 상점으로 반송되었습니다.",
+      "cancelled": "이 주문은 취소되었습니다."
+    }
+  }
+}

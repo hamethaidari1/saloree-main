@@ -1,0 +1,46 @@
+{
+  "home": "Startseite",
+  "viewAll": "Alle ansehen",
+  "tryAgain": "Erneut versuchen",
+  "goHome": "Zur Startseite",
+  "cancel": "Abbrechen",
+  "working": "Wird bearbeitet…",
+  "pleaseWait": "Bitte warten…",
+  "loadingProducts": "Produkte werden geladen",
+  "exploreProducts": "Produkte entdecken",
+  "quantity": "Menge",
+  "decreaseQuantity": "Menge verringern",
+  "increaseQuantity": "Menge erhöhen",
+  "page": "Seite {{page}}",
+  "titleWithSite": "{{title}} — {{site}}",
+  "meta": {
+    "defaultTitle": "Saloree — Durchdachte Fundstücke",
+    "defaultDescription": "Entdecke außergewöhnliche Fundstücke aus unabhängigen Shops auf Saloree.",
+    "storeDescription": "Bei {{store}} auf Saloree einkaufen.",
+    "storeNotFound": "Shop nicht gefunden"
+  },
+  "notFound": {
+    "title": "Seite nicht gefunden",
+    "text": "Die gesuchte Seite existiert nicht oder wurde verschoben."
+  },
+  "error": {
+    "title": "Diese Seite konnte nicht geladen werden",
+    "text": "Bei uns ist etwas schiefgelaufen. Lade die Seite neu oder kehre zur Startseite zurück."
+  },
+  "help": {
+    "metaTitle": "Kundenservice — Saloree",
+    "metaDescription": "Hilfe zu Bestellungen, Stornierungen, Zahlung bei Lieferung und zum Verkaufen auf Saloree.",
+    "title": "Kundenservice",
+    "subtitle": "Antworten auf die häufigsten Fragen.",
+    "ordersQ": "Wo sind meine Bestellungen?",
+    "ordersA": "Melde dich an und öffne <1>Meine Bestellungen</1>, um jede Bestellung, ihren Status und den Shop zu sehen, der sie vorbereitet.",
+    "cancelQ": "Kann ich eine Bestellung stornieren?",
+    "cancelA": "Ja, solange sie noch <1>ausstehend</1> ist. Nutze die Schaltfläche „Stornieren“ neben der Bestellung unter <3>Meine Bestellungen</3>. Sobald ein Shop sie bearbeitet, kann sie nicht mehr online storniert werden.",
+    "payQ": "Wie bezahle ich?",
+    "payA": "Derzeit unterstützt Saloree die Zahlung bei Lieferung: Du bezahlst, wenn deine Bestellung ankommt. Karten- und HesabPay-Zahlungen folgen bald.",
+    "splitQ": "Ich habe bei mehreren Shops bestellt – warum gibt es mehrere Bestellungen?",
+    "splitA": "Jeder unabhängige Shop bereitet seinen Teil selbst vor und versendet ihn. Ein Bezahlvorgang erzeugt daher eine Bestellung pro Shop. Die Bestätigungsseite zeigt die Gesamtsumme aller Bestellungen.",
+    "sellQ": "Wie verkaufe ich auf Saloree?",
+    "sellA": "<1>Erstelle ein Verkäuferkonto</1>, richte deinen Shop ein und füge Produkte hinzu. Dein Shop geht online, sobald er geprüft wurde."
+  }
+}

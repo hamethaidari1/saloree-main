@@ -1,0 +1,35 @@
+{
+  "metaTitle": "תשלום — Saloree",
+  "yourBag": "הסל שלך",
+  "title": "תשלום",
+  "subtitle": "לאן לשלוח את המציאות שלך?",
+  "emptyTitle": "הסל ריק",
+  "emptyText": "אפשר להוסיף משהו שאוהבים ולחזור לתשלום.",
+  "delivery": "פרטי משלוח",
+  "fields": {
+    "full_name": "שם מלא",
+    "phone": "טלפון",
+    "email": "אימייל",
+    "country": "מדינה",
+    "city": "עיר",
+    "address": "כתובת",
+    "notes": "הערות למשלוח (לא חובה)"
+  },
+  "payment": "תשלום",
+  "methods": {
+    "cod": "תשלום במסירה",
+    "codDescription": "תשלום במזומן כשההזמנה מגיעה.",
+    "stripe": "כרטיס אשראי (Stripe)",
+    "hesabpay": "HesabPay",
+    "comingSoon": "בקרוב"
+  },
+  "yourOrder": "ההזמנה שלך",
+  "line": "{{quantity}} × {{title}}",
+  "estimatedTotal": "סכום משוער",
+  "discount": "קוד הנחה",
+  "discountPlaceholder": "לא חובה",
+  "discountHelp": "החנות בודקת את הקוד בעת ביצוע ההזמנה, והחיסכון יופיע בסכום הכולל.",
+  "note": "Saloree מאשרת מחירים, מלאי ומשלוח בעת ביצוע ההזמנה. פריטים מחנויות שונות הופכים להזמנות נפרדות.",
+  "place": "ביצוע הזמנה",
+  "placing": "ההזמנה מתבצעת…"
+}

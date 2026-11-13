@@ -1,5 +1,6 @@
 import { z } from "zod";
 import type { CategoryRow, OrderItemRow, OrderRow, ProductRow, StoreRow } from "@/data/db";
+import { RESERVED_STORE_SLUGS } from "@/lib/host";
 import { supabase } from "@/lib/supabase";
 import { expectRows, friendlyError, NotPermittedError } from "./errors";
 
@@ -62,8 +63,39 @@ const requiredNumber = (schema: z.ZodNumber, message: string) =>
     z.coerce.number({ required_error: message, invalid_type_error: message }).pipe(schema),
   );
 
+/**
+ * Store address = subdomain, so DNS-safe: a-z 0-9 "-", 3–63 chars, no
+ * leading/trailing dash, not reserved. The database enforces the same rules.
+ */
+export const storeSlugSchema = z
+  .string({ required_error: "Choose a store address." })
+  .trim()
+  .toLowerCase()
+  .superRefine((s, ctx) => {
+    const fail = (message: string) => ctx.addIssue({ code: "custom", message });
+    if (!/^[a-z0-9-]*$/.test(s))
+      return fail("Use only lowercase letters (a–z), numbers and dashes.");
+    if (s.startsWith("-") || s.endsWith("-"))
+      return fail("The address can't start or end with a dash.");
+    if (s.length < 3) return fail("Use at least 3 characters.");
+    if (s.length > 63) return fail("Use at most 63 characters.");
+    if ((RESERVED_STORE_SLUGS as readonly string[]).includes(s))
+      return fail("That address is reserved. Choose another.");
+  });
+
+/** A store address suggestion from its name (the seller can edit it). */
+export const toStoreSlug = (name: string) => slugify(name).slice(0, 63).replace(/-+$/, "");
+
+/** Store save errors, including the database's unique and reserved-name checks. */
+export const storeError = (e: unknown) =>
+  friendlyError(e, {
+    "23505": "That store address is already taken. Choose another.",
+    "23514": "That store address isn't allowed (it may be reserved). Choose another.",
+  });
+
 export const storeInputSchema = z.object({
   name: z.string().trim().min(2, "Store name needs at least 2 characters.").max(80),
+  slug: storeSlugSchema,
   description: optionalText(1000),
   category: optionalText(80),
   location: optionalText(160),
@@ -155,7 +187,7 @@ async function removeImages(bucket: string, userId: string, urls: (string | null
  * Picks `base`, `base-2`, `base-3`… among the slugs this user can see. RLS
  * hides other sellers' drafts, so callers also retry on a unique violation.
  */
-async function availableSlug(table: "stores" | "products", base: string, excludeId?: string) {
+async function availableSlug(table: "products", base: string, excludeId?: string) {
   const root = base || "item";
   const { data, error } = await supabase.from(table).select("id, slug").like("slug", `${root}%`);
   if (error) throw error;
@@ -195,6 +227,18 @@ export type ImageItem =
 // Service
 // ---------------------------------------------------------------------------
 export const sellerService = {
+  /**
+   * Uploads a store logo or banner to the seller's own folder
+   * ({user_id}/logos/… or {user_id}/banners/…) and returns its public URL.
+   * Used by the Customize editor before `save_store_appearance`.
+   */
+  uploadStoreImage: async (kind: "logo" | "banner", file: File): Promise<string> => {
+    const userId = await requireUserId();
+    return kind === "logo"
+      ? uploadImage(BUCKETS.logo, userId, ["logos"], file)
+      : uploadImage(BUCKETS.banner, userId, ["banners"], file);
+  },
+
   getCategories: async (): Promise<CategoryRow[]> => {
     const { data, error } = await supabase
       .from("categories")
@@ -232,16 +276,14 @@ export const sellerService = {
         ? await uploadImage(BUCKETS.banner, userId, ["banners"], files.banner)
         : null;
       if (banner_url) uploaded.push({ bucket: BUCKETS.banner, url: banner_url });
-      const slug = await availableSlug("stores", slugify(values.name));
-      return await withSlugRetry(slug, async (s) => {
-        const { data, error } = await supabase
-          .from("stores")
-          .insert({ ...values, slug: s, logo_url, banner_url, owner_id: userId, status: "draft" })
-          .select("*")
-          .single();
-        if (error) throw error;
-        return data as StoreRow;
-      });
+      // The address is the seller's choice; a taken one is reported (23505), not renamed.
+      const { data, error } = await supabase
+        .from("stores")
+        .insert({ ...values, logo_url, banner_url, owner_id: userId, status: "draft" })
+        .select("*")
+        .single();
+      if (error) throw error;
+      return data as StoreRow;
     } catch (e) {
       for (const u of uploaded) await removeImages(u.bucket, userId, [u.url]).catch(() => {});
       throw e;

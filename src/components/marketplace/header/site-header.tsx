@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Menu, Package, ShoppingCart } from "lucide-react";
@@ -10,22 +11,19 @@ import { NavDrawer } from "./nav-drawer";
 import { NavLinkItems, SellLink } from "./nav-links";
 import { SearchBar } from "./search-bar";
 
-function CartLink() {
+export function CartLink() {
+  const { t } = useTranslation("nav");
   const { items } = useCart();
   const count = items.reduce((s, i) => s + i.quantity, 0);
   return (
-    <Link
-      to="/cart"
-      className="nav-hit relative"
-      aria-label={`Cart, ${count} ${count === 1 ? "item" : "items"}`}
-    >
+    <Link to="/cart" className="nav-hit relative" aria-label={t("cartAria", { count })}>
       <ShoppingCart size={26} aria-hidden className="rtl:-scale-x-100" />
       {count > 0 && (
         <span className="nav-cart-badge" aria-hidden>
           {count > 99 ? "99+" : count}
         </span>
       )}
-      <span className="nav-strong hidden self-end pb-1 sm:block">Cart</span>
+      <span className="nav-strong hidden self-end pb-1 sm:block">{t("cart")}</span>
     </Link>
   );
 }
@@ -36,6 +34,7 @@ function CartLink() {
  * search row and a "Deliver to" strip. Categories and language are in the drawer.
  */
 export function SiteHeader() {
+  const { t } = useTranslation("nav");
   const [drawer, setDrawer] = useState(false);
   return (
     <header className="site-header">
@@ -44,7 +43,7 @@ export function SiteHeader() {
           <button
             type="button"
             className="nav-hit"
-            aria-label="Open menu"
+            aria-label={t("openMenu")}
             aria-haspopup="dialog"
             aria-expanded={drawer}
             onClick={() => setDrawer(true)}
@@ -52,7 +51,7 @@ export function SiteHeader() {
             <Menu size={24} aria-hidden />
           </button>
         </div>
-        <Link to="/" aria-label="Saloree home" className="nav-hit shrink-0">
+        <Link to="/" aria-label={t("homeLink")} className="nav-hit shrink-0">
           <span className="nav-logo">
             <Logo onDark />
           </span>
@@ -72,7 +71,7 @@ export function SiteHeader() {
         <div className="hidden lg:block">
           <Link to="/account" hash="my-orders" className="nav-hit">
             <Package size={18} aria-hidden className="mt-2" />
-            <span className="nav-strong">Orders</span>
+            <span className="nav-strong">{t("orders")}</span>
           </Link>
         </div>
         <div className="ms-auto min-w-0 lg:hidden">
@@ -93,7 +92,7 @@ export function SiteHeader() {
         </div>
       </div>
 
-      <nav aria-label="Shop shortcuts" className="nav-sub hidden lg:block">
+      <nav aria-label={t("shortcuts")} className="nav-sub hidden lg:block">
         <div className="market-container flex items-center gap-1 overflow-x-auto">
           <button
             type="button"
@@ -103,7 +102,7 @@ export function SiteHeader() {
             onClick={() => setDrawer(true)}
           >
             <Menu size={18} aria-hidden />
-            All
+            {t("all")}
           </button>
           <NavLinkItems className="nav-hit" />
           <SellLink className="nav-hit ms-auto font-bold" />

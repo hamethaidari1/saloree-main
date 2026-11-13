@@ -1,0 +1,65 @@
+{
+  "generic": "Algo salió mal. Inténtalo de nuevo.",
+  "db": {
+    "permission": "No tienes permiso para hacer eso.",
+    "notReady": "Esta función necesita una actualización de la base de datos que aún no se ha aplicado.",
+    "duplicate": "Eso ya existe.",
+    "inUse": "Este elemento está en uso y no se puede eliminar.",
+    "network": "No pudimos conectar con Saloree. Comprueba tu conexión e inténtalo de nuevo."
+  },
+  "auth": {
+    "invalidCredentials": "El correo electrónico o la contraseña no son correctos.",
+    "emailNotConfirmed": "Primero confirma tu correo electrónico. Busca el enlace en tu bandeja de entrada.",
+    "alreadyRegistered": "Ya existe una cuenta con este correo electrónico. Prueba a iniciar sesión.",
+    "weakPassword": "Elige una contraseña más segura.",
+    "rateLimited": "Demasiados intentos. Espera un momento e inténtalo de nuevo.",
+    "providerDisabled": "El inicio de sesión con Google no está disponible en este momento.",
+    "userDenied": "Cancelaste el inicio de sesión en Google."
+  },
+  "checkout": {
+    "signInAgain": "Vuelve a iniciar sesión para realizar tu pedido.",
+    "discountNotValid": "Este código no se puede usar con los artículos de tu bolsa. Comprueba el código o quítalo para continuar.",
+    "discountFormat": "Eso no parece un código de descuento."
+  },
+  "orders": {
+    "cannotCancel": "Este pedido ya no se puede cancelar."
+  },
+  "tracking": {
+    "notReady": "El seguimiento de envíos aún no está disponible."
+  },
+  "validation": {
+    "full_name": {
+      "required": "Introduce tu nombre completo.",
+      "tooShort": "Tu nombre completo parece demasiado corto.",
+      "tooLong": "Tu nombre completo es demasiado largo."
+    },
+    "phone": {
+      "required": "Introduce tu número de teléfono.",
+      "invalid": "Introduce un número de teléfono válido."
+    },
+    "email": {
+      "required": "Introduce tu correo electrónico.",
+      "invalid": "Introduce un correo electrónico válido.",
+      "tooLong": "Tu correo electrónico es demasiado largo."
+    },
+    "country": {
+      "required": "Introduce tu país.",
+      "tooShort": "El país parece demasiado corto.",
+      "tooLong": "El país es demasiado largo."
+    },
+    "city": {
+      "required": "Introduce tu ciudad.",
+      "tooShort": "La ciudad parece demasiado corta.",
+      "tooLong": "La ciudad es demasiado larga."
+    },
+    "address": {
+      "required": "Introduce tu dirección.",
+      "tooShort": "Tu dirección parece demasiado corta.",
+      "tooLong": "Tu dirección es demasiado larga."
+    },
+    "notes": {
+      "tooLong": "Las notas pueden tener hasta 500 caracteres."
+    },
+    "fallback": "Revisa este campo."
+  }
+}

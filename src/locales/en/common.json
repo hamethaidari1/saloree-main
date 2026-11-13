@@ -1,0 +1,46 @@
+{
+  "home": "Home",
+  "viewAll": "View all",
+  "tryAgain": "Try again",
+  "goHome": "Go home",
+  "cancel": "Cancel",
+  "working": "Working…",
+  "pleaseWait": "Please wait…",
+  "loadingProducts": "Loading products",
+  "exploreProducts": "Explore products",
+  "quantity": "Quantity",
+  "decreaseQuantity": "Decrease quantity",
+  "increaseQuantity": "Increase quantity",
+  "page": "Page {{page}}",
+  "titleWithSite": "{{title}} — {{site}}",
+  "meta": {
+    "defaultTitle": "Saloree — Thoughtful finds",
+    "defaultDescription": "Shop extraordinary finds from independent stores on Saloree.",
+    "storeDescription": "Shop {{store}} on Saloree.",
+    "storeNotFound": "Store not found"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "text": "The page you're looking for doesn't exist or has been moved."
+  },
+  "error": {
+    "title": "This page didn't load",
+    "text": "Something went wrong on our end. You can try refreshing or head back home."
+  },
+  "help": {
+    "metaTitle": "Customer Service — Saloree",
+    "metaDescription": "Help with orders, cancellations, paying on delivery and selling on Saloree.",
+    "title": "Customer Service",
+    "subtitle": "Answers to the questions we hear most.",
+    "ordersQ": "Where are my orders?",
+    "ordersA": "Sign in and open <1>My orders</1> to see every order, its status and the store that's preparing it.",
+    "cancelQ": "Can I cancel an order?",
+    "cancelA": "Yes, while it's still <1>pending</1>. Use the Cancel button next to the order in <3>My orders</3>. Once a store starts processing it, it can no longer be cancelled online.",
+    "payQ": "How do I pay?",
+    "payA": "For now Saloree supports pay on delivery: you pay when your order arrives. Card and HesabPay payments are coming soon.",
+    "splitQ": "I ordered from several stores — why are there several orders?",
+    "splitA": "Each independent store prepares and ships its own part, so one checkout creates one order per store. The confirmation page shows the total for all of them.",
+    "sellQ": "How do I sell on Saloree?",
+    "sellA": "<1>Create a seller account</1>, set up your store and add products. Your store goes live once it's been reviewed."
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "confirmation": {
+    "metaTitle": "訂單已確認 — Saloree",
+    "notFoundTitle": "找不到這筆訂單",
+    "notFoundText": "如果你剛剛下單，請在帳號的「我的訂單」中查看。",
+    "title": "謝謝！你的訂單已送出",
+    "subtitle": "你將在收貨時付款。每家店家會各自準備訂單中的商品。",
+    "orderNumber": "訂單編號 {{id}}",
+    "discount": "折扣 −{{amount}}",
+    "saved": "已省下",
+    "totalToPay": "應付總額",
+    "delivery": "配送",
+    "viewOrders": "查看我的訂單",
+    "keepShopping": "繼續購物"
+  },
+  "status": {
+    "pending": "待處理",
+    "processing": "處理中",
+    "shipped": "已出貨",
+    "delivered": "已送達",
+    "cancelled": "已取消"
+  },
+  "tracking": {
+    "loading": "正在載入物流資訊",
+    "loadError": "無法載入物流資訊。",
+    "cardLabel": "物流追蹤",
+    "notShipped": "你的訂單尚未出貨。",
+    "package": "包裹 {{number}}",
+    "carrierFallback": "物流業者",
+    "track": "追蹤你的包裹",
+    "newTab": "（在新分頁中開啟物流業者網站）",
+    "noUpdates": "尚無更新。",
+    "carrierUpdate": "物流業者更新",
+    "progressLabel": "配送進度",
+    "stepDone": "（已完成）",
+    "stepCurrent": "（目前）",
+    "steps": {
+      "placed": "已下單",
+      "processing": "處理中",
+      "shipped": "已出貨",
+      "out_for_delivery": "配送中",
+      "delivered": "已送達"
+    },
+    "shipmentStatus": {
+      "label_created": "已建立託運單",
+      "in_transit": "運送中",
+      "out_for_delivery": "配送中",
+      "delivered": "已送達",
+      "exception": "配送異常",
+      "returned": "已退回"
+    },
+    "alerts": {
+      "exception": "配送發生問題。店家或物流業者會與你聯絡。",
+      "returned": "此包裹已退回店家。",
+      "cancelled": "此訂單已取消。"
+    }
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "openMenu": "打开菜单",
+  "homeLink": "Saloree 首页",
+  "cart": "购物车",
+  "cartAria_other": "购物车，{{count}} 件商品",
+  "orders": "订单",
+  "all": "全部",
+  "shortcuts": "购物快捷入口",
+  "deals": "优惠",
+  "newArrivals": "新品",
+  "bestsellers": "畅销商品",
+  "ourStores": "我们的店铺",
+  "customerService": "客户服务",
+  "sell": "在 Saloree 开店",
+  "accountAndLists": "账号和清单",
+  "greeting": {
+    "loading": "你好",
+    "user": "你好，{{name}}",
+    "guest": "你好，请登录"
+  },
+  "drawer": {
+    "description": "浏览分类和 Saloree 快捷入口。",
+    "shopByCategory": "按分类选购",
+    "explore": "探索 Saloree",
+    "loadingCategories": "正在加载分类",
+    "categoriesError": "无法加载分类。",
+    "noCategories": "暂无分类。"
+  },
+  "account": {
+    "title": "我的账号",
+    "welcome": "欢迎来到 Saloree",
+    "loading": "正在加载你的账号",
+    "signIn": "登录",
+    "newCustomer": "新顾客？",
+    "startHere": "从这里开始",
+    "myOrders": "我的订单",
+    "wishlist": "心愿单",
+    "comingSoon": "即将推出",
+    "account": "账号",
+    "myStore": "我的店铺",
+    "admin": "管理后台",
+    "signOut": "退出登录",
+    "signOutFailed": "无法退出登录，请重试。",
+    "mobileAria": "我的账号，{{name}}"
+  },
+  "search": {
+    "label": "搜索 Saloree",
+    "category": "在分类中搜索",
+    "all": "全部",
+    "loadingCategories": "正在加载分类…",
+    "unavailable": "分类不可用",
+    "none": "暂无分类",
+    "input": "搜索商品和店铺",
+    "placeholder": "搜索 Saloree",
+    "submit": "搜索"
+  },
+  "deliver": {
+    "label": "配送至",
+    "strip": "配送至<1>{{name}}</1>",
+    "choose": "选择国家/地区",
+    "aria": "配送至{{country}}。更改配送国家/地区",
+    "noneSelected": "未选择国家/地区",
+    "title": "选择配送国家/地区",
+    "hint": "我们会在结账时据此显示配送信息。",
+    "countries": "配送国家/地区",
+    "other": "其他"
+  },
+  "language": {
+    "label": "语言",
+    "trigger": "语言：{{language}}。更改语言",
+    "change": "更改语言",
+    "priceNote": "价格以美元（USD）显示。"
+  }
+}

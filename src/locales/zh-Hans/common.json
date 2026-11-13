@@ -1,0 +1,46 @@
+{
+  "home": "首页",
+  "viewAll": "查看全部",
+  "tryAgain": "重试",
+  "goHome": "返回首页",
+  "cancel": "取消",
+  "working": "处理中…",
+  "pleaseWait": "请稍候…",
+  "loadingProducts": "正在加载商品",
+  "exploreProducts": "浏览商品",
+  "quantity": "数量",
+  "decreaseQuantity": "减少数量",
+  "increaseQuantity": "增加数量",
+  "page": "第 {{page}} 页",
+  "titleWithSite": "{{title}} — {{site}}",
+  "meta": {
+    "defaultTitle": "Saloree — 用心挑选的好物",
+    "defaultDescription": "在 Saloree 选购来自独立店铺的非凡好物。",
+    "storeDescription": "在 Saloree 选购 {{store}} 的商品。",
+    "storeNotFound": "找不到店铺"
+  },
+  "notFound": {
+    "title": "找不到页面",
+    "text": "你要找的页面不存在或已被移动。"
+  },
+  "error": {
+    "title": "页面加载失败",
+    "text": "我们这边出了点问题。你可以刷新页面或返回首页。"
+  },
+  "help": {
+    "metaTitle": "客户服务 — Saloree",
+    "metaDescription": "关于订单、取消、货到付款以及在 Saloree 开店销售的帮助。",
+    "title": "客户服务",
+    "subtitle": "常见问题解答。",
+    "ordersQ": "我的订单在哪里？",
+    "ordersA": "登录后打开<1>我的订单</1>，即可查看每笔订单、订单状态以及正在备货的店铺。",
+    "cancelQ": "我可以取消订单吗？",
+    "cancelA": "可以，只要订单仍处于<1>待处理</1>状态。在<3>我的订单</3>中点击该订单旁的取消按钮即可。店铺开始处理后，就无法再在线取消。",
+    "payQ": "如何付款？",
+    "payA": "目前 Saloree 支持货到付款：订单送达时再付款。银行卡和 HesabPay 付款即将推出。",
+    "splitQ": "我在多家店铺下单——为什么会有多个订单？",
+    "splitA": "每家独立店铺都会自行备货和发货，因此一次结账会为每家店铺各生成一个订单。确认页面会显示所有订单的总金额。",
+    "sellQ": "如何在 Saloree 销售？",
+    "sellA": "<1>创建卖家账号</1>，设置你的店铺并添加商品。店铺审核通过后即会上线。"
+  }
+}

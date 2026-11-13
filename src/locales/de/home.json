@@ -1,0 +1,78 @@
+{
+  "meta": {
+    "title": "Saloree — Unabhängige Shops. Außergewöhnliche Fundstücke.",
+    "description": "Entdecke durchdachte Produkte aus unabhängigen Shops auf Saloree. Wohnen, Mode, Technik und Alltägliches – alles in einem gemeinsamen Warenkorb.",
+    "ogTitle": "Saloree — Eine Welt voller durchdachter Fundstücke",
+    "ogDescription": "Unabhängige Shops, außergewöhnliche Fundstücke. Entdecke jeden Tag etwas Besonderes."
+  },
+  "hero": {
+    "imageAlt": "Liebevoll eingerichtetes Zuhause mit gemütlichem Sessel, Keramikvase und natürlichen Materialien",
+    "eyebrow": "EINE WELT VOLLER DURCHDACHTER FUNDSTÜCKE",
+    "titleLine1": "Kleine Shops.",
+    "titleLine2": "Wunderbare Entdeckungen.",
+    "text": "Finde dein nächstes Lieblingsstück. Entdecke sorgfältig ausgewählte Produkte aus unabhängigen Shops – alles an einem Ort.",
+    "cta": "Kollektion entdecken"
+  },
+  "trust": {
+    "storesTitle": "Unabhängige Shops",
+    "storesText": "Echte Menschen, besondere Produkte",
+    "confidenceTitle": "Sicher einkaufen",
+    "confidenceText": "Sorgfältig ausgewählte Fundstücke",
+    "cartTitle": "Ein gemeinsamer Warenkorb",
+    "cartText": "Alle Lieblingsstücke zusammen",
+    "personalTitle": "Ein bisschen persönlicher",
+    "personalText": "Finde etwas, das zu dir passt"
+  },
+  "categories": {
+    "title": "Finde, was zu dir passt",
+    "subtitle": "Ein wenig Inspiration für jeden Bereich deines Lebens."
+  },
+  "featured": {
+    "title": "Einen zweiten Blick wert",
+    "subtitle": "Unsere Empfehlungen. Deine künftigen Favoriten."
+  },
+  "edit": {
+    "eyebrow": "DIE ALLTAGSAUSWAHL",
+    "title": "Gute Dinge. Für jeden Tag.",
+    "text": "Natürliche Materialien, durchdachte Details und kleine Dinge, die einen großen Unterschied machen.",
+    "cta": "Fühl dich wie zu Hause"
+  },
+  "fresh": {
+    "title": "Frisch eingetroffen",
+    "subtitle": "Neuheiten mit dem gewissen Etwas.",
+    "link": "Neuheiten ansehen"
+  },
+  "stores": {
+    "title": "Kleine Shops. Große Persönlichkeit.",
+    "subtitle": "Lerne die Menschen hinter deinen Lieblingsfundstücken kennen."
+  },
+  "discover": {
+    "title": "Entdecke etwas, das du liebst",
+    "subtitle": "Alle unsere Shops. Ein schöner Ort zum Stöbern.",
+    "all": "Alle Fundstücke",
+    "more": "Mehr Fundstücke entdecken"
+  },
+  "carousel": {
+    "label": "Highlights",
+    "roledescription": "Karussell",
+    "slide": "Folie",
+    "slideLabel": "{{number}} von {{total}}",
+    "dot": "Folie {{number}} von {{total}}",
+    "previous": "Vorherige Folie",
+    "next": "Nächste Folie",
+    "pause": "Diashow pausieren",
+    "play": "Diashow abspielen"
+  },
+  "slides": {
+    "stores": {
+      "title": "Lerne die Menschen hinter den Shops kennen",
+      "text": "Unabhängige Shops, jeder mit seiner eigenen Geschichte – alle an einem Ort.",
+      "cta": "Shops entdecken",
+      "imageAlt": "Produktkarten aus unabhängigen Shops (Haushalt und Küche, ein Autoventilator, Beauty und Pflege) mit den Aufschriften „Independent stores“, „One shared cart“ und „Shop with confidence“."
+    },
+    "promo": {
+      "cta": "Alle Produkte ansehen",
+      "videoLabel": "Kurzes Video: „Kleine Shops.“ „Wunderbare Entdeckungen.“ „Alles, was du liebst – von den Menschen, die es machen.“ „Ein gemeinsamer Warenkorb.“ Es endet mit dem Saloree-Logo."
+    }
+  }
+}

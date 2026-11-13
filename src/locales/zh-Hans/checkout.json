@@ -1,0 +1,35 @@
+{
+  "metaTitle": "结账 — Saloree",
+  "yourBag": "你的购物袋",
+  "title": "结账",
+  "subtitle": "我们要把你的好物送到哪里？",
+  "emptyTitle": "你的购物袋是空的",
+  "emptyText": "先添加喜欢的商品，再回来结账。",
+  "delivery": "配送信息",
+  "fields": {
+    "full_name": "姓名",
+    "phone": "电话",
+    "email": "电子邮箱",
+    "country": "国家/地区",
+    "city": "城市",
+    "address": "详细地址",
+    "notes": "配送备注（选填）"
+  },
+  "payment": "付款方式",
+  "methods": {
+    "cod": "货到付款",
+    "codDescription": "订单送达时以现金付款。",
+    "stripe": "银行卡（Stripe）",
+    "hesabpay": "HesabPay",
+    "comingSoon": "即将推出"
+  },
+  "yourOrder": "你的订单",
+  "line": "{{quantity}} × {{title}}",
+  "estimatedTotal": "预计总额",
+  "discount": "优惠码",
+  "discountPlaceholder": "选填",
+  "discountHelp": "下单时由店铺核验，优惠金额将显示在总额中。",
+  "note": "下单时由 Saloree 确认价格、库存和运费。来自不同店铺的商品将生成独立订单。",
+  "place": "提交订单",
+  "placing": "正在提交订单…"
+}

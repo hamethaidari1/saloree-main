@@ -5,7 +5,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CatalogSkeleton } from "@/components/marketplace/shared";
 import { SignOutButton } from "@/components/marketplace/auth-form";
 import { CategoriesPanel } from "@/components/admin/categories-panel";
+import { CarriersPanel } from "@/components/admin/carriers-panel";
 import { CommissionPanel } from "@/components/admin/commission-panel";
+import { TemplatesPanel } from "@/components/admin/templates-panel";
 import { OrdersPanel } from "@/components/admin/orders-panel";
 import { OverviewPanel } from "@/components/admin/overview-panel";
 import { ProductsPanel } from "@/components/admin/products-panel";
@@ -20,6 +22,8 @@ const TABS = [
   ["categories", "Categories"],
   ["users", "Users"],
   ["orders", "Orders"],
+  ["carriers", "Carriers"],
+  ["templates", "Templates"],
   ["commission", "Commission"],
 ] as const;
 type Tab = (typeof TABS)[number][0];
@@ -105,6 +109,12 @@ function AdminPanel({ email }: { email: string }) {
         </TabsContent>
         <TabsContent value="orders" className="mt-6">
           <OrdersPanel />
+        </TabsContent>
+        <TabsContent value="carriers" className="mt-6">
+          <CarriersPanel />
+        </TabsContent>
+        <TabsContent value="templates" className="mt-6">
+          <TemplatesPanel />
         </TabsContent>
         <TabsContent value="commission" className="mt-6">
           <CommissionPanel />

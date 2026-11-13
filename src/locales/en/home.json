@@ -1,0 +1,78 @@
+{
+  "meta": {
+    "title": "Saloree — Independent stores. Extraordinary finds.",
+    "description": "Discover thoughtful products from independent stores on Saloree. Shop home, fashion, technology, and everyday essentials in one shared cart.",
+    "ogTitle": "Saloree — A world of thoughtful finds",
+    "ogDescription": "Independent stores, extraordinary finds. Discover something special for every day."
+  },
+  "hero": {
+    "imageAlt": "Thoughtfully styled home with a cozy lounge chair, ceramic vase, and natural textures",
+    "eyebrow": "A WORLD OF THOUGHTFUL FINDS",
+    "titleLine1": "Small stores.",
+    "titleLine2": "Wonderful discoveries.",
+    "text": "Meet your next favorite thing. Discover beautifully chosen products from independent stores, all in one place.",
+    "cta": "Explore the collection"
+  },
+  "trust": {
+    "storesTitle": "Independent stores",
+    "storesText": "Real people, remarkable products",
+    "confidenceTitle": "Shop with confidence",
+    "confidenceText": "Thoughtfully selected finds",
+    "cartTitle": "One shared cart",
+    "cartText": "All your favorites, together",
+    "personalTitle": "A little more personal",
+    "personalText": "Find something that feels like you"
+  },
+  "categories": {
+    "title": "Find your kind of thing",
+    "subtitle": "A little inspiration for every corner of your life."
+  },
+  "featured": {
+    "title": "Worth a closer look",
+    "subtitle": "Our featured finds. Your soon-to-be favorites."
+  },
+  "edit": {
+    "eyebrow": "THE EVERYDAY EDIT",
+    "title": "Good things. Everyday living.",
+    "text": "Natural textures, thoughtful details, and little things that make a big difference.",
+    "cta": "Make yourself at home"
+  },
+  "fresh": {
+    "title": "Fresh on the shelves",
+    "subtitle": "New arrivals with a little extra something.",
+    "link": "Shop new arrivals"
+  },
+  "stores": {
+    "title": "Small stores. Big personality.",
+    "subtitle": "Get to know the people behind your favorite finds."
+  },
+  "discover": {
+    "title": "Discover something you love",
+    "subtitle": "All our stores. One lovely place to explore.",
+    "all": "All finds",
+    "more": "Discover more finds"
+  },
+  "carousel": {
+    "label": "Highlights",
+    "roledescription": "carousel",
+    "slide": "slide",
+    "slideLabel": "{{number}} of {{total}}",
+    "dot": "Slide {{number}} of {{total}}",
+    "previous": "Previous slide",
+    "next": "Next slide",
+    "pause": "Pause slideshow",
+    "play": "Play slideshow"
+  },
+  "slides": {
+    "stores": {
+      "title": "Meet the people behind the stores",
+      "text": "Independent shops, each with its own story, all in one place.",
+      "cta": "Discover stores",
+      "imageAlt": "Product cards from independent stores (home and kitchen, a car fan, beauty and self-care) with the labels “Independent stores”, “One shared cart” and “Shop with confidence”."
+    },
+    "promo": {
+      "cta": "Shop all products",
+      "videoLabel": "Short video: “Small stores.” “Wonderful discoveries.” “Everything you love, from people who make it.” “One shared cart.” It ends with the Saloree logo."
+    }
+  }
+}

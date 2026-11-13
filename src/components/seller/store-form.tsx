@@ -4,7 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import type { StoreRow } from "@/data/db";
-import { slugify, storeInputSchema, type StoreInput } from "@/services/seller";
+import { hostConfig, storePublicAddress } from "@/lib/host";
+import { storeInputSchema, storeSlugSchema, toStoreSlug, type StoreInput } from "@/services/seller";
 import { SingleImageField } from "./image-fields";
 
 export type StoreFiles = { logo: File | null; banner: File | null };
@@ -24,10 +25,13 @@ export function StoreForm({
 }) {
   const [values, setValues] = useState<Required<StoreInput>>({
     name: store?.name ?? "",
+    slug: store?.slug ?? "",
     description: store?.description ?? "",
     category: store?.category ?? "",
     location: store?.location ?? "",
   });
+  // New stores: the address follows the name until the seller edits it.
+  const [slugEdited, setSlugEdited] = useState(!!store);
   const [files, setFiles] = useState<StoreFiles>({ logo: null, banner: null });
   const [errors, setErrors] = useState<Partial<Record<keyof StoreInput, string>>>({});
   const set = (key: keyof StoreInput) => (value: string) =>
@@ -35,7 +39,10 @@ export function StoreForm({
   const options = [
     ...new Set([...categoryNames, "Other", ...(store?.category ? [store.category] : [])]),
   ];
-  const slug = slugify(values.name);
+  const slugCheck = storeSlugSchema.safeParse(values.slug);
+  const preview = values.slug ? storePublicAddress(values.slug) : null;
+  const { rootDomain } = hostConfig();
+  const addressChanged = !!store && values.slug !== store.slug;
 
   return (
     <form
@@ -63,20 +70,65 @@ export function StoreForm({
         <Input
           id="store-name"
           value={values.name}
-          onChange={(e) => set("name")(e.target.value)}
+          onChange={(e) => {
+            const name = e.target.value;
+            setValues((v) => ({ ...v, name, ...(slugEdited ? {} : { slug: toStoreSlug(name) }) }));
+          }}
           aria-invalid={!!errors.name}
-          aria-describedby="store-name-hint"
+          aria-describedby={errors.name ? "store-name-error" : undefined}
           maxLength={80}
           required
         />
-        <p id="store-name-hint" className={errors.name ? "seller-error" : "seller-hint"}>
-          {errors.name ??
-            (store
-              ? `Store address: /store/${store.slug}`
-              : slug
-                ? `Store address: /store/${slug} (a number is added if it's taken)`
-                : "Your store address is created from the name.")}
-        </p>
+        {errors.name && (
+          <p id="store-name-error" className="seller-error">
+            {errors.name}
+          </p>
+        )}
+      </div>
+      <div className="seller-field">
+        <Label htmlFor="store-slug">Store address</Label>
+        <div className="store-slug-input">
+          <Input
+            id="store-slug"
+            value={values.slug}
+            inputMode="url"
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck={false}
+            maxLength={63}
+            aria-invalid={!!errors.slug || (!!values.slug && !slugCheck.success)}
+            aria-describedby="store-slug-help"
+            onChange={(e) => {
+              setSlugEdited(true);
+              // Lowercase as they type; spaces become dashes; anything else is dropped.
+              set("slug")(
+                e.target.value
+                  .toLowerCase()
+                  .replace(/\s+/g, "-")
+                  .replace(/[^a-z0-9-]/g, ""),
+              );
+            }}
+          />
+          {rootDomain && <span className="store-slug-suffix">.{rootDomain}</span>}
+        </div>
+        <div id="store-slug-help" className="grid gap-1">
+          {errors.slug ? (
+            <p className="seller-error">{errors.slug}</p>
+          ) : values.slug && !slugCheck.success ? (
+            <p className="seller-error">{slugCheck.error.issues[0]?.message}</p>
+          ) : (
+            preview && (
+              <p className="seller-hint">
+                Your store will be at <strong className="break-all">{preview}</strong>
+              </p>
+            )
+          )}
+          {addressChanged && (
+            <p className="seller-warning" role="note">
+              Changing this changes your store's address. Links to {store?.slug} will stop working.
+            </p>
+          )}
+        </div>
       </div>
       <div className="seller-field">
         <Label htmlFor="store-description">Description</Label>

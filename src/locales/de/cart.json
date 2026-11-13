@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "title": "Deine Einkaufstasche — Saloree",
+    "description": "Deine Lieblingsfundstücke von Saloree in einem gemeinsamen Warenkorb, nach unabhängigem Shop gruppiert.",
+    "ogDescription": "Alle deine Lieblingsfundstücke. Eine gemeinsame Einkaufstasche."
+  },
+  "title": "Deine Einkaufstasche",
+  "subtitle": "Ein paar schöne Fundstücke, alle an einem Ort.",
+  "emptyTitle": "Schöne Dinge warten auf dich",
+  "emptyText": "Deine Tasche ist leer. Lass uns etwas finden, das du liebst.",
+  "each": "je {{price}}",
+  "remove": "{{title}} entfernen",
+  "removeTitle": "Artikel entfernen",
+  "removed": "Aus deiner Tasche entfernt",
+  "added": "Zum Warenkorb hinzugefügt",
+  "continue": "Weiter stöbern",
+  "summary": "Bestellübersicht",
+  "subtotalItems_one": "Zwischensumme ({{count}} Artikel)",
+  "subtotalItems_other": "Zwischensumme ({{count}} Artikel)",
+  "shipping": "Versand",
+  "shippingLater": "Wird an der Kasse berechnet",
+  "subtotal": "Zwischensumme",
+  "toCheckout": "Weiter zur Kasse",
+  "note": "Zahlung bei Lieferung. Die endgültigen Preise werden bei der Bestellung bestätigt.",
+  "trust": "Unabhängige Shops. Eine gemeinsame Tasche."
+}

@@ -1,0 +1,76 @@
+{
+  "openMenu": "פתיחת התפריט",
+  "homeLink": "דף הבית של Saloree",
+  "cart": "עגלה",
+  "cartAria_one": "עגלה, פריט אחד",
+  "cartAria_two": "עגלה, שני פריטים",
+  "cartAria_other": "עגלה, {{count}} פריטים",
+  "orders": "הזמנות",
+  "all": "הכול",
+  "shortcuts": "קיצורי דרך לקניות",
+  "deals": "מבצעים",
+  "newArrivals": "חדש באתר",
+  "bestsellers": "רבי מכר",
+  "ourStores": "החנויות שלנו",
+  "customerService": "שירות לקוחות",
+  "sell": "למכור ב-Saloree",
+  "accountAndLists": "חשבון ורשימות",
+  "greeting": {
+    "loading": "שלום",
+    "user": "שלום, {{name}}",
+    "guest": "שלום, התחברות"
+  },
+  "drawer": {
+    "description": "עיון בקטגוריות ובקיצורי הדרך של Saloree.",
+    "shopByCategory": "קניות לפי קטגוריה",
+    "explore": "לגלות את Saloree",
+    "loadingCategories": "הקטגוריות נטענות",
+    "categoriesError": "לא ניתן היה לטעון את הקטגוריות.",
+    "noCategories": "עדיין אין קטגוריות."
+  },
+  "account": {
+    "title": "החשבון שלך",
+    "welcome": "ברוכים הבאים ל-Saloree",
+    "loading": "החשבון שלך נטען",
+    "signIn": "התחברות",
+    "newCustomer": "לקוחות חדשים?",
+    "startHere": "מתחילים כאן",
+    "myOrders": "ההזמנות שלי",
+    "wishlist": "רשימת משאלות",
+    "comingSoon": "בקרוב",
+    "account": "חשבון",
+    "myStore": "החנות שלי",
+    "admin": "ניהול",
+    "signOut": "התנתקות",
+    "signOutFailed": "לא ניתן היה להתנתק. כדאי לנסות שוב.",
+    "mobileAria": "החשבון שלך, {{name}}"
+  },
+  "search": {
+    "label": "חיפוש ב-Saloree",
+    "category": "חיפוש בקטגוריה",
+    "all": "הכול",
+    "loadingCategories": "הקטגוריות נטענות…",
+    "unavailable": "הקטגוריות לא זמינות",
+    "none": "עדיין אין קטגוריות",
+    "input": "חיפוש מוצרים וחנויות",
+    "placeholder": "חיפוש ב-Saloree",
+    "submit": "חיפוש"
+  },
+  "deliver": {
+    "label": "משלוח אל",
+    "strip": "משלוח אל <1>{{name}}</1>",
+    "choose": "בחירת מדינה",
+    "aria": "משלוח אל {{country}}. שינוי מדינת המשלוח",
+    "noneSelected": "לא נבחרה מדינה",
+    "title": "בחירת מדינת המשלוח",
+    "hint": "נשתמש בה כדי להציג את פרטי המשלוח בתשלום.",
+    "countries": "מדינות משלוח",
+    "other": "אחר"
+  },
+  "language": {
+    "label": "שפה",
+    "trigger": "שפה: {{language}}. שינוי השפה",
+    "change": "שינוי השפה",
+    "priceNote": "המחירים מוצגים בדולר אמריקאי (USD)."
+  }
+}

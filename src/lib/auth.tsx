@@ -3,6 +3,7 @@ import { redirect } from "@tanstack/react-router";
 import type { User } from "@supabase/supabase-js";
 import type { AppRole } from "@/data/db";
 import { supabase } from "@/lib/supabase";
+import { safeReturnTo } from "@/lib/redirects";
 
 export type SignupRole = "customer" | "seller";
 
@@ -23,9 +24,7 @@ export async function getAuthState(): Promise<{ user: User | null; roles: AppRol
 
 /** Only same-origin paths, so ?redirect= cannot send users to another site. */
 export function safeRedirect(value: unknown, fallback = "/") {
-  return typeof value === "string" && value.startsWith("/") && !value.startsWith("//")
-    ? value
-    : fallback;
+  return safeReturnTo(value) ?? fallback;
 }
 
 export type Access = "allowed" | "login" | "forbidden";
@@ -99,9 +98,23 @@ export async function signOut() {
   if (error) throw error;
 }
 
+/** profiles.full_name (RLS: own row). null if empty or unreadable. */
+export async function fetchProfileName(userId: string): Promise<string | null> {
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("full_name")
+    .eq("id", userId)
+    .maybeSingle();
+  if (error) throw error;
+  const name = (data as { full_name: string | null } | null)?.full_name?.trim();
+  return name || null;
+}
+
 interface AuthContextValue {
   user: User | null;
   roles: AppRole[];
+  /** From profiles.full_name (also filled for Google sign-ins). */
+  fullName: string | null;
   ready: boolean;
   isSeller: boolean;
   isAdmin: boolean;
@@ -109,6 +122,7 @@ interface AuthContextValue {
 const AuthContext = createContext<AuthContextValue>({
   user: null,
   roles: [],
+  fullName: null,
   ready: false,
   isSeller: false,
   isAdmin: false,
@@ -117,6 +131,7 @@ const AuthContext = createContext<AuthContextValue>({
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [roles, setRoles] = useState<AppRole[]>([]);
+  const [fullName, setFullName] = useState<string | null>(null);
   const [ready, setReady] = useState(false);
   const userId = user?.id;
 
@@ -130,6 +145,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(session?.user ?? null);
       if (!session) {
         setRoles([]);
+        setFullName(null);
         setReady(true);
       }
     });
@@ -139,13 +155,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!userId) return;
     let cancelled = false;
-    fetchRoles(userId)
-      .catch(() => [] as AppRole[])
-      .then((r) => {
-        if (cancelled) return;
-        setRoles(r);
-        setReady(true);
-      });
+    Promise.all([
+      fetchRoles(userId).catch(() => [] as AppRole[]),
+      fetchProfileName(userId).catch(() => null),
+    ]).then(([r, name]) => {
+      if (cancelled) return;
+      setRoles(r);
+      setFullName(name);
+      setReady(true);
+    });
     return () => {
       cancelled = true;
     };
@@ -156,6 +174,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       value={{
         user,
         roles,
+        fullName,
         ready,
         isSeller: roles.includes("seller"),
         isAdmin: roles.includes("admin"),

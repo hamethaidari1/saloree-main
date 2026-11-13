@@ -1,0 +1,74 @@
+{
+  "openMenu": "메뉴 열기",
+  "homeLink": "Saloree 홈",
+  "cart": "장바구니",
+  "cartAria_other": "장바구니, 상품 {{count}}개",
+  "orders": "주문",
+  "all": "전체",
+  "shortcuts": "쇼핑 바로가기",
+  "deals": "특가",
+  "newArrivals": "신상품",
+  "bestsellers": "베스트셀러",
+  "ourStores": "입점 상점",
+  "customerService": "고객 서비스",
+  "sell": "Saloree에서 판매하기",
+  "accountAndLists": "계정 및 목록",
+  "greeting": {
+    "loading": "안녕하세요",
+    "user": "안녕하세요, {{name}}님",
+    "guest": "안녕하세요, 로그인하세요"
+  },
+  "drawer": {
+    "description": "카테고리와 Saloree 바로가기를 둘러보세요.",
+    "shopByCategory": "카테고리별 쇼핑",
+    "explore": "Saloree 둘러보기",
+    "loadingCategories": "카테고리를 불러오는 중",
+    "categoriesError": "카테고리를 불러오지 못했습니다.",
+    "noCategories": "아직 카테고리가 없습니다."
+  },
+  "account": {
+    "title": "내 계정",
+    "welcome": "Saloree에 오신 것을 환영합니다",
+    "loading": "계정을 불러오는 중",
+    "signIn": "로그인",
+    "newCustomer": "처음 오셨나요?",
+    "startHere": "여기서 시작하기",
+    "myOrders": "내 주문",
+    "wishlist": "위시리스트",
+    "comingSoon": "준비 중",
+    "account": "계정",
+    "myStore": "내 상점",
+    "admin": "관리자",
+    "signOut": "로그아웃",
+    "signOutFailed": "로그아웃하지 못했습니다. 다시 시도해 주세요.",
+    "mobileAria": "내 계정, {{name}}님"
+  },
+  "search": {
+    "label": "Saloree 검색",
+    "category": "카테고리에서 검색",
+    "all": "전체",
+    "loadingCategories": "카테고리를 불러오는 중…",
+    "unavailable": "카테고리를 사용할 수 없음",
+    "none": "아직 카테고리가 없음",
+    "input": "상품 및 상점 검색",
+    "placeholder": "Saloree 검색",
+    "submit": "검색"
+  },
+  "deliver": {
+    "label": "배송지",
+    "strip": "배송지: <1>{{name}}</1>",
+    "choose": "국가 선택",
+    "aria": "배송지 {{country}}. 배송 국가 변경",
+    "noneSelected": "선택한 국가 없음",
+    "title": "배송 국가를 선택하세요",
+    "hint": "결제 시 배송 정보를 보여 드리는 데 사용됩니다.",
+    "countries": "배송 국가",
+    "other": "기타"
+  },
+  "language": {
+    "label": "언어",
+    "trigger": "언어: {{language}}. 언어 변경",
+    "change": "언어 변경",
+    "priceNote": "가격은 미국 달러(USD)로 표시됩니다."
+  }
+}
