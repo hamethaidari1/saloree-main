@@ -6,7 +6,8 @@ import { ChevronRight, ArrowRight, Truck, ShieldCheck, ShoppingBag } from "lucid
 import { WishlistButton } from "@/components/marketplace/wishlist-button";
 import { Button } from "@/components/ui/button";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { catalogQuery, catalogService } from "@/services/catalog";
+import { catalogQuery, catalogService, imagesOf } from "@/services/catalog";
+import { ProductGallery } from "@/components/marketplace/product-gallery";
 import { useFormat } from "@/i18n/hooks";
 import { useCart } from "@/components/marketplace/cart-context";
 import { StoreAddressLink, StoreLink } from "@/components/marketplace/store-link";
@@ -63,7 +64,6 @@ function ProductDetail({ product: p }: { product: import("@/data/catalog").Produ
   const store = stores.find((s) => s.slug === p.storeSlug);
   const storeSlug = useStoreSlug();
   const [quantity, setQuantity] = useState(1);
-  const [view, setView] = useState("full");
   const { add } = useCart();
   const related = products
     .filter(
@@ -82,38 +82,7 @@ function ProductDetail({ product: p }: { product: import("@/data/catalog").Produ
         <span>{p.title}</span>
       </div>
       <section className="product-detail">
-        <div>
-          <div className="detail-photo">
-            <img
-              src={p.image}
-              alt={view === "detail" ? t("detailImageAlt", { title: p.title }) : p.title}
-              width="384"
-              height="512"
-              className={view === "detail" ? "scale-125" : ""}
-              fetchPriority="high"
-            />
-          </div>
-          <div className="detail-thumbnails">
-            {["full", "detail"].map((v) => (
-              <Button
-                key={v}
-                variant="outline"
-                aria-label={v === "full" ? t("fullView") : t("detailView")}
-                aria-pressed={view === v}
-                onClick={() => setView(v)}
-                className={view === v ? "border-primary" : ""}
-              >
-                <img
-                  src={p.image}
-                  alt={v === "full" ? t("fullViewAlt") : t("detailAlt")}
-                  className={v === "detail" ? "scale-150" : ""}
-                  width="72"
-                  height="72"
-                />
-              </Button>
-            ))}
-          </div>
-        </div>
+        <ProductGallery title={p.title} images={imagesOf(p)} />
         <div className="detail-copy">
           <StoreLink slug={p.storeSlug} className="text-xs text-primary">
             {store?.name}

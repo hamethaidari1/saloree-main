@@ -38,12 +38,34 @@ export function initialsFor(name: string) {
   return letters.toLowerCase();
 }
 
+/**
+ * All of a product's photos: `featured_image` first, then `product_images` in
+ * sort_order, each URL once (the first gallery row is usually the featured
+ * file itself), blanks dropped.
+ */
+export function productImageList(
+  featured: string | null | undefined,
+  rows: { image_url: string; sort_order: number | null }[] | null | undefined,
+): string[] {
+  const ordered = [...(rows ?? [])]
+    .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0))
+    .map((r) => r.image_url);
+  const out: string[] = [];
+  for (const url of [featured, ...ordered]) {
+    const u = url?.trim();
+    if (u && !out.includes(u)) out.push(u);
+  }
+  return out;
+}
+
+/** The photos to show for a product (falls back to the single main image). */
+export const imagesOf = (p: Pick<Product, "image" | "images">) =>
+  p.images?.length ? p.images : [p.image];
+
 export function toProduct(row: ProductQueryRow): Product {
   const price = Number(row.price);
   const compare = row.compare_price == null ? undefined : Number(row.compare_price);
-  const firstImage = [...(row.product_images ?? [])].sort(
-    (a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0),
-  )[0]?.image_url;
+  const images = productImageList(row.featured_image, row.product_images);
   const onSale = compare !== undefined && compare > price;
   return {
     id: row.id,
@@ -54,7 +76,8 @@ export function toProduct(row: ProductQueryRow): Product {
     reviews: 0,
     storeSlug: row.stores?.slug ?? "",
     category: row.categories?.slug ?? "",
-    image: row.featured_image || firstImage || PLACEHOLDER_IMAGE,
+    image: images[0] ?? PLACEHOLDER_IMAGE,
+    images: images.length ? images : [PLACEHOLDER_IMAGE],
     stock: Math.max(0, row.stock ?? 0),
     description: row.description ?? "",
     createdAt: Date.parse(row.created_at),

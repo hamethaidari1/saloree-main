@@ -1,10 +1,5 @@
 {
   "allProducts": "全部商品",
-  "fullView": "商品全图",
-  "detailView": "商品细节图",
-  "fullViewAlt": "全图",
-  "detailAlt": "细节",
-  "detailImageAlt": "{{title}} 细节",
   "inStock_other": "有货 · 剩余 {{count}} 件",
   "outOfStock": "缺货",
   "addToCart": "加入购物车",
@@ -93,5 +88,10 @@
       "generic": "出了点问题，请重试。"
     },
     "countAria_other": "已收藏 {{count}} 件商品"
+  },
+  "gallery": {
+    "label": "商品图片",
+    "show": "查看第 {{n}} 张（共 {{count}} 张）",
+    "imageAlt": "{{title}}，第 {{n}} 张（共 {{count}} 张）"
   }
 }

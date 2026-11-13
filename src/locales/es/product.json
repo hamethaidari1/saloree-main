@@ -1,10 +1,5 @@
 {
   "allProducts": "Todos los productos",
-  "fullView": "Vista completa del producto",
-  "detailView": "Vista de detalle del producto",
-  "fullViewAlt": "Vista completa",
-  "detailAlt": "Detalle",
-  "detailImageAlt": "Detalle de {{title}}",
   "inStock_one": "En stock · {{count}} disponible",
   "inStock_many": "En stock · {{count}} de unidades disponibles",
   "inStock_other": "En stock · {{count}} disponibles",
@@ -99,5 +94,10 @@
     "countAria_one": "{{count}} producto guardado",
     "countAria_many": "{{count}} productos guardados",
     "countAria_other": "{{count}} productos guardados"
+  },
+  "gallery": {
+    "label": "Fotos del producto",
+    "show": "Ver foto {{n}} de {{count}}",
+    "imageAlt": "{{title}}, foto {{n}} de {{count}}"
   }
 }

@@ -1742,117 +1742,171 @@
     }
   }
 
-  /* ---- Import dialog (tokens only; logical properties) ---- */
-  .import-body {
+  /* ---- "Add tracking numbers" dialog (tokens only; logical properties) ---- */
+  .bulk-dialog {
+    max-block-size: calc(100svh - 32px);
+    overflow-y: auto;
+  }
+  .bulk-body {
     display: grid;
-    gap: 20px;
+    gap: 16px;
     min-inline-size: 0;
   }
-  .drop-zone {
+  .bulk-tools {
     display: grid;
-    justify-items: center;
-    gap: 4px;
-    padding: 24px 16px;
-    border: 2px dashed var(--input);
-    border-radius: var(--radius);
-    background: var(--muted);
-    color: var(--foreground);
-    text-align: center;
-    cursor: pointer;
-    transition:
-      border-color 0.15s,
-      background-color 0.15s;
-  }
-  .drop-zone:hover,
-  .drop-zone[data-dragging] {
-    border-color: var(--primary);
-    background: var(--secondary);
-  }
-  /* The real <input> is visually hidden inside the label: show its focus on the zone. */
-  .drop-zone:focus-within {
-    outline: 2px solid var(--ring);
-    outline-offset: 2px;
-  }
-  .drop-zone-icon {
-    inline-size: 28px;
-    block-size: 28px;
-    color: var(--primary);
-  }
-  .drop-zone-title {
-    font-size: 14px;
-    font-weight: 600;
-  }
-  .drop-zone-sub {
-    font-size: 12px;
-    font-weight: 400;
-    color: var(--muted-foreground);
-  }
-  .file-chip {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    min-inline-size: 0;
-    padding-block: 6px;
-    padding-inline: 12px 6px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: var(--card);
-    font-size: 14px;
-  }
-  .import-meta {
-    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
     gap: 12px;
   }
-  .import-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    color: var(--primary);
-    font-weight: 600;
-    text-decoration: underline;
-    text-underline-offset: 2px;
-    border-radius: 4px;
+  .bulk-tools .seller-select,
+  .bulk-input {
+    min-block-size: 44px;
   }
-  .import-link:focus-visible {
-    outline: 2px solid var(--ring);
-    outline-offset: 2px;
-  }
-  .import-code {
-    padding: 1px 4px;
-    border-radius: 4px;
-    background: var(--muted);
-    color: var(--foreground);
-    font-size: 12px;
-    word-break: break-all;
-  }
-  .code-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-  .code-chips > li {
-    padding: 2px 8px;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    background: var(--secondary);
-    color: var(--secondary-foreground);
-    font-family: ui-monospace, monospace;
-    font-size: 12px;
-  }
-  .import-table {
-    max-block-size: 18rem;
+  .bulk-table-wrap {
+    max-block-size: 24rem;
     overflow: auto;
     border: 1px solid var(--border);
     border-radius: var(--radius);
   }
-  .import-table .seller-table th,
-  .import-table .seller-table td {
+  .bulk-table th,
+  .bulk-table td {
     padding: 8px 10px;
+    vertical-align: top;
+  }
+  .bulk-table td:nth-child(-n + 5) {
+    padding-block-start: 18px; /* line up with the inputs */
     white-space: nowrap;
   }
-  .import-table .seller-table td:last-child {
+  .bulk-table td:nth-child(6) {
+    min-inline-size: 10rem;
+  }
+  .bulk-table td:nth-child(7) {
+    min-inline-size: 13rem;
+  }
+  .bulk-table .seller-error {
+    margin-block-start: 4px;
     white-space: normal;
-    min-inline-size: 12rem;
+  }
+  .bulk-status {
+    padding: 10px 12px;
+    border-radius: var(--radius);
+    background: var(--secondary);
+    color: var(--secondary-foreground);
+    font-size: 14px;
+  }
+  .bulk-status[data-failed] {
+    border: 1px solid var(--destructive);
+    background: var(--card);
+    color: var(--foreground);
+  }
+  .bulk-empty {
+    padding-block: 24px;
+    text-align: center;
+    color: var(--muted-foreground);
+  }
+  .bulk-paste {
+    display: grid;
+    gap: 10px;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .bulk-paste[open] > summary {
+    margin-block-end: 10px;
+  }
+  .bulk-paste > summary {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-block-size: 44px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .bulk-paste > * + * {
+    margin-block-start: 10px;
+  }
+  .bulk-preview {
+    padding: 10px 12px;
+    border-radius: var(--radius);
+    background: var(--muted);
+    font-size: 14px;
+  }
+  .bulk-preview ul {
+    display: grid;
+    gap: 2px;
+    margin-block: 6px 10px;
+  }
+  .bulk-confirm {
+    display: grid;
+    gap: 12px;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--muted);
+  }
+  .bulk-confirm-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .bulk-confirm-actions > button,
+  .bulk-footer > button {
+    min-block-size: 44px;
+  }
+  /* Phones: each order is a stacked card (no sideways scrolling). */
+  @media (max-width: 640px) {
+    .bulk-table-wrap {
+      max-block-size: none;
+      overflow: visible;
+      border: 0;
+    }
+    .bulk-table,
+    .bulk-table tbody,
+    .bulk-table tr,
+    .bulk-table td {
+      display: block;
+      inline-size: 100%;
+    }
+    .bulk-table thead {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+    }
+    .bulk-table tr {
+      margin-block-end: 12px;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card);
+    }
+    .bulk-table td,
+    .bulk-table td:nth-child(-n + 5) {
+      display: grid;
+      grid-template-columns: 7.5rem minmax(0, 1fr);
+      gap: 8px;
+      padding: 4px 0;
+      border: 0;
+      white-space: normal;
+      text-align: start;
+    }
+    .bulk-table td::before {
+      content: attr(data-label);
+      color: var(--muted-foreground);
+      font-size: 12px;
+    }
+    .bulk-table td:nth-child(6),
+    .bulk-table td:nth-child(7) {
+      grid-template-columns: minmax(0, 1fr);
+      min-inline-size: 0;
+    }
+    .bulk-table td .seller-error {
+      grid-column: 1 / -1;
+    }
+    .bulk-table td[colspan]::before {
+      content: none;
+    }
   }
   /* ---- Shipment tracking ---- */
   .tracking-card {
@@ -3134,22 +3188,44 @@
   object-fit: contain;
   mix-blend-mode: multiply;
 }
+.detail-gallery {
+  min-inline-size: 0;
+}
+/* Wraps instead of scrolling sideways, so every photo stays visible on phones. */
 .detail-thumbnails {
   display: flex;
-  gap: 12px;
+  flex-wrap: wrap;
+  gap: 10px;
   margin-top: 13px;
 }
 .detail-thumbnails button {
-  width: 72px;
-  height: 72px;
+  inline-size: 72px;
+  block-size: 72px;
   padding: 0;
   overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 6px;
   background: var(--muted);
+  cursor: pointer;
+}
+.detail-thumbnails button[aria-pressed="true"] {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary);
+}
+.detail-thumbnails button:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
 }
 .detail-thumbnails img {
-  width: 100%;
-  height: 100%;
+  inline-size: 100%;
+  block-size: 100%;
   object-fit: cover;
+}
+@media (max-width: 480px) {
+  .detail-thumbnails button {
+    inline-size: 56px;
+    block-size: 56px;
+  }
 }
 .detail-copy h1 {
   font-size: 32px;

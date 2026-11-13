@@ -135,6 +135,38 @@ describe("saveProduct", () => {
   });
 });
 
+describe("editing keeps every image", () => {
+  it("5 saved images (first = cover) stay 5, in order, cover first, none duplicated", async () => {
+    const url = (n: number) =>
+      `https://x.supabase.co/storage/v1/object/public/product-images/p/${n}.jpg`;
+    const existing = {
+      id: "22222222-2222-4222-8222-222222222222",
+      store_id: STORE,
+      featured_image: url(0),
+      product_images: [0, 1, 2, 3, 4].map((n) => ({
+        id: `img-${n}`,
+        product_id: "22222222-2222-4222-8222-222222222222",
+        image_url: url(n),
+        sort_order: n,
+      })),
+    } as unknown as SellerProduct;
+    // What the form sends for that product: the five existing URLs, unchanged.
+    const images = [0, 1, 2, 3, 4].map((n) => ({
+      kind: "existing" as const,
+      key: url(n),
+      url: url(n),
+    }));
+    await sellerService.saveProduct(STORE, productInputSchema.parse(formValues), images, existing);
+    const update = db.writes.find((w) => w.table === "products" && w.op === "update");
+    expect((update?.payload as Payload).featured_image).toBe(url(0));
+    const inserted = db.writes.find((w) => w.table === "product_images" && w.op === "insert")
+      ?.payload as { image_url: string; sort_order: number }[];
+    expect(inserted.map((r) => [r.sort_order, r.image_url])).toEqual(
+      [0, 1, 2, 3, 4].map((n) => [n, url(n)]),
+    );
+  });
+});
+
 describe("optional fields", () => {
   it("product schema accepts its own output (idempotent)", () => {
     for (const input of [

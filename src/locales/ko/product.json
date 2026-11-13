@@ -1,10 +1,5 @@
 {
   "allProducts": "전체 상품",
-  "fullView": "상품 전체 보기",
-  "detailView": "상품 상세 보기",
-  "fullViewAlt": "전체 보기",
-  "detailAlt": "상세",
-  "detailImageAlt": "{{title}} 상세",
   "inStock_other": "재고 있음 · {{count}}개 구매 가능",
   "outOfStock": "품절",
   "addToCart": "장바구니에 담기",
@@ -93,5 +88,10 @@
       "generic": "문제가 발생했습니다. 다시 시도해 주세요."
     },
     "countAria_other": "저장한 상품 {{count}}개"
+  },
+  "gallery": {
+    "label": "상품 사진",
+    "show": "사진 {{count}}장 중 {{n}}번째 보기",
+    "imageAlt": "{{title}}, 사진 {{count}}장 중 {{n}}번째"
   }
 }

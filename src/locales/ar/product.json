@@ -1,10 +1,5 @@
 {
   "allProducts": "كل المنتجات",
-  "fullView": "عرض المنتج كاملًا",
-  "detailView": "عرض تفاصيل المنتج",
-  "fullViewAlt": "عرض كامل",
-  "detailAlt": "تفاصيل",
-  "detailImageAlt": "تفاصيل {{title}}",
   "inStock_zero": "متوفر · لا توجد قطع متاحة",
   "inStock_one": "متوفر · قطعة واحدة متاحة",
   "inStock_two": "متوفر · قطعتان متاحتان",
@@ -108,5 +103,10 @@
     "countAria_few": "{{count}} منتجات محفوظة",
     "countAria_many": "{{count}} منتجًا محفوظًا",
     "countAria_other": "{{count}} منتج محفوظ"
+  },
+  "gallery": {
+    "label": "صور المنتج",
+    "show": "عرض الصورة {{n}} من {{count}}",
+    "imageAlt": "{{title}}، الصورة {{n}} من {{count}}"
   }
 }

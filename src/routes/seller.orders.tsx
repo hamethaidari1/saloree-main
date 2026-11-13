@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { CatalogSkeleton } from "@/components/marketplace/shared";
 import { OrdersPanel } from "@/components/seller/orders-panel";
-import { TrackingImport } from "@/components/seller/tracking-import";
+import { BulkTracking } from "@/components/seller/bulk-tracking";
 import { useSeller } from "@/components/seller/seller-context";
 import { SellerPageHeader } from "@/components/seller/seller-shell";
 import { ORDER_STATUSES, type OrderStatus } from "@/services/seller";
@@ -28,7 +28,7 @@ function SellerOrdersPage() {
       <SellerPageHeader
         title="Orders"
         description="Update the status as you fulfil each order, and add tracking when you ship."
-        actions={<TrackingImport stores={[store]} />}
+        actions={<BulkTracking stores={[store]} />}
       />
       <OrdersPanel
         stores={[store]}

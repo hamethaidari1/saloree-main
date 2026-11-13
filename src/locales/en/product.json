@@ -1,10 +1,5 @@
 {
   "allProducts": "All products",
-  "fullView": "Full product view",
-  "detailView": "Product detail view",
-  "fullViewAlt": "Full view",
-  "detailAlt": "Detail",
-  "detailImageAlt": "{{title}} detail",
   "inStock_one": "In stock · {{count}} available",
   "inStock_other": "In stock · {{count}} available",
   "outOfStock": "Out of stock",
@@ -96,5 +91,10 @@
     },
     "countAria_one": "{{count}} saved product",
     "countAria_other": "{{count}} saved products"
+  },
+  "gallery": {
+    "label": "Product photos",
+    "show": "Show photo {{n}} of {{count}}",
+    "imageAlt": "{{title}}, photo {{n}} of {{count}}"
   }
 }

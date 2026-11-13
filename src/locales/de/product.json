@@ -1,10 +1,5 @@
 {
   "allProducts": "Alle Produkte",
-  "fullView": "Gesamtansicht des Produkts",
-  "detailView": "Detailansicht des Produkts",
-  "fullViewAlt": "Gesamtansicht",
-  "detailAlt": "Detail",
-  "detailImageAlt": "{{title}} – Detail",
   "inStock_one": "Auf Lager · {{count}} verfügbar",
   "inStock_other": "Auf Lager · {{count}} verfügbar",
   "outOfStock": "Nicht auf Lager",
@@ -96,5 +91,10 @@
     },
     "countAria_one": "{{count}} gemerktes Produkt",
     "countAria_other": "{{count}} gemerkte Produkte"
+  },
+  "gallery": {
+    "label": "Produktfotos",
+    "show": "Foto {{n}} von {{count}} anzeigen",
+    "imageAlt": "{{title}}, Foto {{n}} von {{count}}"
   }
 }

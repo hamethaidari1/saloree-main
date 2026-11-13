@@ -102,7 +102,7 @@ function CarrierForm({
           {errors["code"] ? (
             <p className="seller-error">{errors["code"]}</p>
           ) : (
-            <p className="seller-hint">Used in CSV imports, e.g. dhl, aramex.</p>
+            <p className="seller-hint">A short, unique ID, e.g. dhl, aramex.</p>
           )}
         </div>
       </div>

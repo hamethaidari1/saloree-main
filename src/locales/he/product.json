@@ -1,10 +1,5 @@
 {
   "allProducts": "כל המוצרים",
-  "fullView": "תצוגה מלאה של המוצר",
-  "detailView": "תצוגת פרטים של המוצר",
-  "fullViewAlt": "תצוגה מלאה",
-  "detailAlt": "פרט",
-  "detailImageAlt": "פרט מתוך {{title}}",
   "inStock_one": "במלאי · יחידה אחת זמינה",
   "inStock_two": "במלאי · שתי יחידות זמינות",
   "inStock_other": "במלאי · {{count}} יחידות זמינות",
@@ -99,5 +94,10 @@
     "countAria_one": "מוצר שמור אחד",
     "countAria_two": "שני מוצרים שמורים",
     "countAria_other": "{{count}} מוצרים שמורים"
+  },
+  "gallery": {
+    "label": "תמונות המוצר",
+    "show": "הצגת תמונה {{n}} מתוך {{count}}",
+    "imageAlt": "{{title}}, תמונה {{n}} מתוך {{count}}"
   }
 }

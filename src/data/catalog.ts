@@ -46,7 +46,13 @@ export interface Product {
   reviews: number;
   storeSlug: string;
   category: string;
+  /** The main photo (cards, cart). */
   image: string;
+  /**
+   * Every photo for the product page: the main one first, then the rest in
+   * sort_order, each once. Absent on hand-made test fixtures (use `image`).
+   */
+  images?: string[];
   stock: number;
   description: string;
   badge?: string;

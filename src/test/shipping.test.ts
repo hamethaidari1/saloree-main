@@ -17,8 +17,6 @@ import {
   shippingService,
 } from "@/services/shipping";
 import { ordersService } from "@/services/orders";
-import { parseCsv, planImport, runImport, MAX_IMPORT_ROWS } from "@/services/tracking-import";
-import type { CarrierRow } from "@/data/db";
 
 const m = () => mock.current!;
 beforeEach(() => m().reset());
@@ -250,105 +248,5 @@ describe("ordersService.getStatuses", () => {
   it("does not query without ids", async () => {
     expect(await ordersService.getStatuses([])).toEqual({});
     expect(m().state.queries).toEqual([]);
-  });
-});
-
-// ---------------------------------------------------------------------------
-// CSV import
-// ---------------------------------------------------------------------------
-const carriers: CarrierRow[] = [
-  { id: CARRIER, code: "dhl", name: "DHL", tracking_url_template: null, is_active: true },
-];
-const opts = { carriers, orderIds: new Set([ORDER, ORDER2]) };
-
-describe("parseCsv", () => {
-  it("handles quotes, escaped quotes, CRLF, a BOM and blank lines", () => {
-    expect(parseCsv('﻿a,b,c\r\n"x, y","say ""hi""",3\r\n\r\n4,5,6\n')).toEqual([
-      ["a", "b", "c"],
-      ["x, y", 'say "hi"', "3"],
-      ["4", "5", "6"],
-    ]);
-  });
-});
-
-describe("planImport", () => {
-  it("accepts columns in any order and any case", () => {
-    const plan = planImport(`Tracking_Number,ORDER_ID,carrier_code\nZX-1234,${ORDER},DHL`, opts);
-    expect(plan.ok && plan.valid[0]).toMatchObject({
-      order_id: ORDER,
-      carrier_code: "dhl",
-      tracking_number: "ZX-1234",
-      carrier: { id: CARRIER },
-    });
-  });
-  it("one good and one bad row: per-row errors, only the good one is valid", () => {
-    const plan = planImport(
-      `order_id,carrier_code,tracking_number\n${ORDER},dhl,GOOD-1234\n${ORDER2},ups,AB`,
-      opts,
-    );
-    if (!plan.ok) throw new Error(plan.error);
-    expect(plan.valid.map((r) => r.line)).toEqual([2]);
-    expect(plan.rows[1]?.errors.join(" ")).toMatch(/at least 4/);
-  });
-  it.each([
-    [`order_id,carrier_code,tracking_number\nnot-a-uuid,dhl,ABCD`, /UUID/],
-    [`order_id,carrier_code,tracking_number\n${ORDER},ups,ABCD`, /Unknown or disabled carrier/],
-    [
-      `order_id,carrier_code,tracking_number\n99999999-9999-4999-8999-999999999999,dhl,ABCD`,
-      /not found in this store/,
-    ],
-    [`order_id,carrier_code,tracking_number\n${ORDER},dhl,ABCD\n${ORDER},dhl,abcd`, /Duplicate/],
-  ])("explains row problems (%#)", (csv, msg) => {
-    const plan = planImport(csv, opts);
-    if (!plan.ok) throw new Error(plan.error);
-    expect(plan.rows.flatMap((r) => r.errors).join(" ")).toMatch(msg);
-  });
-  it("rejects missing columns, empty files and more than 200 rows", () => {
-    expect(planImport("", opts)).toMatchObject({ ok: false, error: /empty/ });
-    expect(planImport("order_id,tracking_number\nx,y", opts)).toMatchObject({
-      ok: false,
-      error: expect.stringMatching(/missing: carrier_code/),
-    });
-    expect(planImport("order_id,carrier_code,tracking_number\n", opts)).toMatchObject({
-      ok: false,
-    });
-    const big = ["order_id,carrier_code,tracking_number"]
-      .concat(Array.from({ length: MAX_IMPORT_ROWS + 1 }, (_, i) => `${ORDER},dhl,T${1000 + i}`))
-      .join("\n");
-    expect(planImport(big, opts)).toMatchObject({
-      ok: false,
-      error: expect.stringMatching(/at most 200/),
-    });
-  });
-});
-
-describe("runImport", () => {
-  it("adds rows one by one and reports added / failed with reasons", async () => {
-    const plan = planImport(
-      `order_id,carrier_code,tracking_number\n${ORDER},dhl,GOOD-1234\n${ORDER2},dhl,DUPE-1234`,
-      opts,
-    );
-    if (!plan.ok) throw new Error(plan.error);
-    m().state.queue.push({ data: { id: "s1" } }, { error: { code: "23505", message: "dup" } });
-    const progress: number[] = [];
-    const results = await runImport(plan.valid, (done) => progress.push(done));
-    expect(results).toEqual([
-      { line: 2, order_id: ORDER, tracking_number: "GOOD-1234", ok: true },
-      {
-        line: 3,
-        order_id: ORDER2,
-        tracking_number: "DUPE-1234",
-        ok: false,
-        reason: "This tracking number is already added to this order",
-      },
-    ]);
-    expect(progress).toEqual([1, 2]);
-    const inserts = m().state.queries.filter((q) => q.table === "shipments");
-    expect(inserts).toHaveLength(2);
-    for (const q of inserts) {
-      const p = q.calls.find(([k]) => k === "insert")?.[1] as Record<string, unknown>;
-      expect(Object.keys(p).sort()).toEqual(ALLOWED_INSERT);
-      expect(p["status"]).toBe("in_transit");
-    }
   });
 });
