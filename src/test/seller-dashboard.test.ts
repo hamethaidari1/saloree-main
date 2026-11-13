@@ -222,6 +222,7 @@ describe("seller menu", () => {
       "Customers",
       "Discounts",
       "Analytics",
+      "Payouts",
       "Content",
       "Online Store",
     ]);

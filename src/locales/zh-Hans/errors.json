@@ -19,7 +19,8 @@
   "checkout": {
     "signInAgain": "请重新登录后再下单。",
     "discountNotValid": "此优惠码不适用于购物袋中的商品。请检查优惠码或将其移除后继续。",
-    "discountFormat": "这看起来不像优惠码。"
+    "discountFormat": "这看起来不像优惠码。",
+    "codPaused": "购物袋中有店铺暂不接受货到付款。您的订单未提交。"
   },
   "orders": {
     "cannotCancel": "此订单已无法取消。"

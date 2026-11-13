@@ -21,7 +21,8 @@
     "codDescription": "Pague em dinheiro quando o pedido chegar.",
     "stripe": "Cartão (Stripe)",
     "hesabpay": "HesabPay",
-    "comingSoon": "Em breve"
+    "comingSoon": "Em breve",
+    "codPaused": "O pagamento na entrega está pausado para: {{stores}}. Pague online."
   },
   "yourOrder": "Seu pedido",
   "line": "{{quantity}} × {{title}}",
@@ -31,5 +32,6 @@
   "discountHelp": "A loja verifica o código quando você faz o pedido; seu total mostrará a economia.",
   "note": "A Saloree confirma preços, estoque e frete quando você faz o pedido. Itens de lojas diferentes viram pedidos separados.",
   "place": "Fazer pedido",
-  "placing": "Fazendo seu pedido…"
+  "placing": "Fazendo seu pedido…",
+  "cannotPlace": "O pagamento online ainda não está disponível, então este pedido não pode ser feito agora. Remova os produtos de {{stores}} para pedir o restante."
 }

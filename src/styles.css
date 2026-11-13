@@ -4787,3 +4787,125 @@ html:is(:lang(ar), :lang(he), :lang(ko), :lang(zh-Hans), :lang(zh-Hant)) body {
     color: var(--muted-foreground);
   }
 }
+
+/* ---- Payouts (seller + finance): tokens only, logical properties ---- */
+.payout-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--muted);
+  color: var(--foreground);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.payout-badge[data-tone="good"] {
+  border-color: var(--primary);
+  background: var(--secondary);
+  color: var(--secondary-foreground);
+}
+.payout-badge[data-tone="info"] {
+  border-color: var(--ring);
+}
+.payout-badge[data-tone="warn"] {
+  border-color: var(--destructive);
+  background: var(--card);
+  color: var(--destructive);
+}
+.payout-badge[data-tone="muted"] {
+  color: var(--muted-foreground);
+}
+.payout-cod {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+}
+.payout-cod[data-blocked] {
+  border-style: solid;
+  border-color: var(--destructive);
+}
+.payout-cod-amount {
+  font-size: 24px;
+  font-variant-numeric: tabular-nums;
+}
+.payout-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px 14px;
+  border: 1px solid var(--destructive);
+  border-radius: var(--radius);
+  background: var(--card);
+  color: var(--foreground);
+  font-size: 14px;
+}
+.payout-alert > svg {
+  flex: none;
+  margin-block-start: 1px;
+  color: var(--destructive);
+}
+.payout-rules ul {
+  display: grid;
+  gap: 6px;
+  padding-inline-start: 18px;
+  list-style: disc;
+  font-size: 14px;
+  color: var(--muted-foreground);
+}
+.payout-rules strong {
+  color: var(--foreground);
+}
+.payout-section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-block-end: 4px;
+}
+.payout-filter {
+  max-inline-size: 16rem;
+}
+.payout-orders td,
+.payout-orders th {
+  white-space: nowrap;
+}
+.payout-facts dd {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+.payout-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.payout-actions > button,
+.payout-badges {
+  min-block-size: 36px;
+}
+.payout-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+}
+.payout-entry-form {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}

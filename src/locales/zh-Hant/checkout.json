@@ -21,7 +21,8 @@
     "codDescription": "訂單送達時以現金付款。",
     "stripe": "信用卡（Stripe）",
     "hesabpay": "HesabPay",
-    "comingSoon": "即將推出"
+    "comingSoon": "即將推出",
+    "codPaused": "以下商店暫停貨到付款：{{stores}}。請線上付款。"
   },
   "yourOrder": "你的訂單",
   "line": "{{quantity}} × {{title}}",
@@ -31,5 +32,6 @@
   "discountHelp": "下單時由店家確認，折抵金額會顯示在總額中。",
   "note": "下單時由 Saloree 確認價格、庫存和運費。來自不同店家的商品會分成不同訂單。",
   "place": "送出訂單",
-  "placing": "正在送出訂單…"
+  "placing": "正在送出訂單…",
+  "cannotPlace": "線上付款暫不可用，因此現在無法下單。請移除 {{stores}} 的商品後再訂購其餘商品。"
 }

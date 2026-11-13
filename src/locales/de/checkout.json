@@ -21,7 +21,8 @@
     "codDescription": "Bezahle bar, wenn deine Bestellung ankommt.",
     "stripe": "Karte (Stripe)",
     "hesabpay": "HesabPay",
-    "comingSoon": "Demnächst"
+    "comingSoon": "Demnächst",
+    "codPaused": "Zahlung bei Lieferung ist pausiert bei: {{stores}}. Bitte bezahle online."
   },
   "yourOrder": "Deine Bestellung",
   "line": "{{quantity}} × {{title}}",
@@ -31,5 +32,6 @@
   "discountHelp": "Der Shop prüft ihn bei der Bestellung; deine Summe zeigt dann die Ersparnis.",
   "note": "Preise, Bestand und Versand bestätigt Saloree bei der Bestellung. Artikel aus verschiedenen Shops werden zu separaten Bestellungen.",
   "place": "Bestellung aufgeben",
-  "placing": "Bestellung wird aufgegeben…"
+  "placing": "Bestellung wird aufgegeben…",
+  "cannotPlace": "Online-Zahlung ist noch nicht verfügbar, daher kann diese Bestellung gerade nicht aufgegeben werden. Entferne die Produkte von {{stores}}, um den Rest zu bestellen."
 }

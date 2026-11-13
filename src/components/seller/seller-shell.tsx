@@ -17,6 +17,7 @@ import {
   Store,
   Tag,
   Users,
+  Wallet,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -47,6 +48,7 @@ export const SELLER_NAV = [
   { to: "/seller/customers", label: "Customers", icon: Users },
   { to: "/seller/discounts", label: "Discounts", icon: BadgePercent },
   { to: "/seller/analytics", label: "Analytics", icon: ChartColumn },
+  { to: "/seller/payouts", label: "Payouts", icon: Wallet },
   { to: "/seller/content", label: "Content", icon: LayoutPanelTop },
   {
     to: "/seller/themes",

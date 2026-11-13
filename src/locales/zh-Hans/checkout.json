@@ -21,7 +21,8 @@
     "codDescription": "订单送达时以现金付款。",
     "stripe": "银行卡（Stripe）",
     "hesabpay": "HesabPay",
-    "comingSoon": "即将推出"
+    "comingSoon": "即将推出",
+    "codPaused": "以下店铺暂停货到付款：{{stores}}。请在线支付。"
   },
   "yourOrder": "你的订单",
   "line": "{{quantity}} × {{title}}",
@@ -31,5 +32,6 @@
   "discountHelp": "下单时由店铺核验，优惠金额将显示在总额中。",
   "note": "下单时由 Saloree 确认价格、库存和运费。来自不同店铺的商品将生成独立订单。",
   "place": "提交订单",
-  "placing": "正在提交订单…"
+  "placing": "正在提交订单…",
+  "cannotPlace": "在线支付暂不可用，因此现在无法下单。请移除 {{stores}} 的商品后再订购其余商品。"
 }

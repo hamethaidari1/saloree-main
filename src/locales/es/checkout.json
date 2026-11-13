@@ -21,7 +21,8 @@
     "codDescription": "Paga en efectivo cuando llegue tu pedido.",
     "stripe": "Tarjeta (Stripe)",
     "hesabpay": "HesabPay",
-    "comingSoon": "Próximamente"
+    "comingSoon": "Próximamente",
+    "codPaused": "El pago contra entrega está en pausa para: {{stores}}. Paga en línea."
   },
   "yourOrder": "Tu pedido",
   "line": "{{quantity}} × {{title}}",
@@ -31,5 +32,6 @@
   "discountHelp": "La tienda lo comprueba al realizar el pedido; tu total mostrará el ahorro.",
   "note": "Saloree confirma los precios, el stock y el envío al realizar el pedido. Los artículos de tiendas diferentes se convierten en pedidos separados.",
   "place": "Realizar pedido",
-  "placing": "Realizando tu pedido…"
+  "placing": "Realizando tu pedido…",
+  "cannotPlace": "El pago en línea aún no está disponible, así que este pedido no se puede realizar ahora. Quita los productos de {{stores}} para pedir el resto."
 }

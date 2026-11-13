@@ -410,7 +410,8 @@ describe("no CSV import left", () => {
     const hits = Object.entries(files)
       .filter(([path]) => !path.endsWith("/bulk-tracking.test.tsx"))
       .filter(([, text]) =>
-        /\bcsv\b|tracking-import|TrackingImport|drop-zone|Download template|Import tracking/i.test(
+        // The tracking CSV import specifically (finance's payout CSV export is a different thing).
+        /parseCsv|planImport|IMPORT_COLUMNS|csv-file|tracking-import|TrackingImport|drop-zone|Download template|Import tracking/i.test(
           text,
         ),
       )

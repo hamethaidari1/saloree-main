@@ -63,6 +63,7 @@ export function createSupabaseMock() {
     for (const m of [
       "select",
       "insert",
+      "upsert",
       "update",
       "delete",
       "eq",

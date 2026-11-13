@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { headT } from "@/i18n/head";
 import { useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ChevronRight, Lock } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -13,11 +13,13 @@ import { useCart } from "@/components/marketplace/cart-context";
 import { CatalogSkeleton, EmptyState, useCatalog } from "@/components/marketplace/shared";
 import { requireAuth } from "@/lib/auth";
 import { cartTotal } from "@/services/cart";
-import { useFormat } from "@/i18n/hooks";
+import { useFormat, useLocale } from "@/i18n/hooks";
+import { codPausedStores, isCodPausedError } from "@/services/payouts";
 import { translateError, validationMessage } from "@/i18n/messages";
 import {
   checkoutCustomerSchema,
   checkoutService,
+  codRule,
   discountCodeSchema,
   isInvalidDiscountError,
   PAYMENT_METHODS,
@@ -52,6 +54,7 @@ const FIELDS: { key: Field; autoComplete: string; type?: string; wide?: boolean 
 function CheckoutPage() {
   const { t } = useTranslation("checkout");
   const format = useFormat();
+  const locale = useLocale();
   const { user } = Route.useRouteContext();
   const { items, ready, clear } = useCart();
   const { products, stores } = useCatalog();
@@ -71,6 +74,28 @@ function CheckoutPage() {
   const [discountCode, setDiscountCode] = useState("");
   const [discountError, setDiscountError] = useState<string | null>(null);
 
+  // Stores in the bag whose cash on delivery is paused (COD debt over the limit).
+  const storeIds = [
+    ...new Set(
+      items.flatMap((i) => {
+        const p = products.find((x) => x.id === i.productId);
+        const s = p && stores.find((x) => x.slug === p.storeSlug);
+        return s?.id ? [s.id] : [];
+      }),
+    ),
+  ].sort();
+  const cod = useQuery({
+    queryKey: ["checkout", "cod", ...storeIds],
+    queryFn: () => codPausedStores(storeIds),
+    enabled: ready && storeIds.length > 0,
+    staleTime: 30_000,
+  });
+  const paused = cod.data ?? [];
+  const pausedNames = new Intl.ListFormat(locale, { type: "conjunction" }).format(
+    paused.map((id) => stores.find((s) => s.id === id)?.name ?? id),
+  );
+  const rule = codRule(paused);
+
   const place = useMutation({
     mutationFn: () => checkoutService.placeOrder(items, values, provider, discountCode),
     onSuccess: async (result) => {
@@ -89,6 +114,12 @@ function CheckoutPage() {
       if (isInvalidDiscountError(e)) {
         setDiscountError(t("checkout.discountNotValid", { ns: "errors" }));
         document.getElementById("checkout-discount")?.focus();
+        return;
+      }
+      if (isCodPausedError(e)) {
+        // The database refused: a store's COD was paused meanwhile. Re-check the bag.
+        void cod.refetch();
+        toast.error(t("checkout.codPaused", { ns: "errors" }));
         return;
       }
       toast.error(translateError(t, e, { "42501": "checkout.signInAgain" }));
@@ -185,25 +216,44 @@ function CheckoutPage() {
 
           <fieldset className="checkout-payments" disabled={place.isPending}>
             <legend className="checkout-legend">{t("payment")}</legend>
-            {PAYMENT_METHODS.map((m) => (
-              <label
-                key={m.id}
-                className={`checkout-payment ${provider === m.id ? "selected" : ""} ${m.enabled ? "" : "disabled"}`}
-              >
-                <input
-                  type="radio"
-                  name="payment"
-                  value={m.id}
-                  disabled={!m.enabled}
-                  checked={provider === m.id}
-                  onChange={() => m.enabled && setProvider(m.id)}
-                />
-                <span>
-                  <strong>{t(`methods.${m.id}`)}</strong>
-                  <small>{m.enabled ? t("methods.codDescription") : t("methods.comingSoon")}</small>
-                </span>
-              </label>
-            ))}
+            {PAYMENT_METHODS.map((m) => {
+              const available = m.enabled && (m.id !== "cod" || rule.codAllowed);
+              return (
+                <label
+                  key={m.id}
+                  className={`checkout-payment ${provider === m.id && available ? "selected" : ""} ${available ? "" : "disabled"}`}
+                >
+                  <input
+                    type="radio"
+                    name="payment"
+                    value={m.id}
+                    disabled={!available}
+                    checked={provider === m.id && available}
+                    aria-describedby={
+                      m.id === "cod" && !rule.codAllowed ? "checkout-cod-paused" : undefined
+                    }
+                    onChange={() => available && setProvider(m.id)}
+                  />
+                  <span>
+                    <strong>{t(`methods.${m.id}`)}</strong>
+                    <small>
+                      {!m.enabled
+                        ? t("methods.comingSoon")
+                        : m.id === "cod" && !rule.codAllowed
+                          ? t("methods.codPaused", { stores: pausedNames })
+                          : t("methods.codDescription")}
+                    </small>
+                  </span>
+                </label>
+              );
+            })}
+            {!rule.codAllowed && (
+              <p id="checkout-cod-paused" role="alert" className="seller-error">
+                {rule.canPlace
+                  ? t("methods.codPaused", { stores: pausedNames })
+                  : t("cannotPlace", { stores: pausedNames })}
+              </p>
+            )}
           </fieldset>
         </div>
 
@@ -250,7 +300,12 @@ function CheckoutPage() {
             </p>
           </div>
           <p className="checkout-note">{t("note")}</p>
-          <Button type="submit" className="w-full h-11 mt-4" disabled={place.isPending}>
+          <Button
+            type="submit"
+            className="w-full h-11 mt-4"
+            disabled={place.isPending || !rule.canPlace}
+            aria-describedby={!rule.canPlace ? "checkout-cod-paused" : undefined}
+          >
             <Lock />
             {place.isPending ? t("placing") : t("place")}
           </Button>

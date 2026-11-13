@@ -19,7 +19,8 @@
   "checkout": {
     "signInAgain": "Bitte melde dich erneut an, um deine Bestellung aufzugeben.",
     "discountNotValid": "Dieser Code gilt nicht für die Artikel in deiner Tasche. Prüfe den Code oder entferne ihn, um fortzufahren.",
-    "discountFormat": "Das sieht nicht nach einem Rabattcode aus."
+    "discountFormat": "Das sieht nicht nach einem Rabattcode aus.",
+    "codPaused": "Ein Shop in deinem Warenkorb nimmt gerade keine Zahlung bei Lieferung an. Deine Bestellung wurde nicht aufgegeben."
   },
   "orders": {
     "cannotCancel": "Diese Bestellung kann nicht mehr storniert werden."

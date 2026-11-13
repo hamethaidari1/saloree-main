@@ -38,6 +38,7 @@ import { Route as SellerCustomizeRouteImport } from './routes/seller.customize'
 import { Route as SellerDiscountsRouteImport } from './routes/seller.discounts'
 import { Route as SellerInventoryRouteImport } from './routes/seller.inventory'
 import { Route as SellerOrdersRouteImport } from './routes/seller.orders'
+import { Route as SellerPayoutsRouteImport } from './routes/seller.payouts'
 import { Route as SellerProductsRouteImport } from './routes/seller.products'
 import { Route as SellerSettingsRouteImport } from './routes/seller.settings'
 import { Route as SellerThemesRouteImport } from './routes/seller.themes'
@@ -189,6 +190,11 @@ const SellerOrdersRoute = SellerOrdersRouteImport.update({
   path: '/orders',
   getParentRoute: () => SellerRoute,
 } as any)
+const SellerPayoutsRoute = SellerPayoutsRouteImport.update({
+  id: '/payouts',
+  path: '/payouts',
+  getParentRoute: () => SellerRoute,
+} as any)
 const SellerProductsRoute = SellerProductsRouteImport.update({
   id: '/products',
   path: '/products',
@@ -239,6 +245,7 @@ export interface FileRoutesByFullPath {
   '/seller/discounts': typeof SellerDiscountsRoute
   '/seller/inventory': typeof SellerInventoryRoute
   '/seller/orders': typeof SellerOrdersRoute
+  '/seller/payouts': typeof SellerPayoutsRoute
   '/seller/products': typeof SellerProductsRoute
   '/seller/settings': typeof SellerSettingsRoute
   '/seller/themes': typeof SellerThemesRoute
@@ -273,6 +280,7 @@ export interface FileRoutesByTo {
   '/seller/discounts': typeof SellerDiscountsRoute
   '/seller/inventory': typeof SellerInventoryRoute
   '/seller/orders': typeof SellerOrdersRoute
+  '/seller/payouts': typeof SellerPayoutsRoute
   '/seller/products': typeof SellerProductsRoute
   '/seller/settings': typeof SellerSettingsRoute
   '/seller/themes': typeof SellerThemesRoute
@@ -309,6 +317,7 @@ export interface FileRoutesById {
   '/seller/discounts': typeof SellerDiscountsRoute
   '/seller/inventory': typeof SellerInventoryRoute
   '/seller/orders': typeof SellerOrdersRoute
+  '/seller/payouts': typeof SellerPayoutsRoute
   '/seller/products': typeof SellerProductsRoute
   '/seller/settings': typeof SellerSettingsRoute
   '/seller/themes': typeof SellerThemesRoute
@@ -346,6 +355,7 @@ export interface FileRouteTypes {
     | '/seller/discounts'
     | '/seller/inventory'
     | '/seller/orders'
+    | '/seller/payouts'
     | '/seller/products'
     | '/seller/settings'
     | '/seller/themes'
@@ -380,6 +390,7 @@ export interface FileRouteTypes {
     | '/seller/discounts'
     | '/seller/inventory'
     | '/seller/orders'
+    | '/seller/payouts'
     | '/seller/products'
     | '/seller/settings'
     | '/seller/themes'
@@ -415,6 +426,7 @@ export interface FileRouteTypes {
     | '/seller/discounts'
     | '/seller/inventory'
     | '/seller/orders'
+    | '/seller/payouts'
     | '/seller/products'
     | '/seller/settings'
     | '/seller/themes'
@@ -652,6 +664,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SellerOrdersRouteImport
       parentRoute: typeof SellerRoute
     }
+    '/seller/payouts': {
+      id: '/seller/payouts'
+      path: '/payouts'
+      fullPath: '/seller/payouts'
+      preLoaderRoute: typeof SellerPayoutsRouteImport
+      parentRoute: typeof SellerRoute
+    }
     '/seller/products': {
       id: '/seller/products'
       path: '/products'
@@ -691,6 +710,7 @@ interface SellerRouteChildren {
   SellerDiscountsRoute: typeof SellerDiscountsRoute
   SellerInventoryRoute: typeof SellerInventoryRoute
   SellerOrdersRoute: typeof SellerOrdersRoute
+  SellerPayoutsRoute: typeof SellerPayoutsRoute
   SellerProductsRoute: typeof SellerProductsRoute
   SellerSettingsRoute: typeof SellerSettingsRoute
   SellerThemesRoute: typeof SellerThemesRoute
@@ -705,6 +725,7 @@ const SellerRouteChildren: SellerRouteChildren = {
   SellerDiscountsRoute: SellerDiscountsRoute,
   SellerInventoryRoute: SellerInventoryRoute,
   SellerOrdersRoute: SellerOrdersRoute,
+  SellerPayoutsRoute: SellerPayoutsRoute,
   SellerProductsRoute: SellerProductsRoute,
   SellerSettingsRoute: SellerSettingsRoute,
   SellerThemesRoute: SellerThemesRoute,

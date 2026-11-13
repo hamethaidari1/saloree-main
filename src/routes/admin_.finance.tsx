@@ -10,11 +10,13 @@ import {
   FinanceOverviewPanel,
 } from "@/components/staff/finance-panels";
 import { NoAccess, StaffShell } from "@/components/staff/staff-shell";
+import { PayoutSettingsPanel, PayoutsFinancePanel } from "@/components/staff/payouts-finance";
 import { requirePanel } from "@/lib/auth";
 
 const TABS = [
   ["overview", "Overview"],
   ["orders", "Orders"],
+  ["payouts", "Payouts"],
   ["commission", "Commission"],
   ["carriers", "Carriers"],
   ["templates", "Templates"],
@@ -47,7 +49,7 @@ function FinancePage() {
       panel="finance"
       email={user.email ?? ""}
       roles={roles}
-      description="Orders, money, commission, carriers, template prices and company details."
+      description="Orders, money, seller payouts, commission, carriers, template prices and company details."
     >
       <Tabs
         value={tab}
@@ -67,8 +69,12 @@ function FinancePage() {
         <TabsContent value="orders" className="mt-6">
           <FinanceOrdersPanel />
         </TabsContent>
-        <TabsContent value="commission" className="mt-6">
+        <TabsContent value="payouts" className="mt-6">
+          <PayoutsFinancePanel />
+        </TabsContent>
+        <TabsContent value="commission" className="mt-6 grid gap-6">
           <CommissionPanel />
+          <PayoutSettingsPanel />
         </TabsContent>
         <TabsContent value="carriers" className="mt-6">
           <CarriersPanel />

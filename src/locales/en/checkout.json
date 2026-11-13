@@ -21,7 +21,8 @@
     "codDescription": "Pay in cash when your order arrives.",
     "stripe": "Card (Stripe)",
     "hesabpay": "HesabPay",
-    "comingSoon": "Coming soon"
+    "comingSoon": "Coming soon",
+    "codPaused": "Cash on delivery is paused for: {{stores}}. Please pay online."
   },
   "yourOrder": "Your order",
   "line": "{{quantity}} × {{title}}",
@@ -31,5 +32,6 @@
   "discountHelp": "Checked by the store when you place your order; your total will show the saving.",
   "note": "Prices, stock and shipping are confirmed by Saloree when you place the order. Items from different stores become separate orders.",
   "place": "Place order",
-  "placing": "Placing your order…"
+  "placing": "Placing your order…",
+  "cannotPlace": "Online payment isn't available yet, so this order can't be placed right now. Remove the products from {{stores}} to order the rest."
 }

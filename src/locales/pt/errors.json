@@ -19,7 +19,8 @@
   "checkout": {
     "signInAgain": "Entre novamente para fazer seu pedido.",
     "discountNotValid": "Este código não pode ser usado com os itens da sua sacola. Verifique o código ou remova-o para continuar.",
-    "discountFormat": "Isso não parece um código de desconto."
+    "discountFormat": "Isso não parece um código de desconto.",
+    "codPaused": "Uma loja na sua sacola não está aceitando pagamento na entrega agora. Seu pedido não foi feito."
   },
   "orders": {
     "cannotCancel": "Este pedido não pode mais ser cancelado."

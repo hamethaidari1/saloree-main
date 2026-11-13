@@ -19,7 +19,8 @@
   "checkout": {
     "signInAgain": "주문하려면 다시 로그인해 주세요.",
     "discountNotValid": "이 코드는 쇼핑백의 상품에 사용할 수 없습니다. 코드를 확인하거나 삭제한 후 계속하세요.",
-    "discountFormat": "올바른 할인 코드 형식이 아닙니다."
+    "discountFormat": "올바른 할인 코드 형식이 아닙니다.",
+    "codPaused": "장바구니의 상점 중 한 곳이 지금 착불 결제를 받지 않습니다. 주문이 접수되지 않았습니다."
   },
   "orders": {
     "cannotCancel": "이 주문은 더 이상 취소할 수 없습니다."

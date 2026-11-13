@@ -21,7 +21,8 @@
     "codDescription": "주문이 도착하면 현금으로 결제합니다.",
     "stripe": "카드(Stripe)",
     "hesabpay": "HesabPay",
-    "comingSoon": "준비 중"
+    "comingSoon": "준비 중",
+    "codPaused": "다음 상점은 착불 결제가 일시 중지되었습니다: {{stores}}. 온라인으로 결제해 주세요."
   },
   "yourOrder": "주문 내역",
   "line": "{{quantity}} × {{title}}",
@@ -31,5 +32,6 @@
   "discountHelp": "주문 시 상점에서 코드를 확인하며, 할인 금액이 합계에 표시됩니다.",
   "note": "가격, 재고, 배송은 주문 시 Saloree에서 확정합니다. 다른 상점의 상품은 별도의 주문으로 처리됩니다.",
   "place": "주문하기",
-  "placing": "주문하는 중…"
+  "placing": "주문하는 중…",
+  "cannotPlace": "아직 온라인 결제를 사용할 수 없어 지금은 이 주문을 할 수 없습니다. 나머지를 주문하려면 {{stores}}의 상품을 장바구니에서 빼 주세요."
 }

@@ -19,6 +19,22 @@ export const PAYMENT_METHODS = [
 ] as const;
 export type PaymentProvider = Extract<(typeof PAYMENT_METHODS)[number], { enabled: true }>["id"];
 
+/** Is any online method switched on yet? (Today only pay on delivery is.) */
+export const ONLINE_PAYMENT_AVAILABLE = PAYMENT_METHODS.some((m) => m.enabled && m.id !== "cod");
+
+/**
+ * Cash on delivery per cart: if any store in the cart has COD paused, COD
+ * can't be used for this cart; without an online method the order can't be
+ * placed at all (said plainly, never a silent failure).
+ */
+export function codRule(
+  pausedStoreIds: readonly string[],
+  onlineAvailable = ONLINE_PAYMENT_AVAILABLE,
+) {
+  const codAllowed = pausedStoreIds.length === 0;
+  return { codAllowed, canPlace: codAllowed || onlineAvailable };
+}
+
 const required = (label: string, min: number, max: number) =>
   z
     .string({ required_error: `Enter your ${label}.` })
