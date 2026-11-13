@@ -21,5 +21,6 @@
   "payment": "Pago: contra reembolso.",
   "copyright": "© {{year}} Saloree",
   "businessId": "Identificación fiscal: <1>{{id}}</1>",
-  "language": "Idioma"
+  "language": "Idioma",
+  "support": "Atención: <1>{{email}}</1>"
 }

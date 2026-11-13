@@ -152,6 +152,12 @@ export function CategoriesPanel() {
                     /category/{c.slug}
                     <span aria-hidden>·</span>
                     {c.productCount} product{c.productCount === 1 ? "" : "s"}
+                    {c.productCount > 0 && (
+                      <>
+                        <span aria-hidden>·</span>
+                        <span>Can't be deleted while products use it</span>
+                      </>
+                    )}
                   </p>
                 </div>
                 <div className="seller-row-actions">
@@ -168,14 +174,17 @@ export function CategoriesPanel() {
                     size="icon"
                     variant="ghost"
                     aria-label={`Delete ${c.name}`}
-                    title="Delete"
+                    title={
+                      c.productCount > 0
+                        ? `${c.productCount} product${c.productCount === 1 ? " uses" : "s use"} this category — move them first`
+                        : "Delete"
+                    }
+                    // A category that still has products can't be deleted.
+                    disabled={c.productCount > 0}
                     onClick={() =>
                       setConfirm({
                         title: `Delete ${c.name}?`,
-                        description:
-                          c.productCount > 0
-                            ? `${c.productCount} product${c.productCount === 1 ? " uses" : "s use"} this category. Deleting may fail or leave them without a category.`
-                            : "This category will be removed permanently.",
+                        description: "This category will be removed permanently.",
                         confirmLabel: "Delete category",
                         destructive: true,
                         run: () => remove.mutateAsync(c),

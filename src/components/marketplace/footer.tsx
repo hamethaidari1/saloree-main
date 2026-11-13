@@ -171,7 +171,9 @@ export function SiteFooter({
   const content = given ?? query.data ?? EMPTY_FOOTER;
   const { company } = content;
   const year = new Date().getFullYear();
-  const hasCompany = Boolean(company.legalName || company.businessId || company.address);
+  const hasCompany = Boolean(
+    company.legalName || company.businessId || company.address || company.supportEmail,
+  );
 
   return (
     <footer className="site-footer">
@@ -246,6 +248,16 @@ export function SiteFooter({
                   </span>
                 )}
                 {company.address && <span>{company.address}</span>}
+                {company.supportEmail && (
+                  <span>
+                    <Trans
+                      t={t}
+                      i18nKey="support"
+                      values={{ email: company.supportEmail }}
+                      components={{ 1: <a href={`mailto:${company.supportEmail}`} dir="ltr" /> }}
+                    />
+                  </span>
+                )}
               </address>
             )}
           </div>

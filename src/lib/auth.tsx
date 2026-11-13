@@ -4,6 +4,13 @@ import type { User } from "@supabase/supabase-js";
 import type { AppRole } from "@/data/db";
 import { supabase } from "@/lib/supabase";
 import { safeReturnTo } from "@/lib/redirects";
+import {
+  decidePanelAccess,
+  isStaff,
+  staffHome,
+  type PanelId,
+  type StaffPanel,
+} from "@/lib/staff-access";
 
 export type SignupRole = "customer" | "seller";
 
@@ -67,6 +74,21 @@ export function requireRoleOrForbid(role: AppRole) {
   };
 }
 
+/**
+ * Guard for a staff panel route: signed out → /login (and back afterwards);
+ * signed in without a role for this panel → the route shows "no access"
+ * (`allowed: false`) instead of a screen whose every call would fail.
+ */
+export function requirePanel(id: PanelId) {
+  return async ({ location }: { location: { href: string } }) => {
+    const { user, roles } = await getAuthState();
+    const access = decidePanelAccess(!!user, roles, id);
+    if (access === "login" || !user)
+      throw redirect({ to: "/login", search: { redirect: location.href } });
+    return { user, roles, allowed: access === "allowed" };
+  };
+}
+
 export async function signUp(input: {
   email: string;
   password: string;
@@ -118,6 +140,8 @@ interface AuthContextValue {
   ready: boolean;
   isSeller: boolean;
   isAdmin: boolean;
+  /** The staff member's own panel (null if not staff). */
+  staffHome: StaffPanel["path"] | null;
 }
 const AuthContext = createContext<AuthContextValue>({
   user: null,
@@ -126,6 +150,7 @@ const AuthContext = createContext<AuthContextValue>({
   ready: false,
   isSeller: false,
   isAdmin: false,
+  staffHome: null,
 });
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -178,6 +203,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         ready,
         isSeller: roles.includes("seller"),
         isAdmin: roles.includes("admin"),
+        staffHome: isStaff(roles) ? staffHome(roles) : null,
       }}
     >
       {children}

@@ -10,14 +10,18 @@ const auth = vi.hoisted(() => ({
   signOut: vi.fn(async () => {}),
 }));
 
-vi.mock("@/lib/auth", () => ({
-  useAuth: () => ({
-    ...auth.state,
-    isSeller: auth.state.roles.includes("seller"),
-    isAdmin: auth.state.roles.includes("admin"),
-  }),
-  signOut: auth.signOut,
-}));
+vi.mock("@/lib/auth", async () => {
+  const { staffHome } = await import("@/lib/staff-access");
+  return {
+    useAuth: () => ({
+      ...auth.state,
+      isSeller: auth.state.roles.includes("seller"),
+      isAdmin: auth.state.roles.includes("admin"),
+      staffHome: staffHome(auth.state.roles),
+    }),
+    signOut: auth.signOut,
+  };
+});
 
 import {
   AccountMenu,
@@ -107,6 +111,16 @@ describe("account dropdown", () => {
     renderWithRouter(<AccountMenu />);
     const panel = await openMenu();
     expect(linkNames(panel)).toEqual(["My orders", "Account", "My store", "Admin"]);
+  });
+
+  it.each([
+    ["content_admin", "/admin/marketplace"],
+    ["finance_admin", "/admin/finance"],
+  ])("%s: the Admin link opens their own panel", async (role, href) => {
+    as([role]);
+    renderWithRouter(<AccountMenu />);
+    const panel = await openMenu();
+    expect(within(panel).getByRole("link", { name: "Admin" })).toHaveAttribute("href", href);
   });
 
   it("Sign out calls signOut and closes the menu", async () => {

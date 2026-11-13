@@ -21,5 +21,6 @@
   "payment": "Pagamento: em dinheiro na entrega.",
   "copyright": "© {{year}} Saloree",
   "businessId": "CNPJ/ID da empresa: <1>{{id}}</1>",
-  "language": "Idioma"
+  "language": "Idioma",
+  "support": "Suporte: <1>{{email}}</1>"
 }

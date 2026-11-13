@@ -20,6 +20,8 @@ import { Route as ProductsRouteImport } from './routes/products'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as SellerRouteImport } from './routes/seller'
 import { Route as StoresRouteImport } from './routes/stores'
+import { Route as AdminFinanceRouteImport } from './routes/admin_.finance'
+import { Route as AdminMarketplaceRouteImport } from './routes/admin_.marketplace'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as OrderConfirmationGroupIdRouteImport } from './routes/order-confirmation.$groupId'
@@ -91,6 +93,16 @@ const SellerRoute = SellerRouteImport.update({
 const StoresRoute = StoresRouteImport.update({
   id: '/stores',
   path: '/stores',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminFinanceRoute = AdminFinanceRouteImport.update({
+  id: '/admin_/finance',
+  path: '/admin/finance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminMarketplaceRoute = AdminMarketplaceRouteImport.update({
+  id: '/admin_/marketplace',
+  path: '/admin/marketplace',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthCallbackRoute = AuthCallbackRouteImport.update({
@@ -192,6 +204,8 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterRoute
   '/seller': typeof SellerRouteWithChildren
   '/stores': typeof StoresRoute
+  '/admin/finance': typeof AdminFinanceRoute
+  '/admin/marketplace': typeof AdminMarketplaceRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/category/$slug': typeof CategorySlugRoute
   '/order-confirmation/$groupId': typeof OrderConfirmationGroupIdRoute
@@ -221,6 +235,8 @@ export interface FileRoutesByTo {
   '/products': typeof ProductsRoute
   '/register': typeof RegisterRoute
   '/stores': typeof StoresRoute
+  '/admin/finance': typeof AdminFinanceRoute
+  '/admin/marketplace': typeof AdminMarketplaceRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/category/$slug': typeof CategorySlugRoute
   '/order-confirmation/$groupId': typeof OrderConfirmationGroupIdRoute
@@ -252,6 +268,8 @@ export interface FileRoutesById {
   '/register': typeof RegisterRoute
   '/seller': typeof SellerRouteWithChildren
   '/stores': typeof StoresRoute
+  '/admin_/finance': typeof AdminFinanceRoute
+  '/admin_/marketplace': typeof AdminMarketplaceRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/category/$slug': typeof CategorySlugRoute
   '/order-confirmation/$groupId': typeof OrderConfirmationGroupIdRoute
@@ -284,6 +302,8 @@ export interface FileRouteTypes {
     | '/register'
     | '/seller'
     | '/stores'
+    | '/admin/finance'
+    | '/admin/marketplace'
     | '/auth/callback'
     | '/category/$slug'
     | '/order-confirmation/$groupId'
@@ -313,6 +333,8 @@ export interface FileRouteTypes {
     | '/products'
     | '/register'
     | '/stores'
+    | '/admin/finance'
+    | '/admin/marketplace'
     | '/auth/callback'
     | '/category/$slug'
     | '/order-confirmation/$groupId'
@@ -343,6 +365,8 @@ export interface FileRouteTypes {
     | '/register'
     | '/seller'
     | '/stores'
+    | '/admin_/finance'
+    | '/admin_/marketplace'
     | '/auth/callback'
     | '/category/$slug'
     | '/order-confirmation/$groupId'
@@ -374,6 +398,8 @@ export interface RootRouteChildren {
   RegisterRoute: typeof RegisterRoute
   SellerRoute: typeof SellerRouteWithChildren
   StoresRoute: typeof StoresRoute
+  AdminFinanceRoute: typeof AdminFinanceRoute
+  AdminMarketplaceRoute: typeof AdminMarketplaceRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
   CategorySlugRoute: typeof CategorySlugRoute
   OrderConfirmationGroupIdRoute: typeof OrderConfirmationGroupIdRoute
@@ -459,6 +485,20 @@ declare module '@tanstack/react-router' {
       path: '/stores'
       fullPath: '/stores'
       preLoaderRoute: typeof StoresRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin_/finance': {
+      id: '/admin_/finance'
+      path: '/admin/finance'
+      fullPath: '/admin/finance'
+      preLoaderRoute: typeof AdminFinanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin_/marketplace': {
+      id: '/admin_/marketplace'
+      path: '/admin/marketplace'
+      fullPath: '/admin/marketplace'
+      preLoaderRoute: typeof AdminMarketplaceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth/callback': {
@@ -626,6 +666,8 @@ const rootRouteChildren: RootRouteChildren = {
   RegisterRoute: RegisterRoute,
   SellerRoute: SellerRouteWithChildren,
   StoresRoute: StoresRoute,
+  AdminFinanceRoute: AdminFinanceRoute,
+  AdminMarketplaceRoute: AdminMarketplaceRoute,
   AuthCallbackRoute: AuthCallbackRoute,
   CategorySlugRoute: CategorySlugRoute,
   OrderConfirmationGroupIdRoute: OrderConfirmationGroupIdRoute,

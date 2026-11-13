@@ -51,6 +51,10 @@ export function createSupabaseMock() {
       "order",
       "limit",
       "like",
+      "ilike",
+      "gte",
+      "lt",
+      "range",
     ])
       builder[m] = (...args: unknown[]) => {
         rec.calls.push([m, ...args]);

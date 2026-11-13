@@ -21,5 +21,6 @@
   "payment": "결제: 착불(현금).",
   "copyright": "© {{year}} Saloree",
   "businessId": "사업자 등록 번호: <1>{{id}}</1>",
-  "language": "언어"
+  "language": "언어",
+  "support": "고객 지원: <1>{{email}}</1>"
 }

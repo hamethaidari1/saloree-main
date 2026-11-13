@@ -4106,3 +4106,266 @@ html:is(:lang(ar), :lang(he), :lang(ko), :lang(zh-Hans), :lang(zh-Hant)) body {
   .cart-line h3, .checkout-lines li > span:first-child, .detail-description) {
   text-align: right;
 }
+
+/* ---------------------------------------------------------------------------
+   Staff panels (/admin, /admin/marketplace, /admin/finance). Logical CSS,
+   theme tokens only; in the components layer so utilities can override.
+   --------------------------------------------------------------------------- */
+@layer components {
+  .staff-header {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .staff-header-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .staff-email {
+    color: var(--muted-foreground);
+  }
+  .staff-switcher {
+    display: inline-flex;
+    padding: 3px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--muted);
+  }
+  .staff-switcher-link {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 36px;
+    padding-inline: 0.875rem;
+    border-radius: 999px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--muted-foreground);
+  }
+  .staff-switcher-link:hover {
+    color: var(--foreground);
+  }
+  .staff-switcher-link[aria-current="page"] {
+    background: var(--background);
+    color: var(--foreground);
+    box-shadow: var(--shadow-soft);
+  }
+  .staff-switcher-link:focus-visible,
+  .staff-link:focus-visible,
+  .staff-segment:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+  .staff-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .staff-filters-wrap {
+    margin-block-end: 1rem;
+  }
+  .staff-select {
+    min-block-size: 36px;
+    max-inline-size: 100%;
+    padding-inline: 0.625rem;
+    border: 1px solid var(--input);
+    border-radius: var(--radius-md);
+    background: var(--background);
+    color: var(--foreground);
+    font-size: 0.8125rem;
+  }
+  .staff-date {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.8125rem;
+    color: var(--muted-foreground);
+  }
+  .staff-date input {
+    inline-size: auto;
+  }
+  .staff-link {
+    text-align: start;
+    font: inherit;
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--border);
+  }
+  .staff-link:hover {
+    text-decoration-color: currentColor;
+  }
+  .staff-own,
+  .staff-since {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--muted-foreground);
+  }
+  .staff-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-block: 0.5rem 1rem;
+    padding: 0.625rem 0.75rem;
+    border-radius: var(--radius-md);
+    background: var(--secondary);
+    color: var(--secondary-foreground);
+    font-size: 0.8125rem;
+  }
+  .staff-note svg {
+    flex: none;
+    margin-block-start: 2px;
+  }
+  .staff-drawer {
+    inline-size: min(560px, 100vw);
+    max-inline-size: 100vw;
+    padding-block-end: 2rem;
+  }
+  .staff-facts {
+    display: grid;
+    grid-template-columns: minmax(7rem, auto) minmax(0, 1fr);
+    gap: 0.5rem 1rem;
+    margin-block: 1rem;
+    padding-inline: 1rem;
+    font-size: 0.875rem;
+  }
+  .staff-facts dt {
+    color: var(--muted-foreground);
+  }
+  .staff-facts dd {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .staff-subhead {
+    margin-block: 1.25rem 0.5rem;
+    padding-inline: 1rem;
+    font-weight: 650;
+  }
+  .staff-drawer .seller-list,
+  .staff-drawer .checkout-lines,
+  .staff-drawer > ul,
+  .staff-drawer > p {
+    padding-inline: 1rem;
+  }
+  .staff-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem 0.75rem;
+    margin-block-start: 0.5rem;
+    font-size: 0.8125rem;
+  }
+  .staff-chips li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+  }
+  .staff-chip-remove {
+    inline-size: 32px;
+    block-size: 32px;
+  }
+  .staff-image-preview {
+    display: block;
+    inline-size: 100%;
+    max-block-size: 160px;
+    aspect-ratio: 3 / 1;
+    object-fit: cover;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--muted);
+  }
+  .staff-image-empty {
+    display: grid;
+    place-items: center;
+    color: var(--muted-foreground);
+  }
+  .staff-fieldset {
+    display: grid;
+    gap: 0.75rem;
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+  }
+  .staff-fieldset legend {
+    padding-inline: 0.375rem;
+    font-weight: 650;
+  }
+  .staff-form {
+    max-inline-size: 720px;
+  }
+  .staff-two-col {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+    gap: 1.25rem;
+    align-items: start;
+  }
+  .staff-table-wrap {
+    max-inline-size: 100%;
+    overflow-x: auto;
+  }
+  .staff-orders,
+  .staff-audit {
+    min-inline-size: 760px;
+  }
+  .staff-audit td {
+    vertical-align: top;
+  }
+  .staff-segmented {
+    display: inline-flex;
+    padding: 3px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--muted);
+  }
+  .staff-segment {
+    min-block-size: 36px;
+    padding-inline: 0.875rem;
+    border-radius: calc(var(--radius-md) - 2px);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--muted-foreground);
+  }
+  .staff-segment[aria-checked="true"] {
+    background: var(--background);
+    color: var(--foreground);
+    box-shadow: var(--shadow-soft);
+  }
+  .staff-footer-preview {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.25rem 1rem;
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+    background: var(--footer-bg-deep);
+    color: var(--footer-muted);
+    font-size: 0.75rem;
+  }
+  .staff-add-role {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+    gap: 1rem;
+    align-items: start;
+  }
+  .staff-diff {
+    display: grid;
+    gap: 0.25rem;
+    font-size: 0.8125rem;
+  }
+  .staff-diff-old {
+    color: var(--muted-foreground);
+    text-decoration: line-through;
+  }
+  .staff-diff-new {
+    color: var(--foreground);
+  }
+  .staff-pager {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    font-size: 0.8125rem;
+    color: var(--muted-foreground);
+  }
+}

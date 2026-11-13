@@ -21,5 +21,6 @@
   "payment": "Zahlung: bar bei Lieferung.",
   "copyright": "© {{year}} Saloree",
   "businessId": "Unternehmens-ID: <1>{{id}}</1>",
-  "language": "Sprache"
+  "language": "Sprache",
+  "support": "Support: <1>{{email}}</1>"
 }

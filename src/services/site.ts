@@ -16,6 +16,8 @@ export interface FooterCompany {
   legalName: string | null;
   businessId: string | null;
   address: string | null;
+  /** Shown as a mailto link; only a plausible email address is accepted. */
+  supportEmail: string | null;
 }
 export interface FooterContent {
   description: string | null;
@@ -31,9 +33,13 @@ export const EMPTY_FOOTER: FooterContent = {
   description: null,
   copyright: null,
   social: [],
-  company: { legalName: null, businessId: null, address: null },
+  company: { legalName: null, businessId: null, address: null, supportEmail: null },
   columns: [],
 };
+
+const EMAIL_RE = /^[^\s@<>()"']+@[^\s@<>()"']+\.[^\s@<>()"']{2,}$/;
+const emailOrNull = (v: unknown) =>
+  typeof v === "string" && EMAIL_RE.test(v.trim()) && v.trim().length <= 254 ? v.trim() : null;
 
 const text = (v: unknown) => (typeof v === "string" && v.trim() ? v.trim() : null);
 
@@ -84,6 +90,7 @@ export function toFooterContent(
       legalName: text(fs["legal_name"]),
       businessId: text(fs["business_id"]),
       address: text(fs["address"]),
+      supportEmail: emailOrNull(fs["support_email"]),
     },
     columns,
   };

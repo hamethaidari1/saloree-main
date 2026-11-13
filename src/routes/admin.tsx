@@ -1,9 +1,6 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ShieldAlert } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CatalogSkeleton } from "@/components/marketplace/shared";
-import { SignOutButton } from "@/components/marketplace/auth-form";
 import { CategoriesPanel } from "@/components/admin/categories-panel";
 import { CarriersPanel } from "@/components/admin/carriers-panel";
 import { CommissionPanel } from "@/components/admin/commission-panel";
@@ -13,7 +10,9 @@ import { OverviewPanel } from "@/components/admin/overview-panel";
 import { ProductsPanel } from "@/components/admin/products-panel";
 import { StoresPanel } from "@/components/admin/stores-panel";
 import { UsersPanel } from "@/components/admin/users-panel";
-import { requireRoleOrForbid } from "@/lib/auth";
+import { requirePanel } from "@/lib/auth";
+import { NoAccess, StaffShell } from "@/components/staff/staff-shell";
+import { AuditLogPanel, TeamPanel } from "@/components/staff/team-panels";
 
 const TABS = [
   ["overview", "Overview"],
@@ -25,14 +24,16 @@ const TABS = [
   ["carriers", "Carriers"],
   ["templates", "Templates"],
   ["commission", "Commission"],
+  ["team", "Team"],
+  ["audit", "Audit log"],
 ] as const;
 type Tab = (typeof TABS)[number][0];
 const isTab = (v: unknown): v is Tab => TABS.some(([t]) => t === v);
 
 export const Route = createFileRoute("/admin")({
   ssr: false,
-  // Signed out → /login. Signed in without 'admin' → "not allowed" screen.
-  beforeLoad: requireRoleOrForbid("admin"),
+  // Signed out → /login. Signed in without 'admin' → "You don't have access".
+  beforeLoad: requirePanel("admin"),
   validateSearch: (s: Record<string, unknown>): { tab?: Tab } =>
     isTab(s["tab"]) ? { tab: s["tab"] } : {},
   head: () => ({
@@ -43,43 +44,29 @@ export const Route = createFileRoute("/admin")({
 });
 
 function AdminPage() {
-  const { user, allowed } = Route.useRouteContext();
-  if (!allowed) return <NotAllowed />;
-  return <AdminPanel email={user.email ?? ""} />;
+  const { user, roles, allowed } = Route.useRouteContext();
+  if (!allowed) return <NoAccess panel="admin" roles={roles} />;
+  return <AdminPanel email={user.email ?? ""} roles={roles} userId={user.id} />;
 }
 
-function NotAllowed() {
-  return (
-    <main className="market-container auth-page">
-      <div className="auth-card text-center" role="alert">
-        <ShieldAlert className="mx-auto mb-4 text-destructive" size={32} aria-hidden />
-        <h1 className="page-title">Not allowed</h1>
-        <p className="page-subtitle">
-          This area is for Saloree administrators. Your account doesn't have admin access.
-        </p>
-        <div className="mt-6 flex justify-center gap-2">
-          <Button asChild>
-            <Link to="/">Back to shopping</Link>
-          </Button>
-          <SignOutButton />
-        </div>
-      </div>
-    </main>
-  );
-}
-
-function AdminPanel({ email }: { email: string }) {
+function AdminPanel({
+  email,
+  roles,
+  userId,
+}: {
+  email: string;
+  roles: readonly string[];
+  userId: string;
+}) {
   const { tab = "overview" } = Route.useSearch();
   const navigate = useNavigate({ from: "/admin" });
   return (
-    <main className="market-container pb-16">
-      <div className="account-header">
-        <div>
-          <h1 className="page-title">Admin</h1>
-          <p className="page-subtitle">{email}</p>
-        </div>
-        <SignOutButton />
-      </div>
+    <StaffShell
+      panel="admin"
+      email={email}
+      roles={roles}
+      description="Everything: technical settings, team and all panels."
+    >
       <Tabs
         value={tab}
         onValueChange={(v) => isTab(v) && navigate({ search: { tab: v }, replace: true })}
@@ -99,7 +86,7 @@ function AdminPanel({ email }: { email: string }) {
           <StoresPanel />
         </TabsContent>
         <TabsContent value="products" className="mt-6">
-          <ProductsPanel />
+          <ProductsPanel canDelete />
         </TabsContent>
         <TabsContent value="categories" className="mt-6">
           <CategoriesPanel />
@@ -119,7 +106,13 @@ function AdminPanel({ email }: { email: string }) {
         <TabsContent value="commission" className="mt-6">
           <CommissionPanel />
         </TabsContent>
+        <TabsContent value="team" className="mt-6">
+          <TeamPanel myUserId={userId} />
+        </TabsContent>
+        <TabsContent value="audit" className="mt-6">
+          <AuditLogPanel />
+        </TabsContent>
       </Tabs>
-    </main>
+    </StaffShell>
   );
 }

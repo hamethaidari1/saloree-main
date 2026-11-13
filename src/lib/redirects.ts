@@ -1,4 +1,5 @@
-/** Pure helpers for "where do we send the user after sign-in?" (no imports, no I/O). */
+/** Pure helpers for "where do we send the user after sign-in?" (no I/O). */
+import { staffHome } from "./staff-access";
 
 /**
  * The one check for redirect targets (?redirect=, saved returnTo).
@@ -22,14 +23,7 @@ export function safeReturnTo(value: unknown): string | null {
   return value;
 }
 
-/** Staff first (admin, content_admin, finance_admin), then sellers, else /account. */
-export const ROLE_HOMES: ReadonlyArray<readonly [role: string, path: string]> = [
-  ["admin", "/admin"],
-  ["content_admin", "/admin/marketplace"],
-  ["finance_admin", "/admin/finance"],
-  ["seller", "/seller"],
-];
-
+/** Staff go to their own panel (see staff-access), then sellers, else /account. */
 export function homeForRoles(roles: readonly string[]): string {
-  return ROLE_HOMES.find(([role]) => roles.includes(role))?.[1] ?? "/account";
+  return staffHome(roles) ?? (roles.includes("seller") ? "/seller" : "/account");
 }

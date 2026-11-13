@@ -21,5 +21,6 @@
   "payment": "الدفع: نقدًا عند الاستلام.",
   "copyright": "© {{year}} Saloree",
   "businessId": "رقم السجل التجاري: <1>{{id}}</1>",
-  "language": "اللغة"
+  "language": "اللغة",
+  "support": "الدعم: <1>{{email}}</1>"
 }

@@ -21,5 +21,6 @@
   "payment": "付款方式：貨到付款（現金）。",
   "copyright": "© {{year}} Saloree",
   "businessId": "統一編號：<1>{{id}}</1>",
-  "language": "語言"
+  "language": "語言",
+  "support": "客服：<1>{{email}}</1>"
 }

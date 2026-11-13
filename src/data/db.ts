@@ -86,6 +86,8 @@ export interface OrderRow {
   total_amount: number | null;
   payment_status: string | null;
   payment_provider: string | null;
+  paid_at?: string | null;
+  shipping_fee?: number | string | null;
   checkout_group_id: string | null;
   currency: string | null;
   discount_code: string | null;

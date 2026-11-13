@@ -22,6 +22,7 @@ export function useAdminAction<V>(
       Promise.all([
         queryClient.invalidateQueries({ queryKey: adminKeys.all }),
         queryClient.invalidateQueries({ queryKey: ["catalog"] }),
+        queryClient.invalidateQueries({ queryKey: ["site"] }), // footer links, company details
       ]),
   });
 }

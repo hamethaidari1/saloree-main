@@ -3,21 +3,32 @@ import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { adminService, commissionSchema } from "@/services/admin";
+import { commissionSchema } from "@/services/admin";
 import { friendlyError } from "@/services/errors";
+import { financeService, type CommissionInfo } from "@/services/finance";
+import { ConfirmDialog, type ConfirmRequest } from "./confirm-dialog";
 import { adminKeys } from "./keys";
 import { useAdminAction } from "./use-admin-action";
 
 const MISSING_TABLE =
   "The platform_settings table hasn't been created yet. Apply the reviewed SQL, then reload.";
 
+function changedBy(info: CommissionInfo) {
+  if (!info.updatedBy) return "";
+  const who = info.updatedBy.isMe
+    ? "you"
+    : (info.updatedBy.name ?? info.updatedBy.email ?? "a staff member");
+  return ` by ${who}`;
+}
+
+/** Platform commission (admin and finance staff). */
 export function CommissionPanel() {
   const settings = useQuery({
     queryKey: adminKeys.settings,
-    queryFn: adminService.getSettings,
+    queryFn: financeService.getCommission,
     retry: false,
   });
-  const save = useAdminAction((value: number) => adminService.setCommission(value), {
+  const save = useAdminAction((value: number) => financeService.setCommission(value), {
     success: (v) => `Commission set to ${v}%`,
     errors: { PGRST205: MISSING_TABLE },
   });
@@ -28,7 +39,8 @@ export function CommissionPanel() {
         Platform commission
       </h2>
       <p className="seller-hint mb-6">
-        The percentage Saloree keeps from each sale. Visible to admins only.
+        The percentage Saloree keeps from each sale. It is copied onto each order when the order is
+        placed, so a change applies to new orders only.
       </p>
       {settings.isPending ? (
         <div className="seller-skeleton" aria-busy="true" aria-label="Loading">
@@ -44,9 +56,8 @@ export function CommissionPanel() {
         </div>
       ) : (
         <CommissionForm
-          key={settings.data.updated_at}
-          initial={Number(settings.data.commission_percent)}
-          updatedAt={settings.data.updated_at}
+          key={settings.data.updatedAt}
+          info={settings.data}
           busy={save.isPending}
           onSave={(v) => save.mutateAsync(v)}
         />
@@ -56,29 +67,34 @@ export function CommissionPanel() {
 }
 
 function CommissionForm({
-  initial,
-  updatedAt,
+  info,
   busy,
   onSave,
 }: {
-  initial: number;
-  updatedAt: string;
+  info: CommissionInfo;
   busy: boolean;
   onSave: (value: number) => Promise<unknown>;
 }) {
-  const [value, setValue] = useState(String(initial));
+  const [value, setValue] = useState(String(info.percent));
   const [error, setError] = useState<string | null>(null);
+  const [confirm, setConfirm] = useState<ConfirmRequest | null>(null);
   const parsed = commissionSchema.safeParse(value);
-  const unchanged = parsed.success && parsed.data === initial;
+  const unchanged = parsed.success && parsed.data === info.percent;
   return (
     <form
       className="seller-form"
       noValidate
-      onSubmit={async (e) => {
+      onSubmit={(e) => {
         e.preventDefault();
         if (!parsed.success) return setError(parsed.error.issues[0]?.message ?? "Invalid value.");
         setError(null);
-        await onSave(parsed.data).catch(() => {});
+        const next = parsed.data;
+        setConfirm({
+          title: `Change commission to ${next}%?`,
+          description: `It applies to NEW orders only. Orders already placed keep the commission they were placed with (now ${info.percent}%).`,
+          confirmLabel: "Change commission",
+          run: () => onSave(next),
+        });
       }}
     >
       <div className="seller-field">
@@ -102,8 +118,12 @@ function CommissionForm({
         <p id="commission-help" className={error ? "seller-error" : "seller-hint"}>
           {error ??
             (parsed.success
-              ? `On a $100.00 sale the platform keeps $${parsed.data.toFixed(2)}. Last changed ${new Date(updatedAt).toLocaleString()}.`
+              ? `On a $100.00 sale the platform keeps $${parsed.data.toFixed(2)}.`
               : "Between 0 and 100, up to two decimals.")}
+        </p>
+        <p className="seller-hint">
+          Last changed {new Date(info.updatedAt).toLocaleString()}
+          {changedBy(info)}.
         </p>
       </div>
       <div>
@@ -111,6 +131,7 @@ function CommissionForm({
           {busy ? "Saving…" : "Save commission"}
         </Button>
       </div>
+      <ConfirmDialog request={confirm} busy={busy} onClose={() => setConfirm(null)} />
     </form>
   );
 }

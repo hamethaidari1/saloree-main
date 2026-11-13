@@ -21,5 +21,6 @@
   "payment": "付款方式：货到付款（现金）。",
   "copyright": "© {{year}} Saloree",
   "businessId": "企业注册号：<1>{{id}}</1>",
-  "language": "语言"
+  "language": "语言",
+  "support": "客服：<1>{{email}}</1>"
 }

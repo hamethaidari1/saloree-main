@@ -24,7 +24,7 @@ export function firstName(
 /** Account links; shared by the header dropdown and the mobile drawer. */
 export function AccountMenuPanel({ onNavigate }: { onNavigate?: () => void }) {
   const { t } = useTranslation("nav");
-  const { user, ready, isSeller, isAdmin } = useAuth();
+  const { user, ready, isSeller, staffHome } = useAuth();
   const navigate = useNavigate();
 
   if (!ready)
@@ -81,9 +81,10 @@ export function AccountMenuPanel({ onNavigate }: { onNavigate?: () => void }) {
             </Link>
           </li>
         )}
-        {isAdmin && (
+        {staffHome && (
           <li>
-            <Link to="/admin" className="nav-panel-link" onClick={onNavigate}>
+            {/* Each staff member's own panel (it has a switcher if they have several). */}
+            <Link to={staffHome} className="nav-panel-link" onClick={onNavigate}>
               {t("account.admin")}
             </Link>
           </li>

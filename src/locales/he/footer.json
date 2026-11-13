@@ -21,5 +21,6 @@
   "payment": "תשלום: במזומן במסירה.",
   "copyright": "© {{year}} Saloree",
   "businessId": "מספר עוסק: <1>{{id}}</1>",
-  "language": "שפה"
+  "language": "שפה",
+  "support": "תמיכה: <1>{{email}}</1>"
 }

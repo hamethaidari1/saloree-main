@@ -21,5 +21,6 @@
   "payment": "Payment: cash on delivery.",
   "copyright": "© {{year}} Saloree",
   "businessId": "Business ID: <1>{{id}}</1>",
-  "language": "Language"
+  "language": "Language",
+  "support": "Support: <1>{{email}}</1>"
 }

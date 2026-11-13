@@ -10,6 +10,7 @@ import type {
 } from "@/data/db";
 import { supabase } from "@/lib/supabase";
 import { expectRows, NotPermittedError } from "./errors";
+import { PRODUCT_STATUSES } from "./seller";
 
 // Every call here runs as the signed-in admin through the normal client.
 // Access is enforced by RLS admin policies (has_role(auth.uid(), 'admin')),
@@ -40,7 +41,11 @@ export const commissionSchema = z.preprocess(
     ),
 );
 
-export type AdminStore = StoreRow & { ownerEmail: string | null; productCount: number };
+export type AdminStore = StoreRow & {
+  ownerEmail: string | null;
+  ownerName: string | null;
+  productCount: number;
+};
 export type AdminProduct = Pick<
   ProductRow,
   | "id"
@@ -65,16 +70,16 @@ export interface Overview {
   sellers: number;
 }
 
-async function count(
+export async function count(
   query: PromiseLike<{ count: number | null; error: unknown }>,
 ): Promise<number> {
   const { count: n, error } = await query;
   if (error) throw error;
   return n ?? 0;
 }
-const head = { count: "exact", head: true } as const;
+export const head = { count: "exact", head: true } as const;
 
-async function currentUserId() {
+export async function currentUserId() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -106,18 +111,20 @@ export const adminService = {
     if (error) throw error;
     const rows = data as (StoreRow & { products: { count: number }[] })[];
     const ownerIds = [...new Set(rows.map((s) => s.owner_id))];
-    const emails = new Map<string, string | null>();
+    const owners = new Map<string, Pick<ProfileRow, "email" | "full_name">>();
     if (ownerIds.length) {
       const { data: profiles, error: pError } = await supabase
         .from("profiles")
-        .select("id, email")
+        .select("id, email, full_name")
         .in("id", ownerIds);
       if (pError) throw pError;
-      for (const p of profiles as Pick<ProfileRow, "id" | "email">[]) emails.set(p.id, p.email);
+      for (const p of profiles as Pick<ProfileRow, "id" | "email" | "full_name">[])
+        owners.set(p.id, p);
     }
     return rows.map(({ products, ...s }) => ({
       ...s,
-      ownerEmail: emails.get(s.owner_id) ?? null,
+      ownerEmail: owners.get(s.owner_id)?.email ?? null,
+      ownerName: owners.get(s.owner_id)?.full_name ?? null,
       productCount: products?.[0]?.count ?? 0,
     }));
   },
@@ -144,7 +151,7 @@ export const adminService = {
     return data as unknown as AdminProduct[];
   },
 
-  setProductStatus: async (id: string, status: "active" | "draft") => {
+  setProductStatus: async (id: string, status: (typeof PRODUCT_STATUSES)[number]) => {
     const { data, error } = await supabase
       .from("products")
       .update({ status })
