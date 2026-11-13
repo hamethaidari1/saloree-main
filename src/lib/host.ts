@@ -121,6 +121,8 @@ const MAIN_ONLY_PREFIXES = [
   "/checkout",
   "/login",
   "/register",
+  "/forgot-password",
+  "/reset-password",
   "/auth",
   "/account",
   "/order-confirmation",

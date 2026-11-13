@@ -11,9 +11,13 @@ import { GoogleButton } from "@/components/marketplace/google-button";
 import { safeRedirect, signIn } from "@/lib/auth";
 import { homeForRoles, safeReturnTo } from "@/lib/redirects";
 
+type LoginSearch = { redirect?: string; notice?: "password-updated" };
+
 export const Route = createFileRoute("/login")({
-  validateSearch: (s: Record<string, unknown>): { redirect?: string } =>
-    typeof s["redirect"] === "string" ? { redirect: s["redirect"] } : {},
+  validateSearch: (s: Record<string, unknown>): LoginSearch => ({
+    ...(typeof s["redirect"] === "string" ? { redirect: s["redirect"] } : {}),
+    ...(s["notice"] === "password-updated" ? { notice: "password-updated" as const } : {}),
+  }),
   head: ({ matches }) => ({
     meta: [
       { title: headT(matches, "auth")("login.metaTitle") },
@@ -26,7 +30,7 @@ export const Route = createFileRoute("/login")({
 
 function LoginPage() {
   const { t } = useTranslation("auth");
-  const { redirect } = Route.useSearch();
+  const { redirect, notice } = Route.useSearch();
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -37,6 +41,7 @@ function LoginPage() {
       submitLabel={t("login.submit")}
       busy={busy}
       error={error}
+      notice={notice === "password-updated" ? t("login.passwordUpdated") : null}
       onSubmit={async (form) => {
         setBusy(true);
         setError(null);
@@ -68,6 +73,9 @@ function LoginPage() {
           autoComplete="current-password"
           required
         />
+        <Link to="/forgot-password" className="auth-forgot">
+          {t("login.forgot")}
+        </Link>
       </div>
     </AuthCard>
   );

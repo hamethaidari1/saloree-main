@@ -24,11 +24,31 @@ export function createSupabaseMock() {
     queue: [] as Reply[],
     fallback: { data: [], error: null, count: 0 } as Reply,
     /** Current auth session (null = signed out). */
-    session: { user: { id: "user-1" } } as { user: { id: string } } | null,
+    session: { user: { id: "user-1" } } as {
+      user: { id: string; email?: string };
+      access_token?: string;
+    } | null,
     oauthCalls: [] as unknown[],
     oauthError: null as { message: string; code?: string } | null,
     exchanges: [] as string[],
     exchangeError: null as { message: string; code?: string } | null,
+    /** Auth calls by name, with their arguments (password reset etc.). */
+    authCalls: [] as { fn: string; args: unknown[] }[],
+    /** Next error per auth method name (taken once). */
+    authErrors: {} as Record<string, unknown>,
+    /** What `initialize()` reports (the client's own processing of the URL). */
+    initError: null as unknown,
+    /** Auth events the next initialize()/verifyOtp() emits to listeners. */
+    listeners: new Set<(event: string, session: unknown) => void>(),
+  };
+  const authCall = (fn: string, ...args: unknown[]) => {
+    state.authCalls.push({ fn, args });
+    const error = state.authErrors[fn] ?? null;
+    delete state.authErrors[fn];
+    return error;
+  };
+  const emit = (event: string) => {
+    for (const l of state.listeners) l(event, state.session);
   };
   const reply = () => {
     const r = state.queue.shift() ?? state.fallback;
@@ -87,6 +107,35 @@ export function createSupabaseMock() {
         }
         return { data: { session: state.session }, error: null };
       }),
+      initialize: vi.fn(async () => {
+        authCall("initialize");
+        return { error: state.initError };
+      }),
+      onAuthStateChange: vi.fn((cb: (event: string, session: unknown) => void) => {
+        state.listeners.add(cb);
+        return { data: { subscription: { unsubscribe: () => state.listeners.delete(cb) } } };
+      }),
+      resetPasswordForEmail: vi.fn(async (email: string, options?: unknown) => {
+        const error = authCall("resetPasswordForEmail", email, options);
+        return { data: {}, error };
+      }),
+      verifyOtp: vi.fn(async (params: unknown) => {
+        const error = authCall("verifyOtp", params);
+        if (!error) emit("PASSWORD_RECOVERY");
+        return { data: { session: error ? null : state.session }, error };
+      }),
+      updateUser: vi.fn(async (attrs: unknown) => {
+        const error = authCall("updateUser", attrs);
+        return { data: { user: error ? null : state.session?.user }, error };
+      }),
+      signOut: vi.fn(async (options?: unknown) => {
+        const error = authCall("signOut", options);
+        if (!error) {
+          state.session = null;
+          emit("SIGNED_OUT");
+        }
+        return { error };
+      }),
     },
     storage: {
       from: (bucket: string) => ({
@@ -112,6 +161,10 @@ export function createSupabaseMock() {
     state.oauthError = null;
     state.exchanges.length = 0;
     state.exchangeError = null;
+    state.authCalls.length = 0;
+    state.authErrors = {};
+    state.initError = null;
+    state.listeners.clear();
   };
   /** Calls of the n-th query on `table`. */
   const callsOn = (table: string, n = 0) =>

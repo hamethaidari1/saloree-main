@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { AuthCard } from "@/components/marketplace/auth-form";
 import { GoogleButton } from "@/components/marketplace/google-button";
 import { signUp, type SignupRole } from "@/lib/auth";
+import { newPasswordSchema, PASSWORD_MIN_LENGTH } from "@/lib/password-reset";
 
 export const Route = createFileRoute("/register")({
   // ?role=seller preselects "Sell" (used by "Sell on Saloree").
@@ -58,7 +59,8 @@ function RegisterPage() {
       error={error}
       onSubmit={async (form) => {
         const password = String(form.get("password"));
-        if (password.length < 8) return setError(t("register.passwordShort"));
+        if (!newPasswordSchema.safeParse(password).success)
+          return setError(t("register.passwordShort"));
         setBusy(true);
         setError(null);
         const email = String(form.get("email"));
@@ -124,7 +126,7 @@ function RegisterPage() {
           name="password"
           type="password"
           autoComplete="new-password"
-          minLength={8}
+          minLength={PASSWORD_MIN_LENGTH}
           required
         />
       </div>

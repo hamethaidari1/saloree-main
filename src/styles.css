@@ -3250,6 +3250,75 @@
   color: var(--primary);
   font-weight: 600;
 }
+/* Forgot / reset password */
+.auth-forgot {
+  display: block;
+  inline-size: fit-content;
+  margin-block-start: 8px;
+  margin-inline-start: auto;
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 600;
+}
+.auth-forgot:hover,
+.auth-show-toggle:hover {
+  text-decoration: underline;
+}
+.auth-notice {
+  margin-block-start: 20px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-inline-start: 3px solid var(--primary);
+  border-radius: 6px;
+  background: var(--secondary);
+  color: var(--secondary-foreground);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.auth-notice-hint {
+  color: var(--muted-foreground);
+}
+.auth-field-hint,
+.auth-field-error {
+  margin-block-start: 6px;
+  font-size: 12.5px;
+}
+.auth-field-hint {
+  color: var(--muted-foreground);
+}
+.auth-field-error {
+  color: var(--destructive);
+}
+.auth-error p + p {
+  margin-block-start: 4px;
+}
+.auth-error-block {
+  margin-block: 18px 22px;
+  line-height: 1.5;
+}
+.auth-show-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  justify-self: start;
+  padding: 2px 0;
+  border: 0;
+  background: none;
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.auth-show-toggle svg {
+  inline-size: 16px;
+  block-size: 16px;
+}
+.auth-forgot:focus-visible,
+.auth-show-toggle:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
 .account-header {
   display: flex;
   flex-wrap: wrap;
@@ -4089,7 +4158,8 @@ html:is(:lang(ar), :lang(he), :lang(ko), :lang(zh-Hans), :lang(zh-Hant)) body {
 }
 /* RTL: emails, phone numbers, passwords and discount codes are always written
    left-to-right; keep them readable but aligned with the rest of the form. */
-[dir="rtl"] :is(input[type="email"], input[type="tel"], input[type="password"], #checkout-discount) {
+[dir="rtl"]
+  :is(input[type="email"], input[type="tel"], input[type="password"], #checkout-discount) {
   direction: ltr;
   text-align: right;
 }
@@ -4097,13 +4167,30 @@ html:is(:lang(ar), :lang(he), :lang(ko), :lang(zh-Hans), :lang(zh-Hant)) body {
 /* Seller-written text (product titles, store names) keeps its own direction:
    an English title starting with "4 Pack" stays "4 Pack…" on an Arabic page.
    Alignment still follows the page. */
-:is(.product-title, .product-store, .detail-copy h1, .breadcrumb > span:last-child, .cart-line h3,
-  .cart-store-heading, .checkout-lines li > span:first-child, .tpl-card-title, .store-header-brand > span,
-  .detail-description) {
+:is(
+  .product-title,
+  .product-store,
+  .detail-copy h1,
+  .breadcrumb > span:last-child,
+  .cart-line h3,
+  .cart-store-heading,
+  .checkout-lines li > span:first-child,
+  .tpl-card-title,
+  .store-header-brand > span,
+  .detail-description
+) {
   unicode-bidi: plaintext;
 }
-[dir="rtl"] :is(.product-title, .product-store, .detail-copy h1, .breadcrumb > span:last-child,
-  .cart-line h3, .checkout-lines li > span:first-child, .detail-description) {
+[dir="rtl"]
+  :is(
+    .product-title,
+    .product-store,
+    .detail-copy h1,
+    .breadcrumb > span:last-child,
+    .cart-line h3,
+    .checkout-lines li > span:first-child,
+    .detail-description
+  ) {
   text-align: right;
 }
 
