@@ -21,12 +21,6 @@
   },
   "card": {
     "view": "{{title}} 보기",
-    "save": "{{title}} 저장",
-    "unsave": "{{title}} 저장 취소",
-    "saveTitle": "즐겨찾기에 저장",
-    "unsaveTitle": "즐겨찾기에서 삭제",
-    "saved": "즐겨찾기에 저장했습니다",
-    "removed": "즐겨찾기에서 삭제했습니다",
     "addTitle": "장바구니에 담기",
     "addAria": "{{title}} 장바구니에 담기"
   },
@@ -70,5 +64,34 @@
     "sortPopular": "인기순",
     "emptyTitle": "아직 상품이 없습니다",
     "emptyText": "다른 검색어를 입력하거나 필터를 조정해 보세요."
+  },
+  "wishlist": {
+    "metaTitle": "위시리스트 — Saloree",
+    "title": "내 위시리스트",
+    "loading": "위시리스트를 불러오는 중",
+    "retry": "다시 시도",
+    "emptyTitle": "위시리스트가 비어 있습니다",
+    "emptyText": "상품의 하트를 누르면 나중에 볼 수 있도록 여기에 저장됩니다.",
+    "keepShopping": "계속 쇼핑하기",
+    "savedOn": "{{date}}에 저장함",
+    "allInCart": "모두 장바구니에 있음",
+    "remove": "삭제",
+    "removeAria": "위시리스트에서 {{title}} 삭제",
+    "saveAria": "{{title}}을(를) 위시리스트에 저장",
+    "saveTitle": "위시리스트에 저장",
+    "removeTitle": "위시리스트에서 삭제",
+    "saved": "위시리스트에 저장했습니다",
+    "removed": "위시리스트에서 삭제했습니다",
+    "savedAfterSignIn": "로그인되었습니다. 상품을 위시리스트에 저장했습니다.",
+    "errors": {
+      "notSignedIn": "위시리스트에 상품을 저장하려면 로그인하세요.",
+      "full": "위시리스트가 가득 찼습니다(상품 200개). 새 상품을 저장하려면 일부를 삭제하세요.",
+      "unavailable": "지금은 이 상품을 저장할 수 없습니다. 더 이상 판매하지 않는 상품일 수 있습니다.",
+      "notReady": "위시리스트를 아직 사용할 수 없습니다. 데이터베이스 테이블이 없습니다.",
+      "network": "Saloree에 연결할 수 없습니다. 연결을 확인하고 다시 시도해 주세요.",
+      "invalid": "상품을 찾을 수 없습니다.",
+      "generic": "문제가 발생했습니다. 다시 시도해 주세요."
+    },
+    "countAria_other": "저장한 상품 {{count}}개"
   }
 }

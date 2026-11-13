@@ -21,12 +21,6 @@
   },
   "card": {
     "view": "查看 {{title}}",
-    "save": "收藏 {{title}}",
-    "unsave": "取消收藏 {{title}}",
-    "saveTitle": "加入收藏",
-    "unsaveTitle": "從收藏中移除",
-    "saved": "已加入收藏",
-    "removed": "已從收藏中移除",
     "addTitle": "加入購物車",
     "addAria": "將 {{title}} 加入購物車"
   },
@@ -70,5 +64,34 @@
     "sortPopular": "最受歡迎",
     "emptyTitle": "目前沒有好物",
     "emptyText": "試試其他關鍵字或調整篩選條件。"
+  },
+  "wishlist": {
+    "metaTitle": "願望清單 — Saloree",
+    "title": "我的願望清單",
+    "loading": "正在載入願望清單",
+    "retry": "重試",
+    "emptyTitle": "願望清單是空的",
+    "emptyText": "點按任何商品上的愛心，即可將其收藏在這裡以後再看。",
+    "keepShopping": "繼續購物",
+    "savedOn": "收藏於 {{date}}",
+    "allInCart": "已全部加入購物車",
+    "remove": "移除",
+    "removeAria": "從願望清單移除{{title}}",
+    "saveAria": "將{{title}}加入願望清單",
+    "saveTitle": "加入願望清單",
+    "removeTitle": "從願望清單移除",
+    "saved": "已加入願望清單",
+    "removed": "已從願望清單移除",
+    "savedAfterSignIn": "您已登入，商品已加入願望清單。",
+    "errors": {
+      "notSignedIn": "登入後即可將商品加入願望清單。",
+      "full": "願望清單已滿（200 件商品）。請先移除一些再收藏新商品。",
+      "unavailable": "暫時無法收藏此商品，它可能已不再販售。",
+      "notReady": "願望清單暫不可用：資料庫資料表不存在。",
+      "network": "無法連線至 Saloree。請檢查網路後重試。",
+      "invalid": "找不到此商品。",
+      "generic": "發生問題，請重試。"
+    },
+    "countAria_other": "已收藏 {{count}} 件商品"
   }
 }

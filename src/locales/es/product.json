@@ -23,12 +23,6 @@
   },
   "card": {
     "view": "Ver {{title}}",
-    "save": "Guardar {{title}}",
-    "unsave": "Quitar {{title}} de favoritos",
-    "saveTitle": "Guardar en favoritos",
-    "unsaveTitle": "Quitar de favoritos",
-    "saved": "Guardado en favoritos",
-    "removed": "Quitado de favoritos",
     "addTitle": "Añadir al carrito",
     "addAria": "Añadir {{title}} al carrito"
   },
@@ -74,5 +68,36 @@
     "sortPopular": "Más populares",
     "emptyTitle": "Aún no hay hallazgos",
     "emptyText": "Prueba otra búsqueda o ajusta los filtros."
+  },
+  "wishlist": {
+    "metaTitle": "Lista de deseos — Saloree",
+    "title": "Tu lista de deseos",
+    "loading": "Cargando tu lista de deseos",
+    "retry": "Reintentar",
+    "emptyTitle": "Tu lista de deseos está vacía",
+    "emptyText": "Toca el corazón de cualquier producto para guardarlo aquí para más tarde.",
+    "keepShopping": "Seguir comprando",
+    "savedOn": "Guardado el {{date}}",
+    "allInCart": "Todo está en tu carrito",
+    "remove": "Quitar",
+    "removeAria": "Quitar {{title}} de tu lista de deseos",
+    "saveAria": "Guardar {{title}} en tu lista de deseos",
+    "saveTitle": "Guardar en la lista de deseos",
+    "removeTitle": "Quitar de la lista de deseos",
+    "saved": "Guardado en tu lista de deseos",
+    "removed": "Quitado de tu lista de deseos",
+    "savedAfterSignIn": "Iniciaste sesión. El producto se guardó en tu lista de deseos.",
+    "errors": {
+      "notSignedIn": "Inicia sesión para guardar productos en tu lista de deseos.",
+      "full": "Tu lista de deseos está llena (200 productos). Quita algunos para guardar otros nuevos.",
+      "unavailable": "Este producto no se puede guardar ahora. Puede que ya no esté a la venta.",
+      "notReady": "La lista de deseos aún no está disponible: falta la tabla en la base de datos.",
+      "network": "No pudimos conectar con Saloree. Revisa tu conexión e inténtalo de nuevo.",
+      "invalid": "No se encontró este producto.",
+      "generic": "Algo salió mal. Inténtalo de nuevo."
+    },
+    "countAria_one": "{{count}} producto guardado",
+    "countAria_many": "{{count}} productos guardados",
+    "countAria_other": "{{count}} productos guardados"
   }
 }

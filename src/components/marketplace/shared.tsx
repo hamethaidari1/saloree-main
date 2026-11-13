@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "@tanstack/react-router";
-import { useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import {
   ArrowRight,
   ShoppingBag,
@@ -12,8 +12,8 @@ import {
   PackageCheck,
   Store as StoreIcon,
 } from "lucide-react";
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { WishlistButton } from "./wishlist-button";
 import { Logo } from "./logo";
 import { useQuery } from "@tanstack/react-query";
 import type { Catalog, Product, Store } from "@/data/catalog";
@@ -98,7 +98,6 @@ export function ProductCard({ product }: { product: Product }) {
   const { t } = useTranslation("product");
   const format = useFormat();
   const { add } = useCart();
-  const [saved, setSaved] = useState(false);
   return (
     <article className="product-card">
       <div className="product-photo">
@@ -114,20 +113,7 @@ export function ProductCard({ product }: { product: Product }) {
         >
           <img src={product.image} alt={product.title} width="384" height="512" loading="lazy" />
         </Link>
-        <Button
-          size="icon"
-          variant="ghost"
-          className={`product-save ${saved ? "text-brand" : ""}`}
-          aria-label={t(saved ? "card.unsave" : "card.save", { title: product.title })}
-          aria-pressed={saved}
-          title={t(saved ? "card.unsaveTitle" : "card.saveTitle")}
-          onClick={() => {
-            setSaved(!saved);
-            toast.success(t(saved ? "card.removed" : "card.saved"));
-          }}
-        >
-          <Heart size={15} fill={saved ? "currentColor" : "none"} />
-        </Button>
+        <WishlistButton productId={product.id} title={product.title} className="product-save" />
       </div>
       <div className="product-info">
         <StoreLink slug={product.storeSlug} className="product-store">

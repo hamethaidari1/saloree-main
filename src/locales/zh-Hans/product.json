@@ -21,12 +21,6 @@
   },
   "card": {
     "view": "查看 {{title}}",
-    "save": "收藏 {{title}}",
-    "unsave": "取消收藏 {{title}}",
-    "saveTitle": "加入收藏",
-    "unsaveTitle": "从收藏中移除",
-    "saved": "已加入收藏",
-    "removed": "已从收藏中移除",
     "addTitle": "加入购物车",
     "addAria": "将 {{title}} 加入购物车"
   },
@@ -70,5 +64,34 @@
     "sortPopular": "最受欢迎",
     "emptyTitle": "暂无好物",
     "emptyText": "试试其他关键词或调整筛选条件。"
+  },
+  "wishlist": {
+    "metaTitle": "心愿单 — Saloree",
+    "title": "我的心愿单",
+    "loading": "正在加载心愿单",
+    "retry": "重试",
+    "emptyTitle": "心愿单是空的",
+    "emptyText": "点按任意商品上的爱心，即可将其收藏在这里以后再看。",
+    "keepShopping": "继续购物",
+    "savedOn": "收藏于 {{date}}",
+    "allInCart": "已全部加入购物车",
+    "remove": "移除",
+    "removeAria": "从心愿单移除{{title}}",
+    "saveAria": "将{{title}}加入心愿单",
+    "saveTitle": "加入心愿单",
+    "removeTitle": "从心愿单移除",
+    "saved": "已加入心愿单",
+    "removed": "已从心愿单移除",
+    "savedAfterSignIn": "您已登录，商品已加入心愿单。",
+    "errors": {
+      "notSignedIn": "登录后即可将商品加入心愿单。",
+      "full": "心愿单已满（200 件商品）。请先移除一些再收藏新商品。",
+      "unavailable": "暂时无法收藏此商品，它可能已不再出售。",
+      "notReady": "心愿单暂不可用：数据库表不存在。",
+      "network": "无法连接 Saloree。请检查网络后重试。",
+      "invalid": "找不到此商品。",
+      "generic": "出了点问题，请重试。"
+    },
+    "countAria_other": "已收藏 {{count}} 件商品"
   }
 }

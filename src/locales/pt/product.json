@@ -23,12 +23,6 @@
   },
   "card": {
     "view": "Ver {{title}}",
-    "save": "Salvar {{title}}",
-    "unsave": "Remover {{title}} dos favoritos",
-    "saveTitle": "Salvar nos favoritos",
-    "unsaveTitle": "Remover dos favoritos",
-    "saved": "Salvo nos favoritos",
-    "removed": "Removido dos favoritos",
     "addTitle": "Adicionar ao carrinho",
     "addAria": "Adicionar {{title}} ao carrinho"
   },
@@ -74,5 +68,36 @@
     "sortPopular": "Mais populares",
     "emptyTitle": "Nenhum achado por enquanto",
     "emptyText": "Tente outra pesquisa ou ajuste os filtros."
+  },
+  "wishlist": {
+    "metaTitle": "Lista de desejos — Saloree",
+    "title": "Sua lista de desejos",
+    "loading": "Carregando sua lista de desejos",
+    "retry": "Tentar novamente",
+    "emptyTitle": "Sua lista de desejos está vazia",
+    "emptyText": "Toque no coração de qualquer produto para salvá-lo aqui para depois.",
+    "keepShopping": "Continuar comprando",
+    "savedOn": "Salvo em {{date}}",
+    "allInCart": "Tudo já está no carrinho",
+    "remove": "Remover",
+    "removeAria": "Remover {{title}} da sua lista de desejos",
+    "saveAria": "Salvar {{title}} na sua lista de desejos",
+    "saveTitle": "Salvar na lista de desejos",
+    "removeTitle": "Remover da lista de desejos",
+    "saved": "Salvo na sua lista de desejos",
+    "removed": "Removido da sua lista de desejos",
+    "savedAfterSignIn": "Você entrou. O produto foi salvo na sua lista de desejos.",
+    "errors": {
+      "notSignedIn": "Entre para salvar produtos na sua lista de desejos.",
+      "full": "Sua lista de desejos está cheia (200 produtos). Remova alguns para salvar novos.",
+      "unavailable": "Não é possível salvar este produto agora. Ele pode não estar mais à venda.",
+      "notReady": "A lista de desejos ainda não está disponível: a tabela do banco de dados não existe.",
+      "network": "Não foi possível acessar a Saloree. Verifique sua conexão e tente novamente.",
+      "invalid": "Este produto não foi encontrado.",
+      "generic": "Algo deu errado. Tente novamente."
+    },
+    "countAria_one": "{{count}} produto salvo",
+    "countAria_many": "{{count}} produtos salvos",
+    "countAria_other": "{{count}} produtos salvos"
   }
 }

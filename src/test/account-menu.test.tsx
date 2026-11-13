@@ -8,7 +8,11 @@ const auth = vi.hoisted(() => ({
     ready: true,
   },
   signOut: vi.fn(async () => {}),
+  wishlistCount: 0,
 }));
+
+// The count itself is tested with the service (wishlist.test.tsx).
+vi.mock("@/hooks/use-wishlist", () => ({ useWishlistCount: () => auth.wishlistCount }));
 
 vi.mock("@/lib/auth", async () => {
   const { staffHome } = await import("@/lib/staff-access");
@@ -52,6 +56,7 @@ const linkNames = (panel: HTMLElement) =>
 beforeEach(() => {
   as(null);
   auth.signOut.mockClear();
+  auth.wishlistCount = 0;
 });
 
 describe("account dropdown", () => {
@@ -74,14 +79,16 @@ describe("account dropdown", () => {
     renderWithRouter(<AccountMenu />);
     expect(await screen.findByText("Hello, Sara")).toBeInTheDocument();
     const panel = await openMenu();
-    expect(linkNames(panel)).toEqual(["My orders", "Account"]);
+    expect(linkNames(panel)).toEqual(["My orders", "Wishlist", "Account"]);
     expect(within(panel).getByRole("link", { name: "My orders" })).toHaveAttribute(
       "href",
       "/account#my-orders",
     );
-    const wishlist = within(panel).getByText("Wishlist").closest("[aria-disabled]");
-    expect(wishlist).toHaveAttribute("aria-disabled", "true");
-    expect(wishlist).toHaveTextContent("Coming soon");
+    expect(within(panel).getByRole("link", { name: "Wishlist" })).toHaveAttribute(
+      "href",
+      "/wishlist",
+    );
+    expect(within(panel).queryByText(/coming soon/i)).toBeNull();
     expect(within(panel).getByRole("button", { name: /sign out/i })).toBeInTheDocument();
     expect(within(panel).queryByRole("link", { name: "My store" })).toBeNull();
     expect(within(panel).queryByRole("link", { name: "Admin" })).toBeNull();
@@ -91,7 +98,7 @@ describe("account dropdown", () => {
     as(["customer", "seller"]);
     renderWithRouter(<AccountMenu />);
     const panel = await openMenu();
-    expect(linkNames(panel)).toEqual(["My orders", "Account", "My store"]);
+    expect(linkNames(panel)).toEqual(["My orders", "Wishlist", "Account", "My store"]);
     expect(within(panel).getByRole("link", { name: "My store" })).toHaveAttribute(
       "href",
       "/seller",
@@ -102,7 +109,7 @@ describe("account dropdown", () => {
     as(["admin"]);
     renderWithRouter(<AccountMenu />);
     const panel = await openMenu();
-    expect(linkNames(panel)).toEqual(["My orders", "Account", "Admin"]);
+    expect(linkNames(panel)).toEqual(["My orders", "Wishlist", "Account", "Admin"]);
     expect(within(panel).getByRole("link", { name: "Admin" })).toHaveAttribute("href", "/admin");
   });
 
@@ -110,7 +117,17 @@ describe("account dropdown", () => {
     as(["seller", "admin"]);
     renderWithRouter(<AccountMenu />);
     const panel = await openMenu();
-    expect(linkNames(panel)).toEqual(["My orders", "Account", "My store", "Admin"]);
+    expect(linkNames(panel)).toEqual(["My orders", "Wishlist", "Account", "My store", "Admin"]);
+  });
+
+  it("the Wishlist link shows the count when there are saved products", async () => {
+    as(["customer"]);
+    auth.wishlistCount = 3;
+    renderWithRouter(<AccountMenu />);
+    const panel = await openMenu();
+    const link = within(panel).getByRole("link", { name: "Wishlist, 3 products" });
+    expect(link).toHaveAttribute("href", "/wishlist");
+    expect(link).toHaveTextContent("Wishlist3");
   });
 
   it.each([

@@ -7,6 +7,7 @@ import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { ImageOff, Plus, Store as StoreIcon } from "lucide-react";
 import { useCart } from "@/components/marketplace/cart-context";
+import { WishlistButton } from "@/components/marketplace/wishlist-button";
 import { Rating } from "@/components/marketplace/shared";
 import type { Category, Product, Store } from "@/data/catalog";
 import { safeHttpsUrl } from "@/lib/tracking";
@@ -160,6 +161,8 @@ export function TemplateProductCard({
           </span>
         )}
       </Link>
+      {/* A sibling of the link (never inside it), placed over the photo. */}
+      <WishlistButton productId={product.id} title={product.title} className="tpl-heart" />
       <div className="tpl-card-body">
         <Link to="/product/$id" params={{ id: product.id }} className="tpl-card-title">
           {product.title}

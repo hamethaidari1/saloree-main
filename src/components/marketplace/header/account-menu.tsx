@@ -7,6 +7,8 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { signOut, useAuth } from "@/lib/auth";
+import { useWishlistCount } from "@/hooks/use-wishlist";
+import { useFormat } from "@/i18n/hooks";
 
 /**
  * "Sara" from "Sara Ahmadi": profiles.full_name first, then the sign-up
@@ -26,6 +28,8 @@ export function AccountMenuPanel({ onNavigate }: { onNavigate?: () => void }) {
   const { t } = useTranslation("nav");
   const { user, ready, isSeller, staffHome } = useAuth();
   const navigate = useNavigate();
+  const wishlistCount = useWishlistCount();
+  const format = useFormat();
 
   if (!ready)
     return (
@@ -65,9 +69,23 @@ export function AccountMenuPanel({ onNavigate }: { onNavigate?: () => void }) {
           </Link>
         </li>
         <li>
-          <span className="nav-panel-link" aria-disabled="true">
-            {t("account.wishlist")} <span className="nav-soon">{t("account.comingSoon")}</span>
-          </span>
+          <Link
+            to="/wishlist"
+            className="nav-panel-link"
+            onClick={onNavigate}
+            aria-label={
+              wishlistCount > 0
+                ? t("account.wishlistAria", { count: wishlistCount })
+                : t("account.wishlist")
+            }
+          >
+            {t("account.wishlist")}
+            {wishlistCount > 0 && (
+              <span className="nav-count" aria-hidden>
+                {format.number(wishlistCount)}
+              </span>
+            )}
+          </Link>
         </li>
         <li>
           <Link to="/account" className="nav-panel-link" onClick={onNavigate}>

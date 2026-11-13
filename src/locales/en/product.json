@@ -22,12 +22,6 @@
   },
   "card": {
     "view": "View {{title}}",
-    "save": "Save {{title}}",
-    "unsave": "Unsave {{title}}",
-    "saveTitle": "Save to favorites",
-    "unsaveTitle": "Remove from favorites",
-    "saved": "Saved to favorites",
-    "removed": "Removed from favorites",
     "addTitle": "Add to cart",
     "addAria": "Add {{title}} to cart"
   },
@@ -72,5 +66,35 @@
     "sortPopular": "Most popular",
     "emptyTitle": "No finds just yet",
     "emptyText": "Try a different search or adjust your filters."
+  },
+  "wishlist": {
+    "metaTitle": "Wishlist — Saloree",
+    "title": "Your wishlist",
+    "loading": "Loading your wishlist",
+    "retry": "Try again",
+    "emptyTitle": "Your wishlist is empty",
+    "emptyText": "Tap the heart on any product to save it here for later.",
+    "keepShopping": "Keep shopping",
+    "savedOn": "Saved {{date}}",
+    "allInCart": "All in your cart",
+    "remove": "Remove",
+    "removeAria": "Remove {{title}} from your wishlist",
+    "saveAria": "Save {{title}} to your wishlist",
+    "saveTitle": "Save to wishlist",
+    "removeTitle": "Remove from wishlist",
+    "saved": "Saved to your wishlist",
+    "removed": "Removed from your wishlist",
+    "savedAfterSignIn": "You're signed in. The product is saved to your wishlist.",
+    "errors": {
+      "notSignedIn": "Sign in to save products to your wishlist.",
+      "full": "Your wishlist is full (200 products). Remove some to save new ones.",
+      "unavailable": "This product can't be saved right now. It may no longer be for sale.",
+      "notReady": "The wishlist isn't available yet: the database table is missing.",
+      "network": "We couldn't reach Saloree. Check your connection and try again.",
+      "invalid": "This product couldn't be found.",
+      "generic": "Something went wrong. Please try again."
+    },
+    "countAria_one": "{{count}} saved product",
+    "countAria_other": "{{count}} saved products"
   }
 }

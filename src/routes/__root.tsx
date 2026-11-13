@@ -16,12 +16,19 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { CartProvider } from "@/components/marketplace/cart-context";
+import { PendingWishlistSave } from "@/components/marketplace/wishlist-button";
 import { AuthProvider } from "@/lib/auth";
 import { LOGO } from "@/lib/brand";
 import { DEV_STORE_PARAM, isMainOnlyPath, mainSiteUrl, resolveDevStore } from "@/lib/host";
 import { hidesSiteChrome } from "@/lib/layout";
 import { persistDevStore, resolveStoreSlug } from "@/lib/store-mode";
 import { CountryProvider } from "@/lib/country";
+import { devCountryOverride } from "@/lib/country-detect";
+import {
+  DETECTED_COUNTRY_ATTR,
+  readRequestCountry,
+  type CountryContext,
+} from "@/lib/country-request";
 import { Navbar, Footer } from "@/components/marketplace/shared";
 import { StoreFooter, StoreHeader, StoreNotFound } from "@/components/marketplace/storefront";
 import { Toaster } from "@/components/ui/sonner";
@@ -154,7 +161,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     const locale = isEnglishOnlyPath(location.pathname) ? DEFAULT_LOCALE : readRequestLocale();
     const resources = await loadLocaleResources(locale);
     const i18n: I18nContext = { locale, resources };
-    return { storeSlug, i18n };
+    // Delivery country: the `country` cookie, and the country the hosting
+    // platform reports in a header (read on the server; dev: `?country=TR`).
+    const request = readRequestCountry();
+    const country: CountryContext = {
+      saved: request.saved,
+      detected:
+        devCountryOverride(location.search as Record<string, unknown>, import.meta.env.DEV) ??
+        request.detected,
+    };
+    return { storeSlug, i18n, country };
   },
   loader: async ({ context }): Promise<{ store: Store | null; theme: StoreThemeRecord | null }> => {
     if (!context.storeSlug) return { store: null, theme: null };
@@ -226,8 +242,14 @@ function RootShell({ children }: { children: ReactNode }) {
       (s.matches.find((m) => m.routeId === "__root__")?.context as { i18n?: I18nContext })?.i18n
         ?.locale ?? DEFAULT_LOCALE,
   });
+  // The server's detection, so the browser (hydration, later navigations) agrees.
+  const detected = useRouterState({
+    select: (s) =>
+      (s.matches.find((m) => m.routeId === "__root__")?.context as { country?: CountryContext })
+        ?.country?.detected ?? undefined,
+  });
   return (
-    <html lang={locale} dir={dirFor(locale)}>
+    <html lang={locale} dir={dirFor(locale)} {...{ [DETECTED_COUNTRY_ATTR]: detected }}>
       <head>
         <HeadContent />
       </head>
@@ -240,7 +262,7 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 function RootComponent() {
-  const { queryClient, storeSlug, i18n } = Route.useRouteContext();
+  const { queryClient, storeSlug, i18n, country } = Route.useRouteContext();
   // Undefined when the root loader threw notFound (unknown / draft store).
   const store = Route.useLoaderData()?.store ?? null;
   // A store site whose store doesn't exist shows only the "Store not found" page.
@@ -262,8 +284,9 @@ function RootComponent() {
     <I18nProvider locale={i18n.locale} resources={i18n.resources}>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <CountryProvider>
+          <CountryProvider initial={country.saved} detected={country.detected}>
             <CartProvider>
+              <PendingWishlistSave />
               {store ? <StoreHeader store={store} /> : chrome && !appShell && <Navbar />}
               <Outlet />
               {store ? <StoreFooter store={store} /> : chrome && !appShell && <Footer />}

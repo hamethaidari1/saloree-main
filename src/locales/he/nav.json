@@ -37,13 +37,15 @@
     "startHere": "מתחילים כאן",
     "myOrders": "ההזמנות שלי",
     "wishlist": "רשימת משאלות",
-    "comingSoon": "בקרוב",
     "account": "חשבון",
     "myStore": "החנות שלי",
     "admin": "ניהול",
     "signOut": "התנתקות",
     "signOutFailed": "לא ניתן היה להתנתק. כדאי לנסות שוב.",
-    "mobileAria": "החשבון שלך, {{name}}"
+    "mobileAria": "החשבון שלך, {{name}}",
+    "wishlistAria_one": "רשימת המשאלות, מוצר אחד",
+    "wishlistAria_two": "רשימת המשאלות, שני מוצרים",
+    "wishlistAria_other": "רשימת המשאלות, {{count}} מוצרים"
   },
   "search": {
     "label": "חיפוש ב-Saloree",
@@ -65,7 +67,12 @@
     "title": "בחירת מדינת המשלוח",
     "hint": "נשתמש בה כדי להציג את פרטי המשלוח בתשלום.",
     "countries": "מדינות משלוח",
-    "other": "אחר"
+    "other": "אחר",
+    "suggestTitle": "משלוח אל {{country}}?",
+    "suggestText": "אנחנו משתמשים בזה כדי להציג את פרטי המשלוח בקופה.",
+    "suggestAccept": "משלוח אל {{country}}",
+    "suggestOther": "בחירת מדינה אחרת",
+    "suggestClose": "סגירה"
   },
   "language": {
     "label": "שפה",

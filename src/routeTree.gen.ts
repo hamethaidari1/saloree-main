@@ -22,6 +22,7 @@ import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SellerRouteImport } from './routes/seller'
 import { Route as StoresRouteImport } from './routes/stores'
+import { Route as WishlistRouteImport } from './routes/wishlist'
 import { Route as AdminFinanceRouteImport } from './routes/admin_.finance'
 import { Route as AdminMarketplaceRouteImport } from './routes/admin_.marketplace'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
@@ -105,6 +106,11 @@ const SellerRoute = SellerRouteImport.update({
 const StoresRoute = StoresRouteImport.update({
   id: '/stores',
   path: '/stores',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WishlistRoute = WishlistRouteImport.update({
+  id: '/wishlist',
+  path: '/wishlist',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminFinanceRoute = AdminFinanceRouteImport.update({
@@ -218,6 +224,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/seller': typeof SellerRouteWithChildren
   '/stores': typeof StoresRoute
+  '/wishlist': typeof WishlistRoute
   '/admin/finance': typeof AdminFinanceRoute
   '/admin/marketplace': typeof AdminMarketplaceRoute
   '/auth/callback': typeof AuthCallbackRoute
@@ -251,6 +258,7 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/stores': typeof StoresRoute
+  '/wishlist': typeof WishlistRoute
   '/admin/finance': typeof AdminFinanceRoute
   '/admin/marketplace': typeof AdminMarketplaceRoute
   '/auth/callback': typeof AuthCallbackRoute
@@ -286,6 +294,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/seller': typeof SellerRouteWithChildren
   '/stores': typeof StoresRoute
+  '/wishlist': typeof WishlistRoute
   '/admin_/finance': typeof AdminFinanceRoute
   '/admin_/marketplace': typeof AdminMarketplaceRoute
   '/auth/callback': typeof AuthCallbackRoute
@@ -322,6 +331,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/seller'
     | '/stores'
+    | '/wishlist'
     | '/admin/finance'
     | '/admin/marketplace'
     | '/auth/callback'
@@ -355,6 +365,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/stores'
+    | '/wishlist'
     | '/admin/finance'
     | '/admin/marketplace'
     | '/auth/callback'
@@ -389,6 +400,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/seller'
     | '/stores'
+    | '/wishlist'
     | '/admin_/finance'
     | '/admin_/marketplace'
     | '/auth/callback'
@@ -424,6 +436,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   SellerRoute: typeof SellerRouteWithChildren
   StoresRoute: typeof StoresRoute
+  WishlistRoute: typeof WishlistRoute
   AdminFinanceRoute: typeof AdminFinanceRoute
   AdminMarketplaceRoute: typeof AdminMarketplaceRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
@@ -525,6 +538,13 @@ declare module '@tanstack/react-router' {
       path: '/stores'
       fullPath: '/stores'
       preLoaderRoute: typeof StoresRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/wishlist': {
+      id: '/wishlist'
+      path: '/wishlist'
+      fullPath: '/wishlist'
+      preLoaderRoute: typeof WishlistRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin_/finance': {
@@ -708,6 +728,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   SellerRoute: SellerRouteWithChildren,
   StoresRoute: StoresRoute,
+  WishlistRoute: WishlistRoute,
   AdminFinanceRoute: AdminFinanceRoute,
   AdminMarketplaceRoute: AdminMarketplaceRoute,
   AuthCallbackRoute: AuthCallbackRoute,

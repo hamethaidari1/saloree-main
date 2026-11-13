@@ -35,13 +35,13 @@
     "startHere": "从这里开始",
     "myOrders": "我的订单",
     "wishlist": "心愿单",
-    "comingSoon": "即将推出",
     "account": "账号",
     "myStore": "我的店铺",
     "admin": "管理后台",
     "signOut": "退出登录",
     "signOutFailed": "无法退出登录，请重试。",
-    "mobileAria": "我的账号，{{name}}"
+    "mobileAria": "我的账号，{{name}}",
+    "wishlistAria_other": "心愿单，{{count}} 件商品"
   },
   "search": {
     "label": "搜索 Saloree",
@@ -63,7 +63,12 @@
     "title": "选择配送国家/地区",
     "hint": "我们会在结账时据此显示配送信息。",
     "countries": "配送国家/地区",
-    "other": "其他"
+    "other": "其他",
+    "suggestTitle": "配送到{{country}}？",
+    "suggestText": "我们会在结账时据此显示配送详情。",
+    "suggestAccept": "配送到{{country}}",
+    "suggestOther": "选择其他国家/地区",
+    "suggestClose": "关闭"
   },
   "language": {
     "label": "语言",

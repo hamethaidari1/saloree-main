@@ -35,13 +35,13 @@
     "startHere": "여기서 시작하기",
     "myOrders": "내 주문",
     "wishlist": "위시리스트",
-    "comingSoon": "준비 중",
     "account": "계정",
     "myStore": "내 상점",
     "admin": "관리자",
     "signOut": "로그아웃",
     "signOutFailed": "로그아웃하지 못했습니다. 다시 시도해 주세요.",
-    "mobileAria": "내 계정, {{name}}님"
+    "mobileAria": "내 계정, {{name}}님",
+    "wishlistAria_other": "위시리스트, 상품 {{count}}개"
   },
   "search": {
     "label": "Saloree 검색",
@@ -63,7 +63,12 @@
     "title": "배송 국가를 선택하세요",
     "hint": "결제 시 배송 정보를 보여 드리는 데 사용됩니다.",
     "countries": "배송 국가",
-    "other": "기타"
+    "other": "기타",
+    "suggestTitle": "{{country}}(으)로 배송할까요?",
+    "suggestText": "결제 시 배송 정보를 보여 드리는 데 사용합니다.",
+    "suggestAccept": "{{country}}(으)로 배송",
+    "suggestOther": "다른 국가 선택",
+    "suggestClose": "닫기"
   },
   "language": {
     "label": "언어",

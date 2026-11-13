@@ -40,13 +40,18 @@
     "startHere": "ابدأ من هنا",
     "myOrders": "طلباتي",
     "wishlist": "قائمة الأمنيات",
-    "comingSoon": "قريبًا",
     "account": "الحساب",
     "myStore": "متجري",
     "admin": "الإدارة",
     "signOut": "تسجيل الخروج",
     "signOutFailed": "تعذّر تسجيل الخروج. يُرجى المحاولة مرة أخرى.",
-    "mobileAria": "حسابك، {{name}}"
+    "mobileAria": "حسابك، {{name}}",
+    "wishlistAria_zero": "قائمة الرغبات، لا توجد منتجات",
+    "wishlistAria_one": "قائمة الرغبات، منتج واحد",
+    "wishlistAria_two": "قائمة الرغبات، منتجان",
+    "wishlistAria_few": "قائمة الرغبات، {{count}} منتجات",
+    "wishlistAria_many": "قائمة الرغبات، {{count}} منتجًا",
+    "wishlistAria_other": "قائمة الرغبات، {{count}} منتج"
   },
   "search": {
     "label": "البحث في Saloree",
@@ -68,7 +73,12 @@
     "title": "اختر دولة التوصيل",
     "hint": "سنستخدمها لعرض تفاصيل التوصيل عند الدفع.",
     "countries": "دول التوصيل",
-    "other": "أخرى"
+    "other": "أخرى",
+    "suggestTitle": "التوصيل إلى {{country}}؟",
+    "suggestText": "نستخدم هذا لعرض تفاصيل التوصيل عند الدفع.",
+    "suggestAccept": "التوصيل إلى {{country}}",
+    "suggestOther": "اختيار دولة أخرى",
+    "suggestClose": "إغلاق"
   },
   "language": {
     "label": "اللغة",

@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import type { ReactNode } from "react";
 import { CountryList, DeliverTo } from "@/components/marketplace/header/country-picker";
 import {
   COUNTRIES,
@@ -7,22 +8,35 @@ import {
   CountryProvider,
   parseCountryCode,
   useCountry,
+  type CountryCode,
 } from "@/lib/country";
+import { readCountryCookie } from "@/lib/country-cookie";
+import { renderWithRouter } from "./router-harness";
 
 function Probe() {
   const { country, ready } = useCountry();
   return <output data-testid="probe">{ready ? (country?.code ?? "none") : "loading"}</output>;
 }
-const renderPicker = () =>
-  render(
-    <CountryProvider>
-      <DeliverTo />
-      <Probe />
-    </CountryProvider>,
+const withProvider = (ui: ReactNode, initial: CountryCode | null = null) => (
+  <CountryProvider initial={initial}>{ui}</CountryProvider>
+);
+const renderPicker = (initial: CountryCode | null = null) =>
+  renderWithRouter(
+    withProvider(
+      <>
+        <DeliverTo />
+        <Probe />
+      </>,
+      initial,
+    ),
   );
 const trigger = () => screen.getByRole("button", { name: /deliver to/i });
+const clearCookie = () => (document.cookie = "country=; Max-Age=0; Path=/");
 
-beforeEach(() => localStorage.clear());
+beforeEach(() => {
+  localStorage.clear();
+  clearCookie();
+});
 afterEach(() => vi.restoreAllMocks());
 
 describe("country list", () => {
@@ -54,7 +68,7 @@ describe("Deliver to picker", () => {
     expect(trigger()).toHaveTextContent("Choose country");
   });
 
-  it("picking a country updates the header, saves it and closes the picker", async () => {
+  it("picking a country updates the header, saves it in the cookie and closes the picker", async () => {
     renderPicker();
     await waitFor(() => expect(screen.getByTestId("probe")).toHaveTextContent("none"));
     fireEvent.click(trigger());
@@ -71,7 +85,7 @@ describe("Deliver to picker", () => {
     expect(trigger()).toHaveTextContent("Germany");
     expect(trigger()).toHaveAccessibleName(/Deliver to Germany/);
     expect(screen.getByTestId("probe")).toHaveTextContent("DE");
-    expect(localStorage.getItem(COUNTRY_KEY)).toBe("DE");
+    expect(readCountryCookie(document.cookie)).toBe("DE");
 
     fireEvent.click(trigger());
     const reopened = await screen.findByRole("dialog");
@@ -86,12 +100,7 @@ describe("Deliver to picker", () => {
   });
 
   it("mobile strip shows 'Deliver to <country>' on one line and opens the same picker", async () => {
-    localStorage.setItem(COUNTRY_KEY, "TR");
-    render(
-      <CountryProvider>
-        <DeliverTo variant="strip" />
-      </CountryProvider>,
-    );
+    renderWithRouter(withProvider(<DeliverTo variant="strip" />, "TR"));
     await waitFor(() =>
       expect(trigger()).toHaveTextContent(
         `Deliver to ${new Intl.DisplayNames(["en"], { type: "region" }).of("TR")}`,
@@ -101,13 +110,27 @@ describe("Deliver to picker", () => {
     const panel = await screen.findByRole("dialog");
     fireEvent.click(within(panel).getByRole("button", { name: "Finland" }));
     await waitFor(() => expect(trigger()).toHaveTextContent("Deliver to Finland"));
-    expect(localStorage.getItem(COUNTRY_KEY)).toBe("FI");
+    expect(readCountryCookie(document.cookie)).toBe("FI");
   });
 
-  it("restores a saved country after mount", async () => {
-    localStorage.setItem(COUNTRY_KEY, "SE");
+  it("the saved choice (read by the server) is shown from the first render — no flash", async () => {
+    renderPicker("SE");
+    expect(await screen.findByRole("button", { name: /deliver to sweden/i })).toBeTruthy();
+  });
+
+  it("moves a choice saved by an older version (localStorage) into the cookie, once", async () => {
+    localStorage.setItem(COUNTRY_KEY, "NL");
     renderPicker();
-    await waitFor(() => expect(trigger()).toHaveTextContent("Sweden"));
+    await waitFor(() => expect(trigger()).toHaveTextContent("Netherlands"));
+    expect(readCountryCookie(document.cookie)).toBe("NL");
+    expect(localStorage.getItem(COUNTRY_KEY)).toBeNull();
+  });
+
+  it("a cookie choice wins over an old localStorage value", async () => {
+    localStorage.setItem(COUNTRY_KEY, "NL");
+    renderPicker("FR");
+    await waitFor(() => expect(localStorage.getItem(COUNTRY_KEY)).toBeNull());
+    expect(trigger()).toHaveTextContent("France");
   });
 
   it("ignores a corrupted saved value", async () => {
@@ -124,10 +147,12 @@ describe("Deliver to picker", () => {
       throw new Error("blocked");
     });
     render(
-      <CountryProvider>
-        <CountryList />
-        <Probe />
-      </CountryProvider>,
+      withProvider(
+        <>
+          <CountryList />
+          <Probe />
+        </>,
+      ),
     );
     await waitFor(() => expect(screen.getByTestId("probe")).toHaveTextContent("none"));
     fireEvent.click(screen.getByRole("button", { name: "Other" }));

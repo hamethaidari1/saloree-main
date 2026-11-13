@@ -22,12 +22,6 @@
   },
   "card": {
     "view": "{{title}} ansehen",
-    "save": "{{title}} merken",
-    "unsave": "{{title}} nicht mehr merken",
-    "saveTitle": "Zu Favoriten hinzufügen",
-    "unsaveTitle": "Aus Favoriten entfernen",
-    "saved": "Zu Favoriten hinzugefügt",
-    "removed": "Aus Favoriten entfernt",
     "addTitle": "In den Warenkorb",
     "addAria": "{{title}} in den Warenkorb legen"
   },
@@ -72,5 +66,35 @@
     "sortPopular": "Am beliebtesten",
     "emptyTitle": "Noch keine Fundstücke",
     "emptyText": "Versuche eine andere Suche oder passe deine Filter an."
+  },
+  "wishlist": {
+    "metaTitle": "Wunschliste — Saloree",
+    "title": "Deine Wunschliste",
+    "loading": "Deine Wunschliste wird geladen",
+    "retry": "Erneut versuchen",
+    "emptyTitle": "Deine Wunschliste ist leer",
+    "emptyText": "Tippe bei einem Produkt auf das Herz, um es hier für später zu speichern.",
+    "keepShopping": "Weiter einkaufen",
+    "savedOn": "Gemerkt am {{date}}",
+    "allInCart": "Alles im Warenkorb",
+    "remove": "Entfernen",
+    "removeAria": "{{title}} von deiner Wunschliste entfernen",
+    "saveAria": "{{title}} auf deine Wunschliste setzen",
+    "saveTitle": "Auf die Wunschliste",
+    "removeTitle": "Von der Wunschliste entfernen",
+    "saved": "Auf deiner Wunschliste gespeichert",
+    "removed": "Von deiner Wunschliste entfernt",
+    "savedAfterSignIn": "Du bist angemeldet. Das Produkt ist auf deiner Wunschliste.",
+    "errors": {
+      "notSignedIn": "Melde dich an, um Produkte auf deiner Wunschliste zu speichern.",
+      "full": "Deine Wunschliste ist voll (200 Produkte). Entferne einige, um neue zu speichern.",
+      "unavailable": "Dieses Produkt kann gerade nicht gespeichert werden. Es ist vielleicht nicht mehr erhältlich.",
+      "notReady": "Die Wunschliste ist noch nicht verfügbar: Die Datenbanktabelle fehlt.",
+      "network": "Saloree ist nicht erreichbar. Prüfe deine Verbindung und versuche es erneut.",
+      "invalid": "Dieses Produkt wurde nicht gefunden.",
+      "generic": "Etwas ist schiefgelaufen. Bitte versuche es erneut."
+    },
+    "countAria_one": "{{count}} gemerktes Produkt",
+    "countAria_other": "{{count}} gemerkte Produkte"
   }
 }

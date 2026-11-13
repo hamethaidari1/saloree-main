@@ -35,13 +35,13 @@
     "startHere": "從這裡開始",
     "myOrders": "我的訂單",
     "wishlist": "願望清單",
-    "comingSoon": "即將推出",
     "account": "帳號",
     "myStore": "我的商店",
     "admin": "管理後台",
     "signOut": "登出",
     "signOutFailed": "無法登出，請再試一次。",
-    "mobileAria": "我的帳號，{{name}}"
+    "mobileAria": "我的帳號，{{name}}",
+    "wishlistAria_other": "願望清單，{{count}} 件商品"
   },
   "search": {
     "label": "搜尋 Saloree",
@@ -63,7 +63,12 @@
     "title": "選擇配送國家/地區",
     "hint": "我們會在結帳時依此顯示配送資訊。",
     "countries": "配送國家/地區",
-    "other": "其他"
+    "other": "其他",
+    "suggestTitle": "配送到{{country}}？",
+    "suggestText": "我們會在結帳時據此顯示配送詳情。",
+    "suggestAccept": "配送到{{country}}",
+    "suggestOther": "選擇其他國家/地區",
+    "suggestClose": "關閉"
   },
   "language": {
     "label": "語言",

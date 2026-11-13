@@ -36,13 +36,14 @@
     "startHere": "Hier starten",
     "myOrders": "Meine Bestellungen",
     "wishlist": "Wunschliste",
-    "comingSoon": "Demnächst",
     "account": "Konto",
     "myStore": "Mein Shop",
     "admin": "Verwaltung",
     "signOut": "Abmelden",
     "signOutFailed": "Abmelden fehlgeschlagen. Bitte versuche es erneut.",
-    "mobileAria": "Dein Konto, {{name}}"
+    "mobileAria": "Dein Konto, {{name}}",
+    "wishlistAria_one": "Wunschliste, {{count}} Produkt",
+    "wishlistAria_other": "Wunschliste, {{count}} Produkte"
   },
   "search": {
     "label": "Saloree durchsuchen",
@@ -64,7 +65,12 @@
     "title": "Wähle dein Lieferland",
     "hint": "Damit zeigen wir dir an der Kasse die Lieferdetails an.",
     "countries": "Lieferländer",
-    "other": "Andere"
+    "other": "Andere",
+    "suggestTitle": "Lieferung nach {{country}}?",
+    "suggestText": "Damit zeigen wir dir an der Kasse die Lieferdetails.",
+    "suggestAccept": "Nach {{country}} liefern",
+    "suggestOther": "Anderes Land wählen",
+    "suggestClose": "Schließen"
   },
   "language": {
     "label": "Sprache",

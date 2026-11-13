@@ -37,13 +37,15 @@
     "startHere": "Empieza aquí",
     "myOrders": "Mis pedidos",
     "wishlist": "Lista de deseos",
-    "comingSoon": "Próximamente",
     "account": "Cuenta",
     "myStore": "Mi tienda",
     "admin": "Administración",
     "signOut": "Cerrar sesión",
     "signOutFailed": "No se pudo cerrar la sesión. Inténtalo de nuevo.",
-    "mobileAria": "Tu cuenta, {{name}}"
+    "mobileAria": "Tu cuenta, {{name}}",
+    "wishlistAria_one": "Lista de deseos, {{count}} producto",
+    "wishlistAria_many": "Lista de deseos, {{count}} productos",
+    "wishlistAria_other": "Lista de deseos, {{count}} productos"
   },
   "search": {
     "label": "Buscar en Saloree",
@@ -65,7 +67,12 @@
     "title": "Elige tu país de entrega",
     "hint": "Lo usaremos para mostrar los detalles de entrega al pagar.",
     "countries": "Países de entrega",
-    "other": "Otro"
+    "other": "Otro",
+    "suggestTitle": "¿Enviar a {{country}}?",
+    "suggestText": "Lo usamos para mostrar los detalles de envío al pagar.",
+    "suggestAccept": "Enviar a {{country}}",
+    "suggestOther": "Elegir otro país",
+    "suggestClose": "Cerrar"
   },
   "language": {
     "label": "Idioma",

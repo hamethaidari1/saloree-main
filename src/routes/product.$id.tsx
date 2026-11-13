@@ -2,7 +2,8 @@ import { useTranslation } from "react-i18next";
 import { headT } from "@/i18n/head";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
-import { ChevronRight, ArrowRight, Truck, ShieldCheck, Heart, Check } from "lucide-react";
+import { ChevronRight, ArrowRight, Truck, ShieldCheck, ShoppingBag } from "lucide-react";
+import { WishlistButton } from "@/components/marketplace/wishlist-button";
 import { Button } from "@/components/ui/button";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { catalogQuery, catalogService } from "@/services/catalog";
@@ -136,10 +137,11 @@ function ProductDetail({ product: p }: { product: import("@/data/catalog").Produ
               disabled={p.stock < 1}
               onClick={() => add(p.id, quantity)}
             >
-              <PlusBag />
+              <ShoppingBag size={16} aria-hidden />
               {t("addToCart")}
               <ArrowRight className="rtl:-scale-x-100" />
             </Button>
+            <WishlistButton productId={p.id} title={p.title} className="detail-heart" />
           </div>
           <div className="detail-perks">
             <span>
@@ -213,7 +215,4 @@ function ProductDetail({ product: p }: { product: import("@/data/catalog").Produ
       </section>
     </main>
   );
-}
-function PlusBag() {
-  return <Heart size={16} />;
 }
