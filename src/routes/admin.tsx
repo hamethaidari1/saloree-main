@@ -13,10 +13,12 @@ import { UsersPanel } from "@/components/admin/users-panel";
 import { requirePanel } from "@/lib/auth";
 import { NoAccess, StaffShell } from "@/components/staff/staff-shell";
 import { AuditLogPanel, TeamPanel } from "@/components/staff/team-panels";
+import { SellerApplicationsPanel } from "@/components/staff/seller-applications";
 
 const TABS = [
   ["overview", "Overview"],
   ["stores", "Stores"],
+  ["applications", "Seller applications"],
   ["products", "Products"],
   ["categories", "Categories"],
   ["users", "Users"],
@@ -84,6 +86,9 @@ function AdminPanel({
         </TabsContent>
         <TabsContent value="stores" className="mt-6">
           <StoresPanel />
+        </TabsContent>
+        <TabsContent value="applications" className="mt-6">
+          <SellerApplicationsPanel canReview />
         </TabsContent>
         <TabsContent value="products" className="mt-6">
           <ProductsPanel canDelete />

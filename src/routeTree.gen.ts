@@ -46,6 +46,7 @@ import { Route as SellerPayoutsRouteImport } from './routes/seller.payouts'
 import { Route as SellerProductsRouteImport } from './routes/seller.products'
 import { Route as SellerSettingsRouteImport } from './routes/seller.settings'
 import { Route as SellerThemesRouteImport } from './routes/seller.themes'
+import { Route as SellerVerificationRouteImport } from './routes/seller.verification'
 import { Route as StoreSlugRouteImport } from './routes/store.$slug'
 
 const IndexRoute = IndexRouteImport.update({
@@ -234,6 +235,11 @@ const SellerThemesRoute = SellerThemesRouteImport.update({
   path: '/themes',
   getParentRoute: () => SellerRoute,
 } as any)
+const SellerVerificationRoute = SellerVerificationRouteImport.update({
+  id: '/verification',
+  path: '/verification',
+  getParentRoute: () => SellerRoute,
+} as any)
 const StoreSlugRoute = StoreSlugRouteImport.update({
   id: '/store/$slug',
   path: '/store/$slug',
@@ -275,6 +281,7 @@ export interface FileRoutesByFullPath {
   '/seller/products': typeof SellerProductsRoute
   '/seller/settings': typeof SellerSettingsRoute
   '/seller/themes': typeof SellerThemesRoute
+  '/seller/verification': typeof SellerVerificationRoute
   '/store/$slug': typeof StoreSlugRoute
   '/legal/': typeof LegalIndexRoute
   '/order-confirmation/': typeof OrderConfirmationIndexRoute
@@ -314,6 +321,7 @@ export interface FileRoutesByTo {
   '/seller/products': typeof SellerProductsRoute
   '/seller/settings': typeof SellerSettingsRoute
   '/seller/themes': typeof SellerThemesRoute
+  '/seller/verification': typeof SellerVerificationRoute
   '/store/$slug': typeof StoreSlugRoute
   '/legal': typeof LegalIndexRoute
   '/order-confirmation': typeof OrderConfirmationIndexRoute
@@ -355,6 +363,7 @@ export interface FileRoutesById {
   '/seller/products': typeof SellerProductsRoute
   '/seller/settings': typeof SellerSettingsRoute
   '/seller/themes': typeof SellerThemesRoute
+  '/seller/verification': typeof SellerVerificationRoute
   '/store/$slug': typeof StoreSlugRoute
   '/legal/': typeof LegalIndexRoute
   '/order-confirmation/': typeof OrderConfirmationIndexRoute
@@ -397,6 +406,7 @@ export interface FileRouteTypes {
     | '/seller/products'
     | '/seller/settings'
     | '/seller/themes'
+    | '/seller/verification'
     | '/store/$slug'
     | '/legal/'
     | '/order-confirmation/'
@@ -436,6 +446,7 @@ export interface FileRouteTypes {
     | '/seller/products'
     | '/seller/settings'
     | '/seller/themes'
+    | '/seller/verification'
     | '/store/$slug'
     | '/legal'
     | '/order-confirmation'
@@ -476,6 +487,7 @@ export interface FileRouteTypes {
     | '/seller/products'
     | '/seller/settings'
     | '/seller/themes'
+    | '/seller/verification'
     | '/store/$slug'
     | '/legal/'
     | '/order-confirmation/'
@@ -772,6 +784,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SellerThemesRouteImport
       parentRoute: typeof SellerRoute
     }
+    '/seller/verification': {
+      id: '/seller/verification'
+      path: '/verification'
+      fullPath: '/seller/verification'
+      preLoaderRoute: typeof SellerVerificationRouteImport
+      parentRoute: typeof SellerRoute
+    }
     '/store/$slug': {
       id: '/store/$slug'
       path: '/store/$slug'
@@ -794,6 +813,7 @@ interface SellerRouteChildren {
   SellerProductsRoute: typeof SellerProductsRoute
   SellerSettingsRoute: typeof SellerSettingsRoute
   SellerThemesRoute: typeof SellerThemesRoute
+  SellerVerificationRoute: typeof SellerVerificationRoute
   SellerIndexRoute: typeof SellerIndexRoute
 }
 
@@ -809,6 +829,7 @@ const SellerRouteChildren: SellerRouteChildren = {
   SellerProductsRoute: SellerProductsRoute,
   SellerSettingsRoute: SellerSettingsRoute,
   SellerThemesRoute: SellerThemesRoute,
+  SellerVerificationRoute: SellerVerificationRoute,
   SellerIndexRoute: SellerIndexRoute,
 }
 

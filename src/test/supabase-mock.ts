@@ -23,6 +23,12 @@ export function createSupabaseMock() {
     /** Edge Function calls (supabase.functions.invoke). */
     invokes: [] as { name: string; body: unknown }[],
     uploads: [] as { bucket: string; path: string }[],
+    /** storage remove() calls. */
+    removes: [] as { bucket: string; paths: string[] }[],
+    /** storage createSignedUrl() calls. */
+    signed: [] as { bucket: string; path: string; expiresIn: number }[],
+    /** Next storage upload error (taken once). */
+    uploadError: null as { message: string } | null,
     queue: [] as Reply[],
     fallback: { data: [], error: null, count: 0 } as Reply,
     /** Current auth session (null = signed out). */
@@ -151,12 +157,26 @@ export function createSupabaseMock() {
       from: (bucket: string) => ({
         upload: async (path: string) => {
           state.uploads.push({ bucket, path });
-          return { error: null };
+          const error = state.uploadError;
+          state.uploadError = null;
+          return { error };
+        },
+        createSignedUrl: async (path: string, expiresIn: number) => {
+          state.signed.push({ bucket, path, expiresIn });
+          return {
+            data: {
+              signedUrl: `https://x.supabase.co/storage/v1/object/sign/${bucket}/${path}?token=t`,
+            },
+            error: null,
+          };
         },
         getPublicUrl: (path: string) => ({
           data: { publicUrl: `https://x.supabase.co/storage/v1/object/public/${bucket}/${path}` },
         }),
-        remove: async () => ({ error: null }),
+        remove: async (paths: string[]) => {
+          state.removes.push({ bucket, paths });
+          return { error: null };
+        },
       }),
     },
   };
@@ -165,6 +185,9 @@ export function createSupabaseMock() {
     state.rpcs.length = 0;
     state.invokes.length = 0;
     state.uploads.length = 0;
+    state.removes.length = 0;
+    state.signed.length = 0;
+    state.uploadError = null;
     state.queue.length = 0;
     state.fallback = { data: [], error: null, count: 0 };
     state.session = { user: { id: "user-1" } };

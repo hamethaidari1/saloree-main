@@ -17,11 +17,34 @@ import { adminService, type AdminStore } from "@/services/admin";
 import { money } from "@/services/catalog";
 import { friendlyError } from "@/services/errors";
 import { marketplaceService } from "@/services/marketplace";
+import { STATUS_LABEL, type VerificationStatus } from "@/lib/seller-verification";
+import {
+  errorText,
+  sellerVerificationService,
+  verificationKeys,
+} from "@/services/seller-verification";
 import { ConfirmDialog, type ConfirmRequest } from "./confirm-dialog";
 import { adminKeys } from "./keys";
 import { matches, useAdminAction } from "./use-admin-action";
 
 type StatusFilter = "" | "draft" | "published";
+
+/** The owner's verification next to each store: a store can be published only when approved. */
+function OwnerVerification({ status }: { status: VerificationStatus | null | undefined }) {
+  if (status === undefined) return null; // still loading, or couldn't be loaded (shown above)
+  const verified = status === "approved";
+  return (
+    <Badge
+      variant={verified ? "default" : "outline"}
+      data-testid="owner-verification"
+      title="Owner's seller verification"
+    >
+      {verified
+        ? "Seller verified"
+        : `Seller ${status ? STATUS_LABEL[status].toLowerCase() : "not verified yet"}`}
+    </Badge>
+  );
+}
 
 /** Store details + its products, in a side drawer. */
 function StoreDrawer({ store, onClose }: { store: AdminStore | null; onClose: () => void }) {
@@ -117,6 +140,15 @@ export function StoresPanel({
   canChangeOwn?: boolean;
 }) {
   const stores = useQuery({ queryKey: adminKeys.stores, queryFn: adminService.listStores });
+  const ownerIds = [...new Set((stores.data ?? []).map((s) => s.owner_id))].sort();
+  const verification = useQuery({
+    queryKey: verificationKeys.statuses(ownerIds),
+    queryFn: () => sellerVerificationService.statusesFor(ownerIds),
+    enabled: ownerIds.length > 0,
+    retry: false,
+  });
+  const ownerStatus = (ownerId: string): VerificationStatus | null | undefined =>
+    verification.isSuccess ? (verification.data.get(ownerId) ?? null) : undefined;
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState<StatusFilter>("");
   const [open, setOpen] = useState<AdminStore | null>(null);
@@ -134,7 +166,10 @@ export function StoresPanel({
       <div className="seller-panel-head">
         <div>
           <h2 id="admin-stores-heading">Stores</h2>
-          <p>Approve new stores and unpublish stores that break the rules.</p>
+          <p>
+            Approve new stores and unpublish stores that break the rules. A store can be published
+            only when its owner's seller verification is approved.
+          </p>
         </div>
         <div className="staff-filters">
           <select
@@ -157,6 +192,11 @@ export function StoresPanel({
           />
         </div>
       </div>
+      {verification.isError && (
+        <p role="alert" className="seller-error mb-3">
+          Owners' verification status could not be loaded: {errorText(verification.error)}
+        </p>
+      )}
       <PanelState
         query={stores}
         errorText="Stores could not be loaded."
@@ -178,6 +218,10 @@ export function StoresPanel({
                 const published = s.status === "published";
                 const own = !!myUserId && s.owner_id === myUserId;
                 const busy = change.isPending && change.variables?.store.id === s.id;
+                const refused =
+                  change.isError &&
+                  change.variables?.store.id === s.id &&
+                  change.variables.status === "published";
                 return (
                   <li key={s.id} className="seller-row">
                     <div className="min-w-0 flex-1">
@@ -200,6 +244,7 @@ export function StoresPanel({
                       </p>
                     </div>
                     <Badge variant={published ? "default" : "secondary"}>{s.status}</Badge>
+                    <OwnerVerification status={ownerStatus(s.owner_id)} />
                     <div className="seller-row-actions gap-2">
                       {published && (
                         <Button asChild size="sm" variant="ghost">
@@ -245,6 +290,17 @@ export function StoresPanel({
                         </Button>
                       )}
                     </div>
+                    {refused && (
+                      // The database's own words, e.g. "The seller must be verified before
+                      // the store can be published" (the toast may shorten permission errors).
+                      <p
+                        role="alert"
+                        className="seller-error basis-full"
+                        data-testid="publish-error"
+                      >
+                        {errorText(change.error)}
+                      </p>
+                    )}
                   </li>
                 );
               })}

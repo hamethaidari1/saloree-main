@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import {
   BadgePercent,
   Boxes,
@@ -14,6 +14,7 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
   Settings,
+  ShieldCheck,
   Store,
   Tag,
   Users,
@@ -31,6 +32,7 @@ import {
 import { Logo } from "@/components/marketplace/logo";
 import { firstName } from "@/components/marketplace/header/account-menu";
 import { SIDEBAR_COLLAPSED_KEY, useSeller } from "./seller-context";
+import { VerificationBanner } from "./verification/status";
 
 /** Menu, in order. Only pages backed by real data are listed. */
 export const SELLER_NAV = [
@@ -154,6 +156,15 @@ function NavBody({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: (
 
       <div className="seller-sidebar-foot">
         <Link
+          to="/seller/verification"
+          className="seller-nav-link"
+          title={collapsed ? "Verification" : undefined}
+          onClick={onNavigate}
+        >
+          <ShieldCheck size={18} aria-hidden />
+          <span className="seller-nav-label">Verification</span>
+        </Link>
+        <Link
           to="/seller/settings"
           className="seller-nav-link"
           title={collapsed ? "Settings" : undefined}
@@ -181,7 +192,10 @@ function NavBody({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: (
  * drawer on small screens. Uses logical properties, so it mirrors for RTL.
  */
 export function SellerShell({ children }: { children: ReactNode }) {
-  const { store } = useSeller();
+  const { store, user } = useSeller();
+  const onVerificationPage = useRouterState({
+    select: (s) => s.location.pathname.replace(/\/$/, "") === "/seller/verification",
+  });
   const [collapsed, setCollapsed] = useState(false);
   const [drawer, setDrawer] = useState(false);
   // Restore the collapsed preference after hydration.
@@ -240,6 +254,8 @@ export function SellerShell({ children }: { children: ReactNode }) {
             Shop
           </Link>
         </div>
+        {/* Until approved; not on the verification page itself, which says it in full. */}
+        {!onVerificationPage && <VerificationBanner userId={user.id} />}
         {children}
       </div>
 

@@ -7,6 +7,7 @@ import { CatalogSkeleton } from "@/components/marketplace/shared";
 import { SELECTED_STORE_KEY, SellerProvider } from "@/components/seller/seller-context";
 import { SellerShell } from "@/components/seller/seller-shell";
 import { StoreForm } from "@/components/seller/store-form";
+import { GettingStarted } from "@/components/seller/verification/onboarding";
 import { requireAuth } from "@/lib/auth";
 import { legalDocument } from "@/services/legal";
 import { friendlyError, sellerService, storeError } from "@/services/seller";
@@ -93,13 +94,14 @@ function SellerLayout() {
   const store = stores.data.find((s) => s.id === selectedId) ?? stores.data[0];
   if (!store)
     return (
-      <main className="market-container py-10">
+      <GettingStarted userId={user.id} categoryNames={categories.data.map((c) => c.name)}>
         <section className="seller-card" aria-labelledby="create-store-heading">
-          <h1 id="create-store-heading" className="text-xl font-semibold">
+          <h2 id="create-store-heading" className="text-xl font-semibold">
             Create your store
-          </h1>
+          </h2>
           <p className="page-subtitle mb-6">
-            Your store starts as a draft, so you can add products before shoppers see it.
+            Your store starts as a draft, so you can add products before shoppers see it. It can be
+            published once your verification is approved.
           </p>
           <StoreForm
             categoryNames={categories.data.map((c) => c.name)}
@@ -109,7 +111,7 @@ function SellerLayout() {
             onSubmit={(values, files) => createStore.mutateAsync([values, files])}
           />
         </section>
-      </main>
+      </GettingStarted>
     );
 
   return (

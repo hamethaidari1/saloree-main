@@ -11,11 +11,13 @@ import {
   SiteTextsPanel,
 } from "@/components/staff/marketplace-panels";
 import { NoAccess, StaffShell } from "@/components/staff/staff-shell";
+import { SellerApplicationsPanel } from "@/components/staff/seller-applications";
 import { requirePanel } from "@/lib/auth";
 
 const TABS = [
   ["overview", "Overview"],
   ["stores", "Stores"],
+  ["applications", "Seller applications"],
   ["products", "Products"],
   ["categories", "Categories"],
   ["homepage", "Homepage"],
@@ -70,6 +72,10 @@ function MarketplacePage() {
         <TabsContent value="stores" className="mt-6">
           {/* The database refuses status changes on your own store unless you're an admin. */}
           <StoresPanel myUserId={user.id} canChangeOwn={isAdmin} />
+        </TabsContent>
+        <TabsContent value="applications" className="mt-6">
+          {/* admin and content_admin review; the database refuses your own profile unless admin. */}
+          <SellerApplicationsPanel canReview />
         </TabsContent>
         <TabsContent value="products" className="mt-6">
           <ProductsPanel canDelete={isAdmin} />

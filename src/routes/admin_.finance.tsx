@@ -10,6 +10,7 @@ import {
   FinanceOverviewPanel,
 } from "@/components/staff/finance-panels";
 import { NoAccess, StaffShell } from "@/components/staff/staff-shell";
+import { SellerApplicationsPanel } from "@/components/staff/seller-applications";
 import { PayoutSettingsPanel, PayoutsFinancePanel } from "@/components/staff/payouts-finance";
 import { requirePanel } from "@/lib/auth";
 
@@ -17,6 +18,7 @@ const TABS = [
   ["overview", "Overview"],
   ["orders", "Orders"],
   ["payouts", "Payouts"],
+  ["applications", "Seller applications"],
   ["commission", "Commission"],
   ["carriers", "Carriers"],
   ["templates", "Templates"],
@@ -71,6 +73,10 @@ function FinancePage() {
         </TabsContent>
         <TabsContent value="payouts" className="mt-6">
           <PayoutsFinancePanel />
+        </TabsContent>
+        <TabsContent value="applications" className="mt-6">
+          {/* Finance reads the same list and details; only admin/content_admin decide. */}
+          <SellerApplicationsPanel canReview={roles.includes("admin")} />
         </TabsContent>
         <TabsContent value="commission" className="mt-6 grid gap-6">
           <CommissionPanel />

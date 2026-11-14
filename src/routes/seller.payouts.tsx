@@ -14,6 +14,7 @@ import {
   payoutKeys,
 } from "@/components/seller/payouts-panels";
 import { payoutsService } from "@/services/payouts";
+import { PayoutVerificationNotice } from "@/components/seller/verification/status";
 
 export const Route = createFileRoute("/seller/payouts")({
   ssr: false,
@@ -23,7 +24,7 @@ export const Route = createFileRoute("/seller/payouts")({
 });
 
 function PayoutsPage() {
-  const { store } = useSeller();
+  const { store, user } = useSeller();
   const id = store.id;
   const earnings = useQuery({
     queryKey: payoutKeys.earnings(id),
@@ -45,6 +46,7 @@ function PayoutsPage() {
         description="What you've earned, what's on its way, and where we pay you."
       />
       <div className="grid gap-6">
+        <PayoutVerificationNotice userId={user.id} />
         {earnings.isPending ? (
           <TilesSkeleton count={4} />
         ) : earnings.isError ? (
