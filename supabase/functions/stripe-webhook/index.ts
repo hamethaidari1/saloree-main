@@ -6,7 +6,8 @@ import { createClient } from "jsr:@supabase/supabase-js@2";
 const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!, {
   httpClient: Stripe.createFetchHttpClient(),
 });
-const WEBHOOK_SECRET = Deno.env.get("STRIPE_WEBHOOK_SECRET")!;
+const WEBHOOK_SECRET = Deno.env.get("STRIPE_WEBHOOK_SECRET") ?? "";
+const cryptoProvider = Stripe.createSubtleCryptoProvider(); // signature check with Deno's WebCrypto
 const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
 
 async function note(eventId: string, text: string) {
@@ -53,13 +54,17 @@ async function cancelGroup(eventId: string, session: Stripe.Checkout.Session) {
 Deno.serve(async (req) => {
   if (req.method !== "POST") return new Response("Method not allowed", { status: 405 });
 
+  if (!WEBHOOK_SECRET) {
+    console.error("STRIPE_WEBHOOK_SECRET is not set");
+    return new Response("Webhook not configured", { status: 503 });
+  }
   const signature = req.headers.get("stripe-signature");
   if (!signature) return new Response("Missing signature", { status: 400 });
 
   const raw = await req.text(); // the exact bytes Stripe signed
   let event: Stripe.Event;
   try {
-    event = await stripe.webhooks.constructEventAsync(raw, signature, WEBHOOK_SECRET);
+    event = await stripe.webhooks.constructEventAsync(raw, signature, WEBHOOK_SECRET, undefined, cryptoProvider);
   } catch (_) {
     return new Response("Invalid signature", { status: 400 });
   }

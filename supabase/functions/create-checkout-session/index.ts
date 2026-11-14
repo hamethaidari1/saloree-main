@@ -34,6 +34,10 @@ function json(body: unknown, status: number, origin: string | null) {
 
 Deno.serve(async (req) => {
   const origin = req.headers.get("origin");
+  if (!SITE_URL.startsWith("https://") && !SITE_URL.startsWith("http://localhost")) {
+    console.error("SITE_URL secret is missing or invalid");
+    return json({ error: "Card payments are not configured yet" }, 503, origin);
+  }
   if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: cors(origin) });
   if (req.method !== "POST") return json({ error: "Method not allowed" }, 405, origin);
 
@@ -57,7 +61,7 @@ Deno.serve(async (req) => {
 
     const { data: orders, error } = await user
       .from("orders")
-      .select("id, store_id, total, email, status, payment_provider, payment_status, stripe_checkout_session_id")
+      .select("id, store_id, total, currency, email, status, payment_provider, payment_status, stripe_checkout_session_id")
       .eq("checkout_group_id", group)
       .eq("customer_id", who.user.id);
     if (error) return json({ error: error.message }, 400, origin);
@@ -82,14 +86,22 @@ Deno.serve(async (req) => {
       } catch (_) { /* create a new one below */ }
     }
 
+    const currencies = new Set(orders.map((o) => String(o.currency ?? "USD").toLowerCase()));
+    if (currencies.size !== 1) return json({ error: "Orders in different currencies cannot be paid together" }, 400, origin);
+    const currency = [...currencies][0];
+    if (!/^[a-z]{3}$/.test(currency)) return json({ error: "Unsupported currency" }, 400, origin);
+
     const total = orders.reduce((sum, o) => sum + Math.round(Number(o.total) * 100), 0);
-    if (total < 50) return json({ error: "The total is below the minimum card payment (0.50 USD)" }, 400, origin);
+    if (total < 50) return json({ error: "The total is below the minimum card payment" }, 400, origin);
 
     const ids = [...new Set(orders.map((o) => o.store_id))];
     const { data: stores } = await user.from("stores").select("id, name").in("id", ids);
     const names = new Map((stores ?? []).map((s) => [s.id, s.name as string]));
 
     const sep = (p: string) => (p.includes("?") ? "&" : "?");
+    // Same bucket => identical parameters => Stripe returns the same session (no double charge,
+    // no idempotency conflict). Created at the start..end of a bucket, the session lives 31..36 minutes.
+    const bucket = Math.floor(Date.now() / 300000);
     const session = await stripe.checkout.sessions.create(
       {
         mode: "payment",
@@ -98,7 +110,7 @@ Deno.serve(async (req) => {
         line_items: orders.map((o) => ({
           quantity: 1,
           price_data: {
-            currency: "usd",
+            currency,
             unit_amount: Math.round(Number(o.total) * 100),
             product_data: { name: `Order from ${names.get(o.store_id) ?? "Saloree store"}` },
           },
@@ -108,16 +120,17 @@ Deno.serve(async (req) => {
           metadata: { checkout_group_id: group },
           transfer_group: group, // lets us pay sellers through Stripe Connect later
         },
-        expires_at: Math.floor(Date.now() / 1000) + 31 * 60,
+        expires_at: bucket * 300 + 36 * 60,
         success_url: `${SITE_URL}${successPath}${sep(successPath)}session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${SITE_URL}${cancelPath}`,
       },
       // a double click within 5 minutes returns the same session (no double charge)
-      { idempotencyKey: `checkout-${group}-${Math.floor(Date.now() / 300000)}` },
+      { idempotencyKey: `checkout-${group}-${bucket}` },
     );
 
     const admin = createClient(SUPABASE_URL, SERVICE_KEY);
-    await admin.rpc("stripe_attach_session", { p_group: group, p_session: session.id });
+    const { error: attachError } = await admin.rpc("stripe_attach_session", { p_group: group, p_session: session.id });
+    if (attachError) console.error("stripe_attach_session failed:", attachError.message); // the webhook still finds the orders by client_reference_id
 
     return json({ url: session.url }, 200, origin);
   } catch (e) {
