@@ -20,7 +20,9 @@
     "signInAgain": "Entre novamente para fazer seu pedido.",
     "discountNotValid": "Este código não pode ser usado com os itens da sua sacola. Verifique o código ou remova-o para continuar.",
     "discountFormat": "Isso não parece um código de desconto.",
-    "codPaused": "Uma loja na sua sacola não está aceitando pagamento na entrega agora. Seu pedido não foi feito."
+    "codPaused": "Uma loja na sua sacola não está aceitando pagamento na entrega agora. Seu pedido não foi feito.",
+    "paymentExpired": "Este pedido não pode mais ser pago. Faça-o novamente pela sua sacola.",
+    "alreadyPaid": "Este pedido já está pago."
   },
   "orders": {
     "cannotCancel": "Este pedido não pode mais ser cancelado."

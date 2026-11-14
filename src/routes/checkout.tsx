@@ -22,10 +22,18 @@ import {
   codRule,
   discountCodeSchema,
   isInvalidDiscountError,
-  PAYMENT_METHODS,
+  paymentMethods,
   type CheckoutCustomerInput,
   type PaymentProvider,
 } from "@/services/checkout";
+import { CardPaymentError, cardPaymentService, groupPaymentState } from "@/services/card-payment";
+import {
+  clearPendingPayment,
+  goToPaymentPage,
+  readPendingPayment,
+  savePendingPayment,
+  type PendingPayment,
+} from "@/lib/pending-payment";
 
 export const Route = createFileRoute("/checkout")({
   ssr: false,
@@ -94,12 +102,83 @@ function CheckoutPage() {
   const pausedNames = new Intl.ListFormat(locale, { type: "conjunction" }).format(
     paused.map((id) => stores.find((s) => s.id === id)?.name ?? id),
   );
-  const rule = codRule(paused);
+  const methods = paymentMethods();
+  const cardOn = methods.some((m) => m.id === "stripe" && m.enabled);
+  const rule = codRule(paused, cardOn);
+  // With COD paused for a store in the bag, card is the way to pay.
+  const method: PaymentProvider =
+    provider === "cod" && !rule.codAllowed && cardOn ? "stripe" : provider;
+
+  // A card payment started from this tab and not finished (back from Stripe).
+  const [pending, setPending] = useState<PendingPayment | null>(() => readPendingPayment());
+  const [redirecting, setRedirecting] = useState(false);
+  const pendingCheck = useQuery({
+    queryKey: ["checkout", "payment", pending?.groupId],
+    queryFn: () => cardPaymentService.groupPayment(pending!.groupId),
+    enabled: !!pending,
+    retry: false,
+  });
+  const pendingState = pendingCheck.data ? groupPaymentState(pendingCheck.data) : null;
+  const [ended, setEnded] = useState(false);
+  if (
+    pending &&
+    (pendingState === "paid" || pendingState === "failed" || pendingState === "none")
+  ) {
+    // Paid meanwhile, or no longer payable: nothing to offer here any more.
+    clearPendingPayment(pending.groupId);
+    setPending(null);
+    if (pendingState === "failed") setEnded(true);
+  }
+  const showRetry = !!pending && (pendingState === "pending" || pendingCheck.isError);
+
+  /** The function's refusal, in plain words; an expired checkout goes back to the bag. */
+  const onCardError = (e: unknown, groupId: string) => {
+    if (e instanceof CardPaymentError && e.problem === "expired") {
+      clearPendingPayment(groupId);
+      setPending(null);
+      toast.error(t("pending.expired"));
+      void navigate({ to: "/cart" });
+      return;
+    }
+    if (e instanceof CardPaymentError && e.problem === "paid") {
+      clearPendingPayment(groupId);
+      void navigate({ to: "/order-confirmation", search: { group: groupId } });
+      return;
+    }
+    toast.error(translateError(t, e));
+  };
+
+  const retry = useMutation({
+    mutationFn: (groupId: string) => cardPaymentService.startPayment(groupId),
+    onSuccess: (url) => {
+      setRedirecting(true);
+      goToPaymentPage(url);
+    },
+    onError: (e, groupId) => onCardError(e, groupId),
+  });
 
   const place = useMutation({
-    mutationFn: () => checkoutService.placeOrder(items, values, provider, discountCode),
-    onSuccess: async (result) => {
+    mutationFn: async () => {
+      const result = await checkoutService.placeOrder(items, values, method, discountCode);
       queryClient.setQueryData(["checkout", result.checkout_group_id], result);
+      if (method !== "stripe") return { result, url: null };
+      // Orders exist now (pending, stock reserved): remember them for "Try again".
+      const groupId = result.checkout_group_id;
+      savePendingPayment(groupId);
+      setPending(readPendingPayment() ?? { groupId, at: Date.now() });
+      try {
+        return { result, url: await cardPaymentService.startPayment(groupId) };
+      } catch (e) {
+        throw new StartPaymentFailed(e, groupId);
+      }
+    },
+    onSuccess: async ({ result, url }) => {
+      if (url) {
+        // The bag is emptied once the payment is confirmed, not before.
+        setRedirecting(true);
+        goToPaymentPage(url);
+        return;
+      }
       await navigate({
         to: "/order-confirmation/$groupId",
         params: { groupId: result.checkout_group_id },
@@ -110,6 +189,11 @@ function CheckoutPage() {
       void queryClient.invalidateQueries({ queryKey: ["catalog"] }); // stock changed
     },
     onError: (e) => {
+      if (e instanceof StartPaymentFailed) {
+        void queryClient.invalidateQueries({ queryKey: ["checkout", "payment"] });
+        onCardError(e.cause, e.groupId);
+        return;
+      }
       // Nothing was ordered and the bag is untouched; let the shopper fix the code.
       if (isInvalidDiscountError(e)) {
         setDiscountError(t("checkout.discountNotValid", { ns: "errors" }));
@@ -126,10 +210,38 @@ function CheckoutPage() {
     },
   });
 
+  const retryNotice = showRetry && pending && (
+    <div className="checkout-pending" role="alert" aria-live="polite">
+      <p>{t("pending.notice")}</p>
+      <div className="checkout-pending-actions">
+        <Button
+          type="button"
+          disabled={retry.isPending || redirecting}
+          onClick={() => retry.mutate(pending.groupId)}
+        >
+          {retry.isPending || redirecting ? t("redirecting") : t("pending.retry")}
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          disabled={retry.isPending || redirecting}
+          onClick={() => {
+            clearPendingPayment(pending.groupId);
+            setPending(null);
+          }}
+        >
+          {t("pending.newOrder")}
+        </Button>
+      </div>
+      <p className="seller-hint">{t("pending.newOrderHint")}</p>
+    </div>
+  );
+
   if (!ready) return <CatalogSkeleton />;
   if (!items.length)
     return (
       <main className="market-container">
+        {retryNotice}
         <EmptyState title={t("emptyTitle")} description={t("emptyText")} />
       </main>
     );
@@ -149,12 +261,18 @@ function CheckoutPage() {
       </div>
       <h1 className="page-title">{t("title")}</h1>
       <p className="page-subtitle">{t("subtitle")}</p>
+      {retryNotice}
+      {ended && !pending && (
+        <p className="checkout-pending" role="status">
+          {t("pending.expired")}
+        </p>
+      )}
       <form
         className="cart-layout"
         noValidate
         onSubmit={(e) => {
           e.preventDefault();
-          if (place.isPending) return;
+          if (place.isPending || redirecting || showRetry) return;
           const parsed = checkoutCustomerSchema.safeParse(values);
           if (!parsed.success) {
             // One translated message per field (word order may differ per language).
@@ -216,19 +334,20 @@ function CheckoutPage() {
 
           <fieldset className="checkout-payments" disabled={place.isPending}>
             <legend className="checkout-legend">{t("payment")}</legend>
-            {PAYMENT_METHODS.map((m) => {
+            {methods.map((m) => {
               const available = m.enabled && (m.id !== "cod" || rule.codAllowed);
+              const selected = method === m.id && available;
               return (
                 <label
                   key={m.id}
-                  className={`checkout-payment ${provider === m.id && available ? "selected" : ""} ${available ? "" : "disabled"}`}
+                  className={`checkout-payment ${selected ? "selected" : ""} ${available ? "" : "disabled"}`}
                 >
                   <input
                     type="radio"
                     name="payment"
                     value={m.id}
                     disabled={!available}
-                    checked={provider === m.id && available}
+                    checked={selected}
                     aria-describedby={
                       m.id === "cod" && !rule.codAllowed ? "checkout-cod-paused" : undefined
                     }
@@ -241,7 +360,9 @@ function CheckoutPage() {
                         ? t("methods.comingSoon")
                         : m.id === "cod" && !rule.codAllowed
                           ? t("methods.codPaused", { stores: pausedNames })
-                          : t("methods.codDescription")}
+                          : m.id === "stripe"
+                            ? t("methods.cardDescription")
+                            : t("methods.codDescription")}
                     </small>
                   </span>
                 </label>
@@ -300,17 +421,34 @@ function CheckoutPage() {
             </p>
           </div>
           <p className="checkout-note">{t("note")}</p>
+          {method === "stripe" && <p className="checkout-note">{t("cardNote")}</p>}
           <Button
             type="submit"
             className="w-full h-11 mt-4"
-            disabled={place.isPending || !rule.canPlace}
+            disabled={place.isPending || redirecting || showRetry || !rule.canPlace}
             aria-describedby={!rule.canPlace ? "checkout-cod-paused" : undefined}
           >
             <Lock />
-            {place.isPending ? t("placing") : t("place")}
+            {redirecting
+              ? t("redirecting")
+              : place.isPending
+                ? t("placing")
+                : method === "stripe"
+                  ? t("toPayment")
+                  : t("place")}
           </Button>
         </aside>
       </form>
     </main>
   );
+}
+
+/** place_order succeeded but Stripe's page could not be opened (orders stay pending). */
+class StartPaymentFailed extends Error {
+  constructor(
+    override readonly cause: unknown,
+    readonly groupId: string,
+  ) {
+    super("The payment page could not be opened.");
+  }
 }

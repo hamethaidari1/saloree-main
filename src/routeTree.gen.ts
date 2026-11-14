@@ -27,6 +27,7 @@ import { Route as AdminFinanceRouteImport } from './routes/admin_.finance'
 import { Route as AdminMarketplaceRouteImport } from './routes/admin_.marketplace'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
+import { Route as OrderConfirmationIndexRouteImport } from './routes/order-confirmation.index'
 import { Route as OrderConfirmationGroupIdRouteImport } from './routes/order-confirmation.$groupId'
 import { Route as PreviewStoreRouteImport } from './routes/preview.store'
 import { Route as ProductIdRouteImport } from './routes/product.$id'
@@ -132,6 +133,11 @@ const AuthCallbackRoute = AuthCallbackRouteImport.update({
 const CategorySlugRoute = CategorySlugRouteImport.update({
   id: '/category/$slug',
   path: '/category/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrderConfirmationIndexRoute = OrderConfirmationIndexRouteImport.update({
+  id: '/order-confirmation/',
+  path: '/order-confirmation/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OrderConfirmationGroupIdRoute =
@@ -250,6 +256,7 @@ export interface FileRoutesByFullPath {
   '/seller/settings': typeof SellerSettingsRoute
   '/seller/themes': typeof SellerThemesRoute
   '/store/$slug': typeof StoreSlugRoute
+  '/order-confirmation/': typeof OrderConfirmationIndexRoute
   '/seller/': typeof SellerIndexRoute
 }
 export interface FileRoutesByTo {
@@ -285,6 +292,7 @@ export interface FileRoutesByTo {
   '/seller/settings': typeof SellerSettingsRoute
   '/seller/themes': typeof SellerThemesRoute
   '/store/$slug': typeof StoreSlugRoute
+  '/order-confirmation': typeof OrderConfirmationIndexRoute
   '/seller': typeof SellerIndexRoute
 }
 export interface FileRoutesById {
@@ -322,6 +330,7 @@ export interface FileRoutesById {
   '/seller/settings': typeof SellerSettingsRoute
   '/seller/themes': typeof SellerThemesRoute
   '/store/$slug': typeof StoreSlugRoute
+  '/order-confirmation/': typeof OrderConfirmationIndexRoute
   '/seller/': typeof SellerIndexRoute
 }
 export interface FileRouteTypes {
@@ -360,6 +369,7 @@ export interface FileRouteTypes {
     | '/seller/settings'
     | '/seller/themes'
     | '/store/$slug'
+    | '/order-confirmation/'
     | '/seller/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -395,6 +405,7 @@ export interface FileRouteTypes {
     | '/seller/settings'
     | '/seller/themes'
     | '/store/$slug'
+    | '/order-confirmation'
     | '/seller'
   id:
     | '__root__'
@@ -431,6 +442,7 @@ export interface FileRouteTypes {
     | '/seller/settings'
     | '/seller/themes'
     | '/store/$slug'
+    | '/order-confirmation/'
     | '/seller/'
   fileRoutesById: FileRoutesById
 }
@@ -457,6 +469,7 @@ export interface RootRouteChildren {
   PreviewStoreRoute: typeof PreviewStoreRoute
   ProductIdRoute: typeof ProductIdRoute
   StoreSlugRoute: typeof StoreSlugRoute
+  OrderConfirmationIndexRoute: typeof OrderConfirmationIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -585,6 +598,13 @@ declare module '@tanstack/react-router' {
       path: '/category/$slug'
       fullPath: '/category/$slug'
       preLoaderRoute: typeof CategorySlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/order-confirmation/': {
+      id: '/order-confirmation/'
+      path: '/order-confirmation'
+      fullPath: '/order-confirmation/'
+      preLoaderRoute: typeof OrderConfirmationIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/order-confirmation/$groupId': {
@@ -758,6 +778,7 @@ const rootRouteChildren: RootRouteChildren = {
   PreviewStoreRoute: PreviewStoreRoute,
   ProductIdRoute: ProductIdRoute,
   StoreSlugRoute: StoreSlugRoute,
+  OrderConfirmationIndexRoute: OrderConfirmationIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

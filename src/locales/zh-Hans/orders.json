@@ -11,7 +11,9 @@
     "totalToPay": "应付总额",
     "delivery": "配送",
     "viewOrders": "查看我的订单",
-    "keepShopping": "继续购物"
+    "keepShopping": "继续购物",
+    "subtitlePaid": "已收到您的付款。每家店铺会准备各自的那部分订单。",
+    "totalPaid": "实付总额"
   },
   "status": {
     "pending": "待处理",
@@ -54,5 +56,20 @@
       "returned": "此包裹已退回店铺。",
       "cancelled": "此订单已取消。"
     }
+  },
+  "payment": {
+    "confirming": "已收到付款，正在确认您的订单…",
+    "stillConfirmingTitle": "我们仍在确认您的付款",
+    "stillConfirming": "我们仍在确认您的付款。您可以放心关闭此页面；确认后订单会出现在“我的订单”中。如果您已被扣款，但几分钟内仍未看到订单，请联系客服。",
+    "notCompleted": "支付未完成 — 订单已取消",
+    "notCompletedText": "此订单未产生任何扣款。您可以从购物袋重新下单。",
+    "backToBag": "返回购物袋",
+    "awaiting": "等待付款",
+    "paid": "已付款",
+    "refunded": "已退款",
+    "failed": "付款失败",
+    "payNow": "立即支付",
+    "payNowGroup": "将一并支付本次结账的所有订单。",
+    "opening": "正在打开…"
   }
 }

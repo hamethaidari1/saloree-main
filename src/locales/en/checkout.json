@@ -19,10 +19,11 @@
   "methods": {
     "cod": "Pay on delivery",
     "codDescription": "Pay in cash when your order arrives.",
-    "stripe": "Card (Stripe)",
+    "stripe": "Pay by card",
     "hesabpay": "HesabPay",
     "comingSoon": "Coming soon",
-    "codPaused": "Cash on delivery is paused for: {{stores}}. Please pay online."
+    "codPaused": "Cash on delivery is paused for: {{stores}}. Please pay online.",
+    "cardDescription": "Pay by card on Stripe's secure page. We never see your card details."
   },
   "yourOrder": "Your order",
   "line": "{{quantity}} × {{title}}",
@@ -33,5 +34,15 @@
   "note": "Prices, stock and shipping are confirmed by Saloree when you place the order. Items from different stores become separate orders.",
   "place": "Place order",
   "placing": "Placing your order…",
-  "cannotPlace": "Online payment isn't available yet, so this order can't be placed right now. Remove the products from {{stores}} to order the rest."
+  "cannotPlace": "Online payment isn't available yet, so this order can't be placed right now. Remove the products from {{stores}} to order the rest.",
+  "cardNote": "You'll enter your card on Stripe's page. Your items are reserved while you pay.",
+  "toPayment": "Continue to payment",
+  "redirecting": "Opening the payment page…",
+  "pending": {
+    "notice": "Your payment was not completed. Your items are reserved for a short time.",
+    "retry": "Try payment again",
+    "newOrder": "Place a new order instead",
+    "newOrderHint": "The unpaid order is cancelled automatically after about 30 minutes.",
+    "expired": "That checkout can no longer be paid. Please place your order again from your bag."
+  }
 }

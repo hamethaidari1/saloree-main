@@ -11,7 +11,9 @@
     "totalToPay": "결제할 금액",
     "delivery": "배송",
     "viewOrders": "내 주문 보기",
-    "keepShopping": "계속 쇼핑하기"
+    "keepShopping": "계속 쇼핑하기",
+    "subtitlePaid": "결제가 완료되었습니다. 각 상점이 주문의 해당 부분을 준비합니다.",
+    "totalPaid": "총 결제 금액"
   },
   "status": {
     "pending": "대기 중",
@@ -54,5 +56,20 @@
       "returned": "이 배송은 상점으로 반송되었습니다.",
       "cancelled": "이 주문은 취소되었습니다."
     }
+  },
+  "payment": {
+    "confirming": "결제를 받았습니다. 주문을 확인하는 중…",
+    "stillConfirmingTitle": "아직 결제를 확인하고 있습니다",
+    "stillConfirming": "아직 결제를 확인하고 있습니다. 이 페이지를 닫아도 괜찮습니다. 확인되면 주문이 내 주문에 표시됩니다. 결제가 청구되었는데 몇 분 안에 아무것도 나타나지 않으면 고객 지원에 문의해 주세요.",
+    "notCompleted": "결제 미완료 — 주문 취소됨",
+    "notCompletedText": "이 주문에 대해 청구된 금액은 없습니다. 장바구니에서 다시 주문할 수 있습니다.",
+    "backToBag": "장바구니로 돌아가기",
+    "awaiting": "결제 대기 중",
+    "paid": "결제 완료",
+    "refunded": "환불됨",
+    "failed": "결제 실패",
+    "payNow": "지금 결제",
+    "payNowGroup": "이번 결제의 모든 주문을 함께 결제합니다.",
+    "opening": "여는 중…"
   }
 }

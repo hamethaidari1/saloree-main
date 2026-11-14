@@ -19,10 +19,11 @@
   "methods": {
     "cod": "Pagamento na entrega",
     "codDescription": "Pague em dinheiro quando o pedido chegar.",
-    "stripe": "Cartão (Stripe)",
+    "stripe": "Pagar com cartão",
     "hesabpay": "HesabPay",
     "comingSoon": "Em breve",
-    "codPaused": "O pagamento na entrega está pausado para: {{stores}}. Pague online."
+    "codPaused": "O pagamento na entrega está pausado para: {{stores}}. Pague online.",
+    "cardDescription": "Pague com cartão na página segura da Stripe. Nunca vemos os dados do seu cartão."
   },
   "yourOrder": "Seu pedido",
   "line": "{{quantity}} × {{title}}",
@@ -33,5 +34,15 @@
   "note": "A Saloree confirma preços, estoque e frete quando você faz o pedido. Itens de lojas diferentes viram pedidos separados.",
   "place": "Fazer pedido",
   "placing": "Fazendo seu pedido…",
-  "cannotPlace": "O pagamento online ainda não está disponível, então este pedido não pode ser feito agora. Remova os produtos de {{stores}} para pedir o restante."
+  "cannotPlace": "O pagamento online ainda não está disponível, então este pedido não pode ser feito agora. Remova os produtos de {{stores}} para pedir o restante.",
+  "cardNote": "Você vai digitar o cartão na página da Stripe. Seus itens ficam reservados enquanto você paga.",
+  "toPayment": "Continuar para o pagamento",
+  "redirecting": "Abrindo a página de pagamento…",
+  "pending": {
+    "notice": "Seu pagamento não foi concluído. Seus itens ficam reservados por pouco tempo.",
+    "retry": "Tentar pagar novamente",
+    "newOrder": "Fazer um novo pedido",
+    "newOrderHint": "O pedido não pago é cancelado automaticamente após cerca de 30 minutos.",
+    "expired": "Esse pedido não pode mais ser pago. Faça o pedido novamente pela sua sacola."
+  }
 }

@@ -45,7 +45,7 @@ import {
   checkoutService,
   discountCodeSchema,
   isInvalidDiscountError,
-  PAYMENT_METHODS,
+  paymentMethods,
   toOrderItems,
 } from "@/services/checkout";
 import {
@@ -250,13 +250,21 @@ describe("checkout form validation", () => {
 });
 
 describe("payment methods", () => {
-  it("only pay on delivery is enabled; Stripe and HesabPay are coming soon", () => {
-    expect(PAYMENT_METHODS.filter((m) => m.enabled).map((m) => m.id)).toEqual(["cod"]);
+  it("flag off (default): only pay on delivery is enabled; card and HesabPay are coming soon", () => {
+    const methods = paymentMethods(false);
+    expect(methods.filter((m) => m.enabled).map((m) => m.id)).toEqual(["cod"]);
     for (const id of ["stripe", "hesabpay"])
-      expect(PAYMENT_METHODS.find((m) => m.id === id)).toMatchObject({
+      expect(methods.find((m) => m.id === id)).toMatchObject({
         enabled: false,
         description: "Coming soon",
       });
+  });
+  it("flag on: pay by card is enabled too; HesabPay stays off", () => {
+    expect(
+      paymentMethods(true)
+        .filter((m) => m.enabled)
+        .map((m) => m.id),
+    ).toEqual(["cod", "stripe"]);
   });
 });
 

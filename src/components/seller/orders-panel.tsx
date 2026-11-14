@@ -21,10 +21,26 @@ import {
   type OrderStatus,
   type SellerOrder,
 } from "@/services/seller";
+import { isPaidOrCod } from "@/services/bulk-tracking";
+import { orderPaymentState, type PaymentState } from "@/services/card-payment";
 import { PanelState } from "./panel-state";
 import { ShippingSection } from "./shipping-section";
 
 const asNumber = (v: number | string | null | undefined) => (v == null ? null : Number(v));
+
+/** Seller screens stay English. */
+const PAYMENT_LABEL: Record<PaymentState, string> = {
+  awaiting: "Awaiting payment",
+  paid: "Paid",
+  refunded: "Refunded",
+  failed: "Payment failed",
+  notCompleted: "Payment not completed — order cancelled",
+  cod: "Pay on delivery",
+};
+const sellerPaymentLabel = (o: SellerOrder) => PAYMENT_LABEL[orderPaymentState(o)];
+const METHOD_LABEL: Record<string, string> = { cod: "Pay on delivery", stripe: "Card (Stripe)" };
+/** Online orders can't move to shipped/delivered until paid (the database enforces it too). */
+const NEEDS_PAYMENT: readonly string[] = ["shipped", "delivered"];
 
 function StatusSelect({
   order,
@@ -36,6 +52,7 @@ function StatusSelect({
   onChange: (status: OrderStatus) => void;
 }) {
   const known = ORDER_STATUSES.includes(order.status as OrderStatus);
+  const paid = isPaidOrCod(order);
   return (
     <label className="seller-order-status">
       <span className="sr-only">Status for order {order.id.slice(0, 8)}</span>
@@ -50,11 +67,14 @@ function StatusSelect({
             {order.status}
           </option>
         )}
-        {ORDER_STATUSES.map((s) => (
-          <option key={s} value={s}>
-            {s}
-          </option>
-        ))}
+        {ORDER_STATUSES.map((s) => {
+          const blocked = !paid && NEEDS_PAYMENT.includes(s) && s !== order.status;
+          return (
+            <option key={s} value={s} disabled={blocked}>
+              {blocked ? `${s} (awaiting payment)` : s}
+            </option>
+          );
+        })}
       </select>
     </label>
   );
@@ -156,10 +176,13 @@ function OrderDetail({
             </Row>
           )}
           <Row label="Payment method">
-            {order.payment_provider === "cod" ? "Pay on delivery" : (order.payment_provider ?? "—")}
+            {METHOD_LABEL[order.payment_provider ?? "cod"] ?? order.payment_provider}
           </Row>
-          <Row label="Payment status">{order.payment_status ?? "—"}</Row>
+          <Row label="Payment status">{sellerPaymentLabel(order)}</Row>
         </dl>
+        {!isPaidOrCod(order) && (
+          <p className="seller-hint">Paid online: don't ship this order until it shows as Paid.</p>
+        )}
       </section>
 
       <section aria-labelledby="od-customer">
@@ -310,6 +333,9 @@ export function OrdersPanel({
                         {o.order_items.reduce((s, i) => s + i.quantity, 0)} items
                         {discount > 0 && (
                           <Badge variant="secondary">{o.discount_code ?? "Discount"}</Badge>
+                        )}
+                        {!isPaidOrCod(o) && (
+                          <Badge variant="outline">{sellerPaymentLabel(o)}</Badge>
                         )}
                       </p>
                     </div>

@@ -20,7 +20,9 @@
     "signInAgain": "Please sign in again to place your order.",
     "discountNotValid": "This code can't be used with the items in your bag. Check the code or remove it to continue.",
     "discountFormat": "That doesn't look like a discount code.",
-    "codPaused": "A store in your bag isn't accepting cash on delivery right now. Your order was not placed."
+    "codPaused": "A store in your bag isn't accepting cash on delivery right now. Your order was not placed.",
+    "paymentExpired": "This order can no longer be paid. Please place it again from your bag.",
+    "alreadyPaid": "This order is already paid."
   },
   "orders": {
     "cannotCancel": "This order can no longer be cancelled."

@@ -20,7 +20,9 @@
     "signInAgain": "Vuelve a iniciar sesión para realizar tu pedido.",
     "discountNotValid": "Este código no se puede usar con los artículos de tu bolsa. Comprueba el código o quítalo para continuar.",
     "discountFormat": "Eso no parece un código de descuento.",
-    "codPaused": "Una tienda de tu bolsa no acepta pago contra entrega en este momento. Tu pedido no se realizó."
+    "codPaused": "Una tienda de tu bolsa no acepta pago contra entrega en este momento. Tu pedido no se realizó.",
+    "paymentExpired": "Este pedido ya no se puede pagar. Vuelve a hacerlo desde tu bolsa.",
+    "alreadyPaid": "Este pedido ya está pagado."
   },
   "orders": {
     "cannotCancel": "Este pedido ya no se puede cancelar."

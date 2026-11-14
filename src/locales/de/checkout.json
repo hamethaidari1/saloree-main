@@ -19,10 +19,11 @@
   "methods": {
     "cod": "Zahlung bei Lieferung",
     "codDescription": "Bezahle bar, wenn deine Bestellung ankommt.",
-    "stripe": "Karte (Stripe)",
+    "stripe": "Mit Karte bezahlen",
     "hesabpay": "HesabPay",
     "comingSoon": "Demnächst",
-    "codPaused": "Zahlung bei Lieferung ist pausiert bei: {{stores}}. Bitte bezahle online."
+    "codPaused": "Zahlung bei Lieferung ist pausiert bei: {{stores}}. Bitte bezahle online.",
+    "cardDescription": "Bezahle mit Karte auf der sicheren Seite von Stripe. Deine Kartendaten sehen wir nie."
   },
   "yourOrder": "Deine Bestellung",
   "line": "{{quantity}} × {{title}}",
@@ -33,5 +34,15 @@
   "note": "Preise, Bestand und Versand bestätigt Saloree bei der Bestellung. Artikel aus verschiedenen Shops werden zu separaten Bestellungen.",
   "place": "Bestellung aufgeben",
   "placing": "Bestellung wird aufgegeben…",
-  "cannotPlace": "Online-Zahlung ist noch nicht verfügbar, daher kann diese Bestellung gerade nicht aufgegeben werden. Entferne die Produkte von {{stores}}, um den Rest zu bestellen."
+  "cannotPlace": "Online-Zahlung ist noch nicht verfügbar, daher kann diese Bestellung gerade nicht aufgegeben werden. Entferne die Produkte von {{stores}}, um den Rest zu bestellen.",
+  "cardNote": "Deine Karte gibst du auf der Seite von Stripe ein. Deine Artikel sind während der Zahlung reserviert.",
+  "toPayment": "Weiter zur Zahlung",
+  "redirecting": "Zahlungsseite wird geöffnet …",
+  "pending": {
+    "notice": "Deine Zahlung wurde nicht abgeschlossen. Deine Artikel sind für kurze Zeit reserviert.",
+    "retry": "Zahlung erneut versuchen",
+    "newOrder": "Stattdessen neu bestellen",
+    "newOrderHint": "Die unbezahlte Bestellung wird nach etwa 30 Minuten automatisch storniert.",
+    "expired": "Diese Bestellung kann nicht mehr bezahlt werden. Bitte bestelle erneut aus deinem Warenkorb."
+  }
 }

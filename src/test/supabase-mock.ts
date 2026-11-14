@@ -20,6 +20,8 @@ export function createSupabaseMock() {
   const state = {
     queries: [] as Recorded[],
     rpcs: [] as { fn: string; args: unknown }[],
+    /** Edge Function calls (supabase.functions.invoke). */
+    invokes: [] as { name: string; body: unknown }[],
     uploads: [] as { bucket: string; path: string }[],
     queue: [] as Reply[],
     fallback: { data: [], error: null, count: 0 } as Reply,
@@ -138,6 +140,13 @@ export function createSupabaseMock() {
         return { error };
       }),
     },
+    functions: {
+      invoke: vi.fn(async (name: string, options?: { body?: unknown }) => {
+        state.invokes.push({ name, body: options?.body });
+        const r = reply();
+        return { data: r.data, error: r.error };
+      }),
+    },
     storage: {
       from: (bucket: string) => ({
         upload: async (path: string) => {
@@ -154,6 +163,7 @@ export function createSupabaseMock() {
   const reset = () => {
     state.queries.length = 0;
     state.rpcs.length = 0;
+    state.invokes.length = 0;
     state.uploads.length = 0;
     state.queue.length = 0;
     state.fallback = { data: [], error: null, count: 0 };

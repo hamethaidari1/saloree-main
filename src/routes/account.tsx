@@ -22,6 +22,14 @@ import {
   ordersService,
   type OrderWithItems,
 } from "@/services/orders";
+import {
+  CardPaymentError,
+  canPayNow,
+  cardPaymentService,
+  orderPaymentState,
+} from "@/services/card-payment";
+import { goToPaymentPage, savePendingPayment } from "@/lib/pending-payment";
+import { stripeEnabled } from "@/services/checkout";
 
 export const Route = createFileRoute("/account")({
   ssr: false,
@@ -64,6 +72,31 @@ function AccountPage() {
         queryClient.invalidateQueries({ queryKey: ["catalog"] }), // stock may be restored
       ]),
   });
+  // Pays the whole checkout on Stripe's page (the server reuses an open session).
+  const [redirecting, setRedirecting] = useState<string | null>(null);
+  const payNow = useMutation({
+    mutationFn: (groupId: string) => cardPaymentService.startPayment(groupId),
+    onSuccess: (url, groupId) => {
+      savePendingPayment(groupId);
+      setRedirecting(groupId);
+      goToPaymentPage(url);
+    },
+    onError: (e) => {
+      if (e instanceof CardPaymentError && e.problem !== "other") {
+        toast.error(
+          t(e.problem === "paid" ? "checkout.alreadyPaid" : "checkout.paymentExpired", {
+            ns: "errors",
+          }),
+        );
+        void queryClient.invalidateQueries({ queryKey: ["orders"] });
+        return;
+      }
+      toast.error(translateError(t, e));
+    },
+  });
+  const cardOn = stripeEnabled();
+  const groupSize = (groupId: string | null) =>
+    groupId ? (orders.data ?? []).filter((x) => x.checkout_group_id === groupId).length : 1;
 
   return (
     <main className="market-container pb-16">
@@ -95,6 +128,11 @@ function AccountPage() {
         <ul className="order-list" aria-labelledby="my-orders">
           {orders.data.map((o) => {
             const busy = cancel.isPending && cancel.variables?.id === o.id;
+            const pay = orderPaymentState(o);
+            const payable = cardOn && canPayNow(o);
+            const paying =
+              (payNow.isPending && payNow.variables === o.checkout_group_id) ||
+              redirecting === o.checkout_group_id;
             return (
               <li key={o.id} className="order-summary my-order">
                 <div className="summary-row">
@@ -161,33 +199,51 @@ function AccountPage() {
                 <div className="summary-row summary-total">
                   <span>
                     {t("total")}
-                    {o.payment_provider === "cod" && (
-                      <small className="block font-normal text-muted-foreground">
-                        {t("payOnDelivery")}
-                      </small>
-                    )}
+                    <small
+                      className={`block font-normal ${pay === "failed" || pay === "notCompleted" ? "text-destructive" : "text-muted-foreground"}`}
+                    >
+                      {pay === "cod" ? t("payOnDelivery") : t(`payment.${pay}`, { ns: "orders" })}
+                    </small>
                   </span>
                   <span>{format.price(orderTotal(o), o.currency)}</span>
                 </div>
-                {canCancel(o) && (
-                  <div className="flex justify-end">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      disabled={busy}
-                      onClick={() =>
-                        setConfirm({
-                          title: t("cancelTitle", { id: o.id.slice(0, 8) }),
-                          description: t("cancelText"),
-                          confirmLabel: t("cancelOrder"),
-                          cancelLabel: t("keepOrder"),
-                          destructive: true,
-                          run: () => cancel.mutateAsync(o),
-                        })
-                      }
-                    >
-                      {busy ? t("cancelling") : t("cancelOrder")}
-                    </Button>
+                {(payable || canCancel(o)) && (
+                  <div className="flex flex-wrap items-center justify-end gap-2">
+                    {payable && groupSize(o.checkout_group_id) > 1 && (
+                      <small className="me-auto text-muted-foreground">
+                        {t("payment.payNowGroup", { ns: "orders" })}
+                      </small>
+                    )}
+                    {payable && (
+                      <Button
+                        size="sm"
+                        disabled={paying || payNow.isPending}
+                        onClick={() => o.checkout_group_id && payNow.mutate(o.checkout_group_id)}
+                      >
+                        {paying
+                          ? t("payment.opening", { ns: "orders" })
+                          : t("payment.payNow", { ns: "orders" })}
+                      </Button>
+                    )}
+                    {canCancel(o) && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        disabled={busy}
+                        onClick={() =>
+                          setConfirm({
+                            title: t("cancelTitle", { id: o.id.slice(0, 8) }),
+                            description: t("cancelText"),
+                            confirmLabel: t("cancelOrder"),
+                            cancelLabel: t("keepOrder"),
+                            destructive: true,
+                            run: () => cancel.mutateAsync(o),
+                          })
+                        }
+                      >
+                        {busy ? t("cancelling") : t("cancelOrder")}
+                      </Button>
+                    )}
                   </div>
                 )}
               </li>

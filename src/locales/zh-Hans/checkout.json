@@ -19,10 +19,11 @@
   "methods": {
     "cod": "货到付款",
     "codDescription": "订单送达时以现金付款。",
-    "stripe": "银行卡（Stripe）",
+    "stripe": "银行卡支付",
     "hesabpay": "HesabPay",
     "comingSoon": "即将推出",
-    "codPaused": "以下店铺暂停货到付款：{{stores}}。请在线支付。"
+    "codPaused": "以下店铺暂停货到付款：{{stores}}。请在线支付。",
+    "cardDescription": "在 Stripe 的安全页面用银行卡支付。我们绝不会看到您的卡信息。"
   },
   "yourOrder": "你的订单",
   "line": "{{quantity}} × {{title}}",
@@ -33,5 +34,15 @@
   "note": "下单时由 Saloree 确认价格、库存和运费。来自不同店铺的商品将生成独立订单。",
   "place": "提交订单",
   "placing": "正在提交订单…",
-  "cannotPlace": "在线支付暂不可用，因此现在无法下单。请移除 {{stores}} 的商品后再订购其余商品。"
+  "cannotPlace": "在线支付暂不可用，因此现在无法下单。请移除 {{stores}} 的商品后再订购其余商品。",
+  "cardNote": "您将在 Stripe 页面输入卡信息。支付期间商品会为您保留。",
+  "toPayment": "继续支付",
+  "redirecting": "正在打开支付页面…",
+  "pending": {
+    "notice": "您的支付未完成。商品会为您短时间保留。",
+    "retry": "重新支付",
+    "newOrder": "改为重新下单",
+    "newOrderHint": "未支付的订单约 30 分钟后会自动取消。",
+    "expired": "该订单已无法支付。请从购物袋重新下单。"
+  }
 }

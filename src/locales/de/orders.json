@@ -11,7 +11,9 @@
     "totalToPay": "Zu zahlender Betrag",
     "delivery": "Lieferung",
     "viewOrders": "Meine Bestellungen ansehen",
-    "keepShopping": "Weiter einkaufen"
+    "keepShopping": "Weiter einkaufen",
+    "subtitlePaid": "Deine Zahlung ist eingegangen. Jeder Shop bereitet seinen Teil deiner Bestellung vor.",
+    "totalPaid": "Bezahlt gesamt"
   },
   "status": {
     "pending": "Ausstehend",
@@ -54,5 +56,20 @@
       "returned": "Diese Sendung wurde an den Shop zurückgeschickt.",
       "cancelled": "Diese Bestellung wurde storniert."
     }
+  },
+  "payment": {
+    "confirming": "Zahlung erhalten, deine Bestellung wird bestätigt …",
+    "stillConfirmingTitle": "Wir bestätigen deine Zahlung noch",
+    "stillConfirming": "Wir bestätigen deine Zahlung noch. Du kannst diese Seite schließen; deine Bestellung erscheint unter Meine Bestellungen, sobald sie bestätigt ist. Wenn dir etwas abgebucht wurde und nach ein paar Minuten nichts erscheint, wende dich an den Support.",
+    "notCompleted": "Zahlung nicht abgeschlossen — Bestellung storniert",
+    "notCompletedText": "Für diese Bestellung wurde nichts abgebucht. Du kannst sie aus deinem Warenkorb erneut aufgeben.",
+    "backToBag": "Zurück zum Warenkorb",
+    "awaiting": "Zahlung ausstehend",
+    "paid": "Bezahlt",
+    "refunded": "Erstattet",
+    "failed": "Zahlung fehlgeschlagen",
+    "payNow": "Jetzt bezahlen",
+    "payNowGroup": "Bezahlt alle Bestellungen aus diesem Einkauf.",
+    "opening": "Wird geöffnet …"
   }
 }

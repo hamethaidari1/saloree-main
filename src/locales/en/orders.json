@@ -11,7 +11,9 @@
     "totalToPay": "Total to pay",
     "delivery": "Delivery",
     "viewOrders": "View my orders",
-    "keepShopping": "Keep shopping"
+    "keepShopping": "Keep shopping",
+    "subtitlePaid": "Your payment was received. Each store will prepare its part of your order.",
+    "totalPaid": "Total paid"
   },
   "status": {
     "pending": "Pending",
@@ -54,5 +56,20 @@
       "returned": "This shipment was returned to the store.",
       "cancelled": "This order was cancelled."
     }
+  },
+  "payment": {
+    "confirming": "Payment received, confirming your order…",
+    "stillConfirmingTitle": "We are still confirming your payment",
+    "stillConfirming": "We are still confirming your payment. You can safely close this page; your order appears in My orders when confirmed. If you were charged and nothing appears within a few minutes, contact support.",
+    "notCompleted": "Payment not completed — order cancelled",
+    "notCompletedText": "Nothing was charged for this order. You can place it again from your bag.",
+    "backToBag": "Back to your bag",
+    "awaiting": "Awaiting payment",
+    "paid": "Paid",
+    "refunded": "Refunded",
+    "failed": "Payment failed",
+    "payNow": "Pay now",
+    "payNowGroup": "Pays for every order from this checkout.",
+    "opening": "Opening…"
   }
 }

@@ -11,7 +11,9 @@
     "totalToPay": "Total a pagar",
     "delivery": "Entrega",
     "viewOrders": "Ver mis pedidos",
-    "keepShopping": "Seguir comprando"
+    "keepShopping": "Seguir comprando",
+    "subtitlePaid": "Hemos recibido tu pago. Cada tienda preparará su parte de tu pedido.",
+    "totalPaid": "Total pagado"
   },
   "status": {
     "pending": "Pendiente",
@@ -54,5 +56,20 @@
       "returned": "Este envío se devolvió a la tienda.",
       "cancelled": "Este pedido se canceló."
     }
+  },
+  "payment": {
+    "confirming": "Pago recibido, confirmando tu pedido…",
+    "stillConfirmingTitle": "Seguimos confirmando tu pago",
+    "stillConfirming": "Seguimos confirmando tu pago. Puedes cerrar esta página sin problema; tu pedido aparecerá en Mis pedidos cuando se confirme. Si se te cobró y no aparece nada en unos minutos, contacta con soporte.",
+    "notCompleted": "Pago no completado — pedido cancelado",
+    "notCompletedText": "No se cobró nada por este pedido. Puedes volver a hacerlo desde tu bolsa.",
+    "backToBag": "Volver a tu bolsa",
+    "awaiting": "Pendiente de pago",
+    "paid": "Pagado",
+    "refunded": "Reembolsado",
+    "failed": "Pago fallido",
+    "payNow": "Pagar ahora",
+    "payNowGroup": "Paga todos los pedidos de esta compra.",
+    "opening": "Abriendo…"
   }
 }

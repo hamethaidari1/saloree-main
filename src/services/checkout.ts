@@ -7,20 +7,45 @@ import { NotPermittedError } from "./errors";
 // re-reads prices and stock on the server. The client never inserts orders
 // and never sends prices or totals.
 
-export const PAYMENT_METHODS = [
-  {
-    id: "cod",
-    label: "Pay on delivery",
-    description: "Pay in cash when your order arrives.",
-    enabled: true,
-  },
-  { id: "stripe", label: "Card (Stripe)", description: "Coming soon", enabled: false },
-  { id: "hesabpay", label: "HesabPay", description: "Coming soon", enabled: false },
-] as const;
-export type PaymentProvider = Extract<(typeof PAYMENT_METHODS)[number], { enabled: true }>["id"];
+/**
+ * Card payments (Stripe Checkout, hosted by Stripe) are switched on at build
+ * time with VITE_STRIPE_ENABLED=true. Off by default: the app then behaves as
+ * pay-on-delivery only. No Stripe key of any kind is needed in the browser.
+ */
+export const stripeEnabled = () => import.meta.env.VITE_STRIPE_ENABLED === "true";
 
-/** Is any online method switched on yet? (Today only pay on delivery is.) */
-export const ONLINE_PAYMENT_AVAILABLE = PAYMENT_METHODS.some((m) => m.enabled && m.id !== "cod");
+export type PaymentProvider = "cod" | "stripe";
+export type PaymentMethodId = PaymentProvider | "hesabpay";
+
+export function paymentMethods(stripeOn = stripeEnabled()) {
+  return [
+    {
+      id: "cod",
+      label: "Pay on delivery",
+      description: "Pay in cash when your order arrives.",
+      enabled: true,
+    },
+    {
+      id: "stripe",
+      label: "Pay by card",
+      description: stripeOn ? "Pay by card on Stripe's secure page." : "Coming soon",
+      enabled: stripeOn,
+    },
+    { id: "hesabpay", label: "HesabPay", description: "Coming soon", enabled: false },
+  ] as const satisfies readonly {
+    id: PaymentMethodId;
+    label: string;
+    description: string;
+    enabled: boolean;
+  }[];
+}
+
+const isMethodEnabled = (id: string): id is PaymentProvider =>
+  paymentMethods().some((m) => m.id === id && m.enabled);
+
+/** Is any online method switched on? (Card, when VITE_STRIPE_ENABLED is "true".) */
+export const onlinePaymentAvailable = () =>
+  paymentMethods().some((m) => m.enabled && m.id !== "cod");
 
 /**
  * Cash on delivery per cart: if any store in the cart has COD paused, COD
@@ -29,7 +54,7 @@ export const ONLINE_PAYMENT_AVAILABLE = PAYMENT_METHODS.some((m) => m.enabled &&
  */
 export function codRule(
   pausedStoreIds: readonly string[],
-  onlineAvailable = ONLINE_PAYMENT_AVAILABLE,
+  onlineAvailable = onlinePaymentAvailable(),
 ) {
   const codAllowed = pausedStoreIds.length === 0;
   return { codAllowed, canPlace: codAllowed || onlineAvailable };
@@ -120,8 +145,7 @@ export const checkoutService = {
     provider: PaymentProvider = "cod",
     discountCode: string | null = null,
   ): Promise<PlaceOrderResult> => {
-    if (!PAYMENT_METHODS.some((m) => m.id === provider && m.enabled))
-      throw new Error("That payment method isn't available yet.");
+    if (!isMethodEnabled(provider)) throw new Error("That payment method isn't available yet.");
     const p_items = toOrderItems(items);
     if (!p_items.length) throw new Error("Your bag is empty.");
     const p_customer = checkoutCustomerSchema.parse(customer);
