@@ -25,6 +25,7 @@ import { Route as StoresRouteImport } from './routes/stores'
 import { Route as WishlistRouteImport } from './routes/wishlist'
 import { Route as AdminFinanceRouteImport } from './routes/admin_.finance'
 import { Route as AdminMarketplaceRouteImport } from './routes/admin_.marketplace'
+import { Route as ApiTrackRouteImport } from './routes/api.track'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as OrderConfirmationIndexRouteImport } from './routes/order-confirmation.index'
@@ -123,6 +124,11 @@ const AdminFinanceRoute = AdminFinanceRouteImport.update({
 const AdminMarketplaceRoute = AdminMarketplaceRouteImport.update({
   id: '/admin_/marketplace',
   path: '/admin/marketplace',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiTrackRoute = ApiTrackRouteImport.update({
+  id: '/api/track',
+  path: '/api/track',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthCallbackRoute = AuthCallbackRouteImport.update({
@@ -239,6 +245,7 @@ export interface FileRoutesByFullPath {
   '/wishlist': typeof WishlistRoute
   '/admin/finance': typeof AdminFinanceRoute
   '/admin/marketplace': typeof AdminMarketplaceRoute
+  '/api/track': typeof ApiTrackRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/category/$slug': typeof CategorySlugRoute
   '/order-confirmation/$groupId': typeof OrderConfirmationGroupIdRoute
@@ -275,6 +282,7 @@ export interface FileRoutesByTo {
   '/wishlist': typeof WishlistRoute
   '/admin/finance': typeof AdminFinanceRoute
   '/admin/marketplace': typeof AdminMarketplaceRoute
+  '/api/track': typeof ApiTrackRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/category/$slug': typeof CategorySlugRoute
   '/order-confirmation/$groupId': typeof OrderConfirmationGroupIdRoute
@@ -313,6 +321,7 @@ export interface FileRoutesById {
   '/wishlist': typeof WishlistRoute
   '/admin_/finance': typeof AdminFinanceRoute
   '/admin_/marketplace': typeof AdminMarketplaceRoute
+  '/api/track': typeof ApiTrackRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/category/$slug': typeof CategorySlugRoute
   '/order-confirmation/$groupId': typeof OrderConfirmationGroupIdRoute
@@ -352,6 +361,7 @@ export interface FileRouteTypes {
     | '/wishlist'
     | '/admin/finance'
     | '/admin/marketplace'
+    | '/api/track'
     | '/auth/callback'
     | '/category/$slug'
     | '/order-confirmation/$groupId'
@@ -388,6 +398,7 @@ export interface FileRouteTypes {
     | '/wishlist'
     | '/admin/finance'
     | '/admin/marketplace'
+    | '/api/track'
     | '/auth/callback'
     | '/category/$slug'
     | '/order-confirmation/$groupId'
@@ -425,6 +436,7 @@ export interface FileRouteTypes {
     | '/wishlist'
     | '/admin_/finance'
     | '/admin_/marketplace'
+    | '/api/track'
     | '/auth/callback'
     | '/category/$slug'
     | '/order-confirmation/$groupId'
@@ -463,6 +475,7 @@ export interface RootRouteChildren {
   WishlistRoute: typeof WishlistRoute
   AdminFinanceRoute: typeof AdminFinanceRoute
   AdminMarketplaceRoute: typeof AdminMarketplaceRoute
+  ApiTrackRoute: typeof ApiTrackRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
   CategorySlugRoute: typeof CategorySlugRoute
   OrderConfirmationGroupIdRoute: typeof OrderConfirmationGroupIdRoute
@@ -584,6 +597,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/marketplace'
       fullPath: '/admin/marketplace'
       preLoaderRoute: typeof AdminMarketplaceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/track': {
+      id: '/api/track'
+      path: '/api/track'
+      fullPath: '/api/track'
+      preLoaderRoute: typeof ApiTrackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth/callback': {
@@ -772,6 +792,7 @@ const rootRouteChildren: RootRouteChildren = {
   WishlistRoute: WishlistRoute,
   AdminFinanceRoute: AdminFinanceRoute,
   AdminMarketplaceRoute: AdminMarketplaceRoute,
+  ApiTrackRoute: ApiTrackRoute,
   AuthCallbackRoute: AuthCallbackRoute,
   CategorySlugRoute: CategorySlugRoute,
   OrderConfirmationGroupIdRoute: OrderConfirmationGroupIdRoute,

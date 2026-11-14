@@ -17,6 +17,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { CartProvider } from "@/components/marketplace/cart-context";
 import { PendingWishlistSave } from "@/components/marketplace/wishlist-button";
+import { StorefrontTracker } from "@/components/marketplace/storefront-tracker";
 import { AuthProvider } from "@/lib/auth";
 import { LOGO } from "@/lib/brand";
 import { DEV_STORE_PARAM, isMainOnlyPath, mainSiteUrl, resolveDevStore } from "@/lib/host";
@@ -287,6 +288,7 @@ function RootComponent() {
           <CountryProvider initial={country.saved} detected={country.detected}>
             <CartProvider>
               <PendingWishlistSave />
+              <StorefrontTracker />
               {store ? <StoreHeader store={store} /> : chrome && !appShell && <Navbar />}
               <Outlet />
               {store ? <StoreFooter store={store} /> : chrome && !appShell && <Footer />}

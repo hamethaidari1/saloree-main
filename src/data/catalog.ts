@@ -71,6 +71,8 @@ export interface Store {
   /** Store's own logo / banner (null when not uploaded; absent on fixtures). */
   logo?: string | null;
   banner?: string | null;
+  /** The owner's user id (stores.owner_id), so the owner's own visits aren't counted. */
+  ownerId?: string | null;
 }
 export const categories: Category[] = [
   { slug: "home-living", name: "Home & Living", image: p8 },

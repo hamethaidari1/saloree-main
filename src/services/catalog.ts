@@ -96,6 +96,7 @@ export function toStore(row: StoreRow): Store {
     image: row.banner_url || row.logo_url || PLACEHOLDER_IMAGE,
     logo: row.logo_url || null,
     banner: row.banner_url || null,
+    ownerId: row.owner_id ?? null,
     tone: TONES[hash(row.slug) % TONES.length] ?? "sage",
   };
 }

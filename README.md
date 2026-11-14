@@ -22,3 +22,20 @@ cd <repository-name>
 npm i
 npm run dev
 ```
+
+## Store traffic (seller analytics)
+
+Storefront pages send one anonymous page view to `POST /api/track` (store id only).
+The server turns the visitor's IP address and browser into a one-way daily hash
+and never stores or logs either of them. No cookies, no browser storage, no
+third-party analytics; visitors with Do Not Track or Global Privacy Control
+are not counted, nor are bots, the store's owner or staff.
+
+It needs one **server-only** environment variable:
+
+| Variable     | Value                                               | Where                                                                |
+| ------------ | --------------------------------------------------- | -------------------------------------------------------------------- |
+| `TRACK_SALT` | Any long random string, e.g. `openssl rand -hex 32` | Hosting environment variables (e.g. Vercel). Never `VITE_`-prefixed. |
+
+Without `TRACK_SALT` nothing is recorded (one warning is logged). The database
+functions `record_store_visit` and `store_traffic_summary` are applied separately.

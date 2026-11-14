@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { CatalogSkeleton } from "@/components/marketplace/shared";
 import { useSeller } from "@/components/seller/seller-context";
 import { SellerPageHeader } from "@/components/seller/seller-shell";
+import { TrafficSection } from "@/components/seller/traffic";
 import {
   formatCount,
   QueryError,
@@ -28,7 +29,7 @@ export const Route = createFileRoute("/seller/analytics")({
 });
 
 function AnalyticsPage() {
-  const { stores } = useSeller();
+  const { stores, store } = useSeller();
   const { days = 30 } = Route.useSearch();
   const navigate = useNavigate({ from: "/seller/analytics" });
   const q = useQuery({
@@ -43,7 +44,7 @@ function AnalyticsPage() {
         title="Analytics"
         description={stores.length > 1 ? "All your stores" : undefined}
         actions={
-          <div role="radiogroup" aria-label="Period" className="seller-segmented">
+          <div role="radiogroup" aria-label="Sales period" className="seller-segmented">
             {ANALYTICS_RANGES.map((d) => (
               <button
                 key={d}
@@ -59,6 +60,9 @@ function AnalyticsPage() {
         }
       />
 
+      <TrafficSection store={store} />
+
+      <h2 className="mt-8 mb-3 text-lg font-semibold">Sales</h2>
       {q.isPending ? (
         <TilesSkeleton count={8} />
       ) : q.isError ? (
