@@ -5059,3 +5059,266 @@ html:is(:lang(ar), :lang(he), :lang(ko), :lang(zh-Hans), :lang(zh-Hant)) body {
   border: 1px solid var(--border);
   border-radius: var(--radius);
 }
+
+/* ---------------------------------------------------------------------------
+   Legal pages (src/routes/legal.*, src/components/legal/*).
+   The texts are English (dir="ltr"); the page chrome follows the site language.
+   --------------------------------------------------------------------------- */
+.legal-article {
+  max-inline-size: 75ch;
+}
+.legal-header {
+  margin-block-end: 24px;
+}
+.legal-language-note {
+  margin-block-start: 12px;
+  padding: 10px 12px;
+  border-inline-start: 3px solid var(--primary);
+  background: var(--secondary);
+  color: var(--secondary-foreground);
+  font-size: 13px;
+  border-radius: var(--radius-sm);
+  max-inline-size: 75ch;
+}
+.legal-toc {
+  margin-block-end: 32px;
+  padding: 16px 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--muted);
+}
+.legal-toc h2 {
+  font-size: 13px;
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted-foreground);
+  margin-block-end: 8px;
+}
+.legal-toc ol {
+  list-style: decimal;
+  padding-inline-start: 20px;
+  display: grid;
+  gap: 4px;
+  font-size: 14px;
+}
+.legal-toc ol.legal-toc-numbered {
+  list-style: none;
+  padding-inline-start: 0;
+}
+.legal-toc a,
+.legal-body a,
+.legal-index a,
+.legal-consent a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.legal-toc a:focus-visible,
+.legal-body a:focus-visible,
+.legal-index a:focus-visible,
+.legal-consent a:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+.legal-body {
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--foreground);
+  overflow-wrap: break-word;
+}
+.legal-body > * + * {
+  margin-block-start: 1em;
+}
+.legal-body h2,
+.legal-body h3,
+.legal-body h4,
+.legal-body h5,
+.legal-body h6 {
+  font-family: var(--font-display);
+  font-weight: 650;
+  line-height: 1.3;
+  /* Clear the sticky header when a contents link jumps here. */
+  scroll-margin-block-start: 96px;
+}
+.legal-body h2 {
+  font-size: 22px;
+  margin-block-start: 2em;
+}
+.legal-body h3 {
+  font-size: 18px;
+  margin-block-start: 1.6em;
+}
+.legal-body h4,
+.legal-body h5,
+.legal-body h6 {
+  font-size: 16px;
+  margin-block-start: 1.4em;
+}
+.legal-body ul,
+.legal-body ol {
+  padding-inline-start: 1.5em;
+}
+.legal-body ul {
+  list-style: disc;
+}
+.legal-body ol {
+  list-style: decimal;
+}
+.legal-body li + li,
+.legal-body li > * + * {
+  margin-block-start: 0.4em;
+}
+.legal-body ul ul,
+.legal-body ol ol,
+.legal-body ul ol,
+.legal-body ol ul {
+  margin-block-start: 0.4em;
+}
+.legal-body blockquote {
+  padding-inline-start: 1em;
+  border-inline-start: 3px solid var(--border);
+  color: var(--muted-foreground);
+}
+.legal-body hr {
+  border: 0;
+  border-block-start: 1px solid var(--border);
+  margin-block: 2em;
+}
+.legal-body code {
+  font-size: 0.9em;
+  padding: 0.1em 0.3em;
+  border-radius: var(--radius-sm);
+  background: var(--muted);
+}
+.legal-table {
+  overflow-x: auto;
+}
+.legal-table table {
+  border-collapse: collapse;
+  inline-size: 100%;
+  font-size: 14px;
+}
+.legal-table th,
+.legal-table td {
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  text-align: start;
+  vertical-align: top;
+}
+.legal-table th {
+  background: var(--muted);
+  font-weight: 600;
+}
+/* Staff only: a detail that hasn't been entered yet. Visitors never see this. */
+.legal-todo {
+  padding: 0.05em 0.35em;
+  border-radius: var(--radius-sm);
+  background: var(--peach);
+  color: var(--foreground);
+  outline: 1px dashed var(--destructive);
+  font-weight: 600;
+}
+.legal-staff-note {
+  max-inline-size: 75ch;
+  margin-block-end: 24px;
+  padding: 12px 16px;
+  border: 1px dashed var(--destructive);
+  border-radius: var(--radius);
+  background: var(--rose);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.legal-staff-note ul {
+  list-style: disc;
+  padding-inline-start: 1.25em;
+  margin-block-start: 6px;
+}
+.legal-index {
+  max-inline-size: 75ch;
+  margin-block-start: 24px;
+  border-block-start: 1px solid var(--border);
+}
+.legal-index li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 16px;
+  padding-block: 14px;
+  border-block-end: 1px solid var(--border);
+}
+.legal-index li a {
+  font-weight: 600;
+}
+.legal-index li span {
+  color: var(--muted-foreground);
+  font-size: 13px;
+}
+.legal-index-empty {
+  margin-block-start: 24px;
+  color: var(--muted-foreground);
+}
+.legal-consent {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted-foreground);
+}
+.auth-card .legal-consent {
+  margin-block-end: 12px;
+}
+/* The Seller Agreement checkbox on the create-store form. */
+.seller-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+  cursor: pointer;
+}
+.seller-check input {
+  flex: none;
+  inline-size: 18px;
+  block-size: 18px;
+  margin-block-start: 2px;
+  accent-color: var(--primary);
+}
+.seller-check a {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+@media print {
+  .site-header,
+  .site-footer,
+  .legal-breadcrumb,
+  .legal-toc,
+  .legal-staff-note {
+    display: none !important;
+  }
+  .legal-page {
+    padding: 0;
+  }
+  .legal-article {
+    max-inline-size: none;
+  }
+  .legal-body {
+    font-size: 11pt;
+    line-height: 1.5;
+  }
+  .legal-body h2,
+  .legal-body h3 {
+    break-after: avoid;
+  }
+  .legal-body p,
+  .legal-body li {
+    orphans: 3;
+    widows: 3;
+  }
+  /* Print where each link goes. */
+  .legal-body a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+    overflow-wrap: anywhere;
+  }
+}

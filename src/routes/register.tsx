@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AuthCard } from "@/components/marketplace/auth-form";
 import { GoogleButton } from "@/components/marketplace/google-button";
+import { LegalConsent } from "@/components/legal/legal-links";
 import { signUp, type SignupRole } from "@/lib/auth";
 import { newPasswordSchema, PASSWORD_MIN_LENGTH } from "@/lib/password-reset";
 
@@ -57,6 +58,7 @@ function RegisterPage() {
       submitLabel={role === "seller" ? t("register.submitSeller") : t("register.submit")}
       busy={busy}
       error={error}
+      consent={<LegalConsent />}
       onSubmit={async (form) => {
         const password = String(form.get("password"));
         if (!newPasswordSchema.safeParse(password).success)

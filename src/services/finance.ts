@@ -136,14 +136,20 @@ export const companyDetailsSchema = z
         typeof v === "string" && v.trim() === "" ? null : typeof v === "string" ? v.trim() : v,
       z.string().email("Enter a valid email address.").max(254).nullable(),
     ),
+    /**
+     * Legal pages only: who pays the card (Stripe) fees, e.g. "paid by the
+     * seller". Fills [[WHO_PAYS_STRIPE_FEES]]; not shown in the
+     * footer. Left out (undefined) = keep what is stored.
+     */
+    stripe_fees_text: optional(200, "The card fees wording").optional(),
   })
   .strict();
 export type CompanyDetails = z.output<typeof companyDetailsSchema>;
 export const COMPANY_KEYS = Object.keys(companyDetailsSchema.shape) as (keyof CompanyDetails)[];
 
 /**
- * New footer_settings: only the four company keys change (an empty value
- * removes its key); every other key already stored is kept as it is.
+ * New footer_settings: only the company keys change (an empty value removes
+ * its key, a key that wasn't sent is kept); every other key is kept as it is.
  */
 export function mergeCompanyDetails(
   current: Record<string, unknown> | null | undefined,
@@ -152,6 +158,7 @@ export function mergeCompanyDetails(
   const next: Record<string, unknown> = { ...(current ?? {}) };
   for (const key of COMPANY_KEYS) {
     const v = values[key];
+    if (v === undefined) continue;
     if (v == null) delete next[key];
     else next[key] = v;
   }
@@ -165,6 +172,7 @@ export function companyFromFooterSettings(fs: Record<string, unknown> | null | u
     business_id: pick("business_id"),
     address: pick("address"),
     support_email: pick("support_email"),
+    stripe_fees_text: pick("stripe_fees_text"),
   };
 }
 

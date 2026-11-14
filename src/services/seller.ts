@@ -290,6 +290,24 @@ export const sellerService = {
     }
   },
 
+  /**
+   * Records which Seller Agreement version (its "updated" date) the owner
+   * accepted. Only the version is sent: a database trigger sets
+   * stores.seller_agreement_accepted_at, so the browser's clock is never
+   * trusted. Until the column exists this fails with the database's own error.
+   */
+  recordSellerAgreement: async (storeId: string, version: string) => {
+    const userId = await requireUserId();
+    const { data, error } = await supabase
+      .from("stores")
+      .update({ seller_agreement_version: version })
+      .eq("id", storeId)
+      .eq("owner_id", userId)
+      .select("id");
+    if (error) throw error;
+    expectRows(data, "store");
+  },
+
   /** Edits store info; status and owner are not editable here. */
   updateStore: async (
     store: StoreRow,

@@ -102,10 +102,18 @@ describe("site footer: default columns", () => {
     );
     // Only the first 4 database categories.
     expect(hrefs).not.toContain("/category/fashion");
-    // Pages we don't have yet are never linked.
+    // The legal pages in src/content/legal are linked; pages we don't have never are.
+    expect(hrefs).toEqual(
+      expect.arrayContaining([
+        "/legal/terms",
+        "/legal/privacy",
+        "/legal/returns",
+        "/legal/shipping",
+        "/legal/seller-agreement",
+      ]),
+    );
     const text = footer.textContent ?? "";
-    for (const missing of ["Contact", "Terms", "Privacy", "Returns", "Shipping", "About"])
-      expect(text).not.toContain(missing);
+    for (const missing of ["Contact", "About"]) expect(text).not.toContain(missing);
   });
 
   it("has 4 headed columns, payment methods, Back to top and no unverifiable claims", async () => {
@@ -306,7 +314,17 @@ describe("site footer: footer_links rows", () => {
     expect(content.columns.map((c) => c.heading)).toEqual(["Shop", "Help", "Elsewhere"]);
     const { footer } = await renderFooter(content);
     const links = within(footer.querySelector("nav")!).getAllByRole("link");
-    expect(links.map((a) => a.textContent)).toEqual(["All products", "Customer Service", "Blog"]);
+    // The policies column is added after the database columns (none of them links /legal).
+    expect(links.map((a) => a.textContent)).toEqual([
+      "All products",
+      "Customer Service",
+      "Blog",
+      "Terms of Use",
+      "Privacy Policy",
+      "Returns and Refunds",
+      "Shipping and Delivery",
+      "Seller Agreement",
+    ]);
     expect(links[2]).toHaveAttribute("rel", "noopener noreferrer");
   });
 

@@ -16,12 +16,15 @@ export function StoreForm({
   submitLabel,
   busy,
   onSubmit,
+  agreement,
 }: {
   store?: StoreRow | undefined;
   categoryNames: string[];
   submitLabel: string;
   busy: boolean;
   onSubmit: (values: StoreInput, files: StoreFiles) => Promise<unknown>;
+  /** New stores: the Seller Agreement version (its "updated" date) the seller must accept. */
+  agreement?: { updated: string } | null | undefined;
 }) {
   const [values, setValues] = useState<Required<StoreInput>>({
     name: store?.name ?? "",
@@ -34,6 +37,8 @@ export function StoreForm({
   const [slugEdited, setSlugEdited] = useState(!!store);
   const [files, setFiles] = useState<StoreFiles>({ logo: null, banner: null });
   const [errors, setErrors] = useState<Partial<Record<keyof StoreInput, string>>>({});
+  const [agreed, setAgreed] = useState(false);
+  const [agreementError, setAgreementError] = useState(false);
   const set = (key: keyof StoreInput) => (value: string) =>
     setValues((v) => ({ ...v, [key]: value }));
   const options = [
@@ -51,12 +56,17 @@ export function StoreForm({
       onSubmit={async (e) => {
         e.preventDefault();
         const parsed = storeInputSchema.safeParse(values);
+        setAgreementError(!!agreement && !agreed);
         if (!parsed.success) {
           const fieldErrors = parsed.error.flatten().fieldErrors;
           setErrors(Object.fromEntries(Object.entries(fieldErrors).map(([k, v]) => [k, v?.[0]])));
           return;
         }
         setErrors({});
+        if (agreement && !agreed) {
+          document.getElementById("store-agreement")?.focus();
+          return;
+        }
         try {
           await onSubmit(values, files);
           setFiles({ logo: null, banner: null });
@@ -188,6 +198,36 @@ export function StoreForm({
           onChange={(banner) => setFiles((f) => ({ ...f, banner }))}
         />
       </div>
+      {agreement && (
+        <div className="seller-field">
+          <label className="seller-check" htmlFor="store-agreement">
+            <input
+              id="store-agreement"
+              type="checkbox"
+              checked={agreed}
+              required
+              aria-invalid={agreementError}
+              aria-describedby={agreementError ? "store-agreement-error" : undefined}
+              onChange={(e) => {
+                setAgreed(e.target.checked);
+                if (e.target.checked) setAgreementError(false);
+              }}
+            />
+            <span>
+              I have read and agree to the{" "}
+              <a href="/legal/seller-agreement" target="_blank" rel="noopener">
+                Seller Agreement
+              </a>{" "}
+              (version of {agreement.updated}).
+            </span>
+          </label>
+          {agreementError && (
+            <p id="store-agreement-error" className="seller-error" role="alert">
+              Accept the Seller Agreement to create your store.
+            </p>
+          )}
+        </div>
+      )}
       <div>
         <Button type="submit" disabled={busy}>
           {busy ? "Saving…" : submitLabel}

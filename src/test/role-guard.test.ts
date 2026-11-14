@@ -132,7 +132,9 @@ describe("seller guard (requireAuth)", () => {
 });
 
 describe("/admin route", () => {
-  it("is client-only and guarded by the admin role check", async () => {
+  // The first import of the admin route compiles every staff panel (~4 s on its
+  // own); under a full parallel run that alone can pass the default 5 s.
+  it("is client-only and guarded by the admin role check", { timeout: 20_000 }, async () => {
     const { Route } = await import("@/routes/admin");
     expect(Route.options.ssr).toBe(false);
     signIn(["seller"]);

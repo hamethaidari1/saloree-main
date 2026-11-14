@@ -37,6 +37,7 @@ export function AuthCard({
   notice,
   submitDisabled = false,
   noValidate = false,
+  consent,
   children,
 }: {
   title: string;
@@ -54,6 +55,8 @@ export function AuthCard({
   submitDisabled?: boolean;
   /** Skip the browser's own checks when the page validates with zod. */
   noValidate?: boolean;
+  /** "By continuing you agree to…", just above the submit button. */
+  consent?: ReactNode;
   children: ReactNode;
 }) {
   const { t } = useTranslation();
@@ -78,6 +81,7 @@ export function AuthCard({
         <div role="alert" aria-live="assertive" className="auth-error-slot">
           {error && <div className="auth-error">{error}</div>}
         </div>
+        {consent}
         <Button type="submit" className="w-full h-11" disabled={busy || submitDisabled}>
           {busy ? t("pleaseWait") : submitLabel}
         </Button>

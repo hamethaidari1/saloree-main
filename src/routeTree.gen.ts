@@ -28,6 +28,8 @@ import { Route as AdminMarketplaceRouteImport } from './routes/admin_.marketplac
 import { Route as ApiTrackRouteImport } from './routes/api.track'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
+import { Route as LegalIndexRouteImport } from './routes/legal.index'
+import { Route as LegalSlugRouteImport } from './routes/legal.$slug'
 import { Route as OrderConfirmationIndexRouteImport } from './routes/order-confirmation.index'
 import { Route as OrderConfirmationGroupIdRouteImport } from './routes/order-confirmation.$groupId'
 import { Route as PreviewStoreRouteImport } from './routes/preview.store'
@@ -141,6 +143,16 @@ const CategorySlugRoute = CategorySlugRouteImport.update({
   path: '/category/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LegalIndexRoute = LegalIndexRouteImport.update({
+  id: '/legal/',
+  path: '/legal/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalSlugRoute = LegalSlugRouteImport.update({
+  id: '/legal/$slug',
+  path: '/legal/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OrderConfirmationIndexRoute = OrderConfirmationIndexRouteImport.update({
   id: '/order-confirmation/',
   path: '/order-confirmation/',
@@ -248,6 +260,7 @@ export interface FileRoutesByFullPath {
   '/api/track': typeof ApiTrackRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/category/$slug': typeof CategorySlugRoute
+  '/legal/$slug': typeof LegalSlugRoute
   '/order-confirmation/$groupId': typeof OrderConfirmationGroupIdRoute
   '/preview/store': typeof PreviewStoreRoute
   '/product/$id': typeof ProductIdRoute
@@ -263,6 +276,7 @@ export interface FileRoutesByFullPath {
   '/seller/settings': typeof SellerSettingsRoute
   '/seller/themes': typeof SellerThemesRoute
   '/store/$slug': typeof StoreSlugRoute
+  '/legal/': typeof LegalIndexRoute
   '/order-confirmation/': typeof OrderConfirmationIndexRoute
   '/seller/': typeof SellerIndexRoute
 }
@@ -285,6 +299,7 @@ export interface FileRoutesByTo {
   '/api/track': typeof ApiTrackRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/category/$slug': typeof CategorySlugRoute
+  '/legal/$slug': typeof LegalSlugRoute
   '/order-confirmation/$groupId': typeof OrderConfirmationGroupIdRoute
   '/preview/store': typeof PreviewStoreRoute
   '/product/$id': typeof ProductIdRoute
@@ -300,6 +315,7 @@ export interface FileRoutesByTo {
   '/seller/settings': typeof SellerSettingsRoute
   '/seller/themes': typeof SellerThemesRoute
   '/store/$slug': typeof StoreSlugRoute
+  '/legal': typeof LegalIndexRoute
   '/order-confirmation': typeof OrderConfirmationIndexRoute
   '/seller': typeof SellerIndexRoute
 }
@@ -324,6 +340,7 @@ export interface FileRoutesById {
   '/api/track': typeof ApiTrackRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/category/$slug': typeof CategorySlugRoute
+  '/legal/$slug': typeof LegalSlugRoute
   '/order-confirmation/$groupId': typeof OrderConfirmationGroupIdRoute
   '/preview/store': typeof PreviewStoreRoute
   '/product/$id': typeof ProductIdRoute
@@ -339,6 +356,7 @@ export interface FileRoutesById {
   '/seller/settings': typeof SellerSettingsRoute
   '/seller/themes': typeof SellerThemesRoute
   '/store/$slug': typeof StoreSlugRoute
+  '/legal/': typeof LegalIndexRoute
   '/order-confirmation/': typeof OrderConfirmationIndexRoute
   '/seller/': typeof SellerIndexRoute
 }
@@ -364,6 +382,7 @@ export interface FileRouteTypes {
     | '/api/track'
     | '/auth/callback'
     | '/category/$slug'
+    | '/legal/$slug'
     | '/order-confirmation/$groupId'
     | '/preview/store'
     | '/product/$id'
@@ -379,6 +398,7 @@ export interface FileRouteTypes {
     | '/seller/settings'
     | '/seller/themes'
     | '/store/$slug'
+    | '/legal/'
     | '/order-confirmation/'
     | '/seller/'
   fileRoutesByTo: FileRoutesByTo
@@ -401,6 +421,7 @@ export interface FileRouteTypes {
     | '/api/track'
     | '/auth/callback'
     | '/category/$slug'
+    | '/legal/$slug'
     | '/order-confirmation/$groupId'
     | '/preview/store'
     | '/product/$id'
@@ -416,6 +437,7 @@ export interface FileRouteTypes {
     | '/seller/settings'
     | '/seller/themes'
     | '/store/$slug'
+    | '/legal'
     | '/order-confirmation'
     | '/seller'
   id:
@@ -439,6 +461,7 @@ export interface FileRouteTypes {
     | '/api/track'
     | '/auth/callback'
     | '/category/$slug'
+    | '/legal/$slug'
     | '/order-confirmation/$groupId'
     | '/preview/store'
     | '/product/$id'
@@ -454,6 +477,7 @@ export interface FileRouteTypes {
     | '/seller/settings'
     | '/seller/themes'
     | '/store/$slug'
+    | '/legal/'
     | '/order-confirmation/'
     | '/seller/'
   fileRoutesById: FileRoutesById
@@ -478,10 +502,12 @@ export interface RootRouteChildren {
   ApiTrackRoute: typeof ApiTrackRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
   CategorySlugRoute: typeof CategorySlugRoute
+  LegalSlugRoute: typeof LegalSlugRoute
   OrderConfirmationGroupIdRoute: typeof OrderConfirmationGroupIdRoute
   PreviewStoreRoute: typeof PreviewStoreRoute
   ProductIdRoute: typeof ProductIdRoute
   StoreSlugRoute: typeof StoreSlugRoute
+  LegalIndexRoute: typeof LegalIndexRoute
   OrderConfirmationIndexRoute: typeof OrderConfirmationIndexRoute
 }
 
@@ -618,6 +644,20 @@ declare module '@tanstack/react-router' {
       path: '/category/$slug'
       fullPath: '/category/$slug'
       preLoaderRoute: typeof CategorySlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/': {
+      id: '/legal/'
+      path: '/legal'
+      fullPath: '/legal/'
+      preLoaderRoute: typeof LegalIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/$slug': {
+      id: '/legal/$slug'
+      path: '/legal/$slug'
+      fullPath: '/legal/$slug'
+      preLoaderRoute: typeof LegalSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/order-confirmation/': {
@@ -795,10 +835,12 @@ const rootRouteChildren: RootRouteChildren = {
   ApiTrackRoute: ApiTrackRoute,
   AuthCallbackRoute: AuthCallbackRoute,
   CategorySlugRoute: CategorySlugRoute,
+  LegalSlugRoute: LegalSlugRoute,
   OrderConfirmationGroupIdRoute: OrderConfirmationGroupIdRoute,
   PreviewStoreRoute: PreviewStoreRoute,
   ProductIdRoute: ProductIdRoute,
   StoreSlugRoute: StoreSlugRoute,
+  LegalIndexRoute: LegalIndexRoute,
   OrderConfirmationIndexRoute: OrderConfirmationIndexRoute,
 }
 export const routeTree = rootRouteImport

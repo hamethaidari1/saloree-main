@@ -8,6 +8,7 @@ import { SELECTED_STORE_KEY, SellerProvider } from "@/components/seller/seller-c
 import { SellerShell } from "@/components/seller/seller-shell";
 import { StoreForm } from "@/components/seller/store-form";
 import { requireAuth } from "@/lib/auth";
+import { legalDocument } from "@/services/legal";
 import { friendlyError, sellerService, storeError } from "@/services/seller";
 
 /** Layout for every /seller/* page: loads the seller's stores, then the sidebar shell. */
@@ -48,11 +49,20 @@ function SellerLayout() {
     }
   };
 
+  const agreement = legalDocument("seller-agreement");
   const createStore = useMutation({
     mutationFn: (args: Parameters<typeof sellerService.createStore>) =>
       sellerService.createStore(...args),
     onSuccess: async (store) => {
       toast.success(`${store.name} was created as a draft`);
+      if (agreement)
+        await sellerService
+          .recordSellerAgreement(store.id, agreement.updated)
+          .catch((e: { message?: string; code?: string }) =>
+            toast.warning(
+              `Your acceptance of the Seller Agreement could not be saved: ${e.message ?? String(e)}${e.code ? ` (${e.code})` : ""}`,
+            ),
+          );
       selectStore(store.id);
       await queryClient.invalidateQueries({ queryKey: storesKey });
     },
@@ -94,6 +104,7 @@ function SellerLayout() {
           <StoreForm
             categoryNames={categories.data.map((c) => c.name)}
             submitLabel="Create store"
+            agreement={agreement}
             busy={createStore.isPending}
             onSubmit={(values, files) => createStore.mutateAsync([values, files])}
           />

@@ -42,5 +42,19 @@
     "splitA": "每家獨立店家會自行備貨與出貨，因此一次結帳會為每家店家各建立一筆訂單。確認頁面會顯示所有訂單的總金額。",
     "sellQ": "要如何在 Saloree 銷售？",
     "sellA": "<1>建立賣家帳號</1>，設定你的商店並新增商品。商店通過審核後就會上線。"
+  },
+  "legal": {
+    "metaTitle": "政策 — Saloree",
+    "metaDescription": "Saloree 的使用條款、隱私權政策、退貨、配送和賣家協議。",
+    "title": "政策",
+    "subtitle": "在 Saloree 購物和銷售的規則。",
+    "none": "尚未發布任何政策。",
+    "lastUpdated": "最後更新：{{date}}",
+    "contents": "本頁內容",
+    "englishOnly": "本頁面目前僅提供英文版本。",
+    "englishOnlyAll": "這些政策目前僅提供英文版本。",
+    "consentBoth": "繼續即表示你同意<1>使用條款</1>及<3>隱私權政策</3>。",
+    "consentTerms": "繼續即表示你同意<1>使用條款</1>。",
+    "consentPrivacy": "繼續即表示你同意<1>隱私權政策</1>。"
   }
 }

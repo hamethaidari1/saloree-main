@@ -42,5 +42,19 @@
     "splitA": "每家独立店铺都会自行备货和发货，因此一次结账会为每家店铺各生成一个订单。确认页面会显示所有订单的总金额。",
     "sellQ": "如何在 Saloree 销售？",
     "sellA": "<1>创建卖家账号</1>，设置你的店铺并添加商品。店铺审核通过后即会上线。"
+  },
+  "legal": {
+    "metaTitle": "政策 — Saloree",
+    "metaDescription": "Saloree 的使用条款、隐私政策、退货、配送和卖家协议。",
+    "title": "政策",
+    "subtitle": "在 Saloree 购物和销售的规则。",
+    "none": "尚未发布任何政策。",
+    "lastUpdated": "最后更新：{{date}}",
+    "contents": "本页内容",
+    "englishOnly": "本页面目前仅提供英文版本。",
+    "englishOnlyAll": "这些政策目前仅提供英文版本。",
+    "consentBoth": "继续即表示你同意<1>使用条款</1>和<3>隐私政策</3>。",
+    "consentTerms": "继续即表示你同意<1>使用条款</1>。",
+    "consentPrivacy": "继续即表示你同意<1>隐私政策</1>。"
   }
 }

@@ -42,5 +42,19 @@
     "splitA": "Each independent store prepares and ships its own part, so one checkout creates one order per store. The confirmation page shows the total for all of them.",
     "sellQ": "How do I sell on Saloree?",
     "sellA": "<1>Create a seller account</1>, set up your store and add products. Your store goes live once it's been reviewed."
+  },
+  "legal": {
+    "metaTitle": "Policies — Saloree",
+    "metaDescription": "Saloree's terms of use, privacy policy, returns, shipping and seller agreement.",
+    "title": "Policies",
+    "subtitle": "The rules for shopping and selling on Saloree.",
+    "none": "No policies have been published yet.",
+    "lastUpdated": "Last updated {{date}}",
+    "contents": "On this page",
+    "englishOnly": "This page is available in English only for now.",
+    "englishOnlyAll": "These policies are available in English only for now.",
+    "consentBoth": "By continuing you agree to the <1>Terms of Use</1> and the <3>Privacy Policy</3>.",
+    "consentTerms": "By continuing you agree to the <1>Terms of Use</1>.",
+    "consentPrivacy": "By continuing you agree to the <1>Privacy Policy</1>."
   }
 }

@@ -129,6 +129,7 @@ const MAIN_ONLY_PREFIXES = [
   "/order-confirmation",
   "/stores",
   "/store",
+  "/legal",
 ];
 export function isMainOnlyPath(pathname: string) {
   return MAIN_ONLY_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`));
@@ -174,6 +175,16 @@ export function storeUrl(slug: string, cfg: HostConfig = hostConfig()) {
  * A link to `path` on the main marketplace. Dev: same origin, clearing the
  * store override. No domain configured: a relative path.
  */
+/**
+ * The canonical address of a main-site page: https://<root domain><path>.
+ * Null when no domain is configured (then no canonical link is printed).
+ */
+export function canonicalUrl(path: string, cfg: HostConfig = hostConfig()) {
+  return cfg.rootDomain
+    ? `https://${cfg.rootDomain}${path.startsWith("/") ? path : `/${path}`}`
+    : null;
+}
+
 export function mainSiteUrl(path = "/", cfg: HostConfig = hostConfig()) {
   const p = path.startsWith("/") ? path : `/${path}`;
   if (cfg.dev) return `${p}${p.includes("?") ? "&" : "?"}${DEV_STORE_PARAM}=`;

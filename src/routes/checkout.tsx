@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useCart } from "@/components/marketplace/cart-context";
+import { LegalConsent } from "@/components/legal/legal-links";
 import { CatalogSkeleton, EmptyState, useCatalog } from "@/components/marketplace/shared";
 import { requireAuth } from "@/lib/auth";
 import { cartTotal } from "@/services/cart";
@@ -422,6 +423,7 @@ function CheckoutPage() {
           </div>
           <p className="checkout-note">{t("note")}</p>
           {method === "stripe" && <p className="checkout-note">{t("cardNote")}</p>}
+          <LegalConsent className="checkout-note legal-consent" />
           <Button
             type="submit"
             className="w-full h-11 mt-4"

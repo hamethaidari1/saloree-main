@@ -42,5 +42,19 @@
     "splitA": "Jeder unabhängige Shop bereitet seinen Teil selbst vor und versendet ihn. Ein Bezahlvorgang erzeugt daher eine Bestellung pro Shop. Die Bestätigungsseite zeigt die Gesamtsumme aller Bestellungen.",
     "sellQ": "Wie verkaufe ich auf Saloree?",
     "sellA": "<1>Erstelle ein Verkäuferkonto</1>, richte deinen Shop ein und füge Produkte hinzu. Dein Shop geht online, sobald er geprüft wurde."
+  },
+  "legal": {
+    "metaTitle": "Richtlinien — Saloree",
+    "metaDescription": "Nutzungsbedingungen, Datenschutzerklärung, Rückgabe, Versand und Verkäufervereinbarung von Saloree.",
+    "title": "Richtlinien",
+    "subtitle": "Die Regeln für Einkaufen und Verkaufen auf Saloree.",
+    "none": "Es wurden noch keine Richtlinien veröffentlicht.",
+    "lastUpdated": "Zuletzt aktualisiert: {{date}}",
+    "contents": "Auf dieser Seite",
+    "englishOnly": "Diese Seite ist vorerst nur auf Englisch verfügbar.",
+    "englishOnlyAll": "Diese Richtlinien sind vorerst nur auf Englisch verfügbar.",
+    "consentBoth": "Wenn du fortfährst, stimmst du den <1>Nutzungsbedingungen</1> und der <3>Datenschutzerklärung</3> zu.",
+    "consentTerms": "Wenn du fortfährst, stimmst du den <1>Nutzungsbedingungen</1> zu.",
+    "consentPrivacy": "Wenn du fortfährst, stimmst du der <1>Datenschutzerklärung</1> zu."
   }
 }

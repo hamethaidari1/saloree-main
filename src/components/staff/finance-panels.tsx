@@ -483,6 +483,12 @@ const COMPANY_FIELDS = [
   { key: "business_id", label: "Business ID", max: 60 },
   { key: "address", label: "Address", max: 240, long: true },
   { key: "support_email", label: "Support email", max: 254, type: "email" },
+  {
+    key: "stripe_fees_text",
+    label: "Card fees wording (legal pages)",
+    max: 200,
+    hint: 'Who pays the Stripe card fees, as it should read in the Seller Agreement, e.g. "paid by the seller" or "paid by Saloree". Not shown in the footer. While it is empty, the sentence that mentions it is hidden.',
+  },
 ] as const;
 type CompanyKey = (typeof COMPANY_FIELDS)[number]["key"];
 
@@ -509,6 +515,7 @@ function CompanyForm({ initial }: { initial: Record<CompanyKey, string> }) {
     business_id: initial.business_id,
     address: initial.address,
     support_email: initial.support_email,
+    stripe_fees_text: initial.stripe_fees_text,
   }));
   const [errors, setErrors] = useState<Partial<Record<CompanyKey, string>>>({});
   const save = useAdminAction(
@@ -548,8 +555,8 @@ function CompanyForm({ initial }: { initial: Record<CompanyKey, string> }) {
           Company details
         </h2>
         <p className="seller-hint">
-          Shown in the site footer. Only these four details are changed; other footer settings are
-          kept. Leave a field empty to hide it.
+          Shown in the site footer and used in the legal pages. Only these details are changed;
+          other footer settings are kept. Leave a field empty to hide it.
         </p>
         {COMPANY_FIELDS.map((f) => {
           const id = `company-${f.key}`;
@@ -567,7 +574,16 @@ function CompanyForm({ initial }: { initial: Record<CompanyKey, string> }) {
               {"long" in f ? (
                 <Textarea rows={2} {...common} />
               ) : (
-                <Input type={"type" in f ? f.type : "text"} {...common} />
+                <Input
+                  type={"type" in f ? f.type : "text"}
+                  {...common}
+                  {...("hint" in f ? { "aria-describedby": `${id}-hint` } : {})}
+                />
+              )}
+              {"hint" in f && (
+                <p id={`${id}-hint`} className="seller-hint">
+                  {f.hint}
+                </p>
               )}
               {errors[f.key] && <p className="seller-error">{errors[f.key]}</p>}
             </div>

@@ -7,6 +7,8 @@ import { Link, useRouter } from "@tanstack/react-router";
 import { ArrowUp, Facebook, Instagram, Twitter } from "lucide-react";
 import type { Category } from "@/data/catalog";
 import { EMPTY_FOOTER, footerQuery, type FooterContent } from "@/services/site";
+import { legalDocuments } from "@/services/legal";
+import { useLegalLinks } from "@/components/legal/legal-links";
 import { Logo } from "./logo";
 import { PaymentMethods } from "./payment-methods";
 
@@ -101,9 +103,21 @@ function DefaultColumns({ categories }: { categories: Pick<Category, "slug" | "n
             {t("customerService")}
           </Link>
         </li>
+        <LegalLinkItems />
       </Column>
     </>
   );
+}
+
+/** One link per legal page in this build (none for a page that isn't there). */
+function LegalLinkItems() {
+  return useLegalLinks().map((l) => (
+    <li key={l.slug}>
+      <Link to="/legal/$slug" params={{ slug: l.slug }} className="footer-link">
+        {l.label}
+      </Link>
+    </li>
+  ));
 }
 
 /**
@@ -112,6 +126,8 @@ function DefaultColumns({ categories }: { categories: Pick<Category, "slug" | "n
  * becomes a dead link); internal paths navigate in-app.
  */
 function DatabaseColumns({ columns }: { columns: FooterContent["columns"] }) {
+  const { t } = useTranslation("footer");
+  const legalCount = legalDocuments().length;
   const router = useRouter();
   const exists = (href: string) => {
     const path = href.split(/[?#]/)[0] ?? "/";
@@ -128,6 +144,8 @@ function DatabaseColumns({ columns }: { columns: FooterContent["columns"] }) {
       links: col.links.filter((l) => !l.url.startsWith("/") || exists(l.url)),
     }))
     .filter((col) => col.links.length > 0);
+  // The policies are always reachable: added unless staff already link to /legal pages.
+  const hasLegal = shown.some((col) => col.links.some((l) => /^\/legal(?:[/?#]|$)/.test(l.url)));
   return (
     <>
       {shown.map((col) => (
@@ -147,6 +165,11 @@ function DatabaseColumns({ columns }: { columns: FooterContent["columns"] }) {
           ))}
         </Column>
       ))}
+      {!hasLegal && legalCount > 0 && (
+        <Column heading={t("help")}>
+          <LegalLinkItems />
+        </Column>
+      )}
     </>
   );
 }

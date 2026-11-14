@@ -42,5 +42,19 @@
     "splitA": "Cada tienda independiente prepara y envía su parte, así que un mismo pago crea un pedido por tienda. La página de confirmación muestra el total de todos ellos.",
     "sellQ": "¿Cómo vendo en Saloree?",
     "sellA": "<1>Crea una cuenta de vendedor</1>, configura tu tienda y añade productos. Tu tienda se publica una vez revisada."
+  },
+  "legal": {
+    "metaTitle": "Políticas — Saloree",
+    "metaDescription": "Condiciones de uso, política de privacidad, devoluciones, envíos y acuerdo de vendedor de Saloree.",
+    "title": "Políticas",
+    "subtitle": "Las reglas para comprar y vender en Saloree.",
+    "none": "Todavía no se ha publicado ninguna política.",
+    "lastUpdated": "Última actualización: {{date}}",
+    "contents": "En esta página",
+    "englishOnly": "Por ahora, esta página solo está disponible en inglés.",
+    "englishOnlyAll": "Por ahora, estas políticas solo están disponibles en inglés.",
+    "consentBoth": "Al continuar, aceptas las <1>Condiciones de uso</1> y la <3>Política de privacidad</3>.",
+    "consentTerms": "Al continuar, aceptas las <1>Condiciones de uso</1>.",
+    "consentPrivacy": "Al continuar, aceptas la <1>Política de privacidad</1>."
   }
 }
