@@ -18,8 +18,11 @@
   "homeLink": "Início da Saloree",
   "socialList": "Saloree nas redes sociais",
   "socialLink": "Saloree no {{network}} (abre em uma nova aba)",
-  "payment": "Pagamento: em dinheiro na entrega.",
+  "paymentMethods": "Formas de pagamento",
+  "cod": "Pagamento na entrega",
+  "stripeNote": "Os pagamentos com cartão são processados com segurança pela Stripe. Nunca vemos nem guardamos os dados do seu cartão.",
   "copyright": "© {{year}} Saloree",
+  "copyrightOf": "© {{year}} {{name}}",
   "businessId": "CNPJ/ID da empresa: <1>{{id}}</1>",
   "language": "Idioma",
   "support": "Suporte: <1>{{email}}</1>"

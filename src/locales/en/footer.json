@@ -18,8 +18,11 @@
   "homeLink": "Saloree home",
   "socialList": "Saloree on social media",
   "socialLink": "Saloree on {{network}} (opens in a new tab)",
-  "payment": "Payment: cash on delivery.",
+  "paymentMethods": "Payment methods",
+  "cod": "Cash on delivery",
+  "stripeNote": "Card payments are processed securely by Stripe. We never see or store your card details.",
   "copyright": "© {{year}} Saloree",
+  "copyrightOf": "© {{year}} {{name}}",
   "businessId": "Business ID: <1>{{id}}</1>",
   "language": "Language",
   "support": "Support: <1>{{email}}</1>"

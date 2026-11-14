@@ -31,6 +31,8 @@ const m = () => mock.current!;
 beforeEach(() => {
   m().reset();
   window.sessionStorage.clear();
+  // The default build has cards off; don't depend on a developer's local .env.
+  vi.stubEnv("VITE_STRIPE_ENABLED", "false");
 });
 afterEach(() => vi.unstubAllEnvs());
 

@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { QueryClientProvider } from "@tanstack/react-query";
 import {
@@ -42,7 +42,10 @@ const m = () => mock.current!;
 beforeEach(() => {
   m().reset();
   h.toast.error.mockClear();
+  // The default build has cards off; don't depend on a developer's local .env.
+  vi.stubEnv("VITE_STRIPE_ENABLED", "false");
 });
+afterEach(() => vi.unstubAllEnvs());
 
 const catalog: Catalog = {
   products: [

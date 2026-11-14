@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const db = vi.hoisted(() => ({
   session: { user: { id: "user-1" } } as { user: { id: string } } | null,
@@ -84,7 +84,10 @@ beforeEach(() => {
   db.tableWrites.length = 0;
   db.rpcResult = { data: serverResult, error: null };
   db.orderRows = [];
+  // The default build has cards off; don't depend on a developer's local .env.
+  vi.stubEnv("VITE_STRIPE_ENABLED", "false");
 });
+afterEach(() => vi.unstubAllEnvs());
 
 describe("placeOrder", () => {
   it("calls place_order with items, customer and 'cod' — and nothing else", async () => {

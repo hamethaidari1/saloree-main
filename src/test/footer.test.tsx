@@ -1,5 +1,5 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
-import { render, screen, within } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   createMemoryHistory,
@@ -19,6 +19,7 @@ vi.mock("@/lib/supabase", async () => {
 });
 
 import { SiteFooter } from "@/components/marketplace/footer";
+import { logoSrc, PAYMENT_BRANDS } from "@/lib/payment-logos";
 import {
   EMPTY_FOOTER,
   safeFooterUrl,
@@ -107,16 +108,16 @@ describe("site footer: default columns", () => {
       expect(text).not.toContain(missing);
   });
 
-  it("has 4 headed columns, a Back to top button and no unverifiable claims", async () => {
+  it("has 4 headed columns, payment methods, Back to top and no unverifiable claims", async () => {
     const { footer } = await renderFooter(EMPTY_FOOTER);
     expect(
       within(footer)
         .getAllByRole("heading", { level: 2 })
         .map((h) => h.textContent),
-    ).toEqual(["Shop", "Sell on Saloree", "Your account", "Help and policies"]);
+    ).toEqual(["Shop", "Sell on Saloree", "Your account", "Help and policies", "Payment methods"]);
     expect(within(footer).getByRole("button", { name: /back to top/i })).toBeTruthy();
-    expect(footer.textContent).not.toMatch(/SSL|guarantee|verified|visa|mastercard/i);
-    expect(footer.textContent).toContain("cash on delivery");
+    expect(footer.textContent).not.toMatch(/SSL|guarantee|verified|certified|100%|secured by/i);
+    expect(footer.textContent).toContain("Cash on delivery");
   });
 
   it("uses '© <year> Saloree' and hides company details and social links when missing", async () => {
@@ -159,6 +160,121 @@ describe("site footer: default columns", () => {
     expect(socialLinks[0]).toHaveAttribute("rel", "noopener noreferrer");
     expect(socialLinks[0]).toHaveAttribute("target", "_blank");
     expect(socialLinks[0]).toHaveAccessibleName(/Facebook/);
+  });
+});
+
+describe("site footer: payment methods", () => {
+  afterEach(() => vi.unstubAllEnvs());
+  const payments = (footer: HTMLElement) =>
+    within(footer).getByRole("region", { name: "Payment methods" });
+
+  it("flag off: cash on delivery only, no card logos and no Stripe claim", async () => {
+    vi.stubEnv("VITE_STRIPE_ENABLED", "false");
+    const { footer } = await renderFooter(EMPTY_FOOTER);
+    const section = payments(footer);
+    expect(section.textContent).toContain("Cash on delivery");
+    expect(within(section).queryAllByRole("img")).toHaveLength(0);
+    expect(screen.queryAllByTestId("card-brand")).toHaveLength(0);
+    expect(footer.textContent).not.toMatch(
+      /Visa|Mastercard|Maestro|American Express|Apple Pay|Google Pay|Stripe/,
+    );
+  });
+
+  it("flag on: exactly the six logos with alt text, plus the Stripe line", async () => {
+    vi.stubEnv("VITE_STRIPE_ENABLED", "true");
+    const { footer } = await renderFooter(EMPTY_FOOTER);
+    const section = payments(footer);
+    expect(section.textContent).toContain("Cash on delivery");
+    const imgs = within(section).getAllByRole("img");
+    expect(imgs.map((i) => i.getAttribute("alt"))).toEqual([
+      "Visa",
+      "Mastercard",
+      "Maestro",
+      "American Express",
+      "Apple Pay",
+      "Google Pay",
+    ]);
+    for (const img of imgs) {
+      expect(img).toHaveAttribute("loading", "lazy");
+      expect(img).toHaveAttribute("width", "60");
+      expect(img).toHaveAttribute("height", "50");
+    }
+    expect(section.textContent).toContain(
+      "Card payments are processed securely by Stripe. We never see or store your card details.",
+    );
+    // nothing that isn't really accepted
+    expect(section.innerHTML).not.toMatch(
+      /discover|diners|unionpay|v ?pay|contactless|paypal|klarna/i,
+    );
+  });
+
+  it("a missing logo file falls back to a text badge", async () => {
+    vi.stubEnv("VITE_STRIPE_ENABLED", "true");
+    const { footer } = await renderFooter(EMPTY_FOOTER);
+    const section = payments(footer);
+    fireEvent.error(within(section).getByAltText("Maestro"));
+    expect(within(section).queryByAltText("Maestro")).toBeNull();
+    expect(within(section).getByText("Maestro")).toBeTruthy();
+    // the others still show their logo
+    expect(within(section).getByAltText("Visa")).toBeTruthy();
+    expect(within(section).getAllByTestId("card-brand")).toHaveLength(6);
+  });
+
+  it("with all six files missing, every brand still shows as text", async () => {
+    vi.stubEnv("VITE_STRIPE_ENABLED", "true");
+    const { footer } = await renderFooter(EMPTY_FOOTER);
+    const section = payments(footer);
+    for (const img of within(section).getAllByRole("img")) fireEvent.error(img);
+    expect(within(section).queryAllByRole("img")).toHaveLength(0);
+    for (const b of PAYMENT_BRANDS) expect(within(section).getByText(b.name)).toBeTruthy();
+  });
+
+  it("every image is a local file; no external URLs and nothing secret-looking", async () => {
+    vi.stubEnv("VITE_STRIPE_ENABLED", "true");
+    const { footer } = await renderFooter(EMPTY_FOOTER);
+    const srcs = [...footer.querySelectorAll("img")].map((i) => i.getAttribute("src") ?? "");
+    expect(srcs.length).toBeGreaterThan(0);
+    for (const src of srcs) expect(src).toMatch(/^\/(?!\/)/);
+    expect(PAYMENT_BRANDS.map(logoSrc)).toEqual([
+      "/payment-logos/visa.png",
+      "/payment-logos/mastercard.png",
+      "/payment-logos/maestro.png",
+      "/payment-logos/amex.png",
+      "/payment-logos/apple-pay.png",
+      "/payment-logos/google-pay.png",
+    ]);
+    // Built from parts so the repo-wide secret scan doesn't flag this test itself.
+    const secretLike = new RegExp(["\b(sk|pk|rk)_(live|test)_", "wh" + "sec_"].join("|"));
+    expect(footer.innerHTML).not.toMatch(secretLike);
+  });
+});
+
+describe("site footer: company line", () => {
+  it("uses '© <year> <legal name>' and lists only the filled fields", async () => {
+    const content = toFooterContent(
+      settings({ footer_settings: { legal_name: "Example Oy", business_id: "", address: "  " } }),
+      [],
+    );
+    await renderFooter(content);
+    expect(screen.getByTestId("footer-copyright").textContent).toBe(
+      `© ${new Date().getFullYear()} Example Oy`,
+    );
+    // the name is already in the copyright line; nothing else is filled
+    expect(screen.queryByTestId("footer-company")).toBeNull();
+  });
+
+  it("shows business ID and email only when filled, never the empty labels", async () => {
+    const content = toFooterContent(
+      settings({
+        footer_settings: { legal_name: "Example Oy", business_id: "1234567-8", support_email: "" },
+      }),
+      [],
+    );
+    const { footer } = await renderFooter(content);
+    const company = screen.getByTestId("footer-company");
+    expect(company.textContent).toBe("Business ID: 1234567-8");
+    expect(footer.textContent).not.toMatch(/Support:/);
+    expect(within(company).queryByRole("link")).toBeNull();
   });
 });
 

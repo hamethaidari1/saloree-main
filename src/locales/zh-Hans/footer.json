@@ -18,8 +18,11 @@
   "homeLink": "Saloree 首页",
   "socialList": "Saloree 社交媒体",
   "socialLink": "Saloree 的 {{network}}（在新标签页中打开）",
-  "payment": "付款方式：货到付款（现金）。",
+  "paymentMethods": "支付方式",
+  "cod": "货到付款",
+  "stripeNote": "银行卡付款由 Stripe 安全处理。我们绝不会看到或存储您的卡信息。",
   "copyright": "© {{year}} Saloree",
+  "copyrightOf": "© {{year}} {{name}}",
   "businessId": "企业注册号：<1>{{id}}</1>",
   "language": "语言",
   "support": "客服：<1>{{email}}</1>"

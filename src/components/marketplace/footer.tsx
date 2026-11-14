@@ -8,6 +8,7 @@ import { ArrowUp, Facebook, Instagram, Twitter } from "lucide-react";
 import type { Category } from "@/data/catalog";
 import { EMPTY_FOOTER, footerQuery, type FooterContent } from "@/services/site";
 import { Logo } from "./logo";
+import { PaymentMethods } from "./payment-methods";
 
 /** How many database categories the "Shop" column lists. */
 const FOOTER_CATEGORY_COUNT = 4;
@@ -171,8 +172,18 @@ export function SiteFooter({
   const content = given ?? query.data ?? EMPTY_FOOTER;
   const { company } = content;
   const year = new Date().getFullYear();
+  // copyright_text (set by staff) wins; then "© <year> <legal name>"; then "© <year> Saloree".
+  const legalNameInCopyright = !content.copyright && Boolean(company.legalName);
+  const copyright =
+    content.copyright ??
+    (company.legalName
+      ? t("copyrightOf", { year, name: company.legalName })
+      : t("copyright", { year }));
   const hasCompany = Boolean(
-    company.legalName || company.businessId || company.address || company.supportEmail,
+    (company.legalName && !legalNameInCopyright) ||
+    company.businessId ||
+    company.address ||
+    company.supportEmail,
   );
 
   return (
@@ -191,6 +202,10 @@ export function SiteFooter({
           )}
         </div>
       </nav>
+
+      <div className="market-container">
+        <PaymentMethods />
+      </div>
 
       <div className="footer-base">
         <div className="market-container footer-base-inner">
@@ -230,13 +245,12 @@ export function SiteFooter({
             <div className="footer-lang">
               <LanguageSelect variant="footer" />
             </div>
-            <p dir="auto">{t("payment")}</p>
             <p data-testid="footer-copyright" dir="auto">
-              {content.copyright ?? t("copyright", { year })}
+              {copyright}
             </p>
             {hasCompany && (
               <address className="footer-company" data-testid="footer-company">
-                {company.legalName && <span>{company.legalName}</span>}
+                {company.legalName && !legalNameInCopyright && <span>{company.legalName}</span>}
                 {company.businessId && (
                   <span>
                     <Trans

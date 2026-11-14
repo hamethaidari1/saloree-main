@@ -18,8 +18,11 @@
   "homeLink": "Saloree Startseite",
   "socialList": "Saloree in sozialen Medien",
   "socialLink": "Saloree auf {{network}} (öffnet in einem neuen Tab)",
-  "payment": "Zahlung: bar bei Lieferung.",
+  "paymentMethods": "Zahlungsarten",
+  "cod": "Zahlung bei Lieferung",
+  "stripeNote": "Kartenzahlungen werden sicher von Stripe abgewickelt. Wir sehen oder speichern Ihre Kartendaten nie.",
   "copyright": "© {{year}} Saloree",
+  "copyrightOf": "© {{year}} {{name}}",
   "businessId": "Unternehmens-ID: <1>{{id}}</1>",
   "language": "Sprache",
   "support": "Support: <1>{{email}}</1>"

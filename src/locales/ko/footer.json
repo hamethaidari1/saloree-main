@@ -18,8 +18,11 @@
   "homeLink": "Saloree 홈",
   "socialList": "소셜 미디어의 Saloree",
   "socialLink": "{{network}}의 Saloree(새 탭에서 열림)",
-  "payment": "결제: 착불(현금).",
+  "paymentMethods": "결제 수단",
+  "cod": "착불 결제",
+  "stripeNote": "카드 결제는 Stripe에서 안전하게 처리됩니다. 저희는 고객님의 카드 정보를 보거나 저장하지 않습니다.",
   "copyright": "© {{year}} Saloree",
+  "copyrightOf": "© {{year}} {{name}}",
   "businessId": "사업자 등록 번호: <1>{{id}}</1>",
   "language": "언어",
   "support": "고객 지원: <1>{{email}}</1>"

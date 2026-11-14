@@ -18,8 +18,11 @@
   "homeLink": "דף הבית של Saloree",
   "socialList": "Saloree ברשתות החברתיות",
   "socialLink": "Saloree ב-{{network}} (נפתח בכרטיסייה חדשה)",
-  "payment": "תשלום: במזומן במסירה.",
+  "paymentMethods": "אמצעי תשלום",
+  "cod": "תשלום במסירה",
+  "stripeNote": "תשלומים בכרטיס מעובדים באופן מאובטח על ידי Stripe. אנחנו אף פעם לא רואים או שומרים את פרטי הכרטיס שלך.",
   "copyright": "© {{year}} Saloree",
+  "copyrightOf": "© {{year}} {{name}}",
   "businessId": "מספר עוסק: <1>{{id}}</1>",
   "language": "שפה",
   "support": "תמיכה: <1>{{email}}</1>"

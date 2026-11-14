@@ -18,8 +18,11 @@
   "homeLink": "Inicio de Saloree",
   "socialList": "Saloree en redes sociales",
   "socialLink": "Saloree en {{network}} (se abre en una pestaña nueva)",
-  "payment": "Pago: contra reembolso.",
+  "paymentMethods": "Métodos de pago",
+  "cod": "Pago contra entrega",
+  "stripeNote": "Los pagos con tarjeta los procesa Stripe de forma segura. Nunca vemos ni guardamos los datos de tu tarjeta.",
   "copyright": "© {{year}} Saloree",
+  "copyrightOf": "© {{year}} {{name}}",
   "businessId": "Identificación fiscal: <1>{{id}}</1>",
   "language": "Idioma",
   "support": "Atención: <1>{{email}}</1>"

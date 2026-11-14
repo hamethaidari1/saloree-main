@@ -18,8 +18,11 @@
   "homeLink": "الصفحة الرئيسية لـ Saloree",
   "socialList": "Saloree على وسائل التواصل الاجتماعي",
   "socialLink": "Saloree على {{network}} (يُفتح في علامة تبويب جديدة)",
-  "payment": "الدفع: نقدًا عند الاستلام.",
+  "paymentMethods": "طرق الدفع",
+  "cod": "الدفع عند الاستلام",
+  "stripeNote": "تتم معالجة مدفوعات البطاقات بأمان بواسطة Stripe. لا نرى بيانات بطاقتك ولا نخزّنها أبدًا.",
   "copyright": "© {{year}} Saloree",
+  "copyrightOf": "© {{year}} {{name}}",
   "businessId": "رقم السجل التجاري: <1>{{id}}</1>",
   "language": "اللغة",
   "support": "الدعم: <1>{{email}}</1>"
