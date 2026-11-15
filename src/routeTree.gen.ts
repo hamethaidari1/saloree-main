@@ -23,6 +23,7 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SellerRouteImport } from './routes/seller'
 import { Route as StoresRouteImport } from './routes/stores'
 import { Route as WishlistRouteImport } from './routes/wishlist'
+import { Route as AccountMessagesRouteImport } from './routes/account_.messages'
 import { Route as AdminFinanceRouteImport } from './routes/admin_.finance'
 import { Route as AdminMarketplaceRouteImport } from './routes/admin_.marketplace'
 import { Route as ApiTrackRouteImport } from './routes/api.track'
@@ -45,6 +46,7 @@ import { Route as SellerOrdersRouteImport } from './routes/seller.orders'
 import { Route as SellerPayoutsRouteImport } from './routes/seller.payouts'
 import { Route as SellerProductsRouteImport } from './routes/seller.products'
 import { Route as SellerSettingsRouteImport } from './routes/seller.settings'
+import { Route as SellerSupportRouteImport } from './routes/seller.support'
 import { Route as SellerThemesRouteImport } from './routes/seller.themes'
 import { Route as SellerVerificationRouteImport } from './routes/seller.verification'
 import { Route as StoreSlugRouteImport } from './routes/store.$slug'
@@ -117,6 +119,11 @@ const StoresRoute = StoresRouteImport.update({
 const WishlistRoute = WishlistRouteImport.update({
   id: '/wishlist',
   path: '/wishlist',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountMessagesRoute = AccountMessagesRouteImport.update({
+  id: '/account_/messages',
+  path: '/account/messages',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminFinanceRoute = AdminFinanceRouteImport.update({
@@ -230,6 +237,11 @@ const SellerSettingsRoute = SellerSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => SellerRoute,
 } as any)
+const SellerSupportRoute = SellerSupportRouteImport.update({
+  id: '/support',
+  path: '/support',
+  getParentRoute: () => SellerRoute,
+} as any)
 const SellerThemesRoute = SellerThemesRouteImport.update({
   id: '/themes',
   path: '/themes',
@@ -261,6 +273,7 @@ export interface FileRoutesByFullPath {
   '/seller': typeof SellerRouteWithChildren
   '/stores': typeof StoresRoute
   '/wishlist': typeof WishlistRoute
+  '/account/messages': typeof AccountMessagesRoute
   '/admin/finance': typeof AdminFinanceRoute
   '/admin/marketplace': typeof AdminMarketplaceRoute
   '/api/track': typeof ApiTrackRoute
@@ -280,6 +293,7 @@ export interface FileRoutesByFullPath {
   '/seller/payouts': typeof SellerPayoutsRoute
   '/seller/products': typeof SellerProductsRoute
   '/seller/settings': typeof SellerSettingsRoute
+  '/seller/support': typeof SellerSupportRoute
   '/seller/themes': typeof SellerThemesRoute
   '/seller/verification': typeof SellerVerificationRoute
   '/store/$slug': typeof StoreSlugRoute
@@ -301,6 +315,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/stores': typeof StoresRoute
   '/wishlist': typeof WishlistRoute
+  '/account/messages': typeof AccountMessagesRoute
   '/admin/finance': typeof AdminFinanceRoute
   '/admin/marketplace': typeof AdminMarketplaceRoute
   '/api/track': typeof ApiTrackRoute
@@ -320,6 +335,7 @@ export interface FileRoutesByTo {
   '/seller/payouts': typeof SellerPayoutsRoute
   '/seller/products': typeof SellerProductsRoute
   '/seller/settings': typeof SellerSettingsRoute
+  '/seller/support': typeof SellerSupportRoute
   '/seller/themes': typeof SellerThemesRoute
   '/seller/verification': typeof SellerVerificationRoute
   '/store/$slug': typeof StoreSlugRoute
@@ -343,6 +359,7 @@ export interface FileRoutesById {
   '/seller': typeof SellerRouteWithChildren
   '/stores': typeof StoresRoute
   '/wishlist': typeof WishlistRoute
+  '/account_/messages': typeof AccountMessagesRoute
   '/admin_/finance': typeof AdminFinanceRoute
   '/admin_/marketplace': typeof AdminMarketplaceRoute
   '/api/track': typeof ApiTrackRoute
@@ -362,6 +379,7 @@ export interface FileRoutesById {
   '/seller/payouts': typeof SellerPayoutsRoute
   '/seller/products': typeof SellerProductsRoute
   '/seller/settings': typeof SellerSettingsRoute
+  '/seller/support': typeof SellerSupportRoute
   '/seller/themes': typeof SellerThemesRoute
   '/seller/verification': typeof SellerVerificationRoute
   '/store/$slug': typeof StoreSlugRoute
@@ -386,6 +404,7 @@ export interface FileRouteTypes {
     | '/seller'
     | '/stores'
     | '/wishlist'
+    | '/account/messages'
     | '/admin/finance'
     | '/admin/marketplace'
     | '/api/track'
@@ -405,6 +424,7 @@ export interface FileRouteTypes {
     | '/seller/payouts'
     | '/seller/products'
     | '/seller/settings'
+    | '/seller/support'
     | '/seller/themes'
     | '/seller/verification'
     | '/store/$slug'
@@ -426,6 +446,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/stores'
     | '/wishlist'
+    | '/account/messages'
     | '/admin/finance'
     | '/admin/marketplace'
     | '/api/track'
@@ -445,6 +466,7 @@ export interface FileRouteTypes {
     | '/seller/payouts'
     | '/seller/products'
     | '/seller/settings'
+    | '/seller/support'
     | '/seller/themes'
     | '/seller/verification'
     | '/store/$slug'
@@ -467,6 +489,7 @@ export interface FileRouteTypes {
     | '/seller'
     | '/stores'
     | '/wishlist'
+    | '/account_/messages'
     | '/admin_/finance'
     | '/admin_/marketplace'
     | '/api/track'
@@ -486,6 +509,7 @@ export interface FileRouteTypes {
     | '/seller/payouts'
     | '/seller/products'
     | '/seller/settings'
+    | '/seller/support'
     | '/seller/themes'
     | '/seller/verification'
     | '/store/$slug'
@@ -509,6 +533,7 @@ export interface RootRouteChildren {
   SellerRoute: typeof SellerRouteWithChildren
   StoresRoute: typeof StoresRoute
   WishlistRoute: typeof WishlistRoute
+  AccountMessagesRoute: typeof AccountMessagesRoute
   AdminFinanceRoute: typeof AdminFinanceRoute
   AdminMarketplaceRoute: typeof AdminMarketplaceRoute
   ApiTrackRoute: typeof ApiTrackRoute
@@ -621,6 +646,13 @@ declare module '@tanstack/react-router' {
       path: '/wishlist'
       fullPath: '/wishlist'
       preLoaderRoute: typeof WishlistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/account_/messages': {
+      id: '/account_/messages'
+      path: '/account/messages'
+      fullPath: '/account/messages'
+      preLoaderRoute: typeof AccountMessagesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin_/finance': {
@@ -777,6 +809,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SellerSettingsRouteImport
       parentRoute: typeof SellerRoute
     }
+    '/seller/support': {
+      id: '/seller/support'
+      path: '/support'
+      fullPath: '/seller/support'
+      preLoaderRoute: typeof SellerSupportRouteImport
+      parentRoute: typeof SellerRoute
+    }
     '/seller/themes': {
       id: '/seller/themes'
       path: '/themes'
@@ -812,6 +851,7 @@ interface SellerRouteChildren {
   SellerPayoutsRoute: typeof SellerPayoutsRoute
   SellerProductsRoute: typeof SellerProductsRoute
   SellerSettingsRoute: typeof SellerSettingsRoute
+  SellerSupportRoute: typeof SellerSupportRoute
   SellerThemesRoute: typeof SellerThemesRoute
   SellerVerificationRoute: typeof SellerVerificationRoute
   SellerIndexRoute: typeof SellerIndexRoute
@@ -828,6 +868,7 @@ const SellerRouteChildren: SellerRouteChildren = {
   SellerPayoutsRoute: SellerPayoutsRoute,
   SellerProductsRoute: SellerProductsRoute,
   SellerSettingsRoute: SellerSettingsRoute,
+  SellerSupportRoute: SellerSupportRoute,
   SellerThemesRoute: SellerThemesRoute,
   SellerVerificationRoute: SellerVerificationRoute,
   SellerIndexRoute: SellerIndexRoute,
@@ -851,6 +892,7 @@ const rootRouteChildren: RootRouteChildren = {
   SellerRoute: SellerRouteWithChildren,
   StoresRoute: StoresRoute,
   WishlistRoute: WishlistRoute,
+  AccountMessagesRoute: AccountMessagesRoute,
   AdminFinanceRoute: AdminFinanceRoute,
   AdminMarketplaceRoute: AdminMarketplaceRoute,
   ApiTrackRoute: ApiTrackRoute,

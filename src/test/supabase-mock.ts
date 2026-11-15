@@ -16,7 +16,21 @@ export interface Reply {
  * Minimal chainable stand-in for the Supabase client. Every builder records
  * its calls; replies are taken from `queue` (first in, first out) or `fallback`.
  */
+export interface MockChannel {
+  name: string;
+  handlers: { filter: Record<string, unknown>; cb: (payload: unknown) => void }[];
+  status: ((status: string) => void) | null;
+  removed: boolean;
+  on: (
+    type: string,
+    filter: Record<string, unknown>,
+    cb: (payload: unknown) => void,
+  ) => MockChannel;
+  subscribe: (cb?: (status: string) => void) => MockChannel;
+}
+
 export function createSupabaseMock() {
+  const channels: MockChannel[] = [];
   const state = {
     queries: [] as Recorded[],
     rpcs: [] as { fn: string; args: unknown }[],
@@ -146,6 +160,29 @@ export function createSupabaseMock() {
         return { error };
       }),
     },
+    /** Realtime: channels record their postgres_changes handlers (see `realtime`). */
+    channel: (name: string) => {
+      const ch: MockChannel = {
+        name,
+        handlers: [],
+        status: null,
+        removed: false,
+        on(_type: string, filter: Record<string, unknown>, cb: (payload: unknown) => void) {
+          ch.handlers.push({ filter, cb });
+          return ch;
+        },
+        subscribe(cb?: (status: string) => void) {
+          ch.status = cb ?? null;
+          return ch;
+        },
+      };
+      channels.push(ch);
+      return ch;
+    },
+    removeChannel: vi.fn(async (ch: MockChannel) => {
+      ch.removed = true;
+      return "ok";
+    }),
     functions: {
       invoke: vi.fn(async (name: string, options?: { body?: unknown }) => {
         state.invokes.push({ name, body: options?.body });
@@ -199,9 +236,32 @@ export function createSupabaseMock() {
     state.authErrors = {};
     state.initError = null;
     state.listeners.clear();
+    channels.length = 0;
   };
   /** Calls of the n-th query on `table`. */
   const callsOn = (table: string, n = 0) =>
     state.queries.filter((q) => q.table === table)[n]?.calls ?? [];
-  return { supabase, state, reset, callsOn };
+  /** Test helpers: deliver a change, or report a (re)connection. */
+  const realtime = {
+    channels,
+    live: () => channels.filter((c) => !c.removed),
+    emit: (table: string, payload: { eventType?: string; new: unknown }) => {
+      for (const c of channels)
+        if (!c.removed)
+          for (const h of c.handlers)
+            if (h.filter["table"] === table) {
+              const f = h.filter["filter"];
+              const row = payload.new as Record<string, unknown>;
+              if (typeof f === "string") {
+                const [col, value] = f.split("=eq.");
+                if (col && String(row[col]) !== value) continue;
+              }
+              h.cb(payload);
+            }
+    },
+    connect: (status = "SUBSCRIBED") => {
+      for (const c of channels) if (!c.removed) c.status?.(status);
+    },
+  };
+  return { supabase, state, reset, callsOn, realtime };
 }

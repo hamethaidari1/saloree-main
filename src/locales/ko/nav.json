@@ -34,6 +34,8 @@
     "newCustomer": "처음 오셨나요?",
     "startHere": "여기서 시작하기",
     "myOrders": "내 주문",
+    "messages": "메시지",
+    "messagesUnread": "메시지, 읽지 않음 {{count}}개",
     "wishlist": "위시리스트",
     "account": "계정",
     "myStore": "내 상점",

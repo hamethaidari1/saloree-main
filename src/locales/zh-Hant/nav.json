@@ -34,6 +34,8 @@
     "newCustomer": "新顧客？",
     "startHere": "從這裡開始",
     "myOrders": "我的訂單",
+    "messages": "訊息",
+    "messagesUnread": "訊息，{{count}} 則未讀",
     "wishlist": "願望清單",
     "account": "帳號",
     "myStore": "我的商店",

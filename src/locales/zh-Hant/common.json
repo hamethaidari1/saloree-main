@@ -56,5 +56,29 @@
     "consentBoth": "繼續即表示你同意<1>使用條款</1>及<3>隱私權政策</3>。",
     "consentTerms": "繼續即表示你同意<1>使用條款</1>。",
     "consentPrivacy": "繼續即表示你同意<1>隱私權政策</1>。"
+  },
+  "sideWidget": {
+    "label": "說明與意見回饋",
+    "help": "說明",
+    "helpTitle": "客戶服務",
+    "feedback": "意見回饋",
+    "top": "頂部",
+    "topLabel": "回到頂部",
+    "dialogTitle": "給我們意見回饋",
+    "dialogText": "告訴我們哪些好用、哪些不好用，或你還缺少什麼。",
+    "message": "你的留言",
+    "counter": "{{count}} / {{max}}",
+    "email": "電子郵件（選填）",
+    "emailHint": "只有在你希望收到回覆時才需填寫。",
+    "sentWith": "我們也會收到你所在的頁面（不含搜尋字詞）和你的語言。",
+    "send": "傳送",
+    "sending": "正在傳送…",
+    "thanks": "謝謝。我們會閱讀每一則留言。",
+    "close": "關閉",
+    "tooShort": "請至少輸入 {{min}} 個字元。",
+    "tooLong": "最多輸入 {{max}} 個字元。",
+    "badEmail": "請輸入有效的電子郵件地址，或留空。",
+    "honeypot": "請將此欄留空",
+    "failed": "無法傳送你的留言："
   }
 }

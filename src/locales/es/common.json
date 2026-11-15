@@ -56,5 +56,29 @@
     "consentBoth": "Al continuar, aceptas las <1>Condiciones de uso</1> y la <3>Política de privacidad</3>.",
     "consentTerms": "Al continuar, aceptas las <1>Condiciones de uso</1>.",
     "consentPrivacy": "Al continuar, aceptas la <1>Política de privacidad</1>."
+  },
+  "sideWidget": {
+    "label": "Ayuda y comentarios",
+    "help": "Ayuda",
+    "helpTitle": "Atención al cliente",
+    "feedback": "Comentarios",
+    "top": "Arriba",
+    "topLabel": "Volver arriba",
+    "dialogTitle": "Envíanos tus comentarios",
+    "dialogText": "Cuéntanos qué funciona, qué no o qué echas de menos.",
+    "message": "Tu mensaje",
+    "counter": "{{count}} / {{max}}",
+    "email": "Correo electrónico (opcional)",
+    "emailHint": "Solo si quieres una respuesta.",
+    "sentWith": "También recibimos la página en la que estás (sin términos de búsqueda) y tu idioma.",
+    "send": "Enviar",
+    "sending": "Enviando…",
+    "thanks": "Gracias. Leemos todos los mensajes.",
+    "close": "Cerrar",
+    "tooShort": "Escribe al menos {{min}} caracteres.",
+    "tooLong": "Escribe como máximo {{max}} caracteres.",
+    "badEmail": "Introduce un correo electrónico válido o déjalo vacío.",
+    "honeypot": "Deja este campo vacío",
+    "failed": "No se pudo enviar tu mensaje:"
   }
 }

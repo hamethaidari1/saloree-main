@@ -39,6 +39,8 @@
     "newCustomer": "عميل جديد؟",
     "startHere": "ابدأ من هنا",
     "myOrders": "طلباتي",
+    "messages": "الرسائل",
+    "messagesUnread": "الرسائل، {{count}} غير مقروءة",
     "wishlist": "قائمة الأمنيات",
     "account": "الحساب",
     "myStore": "متجري",

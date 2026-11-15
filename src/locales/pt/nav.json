@@ -36,6 +36,8 @@
     "newCustomer": "Cliente novo?",
     "startHere": "Comece aqui",
     "myOrders": "Meus pedidos",
+    "messages": "Mensagens",
+    "messagesUnread": "Mensagens, {{count}} não lidas",
     "wishlist": "Lista de desejos",
     "account": "Conta",
     "myStore": "Minha loja",

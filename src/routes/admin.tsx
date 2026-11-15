@@ -14,11 +14,15 @@ import { requirePanel } from "@/lib/auth";
 import { NoAccess, StaffShell } from "@/components/staff/staff-shell";
 import { AuditLogPanel, TeamPanel } from "@/components/staff/team-panels";
 import { SellerApplicationsPanel } from "@/components/staff/seller-applications";
+import { FeedbackPanel } from "@/components/staff/feedback-panel";
+import { StaffMessagesTabLabel, StaffSupportPanel } from "@/components/staff/staff-support";
 
 const TABS = [
   ["overview", "Overview"],
   ["stores", "Stores"],
   ["applications", "Seller applications"],
+  ["feedback", "Feedback"],
+  ["messages", "Messages"],
   ["products", "Products"],
   ["categories", "Categories"],
   ["users", "Users"],
@@ -77,7 +81,7 @@ function AdminPanel({
         <TabsList className="admin-tabs">
           {TABS.map(([value, label]) => (
             <TabsTrigger key={value} value={value}>
-              {label}
+              {value === "messages" ? <StaffMessagesTabLabel /> : label}
             </TabsTrigger>
           ))}
         </TabsList>
@@ -89,6 +93,12 @@ function AdminPanel({
         </TabsContent>
         <TabsContent value="applications" className="mt-6">
           <SellerApplicationsPanel canReview />
+        </TabsContent>
+        <TabsContent value="messages" className="mt-6">
+          <StaffSupportPanel panel="admin" />
+        </TabsContent>
+        <TabsContent value="feedback" className="mt-6">
+          <FeedbackPanel />
         </TabsContent>
         <TabsContent value="products" className="mt-6">
           <ProductsPanel canDelete />

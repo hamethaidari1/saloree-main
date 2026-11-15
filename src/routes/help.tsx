@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, MessageCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Trans, useTranslation } from "react-i18next";
 import type { ReactNode } from "react";
 import { headT } from "@/i18n/head";
@@ -19,6 +20,7 @@ export const Route = createFileRoute("/help")({
 
 function HelpPage() {
   const { t } = useTranslation();
+  const { t: tSupport } = useTranslation("support");
   const ordersLink = <Link to="/account" hash="my-orders" />;
   const topics: { q: string; a: ReactNode }[] = [
     {
@@ -51,6 +53,19 @@ function HelpPage() {
       </div>
       <h1 className="page-title">{t("help.title")}</h1>
       <p className="page-subtitle">{t("help.subtitle")}</p>
+      <section className="support-cta mt-8" aria-labelledby="support-cta-title">
+        <MessageCircle aria-hidden />
+        <div className="min-w-0 flex-1">
+          <h2 id="support-cta-title">{tSupport("chat")}</h2>
+          <p>{tSupport("chatText")}</p>
+          <p className="support-hint">{tSupport("replyNote")}</p>
+        </div>
+        <Button asChild>
+          <Link to="/account/messages" search={{ new: 1 }}>
+            {tSupport("chat")}
+          </Link>
+        </Button>
+      </section>
       <div className="help-list mt-8">
         {topics.map((topic) => (
           <details key={topic.q} className="help-item">

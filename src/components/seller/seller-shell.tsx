@@ -5,6 +5,7 @@ import {
   Boxes,
   ChartColumn,
   House,
+  LifeBuoy,
   Inbox,
   List,
   LayoutPanelTop,
@@ -33,6 +34,8 @@ import { Logo } from "@/components/marketplace/logo";
 import { firstName } from "@/components/marketplace/header/account-menu";
 import { SIDEBAR_COLLAPSED_KEY, useSeller } from "./seller-context";
 import { VerificationBanner } from "./verification/status";
+import { UnreadBadge } from "@/components/support/notifier";
+import { useUnreadCounts } from "@/components/support/use-support";
 
 /** Menu, in order. Only pages backed by real data are listed. */
 export const SELLER_NAV = [
@@ -51,6 +54,7 @@ export const SELLER_NAV = [
   { to: "/seller/discounts", label: "Discounts", icon: BadgePercent },
   { to: "/seller/analytics", label: "Analytics", icon: ChartColumn },
   { to: "/seller/payouts", label: "Payouts", icon: Wallet },
+  { to: "/seller/support", label: "Support", icon: LifeBuoy },
   { to: "/seller/content", label: "Content", icon: LayoutPanelTop },
   {
     to: "/seller/themes",
@@ -100,6 +104,7 @@ function StoreSwitcher({ compact }: { compact: boolean }) {
 
 function NavBody({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: () => void }) {
   const { user } = useSeller();
+  const supportUnread = useUnreadCounts(user.id).data?.mine ?? 0;
   const name = String(user.user_metadata?.["full_name"] ?? "").trim() || firstName(user);
   return (
     <div className="flex h-full min-h-0 flex-1 flex-col">
@@ -125,6 +130,14 @@ function NavBody({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: (
                 >
                   <Icon size={18} aria-hidden />
                   <span className="seller-nav-label">{item.label}</span>
+                  {item.to === "/seller/support" && (
+                    <>
+                      <UnreadBadge count={supportUnread} />
+                      {supportUnread > 0 && (
+                        <span className="sr-only">, {supportUnread} unread</span>
+                      )}
+                    </>
+                  )}
                 </Link>
                 {/* Sub-items stay reachable when collapsed: they show as icons. */}
                 {"children" in item && (

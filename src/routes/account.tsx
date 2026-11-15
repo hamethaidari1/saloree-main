@@ -207,6 +207,12 @@ function AccountPage() {
                   </span>
                   <span>{format.price(orderTotal(o), o.currency)}</span>
                 </div>
+                <p className="order-help">
+                  {/* Only the user's own orders are listed here, so the link can't point at another's. */}
+                  <Link to="/account/messages" search={{ new: 1, order: o.id }}>
+                    {t("orderHelp", { ns: "support" })}
+                  </Link>
+                </p>
                 {(payable || canCancel(o)) && (
                   <div className="flex flex-wrap items-center justify-end gap-2">
                     {payable && groupSize(o.checkout_group_id) > 1 && (

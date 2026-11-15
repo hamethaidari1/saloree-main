@@ -33,6 +33,8 @@ import {
 import { Navbar, Footer } from "@/components/marketplace/shared";
 import { StoreFooter, StoreHeader, StoreNotFound } from "@/components/marketplace/storefront";
 import { Toaster } from "@/components/ui/sonner";
+import { SideWidget } from "@/components/marketplace/side-widget";
+import { SupportNotifier } from "@/components/support/notifier";
 import type { Store } from "@/data/catalog";
 import { catalogQuery } from "@/services/catalog";
 import { loadThemeForStorefront, type StoreThemeRecord } from "@/services/themes";
@@ -289,9 +291,13 @@ function RootComponent() {
             <CartProvider>
               <PendingWishlistSave />
               <StorefrontTracker />
+              {/* Live support badges and "New message from Saloree team" toasts. */}
+              <SupportNotifier />
               {store ? <StoreHeader store={store} /> : chrome && !appShell && <Navbar />}
               <Outlet />
               {store ? <StoreFooter store={store} /> : chrome && !appShell && <Footer />}
+              {/* Help · Feedback · Top; it hides itself on checkout, sign-in and dashboards. */}
+              {(store || (chrome && !appShell)) && <SideWidget />}
               {/* Toasts sit at the inline end and read in the page's direction. */}
               <Toaster
                 dir={dirFor(i18n.locale)}

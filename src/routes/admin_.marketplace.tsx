@@ -12,12 +12,16 @@ import {
 } from "@/components/staff/marketplace-panels";
 import { NoAccess, StaffShell } from "@/components/staff/staff-shell";
 import { SellerApplicationsPanel } from "@/components/staff/seller-applications";
+import { FeedbackPanel } from "@/components/staff/feedback-panel";
+import { StaffMessagesTabLabel, StaffSupportPanel } from "@/components/staff/staff-support";
 import { requirePanel } from "@/lib/auth";
 
 const TABS = [
   ["overview", "Overview"],
   ["stores", "Stores"],
   ["applications", "Seller applications"],
+  ["feedback", "Feedback"],
+  ["messages", "Messages"],
   ["products", "Products"],
   ["categories", "Categories"],
   ["homepage", "Homepage"],
@@ -62,7 +66,7 @@ function MarketplacePage() {
         <TabsList className="admin-tabs">
           {TABS.map(([value, label]) => (
             <TabsTrigger key={value} value={value}>
-              {label}
+              {value === "messages" ? <StaffMessagesTabLabel /> : label}
             </TabsTrigger>
           ))}
         </TabsList>
@@ -76,6 +80,12 @@ function MarketplacePage() {
         <TabsContent value="applications" className="mt-6">
           {/* admin and content_admin review; the database refuses your own profile unless admin. */}
           <SellerApplicationsPanel canReview />
+        </TabsContent>
+        <TabsContent value="messages" className="mt-6">
+          <StaffSupportPanel panel="marketplace" />
+        </TabsContent>
+        <TabsContent value="feedback" className="mt-6">
+          <FeedbackPanel />
         </TabsContent>
         <TabsContent value="products" className="mt-6">
           <ProductsPanel canDelete={isAdmin} />

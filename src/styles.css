@@ -5729,3 +5729,590 @@ html:is(:lang(ar), :lang(he), :lang(ko), :lang(zh-Hans), :lang(zh-Hant)) body {
   font-size: 11px;
   font-weight: 600;
 }
+
+/* ---------------------------------------------------------------------------
+   Side widget: Help · Feedback · Top (src/components/marketplace/side-widget.tsx).
+   At the inline-end edge (the left in RTL), centred in the lower half of the
+   screen but never lower than 96px from the bottom, so it stays above the
+   toasts in that corner. Below dialogs (z-50) and toasts.
+   --------------------------------------------------------------------------- */
+.side-widget {
+  position: fixed;
+  z-index: 40;
+  inset-inline-end: 12px;
+  inset-block-end: max(96px, calc(25vh - 96px));
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--card);
+  color: var(--foreground);
+  box-shadow: 0 6px 20px color-mix(in oklch, var(--foreground) 14%, transparent);
+}
+.side-widget-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  inline-size: 56px;
+  min-block-size: 56px;
+  padding: 6px 4px;
+  border-radius: 10px;
+  color: var(--foreground);
+  font-size: 11px;
+  line-height: 1.2;
+  text-align: center;
+  cursor: pointer;
+}
+.side-widget-btn + .side-widget-btn {
+  border-block-start: 1px solid var(--border);
+  border-start-start-radius: 0;
+  border-start-end-radius: 0;
+}
+.side-widget-btn svg {
+  inline-size: 22px;
+  block-size: 22px;
+}
+.side-widget-btn:hover {
+  background: var(--muted);
+}
+.side-widget-btn:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+.side-widget-label {
+  max-inline-size: 100%;
+  overflow-wrap: anywhere;
+}
+/* The mobile country suggestion covers the bottom of the screen: step aside. */
+body:has(.country-suggest[data-variant="strip"]) .side-widget {
+  display: none;
+}
+/* Phones: only Feedback and Top, as two small round buttons; Help is in the footer. */
+@media (max-width: 639px) {
+  .side-widget {
+    inset-inline-end: 8px;
+    inset-block-end: calc(88px + env(safe-area-inset-bottom));
+    gap: 8px;
+    padding: 0;
+    border: 0;
+    background: none;
+    box-shadow: none;
+  }
+  .side-widget-help {
+    display: none;
+  }
+  .side-widget-btn,
+  .side-widget-btn + .side-widget-btn {
+    inline-size: 40px;
+    min-block-size: 40px;
+    block-size: 40px;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--card);
+    box-shadow: 0 4px 12px color-mix(in oklch, var(--foreground) 14%, transparent);
+  }
+  .side-widget-btn svg {
+    inline-size: 18px;
+    block-size: 18px;
+  }
+  .side-widget-label {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  /* Phone toasts span the bottom: hide while one is visible. */
+  body:has([data-sonner-toast]) .side-widget {
+    display: none;
+  }
+}
+@media print {
+  .side-widget {
+    display: none;
+  }
+}
+/* Honeypot: off-screen (not display:none, which some bots skip). */
+.side-widget-hp {
+  position: absolute;
+  inset-inline-start: -10000px;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+}
+.side-widget-count {
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+.side-widget-thanks {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* Staff: Feedback tab (src/components/staff/feedback-panel.tsx). */
+.feedback-list {
+  display: grid;
+  gap: 12px;
+}
+.feedback-item {
+  display: grid;
+  gap: 10px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--card);
+}
+.feedback-message {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.6;
+}
+.feedback-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  font-size: 13px;
+}
+.feedback-meta > div {
+  display: flex;
+  gap: 6px;
+}
+.feedback-meta dt {
+  color: var(--muted-foreground);
+}
+.feedback-meta a {
+  color: var(--primary);
+  text-decoration: underline;
+}
+.feedback-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* ---------------------------------------------------------------------------
+   Support chat (src/components/support/*, staff-support.tsx).
+   Logical properties only: in RTL the list sits on the right and your own
+   messages on the left.
+   --------------------------------------------------------------------------- */
+.support-inbox {
+  display: grid;
+  grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+.support-list,
+.support-detail {
+  min-inline-size: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--card);
+}
+.support-list {
+  padding: 12px;
+  display: grid;
+  gap: 10px;
+}
+.support-list-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.support-list-head h2 {
+  font-size: 16px;
+  font-weight: 650;
+}
+.support-sound {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted-foreground);
+}
+.support-sound input {
+  accent-color: var(--primary);
+}
+.support-threads {
+  display: grid;
+  gap: 4px;
+  max-block-size: 70vh;
+  overflow-y: auto;
+}
+.support-thread {
+  display: grid;
+  gap: 2px;
+  inline-size: 100%;
+  padding: 10px;
+  border-radius: var(--radius-md);
+  text-align: start;
+  color: var(--foreground);
+}
+.support-thread:hover {
+  background: var(--muted);
+}
+.support-thread[aria-current="true"] {
+  background: var(--secondary);
+  color: var(--secondary-foreground);
+}
+.support-thread:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+.support-thread-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.support-thread-subject {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+}
+.support-thread[data-unread] .support-thread-subject {
+  font-weight: 700;
+}
+.support-thread time {
+  flex: none;
+  font-size: 11px;
+  color: var(--muted-foreground);
+}
+.support-thread-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+.support-thread-preview {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  color: var(--muted-foreground);
+}
+.support-dot {
+  flex: none;
+  inline-size: 8px;
+  block-size: 8px;
+  border-radius: 999px;
+  background: var(--brand);
+}
+.support-badge {
+  margin-inline-start: 6px;
+}
+.support-detail {
+  display: grid;
+  min-block-size: 420px;
+}
+.support-placeholder {
+  display: grid;
+  place-content: center;
+  gap: 6px;
+  padding: 24px;
+  text-align: center;
+  color: var(--muted-foreground);
+}
+.support-conversation {
+  display: grid;
+  grid-template-rows: auto auto auto 1fr auto auto;
+  gap: 10px;
+  padding: 14px 16px;
+  min-inline-size: 0;
+}
+.support-conversation > h2,
+.support-conv-head h2 {
+  font-size: 17px;
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+.support-conversation h2:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+.support-conv-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 8px 12px;
+}
+.support-conv-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-block-start: 4px;
+  font-size: 12px;
+}
+.support-conv-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.support-back {
+  display: none;
+}
+.support-hint {
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+.support-warning {
+  padding: 8px 12px;
+  border-inline-start: 3px solid var(--destructive);
+  border-radius: var(--radius-sm);
+  background: var(--rose);
+  color: var(--foreground);
+  font-size: 13px;
+}
+.support-log-wrap {
+  position: relative;
+  min-block-size: 0;
+}
+.support-log {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  block-size: min(56vh, 520px);
+  overflow-y: auto;
+  padding-block: 4px;
+  padding-inline: 2px;
+}
+.support-log:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+.support-day {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-block: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted-foreground);
+}
+.support-day::before,
+.support-day::after {
+  content: "";
+  flex: 1;
+  border-block-start: 1px solid var(--border);
+}
+.support-messages {
+  display: grid;
+  gap: 8px;
+}
+.support-msg {
+  display: grid;
+  gap: 4px;
+  max-inline-size: min(78%, 560px);
+  padding: 8px 12px;
+  border-radius: 14px;
+  background: var(--muted);
+  color: var(--foreground);
+  justify-self: start;
+}
+.support-msg[data-side="mine"] {
+  justify-self: end;
+  background: var(--secondary);
+  color: var(--secondary-foreground);
+}
+.support-msg[data-state="sending"] {
+  opacity: 0.7;
+}
+.support-msg[data-state="failed"] {
+  outline: 1px solid var(--destructive);
+}
+.support-msg-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+  font-size: 12px;
+}
+.support-msg-head time,
+.support-msg-head span {
+  color: var(--muted-foreground);
+}
+.support-text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.support-text a {
+  color: var(--primary);
+  text-decoration: underline;
+}
+.support-image {
+  display: block;
+  inline-size: min(240px, 100%);
+  min-block-size: 80px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--card);
+  cursor: zoom-in;
+}
+.support-image img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+}
+.support-image:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+.support-image-dialog img {
+  inline-size: 100%;
+  max-block-size: 80vh;
+  object-fit: contain;
+}
+.support-failed {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--destructive);
+}
+.support-pill {
+  position: absolute;
+  inset-block-end: 10px;
+  inset-inline-start: 50%;
+  translate: -50% 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px color-mix(in oklch, var(--foreground) 18%, transparent);
+}
+[dir="rtl"] .support-pill {
+  translate: 50% 0;
+}
+.support-pill:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+.support-composer {
+  display: grid;
+  gap: 6px;
+  padding-block-start: 10px;
+  border-block-start: 1px solid var(--border);
+}
+.support-composer textarea {
+  inline-size: 100%;
+  min-block-size: 56px;
+  max-block-size: 200px;
+  resize: vertical;
+  padding: 8px 10px;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-md);
+  background: var(--background);
+  color: var(--foreground);
+  font: inherit;
+  font-size: 14px;
+}
+.support-composer textarea:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 1px;
+}
+.support-composer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.support-attached {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  justify-self: start;
+  padding-block: 2px;
+  padding-inline: 10px 4px;
+  border-radius: 999px;
+  background: var(--secondary);
+  font-size: 12px;
+}
+.support-closed {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  background: var(--muted);
+  font-size: 14px;
+}
+.support-new {
+  display: grid;
+  gap: 12px;
+}
+.support-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+  max-width: 760px;
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--card);
+}
+.support-cta > svg {
+  flex: none;
+  inline-size: 28px;
+  block-size: 28px;
+  color: var(--primary);
+}
+.support-cta h2 {
+  font-size: 16px;
+  font-weight: 650;
+}
+.order-help {
+  font-size: 13px;
+}
+.order-help a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+/* Phones: the list, then the conversation with a Back button. */
+@media (max-width: 767px) {
+  .support-inbox {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .support-inbox[data-view="list"] .support-detail,
+  .support-inbox[data-view="detail"] .support-list {
+    display: none;
+  }
+  .support-back {
+    display: inline-flex;
+  }
+  .support-log {
+    block-size: 58vh;
+  }
+  .support-msg {
+    max-inline-size: 88%;
+  }
+}

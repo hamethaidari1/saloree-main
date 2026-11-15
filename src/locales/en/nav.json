@@ -35,6 +35,8 @@
     "newCustomer": "New customer?",
     "startHere": "Start here",
     "myOrders": "My orders",
+    "messages": "Messages",
+    "messagesUnread": "Messages, {{count}} unread",
     "wishlist": "Wishlist",
     "account": "Account",
     "myStore": "My store",

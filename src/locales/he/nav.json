@@ -36,6 +36,8 @@
     "newCustomer": "לקוחות חדשים?",
     "startHere": "מתחילים כאן",
     "myOrders": "ההזמנות שלי",
+    "messages": "הודעות",
+    "messagesUnread": "הודעות, {{count}} שלא נקראו",
     "wishlist": "רשימת משאלות",
     "account": "חשבון",
     "myStore": "החנות שלי",

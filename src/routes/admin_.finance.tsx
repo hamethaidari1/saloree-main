@@ -11,6 +11,7 @@ import {
 } from "@/components/staff/finance-panels";
 import { NoAccess, StaffShell } from "@/components/staff/staff-shell";
 import { SellerApplicationsPanel } from "@/components/staff/seller-applications";
+import { StaffMessagesTabLabel, StaffSupportPanel } from "@/components/staff/staff-support";
 import { PayoutSettingsPanel, PayoutsFinancePanel } from "@/components/staff/payouts-finance";
 import { requirePanel } from "@/lib/auth";
 
@@ -19,6 +20,7 @@ const TABS = [
   ["orders", "Orders"],
   ["payouts", "Payouts"],
   ["applications", "Seller applications"],
+  ["messages", "Messages"],
   ["commission", "Commission"],
   ["carriers", "Carriers"],
   ["templates", "Templates"],
@@ -61,7 +63,7 @@ function FinancePage() {
         <TabsList className="admin-tabs">
           {TABS.map(([value, label]) => (
             <TabsTrigger key={value} value={value}>
-              {label}
+              {value === "messages" ? <StaffMessagesTabLabel /> : label}
             </TabsTrigger>
           ))}
         </TabsList>
@@ -73,6 +75,9 @@ function FinancePage() {
         </TabsContent>
         <TabsContent value="payouts" className="mt-6">
           <PayoutsFinancePanel />
+        </TabsContent>
+        <TabsContent value="messages" className="mt-6">
+          <StaffSupportPanel panel="finance" />
         </TabsContent>
         <TabsContent value="applications" className="mt-6">
           {/* Finance reads the same list and details; only admin/content_admin decide. */}

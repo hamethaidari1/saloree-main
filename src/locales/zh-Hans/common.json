@@ -56,5 +56,29 @@
     "consentBoth": "继续即表示你同意<1>使用条款</1>和<3>隐私政策</3>。",
     "consentTerms": "继续即表示你同意<1>使用条款</1>。",
     "consentPrivacy": "继续即表示你同意<1>隐私政策</1>。"
+  },
+  "sideWidget": {
+    "label": "帮助和反馈",
+    "help": "帮助",
+    "helpTitle": "客户服务",
+    "feedback": "反馈",
+    "top": "顶部",
+    "topLabel": "返回顶部",
+    "dialogTitle": "给我们反馈",
+    "dialogText": "告诉我们哪些好用、哪些不好用，或者你还缺少什么。",
+    "message": "你的留言",
+    "counter": "{{count}} / {{max}}",
+    "email": "电子邮件（可选）",
+    "emailHint": "仅在你希望得到回复时填写。",
+    "sentWith": "我们还会收到你所在的页面（不含搜索词）和你的语言。",
+    "send": "发送",
+    "sending": "正在发送…",
+    "thanks": "谢谢。我们会阅读每一条留言。",
+    "close": "关闭",
+    "tooShort": "请至少输入 {{min}} 个字符。",
+    "tooLong": "最多输入 {{max}} 个字符。",
+    "badEmail": "请输入有效的电子邮件地址，或留空。",
+    "honeypot": "请将此栏留空",
+    "failed": "无法发送你的留言："
   }
 }

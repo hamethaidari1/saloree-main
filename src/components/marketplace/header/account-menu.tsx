@@ -9,6 +9,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { signOut, useAuth } from "@/lib/auth";
 import { useWishlistCount } from "@/hooks/use-wishlist";
 import { useFormat } from "@/i18n/hooks";
+import { UnreadBadge } from "@/components/support/notifier";
+import { useUnreadCounts } from "@/components/support/use-support";
 
 /**
  * "Sara" from "Sara Ahmadi": profiles.full_name first, then the sign-up
@@ -30,6 +32,7 @@ export function AccountMenuPanel({ onNavigate }: { onNavigate?: () => void }) {
   const navigate = useNavigate();
   const wishlistCount = useWishlistCount();
   const format = useFormat();
+  const unread = useUnreadCounts(user?.id).data?.mine ?? 0;
 
   if (!ready)
     return (
@@ -66,6 +69,19 @@ export function AccountMenuPanel({ onNavigate }: { onNavigate?: () => void }) {
         <li>
           <Link to="/account" hash="my-orders" className="nav-panel-link" onClick={onNavigate}>
             {t("account.myOrders")}
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/account/messages"
+            className="nav-panel-link"
+            onClick={onNavigate}
+            aria-label={
+              unread > 0 ? t("account.messagesUnread", { count: unread }) : t("account.messages")
+            }
+          >
+            {t("account.messages")}
+            <UnreadBadge count={unread} />
           </Link>
         </li>
         <li>

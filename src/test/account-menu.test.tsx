@@ -79,7 +79,7 @@ describe("account dropdown", () => {
     renderWithRouter(<AccountMenu />);
     expect(await screen.findByText("Hello, Sara")).toBeInTheDocument();
     const panel = await openMenu();
-    expect(linkNames(panel)).toEqual(["My orders", "Wishlist", "Account"]);
+    expect(linkNames(panel)).toEqual(["My orders", "Messages", "Wishlist", "Account"]);
     expect(within(panel).getByRole("link", { name: "My orders" })).toHaveAttribute(
       "href",
       "/account#my-orders",
@@ -98,7 +98,7 @@ describe("account dropdown", () => {
     as(["customer", "seller"]);
     renderWithRouter(<AccountMenu />);
     const panel = await openMenu();
-    expect(linkNames(panel)).toEqual(["My orders", "Wishlist", "Account", "My store"]);
+    expect(linkNames(panel)).toEqual(["My orders", "Messages", "Wishlist", "Account", "My store"]);
     expect(within(panel).getByRole("link", { name: "My store" })).toHaveAttribute(
       "href",
       "/seller",
@@ -109,7 +109,7 @@ describe("account dropdown", () => {
     as(["admin"]);
     renderWithRouter(<AccountMenu />);
     const panel = await openMenu();
-    expect(linkNames(panel)).toEqual(["My orders", "Wishlist", "Account", "Admin"]);
+    expect(linkNames(panel)).toEqual(["My orders", "Messages", "Wishlist", "Account", "Admin"]);
     expect(within(panel).getByRole("link", { name: "Admin" })).toHaveAttribute("href", "/admin");
   });
 
@@ -117,7 +117,14 @@ describe("account dropdown", () => {
     as(["seller", "admin"]);
     renderWithRouter(<AccountMenu />);
     const panel = await openMenu();
-    expect(linkNames(panel)).toEqual(["My orders", "Wishlist", "Account", "My store", "Admin"]);
+    expect(linkNames(panel)).toEqual([
+      "My orders",
+      "Messages",
+      "Wishlist",
+      "Account",
+      "My store",
+      "Admin",
+    ]);
   });
 
   it("the Wishlist link shows the count when there are saved products", async () => {

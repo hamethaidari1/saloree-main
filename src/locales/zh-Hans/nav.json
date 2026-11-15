@@ -34,6 +34,8 @@
     "newCustomer": "新顾客？",
     "startHere": "从这里开始",
     "myOrders": "我的订单",
+    "messages": "消息",
+    "messagesUnread": "消息，{{count}} 条未读",
     "wishlist": "心愿单",
     "account": "账号",
     "myStore": "我的店铺",

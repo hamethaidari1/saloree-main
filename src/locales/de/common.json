@@ -56,5 +56,29 @@
     "consentBoth": "Wenn du fortfährst, stimmst du den <1>Nutzungsbedingungen</1> und der <3>Datenschutzerklärung</3> zu.",
     "consentTerms": "Wenn du fortfährst, stimmst du den <1>Nutzungsbedingungen</1> zu.",
     "consentPrivacy": "Wenn du fortfährst, stimmst du der <1>Datenschutzerklärung</1> zu."
+  },
+  "sideWidget": {
+    "label": "Hilfe und Feedback",
+    "help": "Hilfe",
+    "helpTitle": "Kundenservice",
+    "feedback": "Feedback",
+    "top": "Nach oben",
+    "topLabel": "Zurück nach oben",
+    "dialogTitle": "Schick uns Feedback",
+    "dialogText": "Sag uns, was gut funktioniert, was nicht oder was dir fehlt.",
+    "message": "Deine Nachricht",
+    "counter": "{{count}} / {{max}}",
+    "email": "E-Mail (optional)",
+    "emailHint": "Nur wenn du eine Antwort möchtest.",
+    "sentWith": "Wir erhalten außerdem die Seite, auf der du bist (ohne Suchbegriffe), und deine Sprache.",
+    "send": "Senden",
+    "sending": "Wird gesendet…",
+    "thanks": "Danke. Wir lesen jede Nachricht.",
+    "close": "Schließen",
+    "tooShort": "Schreib mindestens {{min}} Zeichen.",
+    "tooLong": "Schreib höchstens {{max}} Zeichen.",
+    "badEmail": "Gib eine gültige E-Mail-Adresse ein oder lass das Feld leer.",
+    "honeypot": "Dieses Feld leer lassen",
+    "failed": "Deine Nachricht konnte nicht gesendet werden:"
   }
 }

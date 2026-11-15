@@ -56,5 +56,29 @@
     "consentBoth": "By continuing you agree to the <1>Terms of Use</1> and the <3>Privacy Policy</3>.",
     "consentTerms": "By continuing you agree to the <1>Terms of Use</1>.",
     "consentPrivacy": "By continuing you agree to the <1>Privacy Policy</1>."
+  },
+  "sideWidget": {
+    "label": "Help and feedback",
+    "help": "Help",
+    "helpTitle": "Customer Service",
+    "feedback": "Feedback",
+    "top": "Top",
+    "topLabel": "Back to top",
+    "dialogTitle": "Send us feedback",
+    "dialogText": "Tell us what works, what doesn't, or what you miss.",
+    "message": "Your message",
+    "counter": "{{count}} / {{max}}",
+    "email": "E-mail (optional)",
+    "emailHint": "Only if you want an answer.",
+    "sentWith": "We also receive the page you are on (without any search terms) and your language.",
+    "send": "Send",
+    "sending": "Sending…",
+    "thanks": "Thank you. We read every message.",
+    "close": "Close",
+    "tooShort": "Write at least {{min}} characters.",
+    "tooLong": "Write at most {{max}} characters.",
+    "badEmail": "Enter a valid e-mail address, or leave it empty.",
+    "honeypot": "Leave this field empty",
+    "failed": "Your message could not be sent:"
   }
 }
