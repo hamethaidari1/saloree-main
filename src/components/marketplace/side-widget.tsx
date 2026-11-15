@@ -14,6 +14,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useLocale } from "@/i18n/hooks";
+import { useAuth } from "@/lib/auth";
+import { UnreadBadge } from "@/components/support/notifier";
+import { useUnreadCounts } from "@/components/support/use-support";
 import { showsSideWidget, TOP_AFTER_PX } from "@/lib/side-widget";
 import {
   FEEDBACK_MAX,
@@ -188,13 +191,56 @@ function FeedbackForm({
 }
 
 /**
- * Help · Feedback · Top, fixed at the inline-end edge (left in RTL). Hidden on
+ * Messages · Feedback · Top, fixed at the inline-end edge (left in RTL). Hidden on
  * checkout, sign-in, dashboards and the order confirmation. No tracking.
  */
 export function SideWidget() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   if (!showsSideWidget(pathname)) return null;
   return <SideWidgetBar pathname={pathname} />;
+}
+
+/**
+ * Messages: the support chat. Customers go to /account/messages, sellers to
+ * /seller/support, signed-out visitors to sign-in (and back here after).
+ * The badge reads the same cached unread count as the account menu: no
+ * second subscription and no polling.
+ */
+function MessagesButton() {
+  const { t } = useTranslation();
+  const { user, isSeller } = useAuth();
+  const unread = useUnreadCounts(user?.id).data?.mine ?? 0;
+  const label =
+    user && unread > 0
+      ? t("sideWidget.messagesUnread", { count: unread })
+      : t("sideWidget.messages");
+  const inner = (
+    <>
+      <span className="side-widget-icon">
+        <MessageSquare aria-hidden />
+        {user && <UnreadBadge count={unread} />}
+      </span>
+      <span className="side-widget-label" aria-hidden>
+        {t("sideWidget.messages")}
+      </span>
+    </>
+  );
+  const common = { className: "side-widget-btn side-widget-messages", "aria-label": label };
+  if (!user)
+    return (
+      <Link to="/login" search={{ redirect: "/account/messages" }} {...common}>
+        {inner}
+      </Link>
+    );
+  return isSeller ? (
+    <Link to="/seller/support" {...common}>
+      {inner}
+    </Link>
+  ) : (
+    <Link to="/account/messages" {...common}>
+      {inner}
+    </Link>
+  );
 }
 
 function SideWidgetBar({ pathname }: { pathname: string }) {
@@ -206,14 +252,7 @@ function SideWidgetBar({ pathname }: { pathname: string }) {
 
   return (
     <aside className="side-widget" aria-label={t("sideWidget.label")} data-testid="side-widget">
-      <Link
-        to="/help"
-        className="side-widget-btn side-widget-help"
-        title={t("sideWidget.helpTitle")}
-      >
-        <MessageSquare aria-hidden />
-        <span className="side-widget-label">{t("sideWidget.help")}</span>
-      </Link>
+      <MessagesButton />
 
       <Dialog
         open={open}

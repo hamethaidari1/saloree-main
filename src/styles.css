@@ -5757,12 +5757,15 @@ html:is(:lang(ar), :lang(he), :lang(ko), :lang(zh-Hans), :lang(zh-Hant)) body {
   align-items: center;
   justify-content: center;
   gap: 2px;
-  inline-size: 56px;
+  /* As wide as its label needs (never a fixed width); the column stretches
+     every button to the widest one, so all labels fit in every language. */
+  min-inline-size: 56px;
+  inline-size: auto;
   min-block-size: 56px;
-  padding: 6px 4px;
+  padding: 6px 6px;
   border-radius: 10px;
   color: var(--foreground);
-  font-size: 11px;
+  font-size: 10.5px;
   line-height: 1.2;
   text-align: center;
   cursor: pointer;
@@ -5783,15 +5786,39 @@ html:is(:lang(ar), :lang(he), :lang(ko), :lang(zh-Hans), :lang(zh-Hant)) body {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
+/* One line, always ("Feedbac / k" must never happen). */
 .side-widget-label {
-  max-inline-size: 100%;
-  overflow-wrap: anywhere;
+  white-space: nowrap;
+}
+.side-widget-icon {
+  position: relative;
+  display: inline-flex;
+}
+/* The unread count, a small round number on the icon's corner. */
+.side-widget-icon .support-badge {
+  position: absolute;
+  inset-block-start: -6px;
+  inset-inline-end: -10px;
+  margin: 0;
+  min-inline-size: 18px;
+  block-size: 18px;
+  padding-inline: 4px;
+  border-radius: 999px;
+  display: inline-grid;
+  place-items: center;
+  background: var(--brand);
+  color: var(--primary-foreground);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: 0 0 0 2px var(--card);
 }
 /* The mobile country suggestion covers the bottom of the screen: step aside. */
 body:has(.country-suggest[data-variant="strip"]) .side-widget {
   display: none;
 }
-/* Phones: only Feedback and Top, as two small round buttons; Help is in the footer. */
+/* Phones: the compact layout as before, only Feedback and Top as small round buttons
+   (Messages is in the account menu there); labels stay for screen readers. */
 @media (max-width: 639px) {
   .side-widget {
     inset-inline-end: 8px;
@@ -5802,12 +5829,13 @@ body:has(.country-suggest[data-variant="strip"]) .side-widget {
     background: none;
     box-shadow: none;
   }
-  .side-widget-help {
+  .side-widget-messages {
     display: none;
   }
   .side-widget-btn,
   .side-widget-btn + .side-widget-btn {
     inline-size: 40px;
+    min-inline-size: 40px;
     min-block-size: 40px;
     block-size: 40px;
     padding: 0;
@@ -6315,4 +6343,14 @@ body:has(.country-suggest[data-variant="strip"]) .side-widget {
   .support-msg {
     max-inline-size: 88%;
   }
+}
+/* "Help center" above the messages pages (to Customer Service). */
+.support-help-link {
+  margin-block: 12px 4px;
+  font-size: 13px;
+}
+.support-help-link a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }

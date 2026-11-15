@@ -58,9 +58,9 @@
     "consentPrivacy": "Wenn du fortfährst, stimmst du der <1>Datenschutzerklärung</1> zu."
   },
   "sideWidget": {
-    "label": "Hilfe und Feedback",
-    "help": "Hilfe",
-    "helpTitle": "Kundenservice",
+    "label": "Nachrichten und Feedback",
+    "messages": "Nachrichten",
+    "messagesUnread": "Nachrichten, {{count}} ungelesen",
     "feedback": "Feedback",
     "top": "Nach oben",
     "topLabel": "Zurück nach oben",

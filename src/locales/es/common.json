@@ -58,9 +58,9 @@
     "consentPrivacy": "Al continuar, aceptas la <1>Política de privacidad</1>."
   },
   "sideWidget": {
-    "label": "Ayuda y comentarios",
-    "help": "Ayuda",
-    "helpTitle": "Atención al cliente",
+    "label": "Mensajes y comentarios",
+    "messages": "Mensajes",
+    "messagesUnread": "Mensajes, {{count}} sin leer",
     "feedback": "Comentarios",
     "top": "Arriba",
     "topLabel": "Volver arriba",

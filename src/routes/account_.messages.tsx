@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { CatalogSkeleton } from "@/components/marketplace/shared";
@@ -36,6 +36,9 @@ function MessagesPage() {
   });
   return (
     <main className="market-container pb-16">
+      <p className="support-help-link">
+        <Link to="/help">{t("helpCenter")}</Link>
+      </p>
       <h1 className="page-title">{t("title")}</h1>
       <p className="page-subtitle">{t("subtitle")}</p>
       <div className="mt-6">

@@ -58,9 +58,9 @@
     "consentPrivacy": "繼續即表示你同意<1>隱私權政策</1>。"
   },
   "sideWidget": {
-    "label": "說明與意見回饋",
-    "help": "說明",
-    "helpTitle": "客戶服務",
+    "label": "訊息與意見回饋",
+    "messages": "訊息",
+    "messagesUnread": "訊息，{{count}} 則未讀",
     "feedback": "意見回饋",
     "top": "頂部",
     "topLabel": "回到頂部",

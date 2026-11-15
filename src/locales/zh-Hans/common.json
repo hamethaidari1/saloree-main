@@ -58,9 +58,9 @@
     "consentPrivacy": "继续即表示你同意<1>隐私政策</1>。"
   },
   "sideWidget": {
-    "label": "帮助和反馈",
-    "help": "帮助",
-    "helpTitle": "客户服务",
+    "label": "消息和反馈",
+    "messages": "消息",
+    "messagesUnread": "消息，{{count}} 条未读",
     "feedback": "反馈",
     "top": "顶部",
     "topLabel": "返回顶部",

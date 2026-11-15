@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useSeller } from "@/components/seller/seller-context";
 import { SellerPageHeader } from "@/components/seller/seller-shell";
@@ -26,6 +26,9 @@ function SellerSupportPage() {
   });
   return (
     <div className="seller-page">
+      <p className="support-help-link">
+        <Link to="/help">Help center</Link>
+      </p>
       <SellerPageHeader
         title="Support"
         description="Write to the Saloree team about orders, payouts, your store or anything else."

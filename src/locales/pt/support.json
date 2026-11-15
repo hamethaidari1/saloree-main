@@ -72,5 +72,6 @@
   "chat": "Conversar com a Saloree",
   "chatText": "Escreva para a equipe Saloree sobre um pedido, um pagamento ou sua conta.",
   "orderHelp": "Precisa de ajuda com este pedido?",
-  "conversation": "Conversa"
+  "conversation": "Conversa",
+  "helpCenter": "Central de ajuda"
 }

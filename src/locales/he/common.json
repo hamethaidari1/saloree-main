@@ -58,9 +58,9 @@
     "consentPrivacy": "המשך הפעולה מהווה הסכמה ל<1>מדיניות הפרטיות</1>."
   },
   "sideWidget": {
-    "label": "עזרה ומשוב",
-    "help": "עזרה",
-    "helpTitle": "שירות לקוחות",
+    "label": "הודעות ומשוב",
+    "messages": "הודעות",
+    "messagesUnread": "הודעות, {{count}} שלא נקראו",
     "feedback": "משוב",
     "top": "למעלה",
     "topLabel": "חזרה למעלה",

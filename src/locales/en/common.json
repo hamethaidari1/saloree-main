@@ -58,9 +58,9 @@
     "consentPrivacy": "By continuing you agree to the <1>Privacy Policy</1>."
   },
   "sideWidget": {
-    "label": "Help and feedback",
-    "help": "Help",
-    "helpTitle": "Customer Service",
+    "label": "Messages and feedback",
+    "messages": "Messages",
+    "messagesUnread": "Messages, {{count}} unread",
     "feedback": "Feedback",
     "top": "Top",
     "topLabel": "Back to top",

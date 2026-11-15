@@ -22,6 +22,16 @@ vi.mock("@/lib/supabase", async () => {
   return { supabase: mock.current.supabase };
 });
 
+const auth = vi.hoisted(() => ({
+  value: {
+    user: null as { id: string } | null,
+    isSeller: false,
+    roles: [] as string[],
+    ready: true,
+  },
+}));
+vi.mock("@/lib/auth", () => ({ useAuth: () => auth.value }));
+
 import { SideWidget } from "@/components/marketplace/side-widget";
 import { FeedbackPanel } from "@/components/staff/feedback-panel";
 import { pathOnly, showsSideWidget } from "@/lib/side-widget";
@@ -34,7 +44,10 @@ import {
 } from "@/services/feedback";
 
 const m = () => mock.current!;
-beforeEach(() => m().reset());
+beforeEach(() => {
+  m().reset();
+  auth.value = { user: null, isSeller: false, roles: [], ready: true };
+});
 afterEach(() => {
   vi.restoreAllMocks();
   setScroll(0);
@@ -57,7 +70,7 @@ const PAGES = [
   "/order-confirmation/$groupId",
 ];
 
-function renderAt(path: string, locale: "en" | "ar" = "en") {
+function renderAt(path: string, locale: "en" | "ar" = "en", queryClient = new QueryClient()) {
   const root = createRootRoute({
     component: () => (
       <WithLocale locale={locale}>
@@ -78,7 +91,7 @@ function renderAt(path: string, locale: "en" | "ar" = "en") {
     history: createMemoryHistory({ initialEntries: [path] }),
   });
   render(
-    <QueryClientProvider client={new QueryClient()}>
+    <QueryClientProvider client={queryClient}>
       <RouterProvider router={router as AnyRouter} />
     </QueryClientProvider>,
   );
@@ -139,18 +152,123 @@ describe("side widget: where it shows", () => {
     expect(await screen.findByTestId("side-widget")).toBeTruthy();
   });
 
-  it("Help, Feedback, Top: in this order, with accessible names; Help goes to Customer Service", async () => {
+  it("Messages, Feedback, Top: in this order, with accessible names", async () => {
     setScroll(800);
     renderAt("/products");
     const widget = await screen.findByTestId("side-widget");
     expect(widget.tagName).toBe("ASIDE");
-    expect(widget.getAttribute("aria-label")).toBe("Help and feedback");
-    const help = within(widget).getByRole("link", { name: "Help" });
+    expect(widget.getAttribute("aria-label")).toBe("Messages and feedback");
+    const messages = within(widget).getByRole("link", { name: "Messages" });
     const feedback = within(widget).getByRole("button", { name: "Feedback" });
     const top = within(widget).getByRole("button", { name: "Back to top" });
-    expect([...widget.querySelectorAll("a, button")]).toEqual([help, feedback, top]);
-    expect(help.getAttribute("href")).toBe("/help");
-    expect(widget.textContent).not.toMatch(/Messages|chat/i);
+    expect([...widget.querySelectorAll("a, button")]).toEqual([messages, feedback, top]);
+    expect(within(widget).queryByRole("link", { name: "Help" })).toBeNull();
+  });
+
+  it("Messages: sign-in (then back to the messages), the customer inbox, or the seller inbox", async () => {
+    renderAt("/");
+    const signedOut = await screen.findByRole("link", { name: "Messages" });
+    expect(signedOut.getAttribute("href")).toBe("/login?redirect=%2Faccount%2Fmessages");
+    expect(screen.queryByTestId("unread-badge")).toBeNull();
+    expect(m().state.rpcs).toHaveLength(0); // no count is asked for when signed out
+    cleanup();
+
+    auth.value = { user: { id: "u1" }, isSeller: false, roles: ["customer"], ready: true };
+    m().state.fallback = { data: { mine: 0, staff: 0 } };
+    renderAt("/");
+    expect((await screen.findByRole("link", { name: "Messages" })).getAttribute("href")).toBe(
+      "/account/messages",
+    );
+    cleanup();
+
+    auth.value = { user: { id: "u2" }, isSeller: true, roles: ["seller"], ready: true };
+    renderAt("/");
+    expect((await screen.findByRole("link", { name: "Messages" })).getAttribute("href")).toBe(
+      "/seller/support",
+    );
+  });
+
+  it("the unread badge: shown with the count (99+ cap) and in the name; hidden at 0", async () => {
+    auth.value = { user: { id: "u1" }, isSeller: false, roles: ["customer"], ready: true };
+    m().state.fallback = { data: { mine: 2, staff: 7 } };
+    renderAt("/");
+    const link = await screen.findByRole("link", { name: "Messages, 2 unread" });
+    const badge = within(link).getByTestId("unread-badge");
+    expect(badge.textContent).toBe("2");
+    expect(badge.getAttribute("aria-hidden")).toBe("true");
+    expect(badge.closest(".side-widget-icon")).toBeTruthy(); // on the icon
+    cleanup();
+
+    m().state.fallback = { data: { mine: 150, staff: 0 } };
+    renderAt("/");
+    const many = await screen.findByRole("link", { name: "Messages, 150 unread" });
+    expect(within(many).getByTestId("unread-badge").textContent).toBe("99+");
+    cleanup();
+
+    m().state.fallback = { data: { mine: 0, staff: 3 } };
+    renderAt("/");
+    await screen.findByRole("link", { name: "Messages" });
+    await waitFor(() => expect(m().state.rpcs.length).toBeGreaterThan(0));
+    expect(screen.queryByTestId("unread-badge")).toBeNull();
+  });
+
+  it("reuses the account menu cached count: one request, no subscription of its own", async () => {
+    auth.value = { user: { id: "u1" }, isSeller: false, roles: ["customer"], ready: true };
+    m().state.fallback = { data: { mine: 1, staff: 0 } };
+    const { AccountMenuPanel } = await import("@/components/marketplace/header/account-menu");
+    const root = createRootRoute({
+      component: () => (
+        <>
+          <AccountMenuPanel />
+          <SideWidget />
+        </>
+      ),
+    });
+    const router = createRouter({
+      routeTree: root,
+      history: createMemoryHistory({ initialEntries: ["/"] }),
+    });
+    render(
+      <QueryClientProvider client={new QueryClient()}>
+        <RouterProvider router={router as AnyRouter} />
+      </QueryClientProvider>,
+    );
+    const links = await screen.findAllByRole("link", { name: "Messages, 1 unread" });
+    expect(links).toHaveLength(2); // the menu and the widget
+    expect(m().state.rpcs.filter((r) => r.fn === "support_unread_counts")).toHaveLength(1);
+    expect(m().realtime.channels).toHaveLength(0);
+    const src = readFileSync(
+      join(process.cwd(), "src/components/marketplace/side-widget.tsx"),
+      "utf8",
+    );
+    expect(src).not.toMatch(/subscribeThreads|\.channel\(|setInterval|refetchInterval/);
+  });
+
+  it("labels stay on one line, and the pill grows with them (no fixed width)", () => {
+    const css = readFileSync(join(process.cwd(), "src/styles.css"), "utf8");
+    const rule = (sel: string) => {
+      const start = css.indexOf(`\n${sel} {`);
+      return start < 0 ? "" : css.slice(start, css.indexOf("}", start));
+    };
+    expect(rule(".side-widget-label")).toMatch(/white-space:\s*nowrap/);
+    const btn = rule(".side-widget-btn");
+    expect(btn).toMatch(/min-inline-size:\s*56px/);
+    expect(btn).toMatch(/\binline-size:\s*auto/);
+    expect(btn).not.toMatch(/[^-]inline-size:\s*\d/);
+    expect(rule(".side-widget-label")).not.toMatch(/overflow-wrap/);
+  });
+
+  it("its texts exist in all 9 languages", () => {
+    const json = (p: string) =>
+      JSON.parse(readFileSync(join(process.cwd(), p), "utf8")) as Record<string, unknown>;
+    for (const code of ["en", "es", "ar", "de", "he", "ko", "pt", "zh-Hans", "zh-Hant"]) {
+      const sw = json(`src/locales/${code}/common.json`)["sideWidget"] as Record<string, string>;
+      for (const key of ["label", "messages", "messagesUnread", "feedback", "top", "topLabel"])
+        expect(sw[key], `${code}.${key}`).toBeTruthy();
+      expect(sw["messagesUnread"], code).toContain("{{count}}");
+      expect(sw["help"], code).toBeUndefined();
+      expect(json(`src/locales/${code}/support.json`)["helpCenter"], code).toBeTruthy();
+    }
   });
 
   it("Top appears only after scrolling about 400px, and goes back up", async () => {
@@ -192,8 +310,8 @@ describe("side widget: where it shows", () => {
   it("speaks the page's language (Arabic)", async () => {
     renderAt("/", "ar");
     const widget = await screen.findByTestId("side-widget");
-    expect(widget.getAttribute("aria-label")).toBe("المساعدة والملاحظات");
-    expect(within(widget).getByRole("link").textContent).toBe("مساعدة");
+    expect(widget.getAttribute("aria-label")).toBe("الرسائل والملاحظات");
+    expect(within(widget).getByRole("link", { name: "الرسائل" })).toBeTruthy();
   });
 });
 
