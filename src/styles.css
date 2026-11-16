@@ -7090,3 +7090,19 @@ body:has(.country-suggest[data-variant="strip"]) .side-widget {
   gap: 16px;
   padding-block-end: 48px;
 }
+
+/* ---------------------------------------------------------------------------
+   Long compound words (Finnish "toimitusosoite", "tilausvahvistus"; German
+   too): wrap and hyphenate at the line end instead of overflowing on 320 px.
+   The browser hyphenates by the page's lang; form fields and prices are left
+   alone, and labels that must stay on one line (the side widget) keep nowrap.
+   --------------------------------------------------------------------------- */
+html:lang(fi) body,
+html:lang(de) body {
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+html:lang(fi) :is(input, textarea, select, code, .tabular-nums),
+html:lang(de) :is(input, textarea, select, code, .tabular-nums) {
+  hyphens: manual;
+}

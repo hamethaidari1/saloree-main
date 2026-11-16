@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs";
+import { LOCALES } from "@/i18n/locales";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
@@ -475,10 +476,10 @@ describe("Buy now: the checkout", () => {
 });
 
 describe("i18n", () => {
-  it("the new texts exist in all 9 languages", () => {
+  it("the new texts exist in every language", () => {
     const json = (p: string) =>
       JSON.parse(readFileSync(join(process.cwd(), p), "utf8")) as Record<string, unknown>;
-    for (const code of ["en", "es", "ar", "de", "he", "ko", "pt", "zh-Hans", "zh-Hant"]) {
+    for (const code of LOCALES.map((l) => l.code)) {
       const product = json(`src/locales/${code}/product.json`);
       for (const k of ["buyNow", "showMore", "showLess"])
         expect(product[k], `${code}.${k}`).toBeTruthy();

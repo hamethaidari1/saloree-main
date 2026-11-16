@@ -1,0 +1,75 @@
+{
+  "confirmation": {
+    "metaTitle": "Tilaus vahvistettu — Saloree",
+    "notFoundTitle": "Tilausta ei löytynyt",
+    "notFoundText": "Jos teit tilauksen juuri, tarkista tilisi kohta Omat tilaukset.",
+    "title": "Kiitos – tilauksesi on vastaanotettu",
+    "subtitle": "Maksat toimituksen yhteydessä. Jokainen kauppa valmistelee oman osuutensa tilauksestasi.",
+    "orderNumber": "Tilaus #{{id}}",
+    "discount": "Alennus −{{amount}}",
+    "saved": "Säästit",
+    "totalToPay": "Maksettavaa yhteensä",
+    "delivery": "Toimitus",
+    "viewOrders": "Näytä omat tilaukset",
+    "keepShopping": "Jatka ostoksia",
+    "subtitlePaid": "Maksusi on vastaanotettu. Jokainen kauppa valmistelee oman osuutensa tilauksestasi.",
+    "totalPaid": "Maksettu yhteensä"
+  },
+  "status": {
+    "pending": "Odottaa",
+    "processing": "Käsittelyssä",
+    "shipped": "Lähetetty",
+    "delivered": "Toimitettu",
+    "cancelled": "Peruttu"
+  },
+  "tracking": {
+    "loading": "Ladataan seurantatietoja",
+    "loadError": "Seurantatietoja ei voitu ladata.",
+    "cardLabel": "Toimituksen seuranta",
+    "notShipped": "Tilaustasi ei ole vielä lähetetty.",
+    "package": "Paketti {{number}}",
+    "carrierFallback": "Kuljetusyhtiö",
+    "track": "Seuraa lähetystä",
+    "newTab": "(avaa kuljetusyhtiön sivuston uuteen välilehteen)",
+    "noUpdates": "Ei vielä päivityksiä.",
+    "carrierUpdate": "kuljetusyhtiön päivitys",
+    "progressLabel": "Toimituksen eteneminen",
+    "stepDone": "(valmis)",
+    "stepCurrent": "(meneillään)",
+    "steps": {
+      "placed": "Tilaus tehty",
+      "processing": "Käsittelyssä",
+      "shipped": "Lähetetty",
+      "out_for_delivery": "Jakelussa",
+      "delivered": "Toimitettu"
+    },
+    "shipmentStatus": {
+      "label_created": "Osoitekortti luotu",
+      "in_transit": "Kuljetuksessa",
+      "out_for_delivery": "Jakelussa",
+      "delivered": "Toimitettu",
+      "exception": "Toimitusongelma",
+      "returned": "Palautettu"
+    },
+    "alerts": {
+      "exception": "Toimituksessa on ongelma. Kauppa tai kuljetusyhtiö ottaa sinuun yhteyttä.",
+      "returned": "Tämä lähetys palautettiin kauppaan.",
+      "cancelled": "Tämä tilaus peruttiin."
+    }
+  },
+  "payment": {
+    "confirming": "Maksu vastaanotettu, tilaustasi vahvistetaan…",
+    "stillConfirmingTitle": "Maksuasi vahvistetaan yhä",
+    "stillConfirming": "Maksuasi vahvistetaan yhä. Voit sulkea tämän sivun turvallisesti; tilauksesi näkyy kohdassa Omat tilaukset, kun se on vahvistettu. Jos sinua on veloitettu eikä mitään näy muutaman minuutin kuluessa, ota yhteyttä asiakastukeen.",
+    "notCompleted": "Maksu jäi kesken – tilaus peruttiin",
+    "notCompletedText": "Tästä tilauksesta ei veloitettu mitään. Voit tehdä tilauksen uudelleen ostoskoristasi.",
+    "backToBag": "Takaisin ostoskoriin",
+    "awaiting": "Odottaa maksua",
+    "paid": "Maksettu",
+    "refunded": "Hyvitetty",
+    "failed": "Maksu epäonnistui",
+    "payNow": "Maksa nyt",
+    "payNowGroup": "Maksaa kaikki tämän kassakäynnin tilaukset.",
+    "opening": "Avataan…"
+  }
+}

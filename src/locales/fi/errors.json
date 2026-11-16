@@ -1,0 +1,68 @@
+{
+  "generic": "Jotain meni vikaan. Yritä uudelleen.",
+  "db": {
+    "permission": "Sinulla ei ole oikeutta tehdä tätä.",
+    "notReady": "Tämä ominaisuus vaatii tietokantapäivityksen, jota ei ole vielä otettu käyttöön.",
+    "duplicate": "Tämä on jo olemassa.",
+    "inUse": "Tämä on käytössä, eikä sitä voi poistaa.",
+    "network": "Saloree-palveluun ei saatu yhteyttä. Tarkista yhteytesi ja yritä uudelleen."
+  },
+  "auth": {
+    "invalidCredentials": "Sähköpostiosoite tai salasana on väärin.",
+    "emailNotConfirmed": "Vahvista ensin sähköpostiosoitteesi. Löydät linkin saapuneista viesteistäsi.",
+    "alreadyRegistered": "Tällä sähköpostiosoitteella on jo tili. Kokeile kirjautua sisään.",
+    "weakPassword": "Valitse vahvempi salasana.",
+    "rateLimited": "Liian monta yritystä. Odota hetki ja yritä uudelleen.",
+    "providerDisabled": "Google-kirjautuminen ei ole käytettävissä juuri nyt.",
+    "userDenied": "Peruutit kirjautumisen Googlessa."
+  },
+  "checkout": {
+    "signInAgain": "Kirjaudu sisään uudelleen tehdäksesi tilauksen.",
+    "discountNotValid": "Tätä koodia ei voi käyttää ostoskorisi tuotteisiin. Tarkista koodi tai poista se jatkaaksesi.",
+    "discountFormat": "Tämä ei näytä alennuskoodilta.",
+    "codPaused": "Yksi ostoskorisi kaupoista ei juuri nyt hyväksy maksua toimituksen yhteydessä. Tilausta ei tehty.",
+    "paymentExpired": "Tätä tilausta ei voi enää maksaa. Tee tilaus uudelleen ostoskoristasi.",
+    "alreadyPaid": "Tämä tilaus on jo maksettu."
+  },
+  "orders": {
+    "cannotCancel": "Tätä tilausta ei voi enää perua."
+  },
+  "tracking": {
+    "notReady": "Lähetysten seuranta ei ole vielä käytettävissä."
+  },
+  "validation": {
+    "full_name": {
+      "required": "Anna koko nimesi.",
+      "tooShort": "Nimesi vaikuttaa liian lyhyeltä.",
+      "tooLong": "Nimesi on liian pitkä."
+    },
+    "phone": {
+      "required": "Anna puhelinnumerosi.",
+      "invalid": "Anna kelvollinen puhelinnumero."
+    },
+    "email": {
+      "required": "Anna sähköpostiosoitteesi.",
+      "invalid": "Anna kelvollinen sähköpostiosoite.",
+      "tooLong": "Sähköpostiosoitteesi on liian pitkä."
+    },
+    "country": {
+      "required": "Anna maa.",
+      "tooShort": "Maan nimi vaikuttaa liian lyhyeltä.",
+      "tooLong": "Maan nimi on liian pitkä."
+    },
+    "city": {
+      "required": "Anna kaupunki.",
+      "tooShort": "Kaupungin nimi vaikuttaa liian lyhyeltä.",
+      "tooLong": "Kaupungin nimi on liian pitkä."
+    },
+    "address": {
+      "required": "Anna osoitteesi.",
+      "tooShort": "Osoitteesi vaikuttaa liian lyhyeltä.",
+      "tooLong": "Osoitteesi on liian pitkä."
+    },
+    "notes": {
+      "tooLong": "Lisätiedoissa voi olla enintään 500 merkkiä."
+    },
+    "fallback": "Tarkista tämä kenttä."
+  }
+}

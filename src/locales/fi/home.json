@@ -1,0 +1,78 @@
+{
+  "meta": {
+    "title": "Saloree — Itsenäiset kaupat. Erikoiset löydöt.",
+    "description": "Löydä harkittuja tuotteita itsenäisiltä kaupoilta Saloree-palvelusta. Ostoksia kotiin, muotiin, tekniikkaan ja arkeen – kaikki samaan ostoskoriin.",
+    "ogTitle": "Saloree — Harkittujen löytöjen maailma",
+    "ogDescription": "Itsenäiset kaupat, erikoiset löydöt. Löydä jotain erityistä jokaiseen päivään."
+  },
+  "hero": {
+    "imageAlt": "Huolella sisustettu koti, jossa on mukava nojatuoli, keraaminen maljakko ja luonnollisia materiaaleja",
+    "eyebrow": "HARKITTUJEN LÖYTÖJEN MAAILMA",
+    "titleLine1": "Pienet kaupat.",
+    "titleLine2": "Ihania löytöjä.",
+    "text": "Löydä uusi suosikkisi. Tutustu huolella valittuihin tuotteisiin itsenäisiltä kaupoilta, kaikki yhdessä paikassa.",
+    "cta": "Tutustu valikoimaan"
+  },
+  "trust": {
+    "storesTitle": "Itsenäiset kaupat",
+    "storesText": "Oikeita ihmisiä, erikoisia tuotteita",
+    "confidenceTitle": "Osta luottavaisin mielin",
+    "confidenceText": "Huolella valittuja löytöjä",
+    "cartTitle": "Yksi yhteinen ostoskori",
+    "cartText": "Kaikki suosikkisi yhdessä",
+    "personalTitle": "Vähän henkilökohtaisempaa",
+    "personalText": "Löydä jotain, joka tuntuu omalta"
+  },
+  "categories": {
+    "title": "Löydä omasi",
+    "subtitle": "Vähän inspiraatiota elämän jokaiseen nurkkaan."
+  },
+  "featured": {
+    "title": "Katso tarkemmin",
+    "subtitle": "Valitut löytömme. Tulevat suosikkisi."
+  },
+  "edit": {
+    "eyebrow": "ARJEN VALINNAT",
+    "title": "Hyviä asioita arkeen.",
+    "text": "Luonnollisia materiaaleja, harkittuja yksityiskohtia ja pieniä asioita, joilla on suuri merkitys.",
+    "cta": "Ole kuin kotonasi"
+  },
+  "fresh": {
+    "title": "Juuri hyllyyn tulleet",
+    "subtitle": "Uutuuksia, joissa on jotain erityistä.",
+    "link": "Katso uutuudet"
+  },
+  "stores": {
+    "title": "Pienet kaupat. Suuri persoonallisuus.",
+    "subtitle": "Tutustu ihmisiin suosikkilöytöjesi takana."
+  },
+  "discover": {
+    "title": "Löydä jotain, mistä pidät",
+    "subtitle": "Kaikki kauppamme. Yksi ihana paikka tutkia.",
+    "all": "Kaikki löydöt",
+    "more": "Löydä lisää"
+  },
+  "carousel": {
+    "label": "Nostot",
+    "roledescription": "karuselli",
+    "slide": "dia",
+    "slideLabel": "{{number}} / {{total}}",
+    "dot": "Dia {{number}} / {{total}}",
+    "previous": "Edellinen dia",
+    "next": "Seuraava dia",
+    "pause": "Keskeytä diaesitys",
+    "play": "Toista diaesitys"
+  },
+  "slides": {
+    "stores": {
+      "title": "Tutustu kauppojen takana oleviin ihmisiin",
+      "text": "Itsenäisiä kauppoja, joilla jokaisella on oma tarinansa, kaikki yhdessä paikassa.",
+      "cta": "Tutustu kauppoihin",
+      "imageAlt": "Tuotekortteja itsenäisiltä kaupoilta (koti ja keittiö, auton tuuletin, kauneus ja hyvinvointi) teksteillä ”Itsenäiset kaupat”, ”Yksi yhteinen ostoskori” ja ”Osta luottavaisin mielin”."
+    },
+    "promo": {
+      "cta": "Katso kaikki tuotteet",
+      "videoLabel": "Lyhyt video: ”Pienet kaupat.” ”Ihania löytöjä.” ”Kaikki, mitä rakastat, sen tekijöiltä.” ”Yksi yhteinen ostoskori.” Lopussa näkyy Saloreen logo."
+    }
+  }
+}

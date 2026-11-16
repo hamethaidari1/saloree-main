@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "title": "Ostoskorisi — Saloree",
+    "description": "Saloree-suosikkisi yhdessä yhteisessä ostoskorissa, ryhmiteltynä itsenäisten kauppojen mukaan.",
+    "ogDescription": "Kaikki suosikkilöytösi. Yksi yhteinen ostoskori."
+  },
+  "title": "Ostoskorisi",
+  "subtitle": "Muutama hyvä löytö, kaikki yhdessä paikassa.",
+  "emptyTitle": "Hyviä asioita odottaa",
+  "emptyText": "Ostoskorisi on tyhjä. Etsitään jotain, mistä pidät.",
+  "each": "{{price}} / kpl",
+  "remove": "Poista: {{title}}",
+  "removeTitle": "Poista tuote",
+  "removed": "Poistettu ostoskorista",
+  "added": "Lisätty ostoskoriin",
+  "continue": "Jatka löytöretkeä",
+  "summary": "Tilauksen yhteenveto",
+  "subtotalItems_one": "Välisumma ({{count}} tuote)",
+  "subtotalItems_other": "Välisumma ({{count}} tuotetta)",
+  "shipping": "Toimitus",
+  "shippingLater": "Lasketaan kassalla",
+  "subtotal": "Välisumma",
+  "toCheckout": "Siirry kassalle",
+  "note": "Maksu toimituksen yhteydessä. Lopulliset hinnat vahvistetaan, kun teet tilauksen.",
+  "trust": "Itsenäiset kaupat. Yksi yhteinen ostoskori."
+}

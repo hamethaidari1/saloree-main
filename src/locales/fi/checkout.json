@@ -1,0 +1,96 @@
+{
+  "metaTitle": "Kassa — Saloree",
+  "yourBag": "Ostoskorisi",
+  "title": "Kassa",
+  "subtitle": "Minne löytösi lähetetään?",
+  "emptyTitle": "Ostoskorisi on tyhjä",
+  "emptyText": "Lisää jotain, mistä pidät, ja palaa sitten kassalle.",
+  "delivery": "Toimitustiedot",
+  "fields": {
+    "full_name": "Koko nimi",
+    "phone": "Puhelinnumero",
+    "email": "Sähköposti",
+    "country": "Maa",
+    "city": "Kaupunki",
+    "address": "Katuosoite",
+    "notes": "Lisätietoja toimitukseen (valinnainen)"
+  },
+  "payment": "Maksu",
+  "methods": {
+    "cod": "Maksu toimituksen yhteydessä",
+    "codDescription": "Maksa käteisellä, kun tilauksesi saapuu.",
+    "stripe": "Maksa kortilla",
+    "hesabpay": "HesabPay",
+    "comingSoon": "Tulossa pian",
+    "codPaused": "Maksu toimituksen yhteydessä on keskeytetty seuraavissa kaupoissa: {{stores}}. Maksa verkossa.",
+    "cardDescription": "Maksa kortilla Stripen suojatulla sivulla. Emme koskaan näe korttitietojasi."
+  },
+  "yourOrder": "Tilauksesi",
+  "line": "{{quantity}} × {{title}}",
+  "estimatedTotal": "Arvioitu loppusumma",
+  "discount": "Alennuskoodi",
+  "discountPlaceholder": "Valinnainen",
+  "discountHelp": "Kauppa tarkistaa koodin, kun teet tilauksen; säästö näkyy loppusummassa.",
+  "note": "Saloree vahvistaa hinnat, varastotilanteen ja toimituksen, kun teet tilauksen. Eri kauppojen tuotteista tulee erilliset tilaukset.",
+  "place": "Tee tilaus",
+  "placing": "Tilausta tehdään…",
+  "cannotPlace": "Verkkomaksu ei ole vielä käytettävissä, joten tätä tilausta ei voi tehdä juuri nyt. Poista tuotteet seuraavista kaupoista, niin voit tilata loput: {{stores}}.",
+  "cardNote": "Syötät korttitietosi Stripen sivulla. Tuotteesi varataan maksamisen ajaksi.",
+  "toPayment": "Jatka maksamaan",
+  "redirecting": "Avataan maksusivua…",
+  "pending": {
+    "notice": "Maksuasi ei suoritettu loppuun. Tuotteesi ovat varattuina vielä hetken.",
+    "retry": "Yritä maksua uudelleen",
+    "newOrder": "Tee sen sijaan uusi tilaus",
+    "newOrderHint": "Maksamaton tilaus perutaan automaattisesti noin 30 minuutin kuluttua.",
+    "expired": "Tätä tilausta ei voi enää maksaa. Tee tilaus uudelleen ostoskoristasi."
+  },
+  "overlay": {
+    "title": "Tilaustasi suojataan…",
+    "titleRetry": "Avataan maksusivua…",
+    "text": "Sinut ohjataan turvalliselle maksukumppanillemme Stripelle. Älä sulje tätä sivua.",
+    "step": {
+      "place": "Tilausta tehdään",
+      "reserve": "Tuotteita varataan",
+      "connect": "Yhdistetään Stripeen"
+    },
+    "stepDone": "valmis",
+    "stepWorking": "käynnissä",
+    "livePlacing": "Tilausta tehdään…",
+    "livePlaced": "Tilaus on tehty ja tuotteesi on varattu. Yhdistetään Stripeen…",
+    "liveConnecting": "Yhdistetään Stripeen…",
+    "liveConnected": "Yhteys Stripeen on muodostettu. Avataan maksusivua…"
+  },
+  "steps": {
+    "label": "Kassan vaiheet",
+    "bag": "Ostoskori",
+    "delivery": "Toimitus",
+    "payment": "Maksu",
+    "backToProduct": "Takaisin tuotteeseen"
+  },
+  "showSummary": "Näytä tilauksen yhteenveto",
+  "hideSummary": "Piilota tilauksen yhteenveto",
+  "countryPlaceholder": "Hae maata",
+  "countryNone": "Yhtään maata ei löytynyt.",
+  "countryList": "Maat",
+  "countryPick": "Valitse maa luettelosta.",
+  "phoneHint": "Lisää maatunnus, esimerkiksi +358.",
+  "cardHelp": "Maksat Stripen suojatulla sivulla.",
+  "cardBrands": "Hyväksytyt kortit",
+  "payAmount": "Maksa {{amount}}",
+  "apply": "Käytä",
+  "discountAdded": "Koodi {{code}} tarkistetaan, kun teet tilauksen.",
+  "trust": {
+    "label": "Turvallinen kassa",
+    "secure": "Turvallinen maksu Stripen kautta",
+    "cod": "Maksu toimituksen yhteydessä mahdollinen"
+  },
+  "unavailable": "Osa ostoskorisi tuotteista ei ole enää saatavilla, ja ne jätettiin pois.",
+  "separateOrders": "Näiden kauppojen tuotteista tulee erilliset tilaukset, yksi kauppaa kohden: {{stores}}.",
+  "fillToContinue": "Täytä toimitustiedot jatkaaksesi.",
+  "express": {
+    "note": "Ostat vain tämän tuotteen. Ostoskorisi pysyy ennallaan.",
+    "unavailableTitle": "Tämä tuote ei ole enää saatavilla",
+    "unavailableText": "Se voi olla loppuunmyyty tai poistunut myynnistä. Ostoskorisi ei ole muuttunut."
+  }
+}

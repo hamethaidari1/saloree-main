@@ -1,0 +1,57 @@
+{
+  "verified": "Vahvistettu Saloree-kauppa",
+  "homeLink": "Kaupan etusivu: {{store}}",
+  "account": "Tili",
+  "signIn": "Kirjaudu sisään",
+  "help": "Apua",
+  "poweredBy": "Alustana <1>Saloree</1>",
+  "copyright": "© {{year}} {{store}}",
+  "notFound": {
+    "title": "Kauppaa ei löytynyt",
+    "text": "Tätä kauppaa ei ole olemassa, tai se ei ole vielä avoinna. Voit silti ostaa muilta itsenäisiltä kaupoilta Saloree-palvelussa.",
+    "link": "Siirry Saloree-palveluun"
+  },
+  "stores": {
+    "metaTitle": "Tutustu itsenäisiin kauppoihimme — Saloree",
+    "metaDescription": "Tutustu itsenäisiin kauppoihin Saloree-suosikkilöytöjesi takana.",
+    "ogDescription": "Pienet kaupat, suuri persoonallisuus. Tutustu ihmisiin suosikkilöytöjesi takana.",
+    "title": "Pienet kaupat. Suuri persoonallisuus.",
+    "subtitle": "Tutustu itsenäisiin yrityksiin suosikkilöytöjesi takana.",
+    "crumb": "Kauppamme"
+  },
+  "page": {
+    "fallbackName": "Kauppa",
+    "description": "Tutustu itsenäisiin kauppoihin Saloree-palvelussa.",
+    "ogDescription": "Osta harkittuja löytöjä itsenäisiltä kaupoilta."
+  },
+  "template": {
+    "featured": "Nostot",
+    "allProducts": "Kaikki tuotteet",
+    "allProductsCount_one": "Kaikki tuotteet ({{count}})",
+    "allProductsCount_other": "Kaikki tuotteet ({{count}})",
+    "productsFallback": "Tuotteet",
+    "selectedPieces": "Valitut tuotteet",
+    "collection": "Mallisto",
+    "deals": "Tarjoukset",
+    "edit": "Valikoima",
+    "topPicks": "Suosikit",
+    "shopEverything": "Katso kaikki",
+    "about": "Tietoa",
+    "ourStory": "Tarinamme",
+    "aboutStore": "Tietoa kaupasta: {{store}}",
+    "thisIs": "Tämä on {{store}}",
+    "stories": "Tarinat",
+    "storyNumber": "Nro {{number}}",
+    "categoryShortcuts": "Tuoteryhmien pikalinkit",
+    "shopByCategory": "Osta tuoteryhmittäin",
+    "all": "Kaikki",
+    "empty": "Kauppa {{store}} ei ole vielä lisännyt tuotteita. Palaa pian uudelleen.",
+    "outOfStock": "Loppu varastosta",
+    "onlyLeft_one": "Vain {{count}} jäljellä",
+    "onlyLeft_other": "Vain {{count}} jäljellä",
+    "inStock": "Varastossa",
+    "soldOut": "Loppuunmyyty",
+    "addToCart": "Lisää ostoskoriin",
+    "addAria": "Lisää ostoskoriin: {{title}}"
+  }
+}

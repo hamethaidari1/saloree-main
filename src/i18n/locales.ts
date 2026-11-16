@@ -26,6 +26,7 @@ export const LOCALES = [
   { code: "he", nativeName: "עברית", dir: "rtl", match: ["he", "iw"] },
   { code: "ko", nativeName: "한국어", dir: "ltr", match: ["ko"] },
   { code: "pt", nativeName: "Português", dir: "ltr", match: ["pt"] },
+  { code: "fi", nativeName: "Suomi", dir: "ltr", match: ["fi"] },
   {
     code: "zh-Hans",
     nativeName: "中文(简体)",

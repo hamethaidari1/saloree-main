@@ -1,0 +1,83 @@
+{
+  "openMenu": "Avaa valikko",
+  "homeLink": "Saloree-etusivu",
+  "cart": "Ostoskori",
+  "cartAria_one": "Ostoskori, {{count}} tuote",
+  "cartAria_other": "Ostoskori, {{count}} tuotetta",
+  "orders": "Tilaukset",
+  "all": "Kaikki",
+  "shortcuts": "Pikalinkit",
+  "deals": "Tarjoukset",
+  "newArrivals": "Uutuudet",
+  "bestsellers": "Myydyimmät",
+  "ourStores": "Kauppamme",
+  "customerService": "Asiakaspalvelu",
+  "sell": "Myy Saloree-palvelussa",
+  "accountAndLists": "Tili ja listat",
+  "greeting": {
+    "loading": "Hei",
+    "user": "Hei, {{name}}",
+    "guest": "Hei, kirjaudu sisään"
+  },
+  "drawer": {
+    "description": "Selaa tuoteryhmiä ja Saloreen pikalinkkejä.",
+    "shopByCategory": "Osta tuoteryhmittäin",
+    "explore": "Tutustu Saloree-palveluun",
+    "loadingCategories": "Ladataan tuoteryhmiä",
+    "categoriesError": "Tuoteryhmiä ei voitu ladata.",
+    "noCategories": "Tuoteryhmiä ei ole vielä."
+  },
+  "account": {
+    "title": "Oma tili",
+    "welcome": "Tervetuloa Saloree-palveluun",
+    "loading": "Ladataan tiliäsi",
+    "signIn": "Kirjaudu sisään",
+    "newCustomer": "Uusi asiakas?",
+    "startHere": "Aloita tästä",
+    "myOrders": "Omat tilaukset",
+    "messages": "Viestit",
+    "messagesUnread": "Viestit, lukematta {{count}}",
+    "wishlist": "Toivelista",
+    "account": "Tili",
+    "myStore": "Oma kauppa",
+    "admin": "Ylläpito",
+    "signOut": "Kirjaudu ulos",
+    "signOutFailed": "Uloskirjautuminen ei onnistunut. Yritä uudelleen.",
+    "mobileAria": "Oma tili, {{name}}",
+    "wishlistAria_one": "Toivelista, {{count}} tuote",
+    "wishlistAria_other": "Toivelista, {{count}} tuotetta"
+  },
+  "search": {
+    "label": "Hae Saloree-palvelusta",
+    "category": "Hae tuoteryhmästä",
+    "all": "Kaikki",
+    "loadingCategories": "Ladataan tuoteryhmiä…",
+    "unavailable": "Tuoteryhmät eivät ole saatavilla",
+    "none": "Tuoteryhmiä ei ole vielä",
+    "input": "Hae tuotteita ja kauppoja",
+    "placeholder": "Hae Saloree-palvelusta",
+    "submit": "Hae"
+  },
+  "deliver": {
+    "label": "Toimitusmaa",
+    "strip": "Toimitusmaa: <1>{{name}}</1>",
+    "choose": "Valitse maa",
+    "aria": "Toimitusmaa: {{country}}. Vaihda toimitusmaa",
+    "noneSelected": "maata ei ole valittu",
+    "title": "Valitse toimitusmaa",
+    "hint": "Käytämme sitä toimitustietojen näyttämiseen kassalla.",
+    "countries": "Toimitusmaat",
+    "other": "Muu",
+    "suggestTitle": "Onko toimitusmaa {{country}}?",
+    "suggestText": "Käytämme tätä toimitustietojen näyttämiseen kassalla.",
+    "suggestAccept": "Toimitusmaa: {{country}}",
+    "suggestOther": "Valitse toinen maa",
+    "suggestClose": "Sulje"
+  },
+  "language": {
+    "label": "Kieli",
+    "trigger": "Kieli: {{language}}. Vaihda kieli",
+    "change": "Vaihda kieli",
+    "priceNote": "Hinnat näytetään Yhdysvaltain dollareina (USD)."
+  }
+}

@@ -146,6 +146,7 @@ describe("dir and lang per language", () => {
       "עברית",
       "한국어",
       "Português",
+      "Suomi",
       "中文(简体)",
       "中文(繁體)",
     ]);
@@ -257,11 +258,13 @@ describe("language selector", () => {
     return { ...view, group, onDone };
   }
 
-  it("is a radiogroup of the 9 languages in their own names, each with lang=", async () => {
+  // Follows LOCALES: a new language needs no change here.
+  it("is a radiogroup of every language in its own name, each with lang=", async () => {
     const { group } = await renderPanel("en");
     expect(group).toHaveAccessibleName("Change language");
     const radios = within(group).getAllByRole("radio");
-    expect(radios).toHaveLength(9);
+    expect(radios).toHaveLength(LOCALES.length);
+    expect(LOCALES.length).toBe(10);
     expect(radios.map((r) => r.textContent)).toEqual(LOCALES.map((l) => l.nativeName));
     LOCALES.forEach((l, i) => {
       const label = radios[i]!.querySelector(`[lang="${l.code}"]`);
@@ -271,7 +274,7 @@ describe("language selector", () => {
       radios.filter((r) => r.getAttribute("aria-checked") === "true").map((r) => r.textContent),
     ).toEqual(["English"]);
     // One tab stop (roving tabindex) on the current language.
-    expect(radios.map((r) => r.tabIndex)).toEqual([0, -1, -1, -1, -1, -1, -1, -1, -1]);
+    expect(radios.map((r) => r.tabIndex)).toEqual(LOCALES.map((_, i) => (i === 0 ? 0 : -1)));
     expect(screen.getByText("Prices are shown in US dollars (USD).")).toBeTruthy();
   });
 
@@ -281,12 +284,13 @@ describe("language selector", () => {
     radios[0]!.focus();
     fireEvent.keyDown(radios[0]!, { key: "ArrowDown" });
     expect(document.activeElement).toBe(radios[1]);
+    const last = radios.length - 1;
     fireEvent.keyDown(radios[1]!, { key: "End" });
-    expect(document.activeElement).toBe(radios[8]);
-    fireEvent.keyDown(radios[8]!, { key: "ArrowDown" });
+    expect(document.activeElement).toBe(radios[last]);
+    fireEvent.keyDown(radios[last]!, { key: "ArrowDown" });
     expect(document.activeElement).toBe(radios[0]);
     fireEvent.keyDown(radios[0]!, { key: "ArrowUp" });
-    expect(document.activeElement).toBe(radios[8]);
+    expect(document.activeElement).toBe(radios[last]);
     expect(onDone).not.toHaveBeenCalled();
     expect(document.cookie).not.toMatch(/lang=/);
   });

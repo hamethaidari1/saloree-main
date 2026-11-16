@@ -1,14 +1,13 @@
 import { useId, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import { ChevronDown } from "lucide-react";
-import { COUNTRY_OPTIONS, countryCodeForName, countryNameEn } from "@/lib/iso-countries";
-
-let all: { code: string; name: string }[] | null = null;
-const countries = () => (all ??= COUNTRY_OPTIONS());
+import { useLocale } from "@/i18n/hooks";
+import { countryCodeForName, countryName, countryOptions } from "@/lib/iso-countries";
 
 /**
  * A searchable country picker over the official ISO 3166-1 list (combobox
  * pattern): type to filter, arrows to move, Enter or click to choose, Escape
- * to close. An exact name typed in full is chosen too.
+ * to close. An exact name typed in full is chosen too. Names are in the page
+ * language (Intl.DisplayNames); typing the English name works as well.
  */
 export function CountryCombobox({
   id,
@@ -35,23 +34,29 @@ export function CountryCombobox({
   listLabel: string;
 }) {
   const listId = useId();
-  const [text, setText] = useState(value ? countryNameEn(value) : "");
+  const locale = useLocale();
+  const nameOf = (code: string) => countryName(code, locale);
+  const [text, setText] = useState(value ? nameOf(value) : "");
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);
   const input = useRef<HTMLInputElement>(null);
-  const q = text.trim().toLowerCase();
-  const chosenName = value ? countryNameEn(value) : "";
-  const matches = useMemo(
-    () =>
-      !q || q === chosenName.toLowerCase()
-        ? countries()
-        : countries().filter((c) => c.name.toLowerCase().includes(q) || c.code.toLowerCase() === q),
-    [q, chosenName],
-  );
+  const q = text.trim().toLocaleLowerCase(locale);
+  const chosenName = value ? countryName(value, locale) : "";
+  const matches = useMemo(() => {
+    const all = countryOptions(locale);
+    return !q || q === chosenName.toLocaleLowerCase(locale)
+      ? all
+      : all.filter(
+          (c) =>
+            c.name.toLocaleLowerCase(locale).includes(q) ||
+            c.en.toLowerCase().includes(q) ||
+            c.code.toLowerCase() === q,
+        );
+  }, [q, chosenName, locale]);
 
   const choose = (code: string) => {
     onChange(code);
-    setText(countryNameEn(code));
+    setText(nameOf(code));
     setOpen(false);
   };
   const onKey = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -97,7 +102,7 @@ export function CountryCombobox({
           setOpen(true);
           setActive(0);
           // A full name typed (or pasted, or autofilled) is chosen at once.
-          const code = countryCodeForName(e.target.value);
+          const code = countryCodeForName(e.target.value, locale);
           onChange(code ?? "");
         }}
         onKeyDown={onKey}
@@ -106,8 +111,8 @@ export function CountryCombobox({
           window.setTimeout(() => {
             setOpen(false);
             setText((t) => {
-              const code = countryCodeForName(t);
-              return code ? countryNameEn(code) : t;
+              const code = countryCodeForName(t, locale);
+              return code ? nameOf(code) : t;
             });
             onBlur?.();
           }, 120);

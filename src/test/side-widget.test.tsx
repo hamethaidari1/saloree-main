@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs";
+import { LOCALES } from "@/i18n/locales";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { act, cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
@@ -258,10 +259,10 @@ describe("side widget: where it shows", () => {
     expect(rule(".side-widget-label")).not.toMatch(/overflow-wrap/);
   });
 
-  it("its texts exist in all 9 languages", () => {
+  it("its texts exist in every language", () => {
     const json = (p: string) =>
       JSON.parse(readFileSync(join(process.cwd(), p), "utf8")) as Record<string, unknown>;
-    for (const code of ["en", "es", "ar", "de", "he", "ko", "pt", "zh-Hans", "zh-Hant"]) {
+    for (const code of LOCALES.map((l) => l.code)) {
       const sw = json(`src/locales/${code}/common.json`)["sideWidget"] as Record<string, string>;
       for (const key of ["label", "messages", "messagesUnread", "feedback", "top", "topLabel"])
         expect(sw[key], `${code}.${key}`).toBeTruthy();

@@ -48,11 +48,54 @@ export const COUNTRY_OPTIONS = () =>
     a.name.localeCompare(b.name, "en"),
   );
 
-let sorted: { code: string; name: string }[] | null = null;
-/** The ISO code of a typed English name or code ("finland" → "FI"), or null. */
-export function countryCodeForName(name: string): string | null {
-  const n = name.trim().toLowerCase();
+const displayNames = new Map<string, Intl.DisplayNames | null>();
+/**
+ * The country's name in the page language ("FI" → "Suomi" in Finnish,
+ * "Finland" in English), from the browser's Intl data; English if unknown.
+ */
+export function countryName(code: string, locale: string): string {
+  if (!displayNames.has(locale)) {
+    try {
+      displayNames.set(locale, new Intl.DisplayNames([locale], { type: "region" }));
+    } catch {
+      displayNames.set(locale, null);
+    }
+  }
+  try {
+    return displayNames.get(locale)?.of(code) ?? countryNameEn(code);
+  } catch {
+    return countryNameEn(code);
+  }
+}
+
+const localized = new Map<string, { code: string; name: string; en: string }[]>();
+/** Every country with its name in `locale` (and in English), sorted in that language. */
+export function countryOptions(locale: string) {
+  let list = localized.get(locale);
+  if (!list) {
+    list = ISO_COUNTRY_CODES.map((code) => ({
+      code,
+      name: countryName(code, locale),
+      en: countryNameEn(code),
+    })).sort((a, b) => a.name.localeCompare(b.name, locale));
+    localized.set(locale, list);
+  }
+  return list;
+}
+
+/**
+ * The ISO code of a typed name ("finland" → "FI"): the name in `locale`, the
+ * English name or the code itself; null if none matches.
+ */
+export function countryCodeForName(name: string, locale = "en"): string | null {
+  const n = name.trim().toLocaleLowerCase(locale);
   if (!n) return null;
-  sorted ??= COUNTRY_OPTIONS();
-  return sorted.find((c) => c.name.toLowerCase() === n || c.code.toLowerCase() === n)?.code ?? null;
+  return (
+    countryOptions(locale).find(
+      (c) =>
+        c.name.toLocaleLowerCase(locale) === n ||
+        c.en.toLowerCase() === n ||
+        c.code.toLowerCase() === n,
+    )?.code ?? null
+  );
 }
