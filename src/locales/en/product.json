@@ -96,5 +96,8 @@
     "label": "Product photos",
     "show": "Show photo {{n}} of {{count}}",
     "imageAlt": "{{title}}, photo {{n}} of {{count}}"
-  }
+  },
+  "buyNow": "Buy now",
+  "showMore": "Show more",
+  "showLess": "Show less"
 }

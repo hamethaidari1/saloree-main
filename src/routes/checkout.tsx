@@ -17,6 +17,7 @@ import { CountryCombobox } from "@/components/checkout/country-combobox";
 import { PaymentOverlay } from "@/components/checkout/payment-overlay";
 import { usePaymentOverlay } from "@/components/checkout/use-payment-overlay";
 import { requireAuth } from "@/lib/auth";
+import { buyNowQuantity, parseBuyNowSearch } from "@/lib/buy-now";
 import { countryNameEn } from "@/lib/iso-countries";
 import { PAYMENT_BRANDS } from "@/lib/payment-logos";
 import { cartTotal } from "@/services/cart";
@@ -43,7 +44,9 @@ import {
 
 export const Route = createFileRoute("/checkout")({
   ssr: false,
+  // Signed out: sign-in, then back here with the same ?buy=…&qty=… (ids only).
   beforeLoad: requireAuth(),
+  validateSearch: parseBuyNowSearch,
   head: ({ matches }) => ({
     meta: [
       { title: headT(matches, "checkout")("metaTitle") },
@@ -77,8 +80,18 @@ function CheckoutPage() {
   const format = useFormat();
   const locale = useLocale();
   const { user } = Route.useRouteContext();
-  const { items, ready, clear } = useCart();
+  const { items: bagItems, ready, clear } = useCart();
   const { products, stores } = useCatalog();
+  // "Buy now": only this product, never the bag (the bag is not read or changed).
+  const search = Route.useSearch();
+  const expressProduct = search.buy ? products.find((x) => x.id === search.buy) : undefined;
+  const express = search.buy
+    ? {
+        productId: search.buy,
+        quantity: buyNowQuantity(search.qty, expressProduct?.stock ?? 0),
+      }
+    : null;
+  const items = express === null ? bagItems : express.quantity > 0 ? [express] : [];
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const legalLinks = useLegalLinks().filter((l) =>
@@ -202,7 +215,7 @@ function CheckoutPage() {
       overlay.mark("placed");
       // Orders exist now (pending, stock reserved): remember them for "Try again".
       const groupId = result.checkout_group_id;
-      savePendingPayment(groupId);
+      savePendingPayment(groupId, Date.now(), !!express);
       setPending(readPendingPayment() ?? { groupId, at: Date.now() });
       try {
         const url = await cardPaymentService.startPayment(groupId);
@@ -224,7 +237,8 @@ function CheckoutPage() {
         params: { groupId: result.checkout_group_id },
         replace: true,
       });
-      clear();
+      // Buy now ordered one item, not the bag: the bag stays as it is.
+      if (!express) clear();
       void queryClient.invalidateQueries({ queryKey: ["orders"] });
       void queryClient.invalidateQueries({ queryKey: ["catalog"] }); // stock changed
     },
@@ -293,7 +307,21 @@ function CheckoutPage() {
     return (
       <main className="market-container checkout-page">
         {retryNotice}
-        <EmptyState title={t("emptyTitle")} description={t("emptyText")} />
+        {express ? (
+          <div className="checkout-unavailable" role="alert">
+            <EmptyState
+              title={t("express.unavailableTitle")}
+              description={t("express.unavailableText")}
+            />
+            <Button asChild variant="outline">
+              <Link to="/product/$id" params={{ id: express.productId }}>
+                {t("steps.backToProduct")}
+              </Link>
+            </Button>
+          </div>
+        ) : (
+          <EmptyState title={t("emptyTitle")} description={t("emptyText")} />
+        )}
         <PaymentOverlay state={overlay.state} />
       </main>
     );
@@ -367,7 +395,13 @@ function CheckoutPage() {
       <nav className="checkout-steps" aria-label={t("steps.label")}>
         <ol>
           <li>
-            <Link to="/cart">{t("steps.bag")}</Link>
+            {express ? (
+              <Link to="/product/$id" params={{ id: express.productId }}>
+                {t("steps.backToProduct")}
+              </Link>
+            ) : (
+              <Link to="/cart">{t("steps.bag")}</Link>
+            )}
           </li>
           <li aria-current={!formValid ? "step" : undefined}>{t("steps.delivery")}</li>
           <li aria-current={formValid ? "step" : undefined}>{t("steps.payment")}</li>
@@ -379,6 +413,11 @@ function CheckoutPage() {
       {ended && !pending && (
         <p className="checkout-pending" role="status">
           {t("pending.expired")}
+        </p>
+      )}
+      {express && (
+        <p className="checkout-notice checkout-express" role="status">
+          {t("express.note")}
         </p>
       )}
       {lines.length < items.length && (

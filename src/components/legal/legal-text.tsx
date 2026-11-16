@@ -2,8 +2,12 @@ import { Fragment, type ReactNode } from "react";
 import { PLACEHOLDER_INFO, type LegalValues } from "@/lib/legal-core";
 import { parseInline, placeholderText, type Block, type Inline } from "@/lib/legal-markdown";
 
-/** "staff" shows a visible marker for each missing value; "visitor" never sees one. */
-export type LegalViewer = "visitor" | "staff";
+/**
+ * "staff" shows a visible marker for each missing value; "visitor" never sees
+ * one. "content" is text written by sellers (product descriptions): links open
+ * in a new tab with nofollow, "[[…]]" is plain text, headings get no ids.
+ */
+export type LegalViewer = "visitor" | "staff" | "content";
 
 function Placeholder({
   node,
@@ -14,6 +18,8 @@ function Placeholder({
   values: LegalValues;
   viewer: LegalViewer;
 }) {
+  // Seller text has no placeholders: "[[…]]" is shown as written.
+  if (viewer === "content") return <>{`[[${node.raw}]]`}</>;
   const value = placeholderText(node, values);
   if (value !== null)
     return node.name === "SUPPORT_EMAIL" ? (
@@ -65,8 +71,14 @@ function Inlines({
         );
       case "link": {
         const external = /^https?:/i.test(n.href);
+        const attrs =
+          viewer === "content"
+            ? { target: "_blank", rel: "noopener noreferrer nofollow" }
+            : external
+              ? { rel: "noopener noreferrer" }
+              : {};
         return (
-          <a key={k} href={n.href} {...(external ? { rel: "noopener noreferrer" } : {})}>
+          <a key={k} href={n.href} {...attrs}>
             <Inlines nodes={n.c} values={values} viewer={viewer} />
           </a>
         );
@@ -118,7 +130,7 @@ export function Blocks({
       case "h": {
         const H = `h${b.level}` as "h2";
         return (
-          <H key={k} id={b.id}>
+          <H key={k} id={viewer === "content" ? undefined : b.id}>
             <Text text={b.text} values={values} viewer={viewer} />
           </H>
         );

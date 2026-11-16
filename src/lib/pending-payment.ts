@@ -10,6 +10,8 @@ const MAX_AGE_MS = 35 * 60 * 1000;
 export interface PendingPayment {
   groupId: string;
   at: number;
+  /** A "Buy now" checkout: the bag was not ordered, so it is kept after payment. */
+  express?: true;
 }
 
 export function readPendingPayment(now = Date.now()): PendingPayment | null {
@@ -22,15 +24,20 @@ export function readPendingPayment(now = Date.now()): PendingPayment | null {
       window.sessionStorage.removeItem(KEY);
       return null;
     }
-    return { groupId: v.groupId, at: v.at };
+    return v.express === true
+      ? { groupId: v.groupId, at: v.at, express: true }
+      : { groupId: v.groupId, at: v.at };
   } catch {
     return null;
   }
 }
 
-export function savePendingPayment(groupId: string, now = Date.now()) {
+export function savePendingPayment(groupId: string, now = Date.now(), express = false) {
   try {
-    window.sessionStorage.setItem(KEY, JSON.stringify({ groupId, at: now }));
+    window.sessionStorage.setItem(
+      KEY,
+      JSON.stringify(express ? { groupId, at: now, express: true } : { groupId, at: now }),
+    );
   } catch {
     // Storage blocked: the order is still in My orders with "Pay now".
   }

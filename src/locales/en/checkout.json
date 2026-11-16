@@ -65,7 +65,8 @@
     "label": "Checkout steps",
     "bag": "Bag",
     "delivery": "Delivery",
-    "payment": "Payment"
+    "payment": "Payment",
+    "backToProduct": "Back to product"
   },
   "showSummary": "Show order summary",
   "hideSummary": "Hide order summary",
@@ -86,5 +87,10 @@
   },
   "unavailable": "Some items in your bag are no longer available and were left out.",
   "separateOrders": "Items from {{stores}} become separate orders, one per store.",
-  "fillToContinue": "Fill in your delivery details to continue."
+  "fillToContinue": "Fill in your delivery details to continue.",
+  "express": {
+    "note": "You're buying only this item. Your bag stays as it is.",
+    "unavailableTitle": "This product is no longer available",
+    "unavailableText": "It may be sold out or no longer for sale. Your bag has not changed."
+  }
 }

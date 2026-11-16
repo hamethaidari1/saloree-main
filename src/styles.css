@@ -6996,3 +6996,97 @@ body:has(.country-suggest[data-variant="strip"]) .side-widget {
   color: inherit;
   font-size: 11px;
 }
+
+/* ---------------------------------------------------------------------------
+   Product page: "Buy now" next to "Add to cart" (same height; Add to cart is
+   the outlined one), and the seller's description as formatted text.
+   --------------------------------------------------------------------------- */
+.purchase-row > .buy-now-button {
+  flex: 1 1 12rem;
+  min-width: 0;
+  min-height: 42px;
+  height: auto;
+  white-space: normal;
+}
+@media (max-width: 639px) {
+  .purchase-row > .add-button,
+  .purchase-row > .buy-now-button {
+    flex-basis: 100%;
+  }
+}
+.product-description {
+  margin-block: 22px;
+}
+.product-description-body {
+  max-inline-size: 68ch;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--muted-foreground);
+  overflow-wrap: anywhere;
+  unicode-bidi: plaintext;
+}
+.product-description-body > * + * {
+  margin-block-start: 0.75em;
+}
+.product-description-body :is(h2, h3, h4, h5, h6) {
+  margin-block-start: 1.1em;
+  color: var(--foreground);
+  font-weight: 650;
+  line-height: 1.35;
+}
+.product-description-body h2 {
+  font-size: 17px;
+}
+.product-description-body :is(h3, h4, h5, h6) {
+  font-size: 15px;
+}
+.product-description-body > :first-child {
+  margin-block-start: 0;
+}
+.product-description-body strong {
+  color: var(--foreground);
+  font-weight: 600;
+}
+.product-description-body ul,
+.product-description-body ol {
+  display: grid;
+  gap: 0.35em;
+  padding-inline-start: 1.25em;
+}
+.product-description-body ul {
+  list-style: disc;
+}
+.product-description-body ol {
+  list-style: decimal;
+}
+.product-description-body a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+/* About 8 lines, faded out, until "Show more". */
+.product-description-body[data-collapsed] {
+  max-block-size: calc(1.7em * 8);
+  overflow: hidden;
+  mask-image: linear-gradient(to bottom, #000 70%, transparent);
+}
+.product-description-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-block-start: 8px;
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 600;
+}
+.product-description-toggle:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+.checkout-unavailable {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  padding-block-end: 48px;
+}

@@ -59,8 +59,10 @@ function PaymentReturn({ groupId }: { groupId: string }) {
     }).then(async (result) => {
       if (result === "aborted" || ctrl.signal.aborted) return;
       if (result === "paid") {
-        // This tab started the payment: the bag was ordered, so empty it.
-        if (readPendingPayment()?.groupId === groupId) clearRef.current();
+        // This tab started the payment: the bag was ordered, so empty it
+        // (unless it was a "Buy now" of one item: then the bag was never ordered).
+        const started = readPendingPayment();
+        if (started?.groupId === groupId && !started.express) clearRef.current();
         clearPendingPayment(groupId);
         await queryClient.invalidateQueries({ queryKey: ["checkout", groupId] });
         // (The catalog is fresh: coming back from Stripe is a full page load.)

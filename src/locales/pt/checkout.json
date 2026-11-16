@@ -65,7 +65,8 @@
     "label": "Etapas do pagamento",
     "bag": "Sacola",
     "delivery": "Entrega",
-    "payment": "Pagamento"
+    "payment": "Pagamento",
+    "backToProduct": "Voltar ao produto"
   },
   "showSummary": "Mostrar resumo do pedido",
   "hideSummary": "Ocultar resumo do pedido",
@@ -86,5 +87,10 @@
   },
   "unavailable": "Alguns itens da sua sacola não estão mais disponíveis e foram deixados de fora.",
   "separateOrders": "Os itens de {{stores}} viram pedidos separados, um por loja.",
-  "fillToContinue": "Preencha seus dados de entrega para continuar."
+  "fillToContinue": "Preencha seus dados de entrega para continuar.",
+  "express": {
+    "note": "Você está comprando apenas este item. Sua sacola continua como está.",
+    "unavailableTitle": "Este produto não está mais disponível",
+    "unavailableText": "Ele pode ter esgotado ou não estar mais à venda. Sua sacola não mudou."
+  }
 }

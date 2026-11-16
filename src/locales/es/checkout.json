@@ -65,7 +65,8 @@
     "label": "Pasos del pago",
     "bag": "Cesta",
     "delivery": "Entrega",
-    "payment": "Pago"
+    "payment": "Pago",
+    "backToProduct": "Volver al producto"
   },
   "showSummary": "Mostrar resumen del pedido",
   "hideSummary": "Ocultar resumen del pedido",
@@ -86,5 +87,10 @@
   },
   "unavailable": "Algunos artículos de tu cesta ya no están disponibles y se han omitido.",
   "separateOrders": "Los artículos de {{stores}} se convierten en pedidos separados, uno por tienda.",
-  "fillToContinue": "Completa tus datos de entrega para continuar."
+  "fillToContinue": "Completa tus datos de entrega para continuar.",
+  "express": {
+    "note": "Solo compras este artículo. Tu cesta no cambia.",
+    "unavailableTitle": "Este producto ya no está disponible",
+    "unavailableText": "Puede que se haya agotado o que ya no esté a la venta. Tu cesta no ha cambiado."
+  }
 }

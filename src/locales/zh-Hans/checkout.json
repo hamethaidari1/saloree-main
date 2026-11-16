@@ -65,7 +65,8 @@
     "label": "结账步骤",
     "bag": "购物袋",
     "delivery": "配送",
-    "payment": "付款"
+    "payment": "付款",
+    "backToProduct": "返回商品"
   },
   "showSummary": "显示订单摘要",
   "hideSummary": "隐藏订单摘要",
@@ -86,5 +87,10 @@
   },
   "unavailable": "购物袋中的部分商品已无法购买，已被移除。",
   "separateOrders": "来自 {{stores}} 的商品会按店铺拆分为不同订单。",
-  "fillToContinue": "填写配送信息后即可继续。"
+  "fillToContinue": "填写配送信息后即可继续。",
+  "express": {
+    "note": "你只购买这一件商品，购物袋保持不变。",
+    "unavailableTitle": "此商品已无法购买",
+    "unavailableText": "它可能已售罄或已下架。你的购物袋没有变化。"
+  }
 }

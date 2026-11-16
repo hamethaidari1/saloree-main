@@ -65,7 +65,8 @@
     "label": "Schritte zur Kasse",
     "bag": "Warenkorb",
     "delivery": "Lieferung",
-    "payment": "Zahlung"
+    "payment": "Zahlung",
+    "backToProduct": "Zurück zum Produkt"
   },
   "showSummary": "Bestellübersicht anzeigen",
   "hideSummary": "Bestellübersicht ausblenden",
@@ -86,5 +87,10 @@
   },
   "unavailable": "Einige Artikel in deinem Warenkorb sind nicht mehr verfügbar und wurden weggelassen.",
   "separateOrders": "Artikel von {{stores}} werden zu getrennten Bestellungen, eine pro Shop.",
-  "fillToContinue": "Gib deine Lieferdaten ein, um fortzufahren."
+  "fillToContinue": "Gib deine Lieferdaten ein, um fortzufahren.",
+  "express": {
+    "note": "Du kaufst nur diesen Artikel. Dein Warenkorb bleibt, wie er ist.",
+    "unavailableTitle": "Dieses Produkt ist nicht mehr verfügbar",
+    "unavailableText": "Es ist vielleicht ausverkauft oder wird nicht mehr verkauft. Dein Warenkorb wurde nicht geändert."
+  }
 }

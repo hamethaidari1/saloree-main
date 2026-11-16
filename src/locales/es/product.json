@@ -99,5 +99,8 @@
     "label": "Fotos del producto",
     "show": "Ver foto {{n}} de {{count}}",
     "imageAlt": "{{title}}, foto {{n}} de {{count}}"
-  }
+  },
+  "buyNow": "Comprar ahora",
+  "showMore": "Mostrar más",
+  "showLess": "Mostrar menos"
 }

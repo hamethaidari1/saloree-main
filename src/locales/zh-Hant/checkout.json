@@ -65,7 +65,8 @@
     "label": "結帳步驟",
     "bag": "購物袋",
     "delivery": "配送",
-    "payment": "付款"
+    "payment": "付款",
+    "backToProduct": "返回商品"
   },
   "showSummary": "顯示訂單摘要",
   "hideSummary": "隱藏訂單摘要",
@@ -86,5 +87,10 @@
   },
   "unavailable": "購物袋中的部分商品已無法購買，已被移除。",
   "separateOrders": "來自 {{stores}} 的商品會依店家分成不同訂單。",
-  "fillToContinue": "填寫配送資料後即可繼續。"
+  "fillToContinue": "填寫配送資料後即可繼續。",
+  "express": {
+    "note": "你只購買這一件商品，購物袋保持不變。",
+    "unavailableTitle": "此商品已無法購買",
+    "unavailableText": "它可能已售完或已下架。你的購物袋沒有變更。"
+  }
 }

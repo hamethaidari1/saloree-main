@@ -93,5 +93,8 @@
     "label": "商品图片",
     "show": "查看第 {{n}} 张（共 {{count}} 张）",
     "imageAlt": "{{title}}，第 {{n}} 张（共 {{count}} 张）"
-  }
+  },
+  "buyNow": "立即购买",
+  "showMore": "显示更多",
+  "showLess": "收起"
 }

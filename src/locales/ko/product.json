@@ -93,5 +93,8 @@
     "label": "상품 사진",
     "show": "사진 {{count}}장 중 {{n}}번째 보기",
     "imageAlt": "{{title}}, 사진 {{count}}장 중 {{n}}번째"
-  }
+  },
+  "buyNow": "바로 구매",
+  "showMore": "더 보기",
+  "showLess": "간단히 보기"
 }

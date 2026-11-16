@@ -1,8 +1,11 @@
 import { useTranslation } from "react-i18next";
 import { headT } from "@/i18n/head";
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useState } from "react";
-import { ChevronRight, ArrowRight, Truck, ShieldCheck, ShoppingBag } from "lucide-react";
+import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
+import { useRef, useState } from "react";
+import { ChevronRight, ArrowRight, Truck, ShieldCheck, ShoppingBag, Zap } from "lucide-react";
+import { ProductDescription } from "@/components/marketplace/product-description";
+import { buyNowQuantity } from "@/lib/buy-now";
+import { descriptionText } from "@/lib/rich-text";
 import { WishlistButton } from "@/components/marketplace/wishlist-button";
 import { Button } from "@/components/ui/button";
 import { useSuspenseQuery } from "@tanstack/react-query";
@@ -40,9 +43,16 @@ export const Route = createFileRoute("/product/$id")({
     return {
       meta: [
         { title },
-        { name: "description", content: loaderData?.description || t("meta.description") },
+        // Plain text: the description's Markdown ("#", "**", "- ") never reaches the tags.
+        {
+          name: "description",
+          content: descriptionText(loaderData?.description) || t("meta.description"),
+        },
         { property: "og:title", content: title },
-        { property: "og:description", content: loaderData?.description || t("meta.ogDescription") },
+        {
+          property: "og:description",
+          content: descriptionText(loaderData?.description) || t("meta.ogDescription"),
+        },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
       ],
@@ -65,6 +75,26 @@ function ProductDetail({ product: p }: { product: import("@/data/catalog").Produ
   const storeSlug = useStoreSlug();
   const [quantity, setQuantity] = useState(1);
   const { add } = useCart();
+  const navigate = useNavigate();
+  // One click: a second click (or Enter held down) does nothing.
+  const [leaving, setLeaving] = useState(false);
+  const leavingRef = useRef(false);
+  /**
+   * Checks out only this product, with this quantity. Nothing is added to the
+   * bag. Signed out, the checkout's guard sends the visitor to sign-in and back.
+   */
+  const buyNow = () => {
+    if (leavingRef.current || p.stock < 1) return;
+    leavingRef.current = true;
+    setLeaving(true);
+    void navigate({
+      to: "/checkout",
+      search: { buy: p.id, qty: buyNowQuantity(quantity, p.stock) },
+    }).finally(() => {
+      leavingRef.current = false;
+      setLeaving(false);
+    });
+  };
   const related = products
     .filter(
       (item) =>
@@ -93,21 +123,29 @@ function ProductDetail({ product: p }: { product: import("@/data/catalog").Produ
             {format.price(p.price)}
             {p.originalPrice && <span className="old-price">{format.price(p.originalPrice)}</span>}
           </div>
-          <p className="detail-description" dir="auto">
-            {p.description}
-          </p>
-          <span className="stock-indicator">
+          <ProductDescription text={p.description} />
+          <span className="stock-indicator" id="product-stock">
             {p.stock > 0 ? t("inStock", { count: p.stock }) : t("outOfStock")}
           </span>
           <div className="purchase-row">
             <QuantityPicker value={quantity} max={p.stock} onChange={setQuantity} />
             <Button
+              variant="outline"
               className="add-button"
               disabled={p.stock < 1}
               onClick={() => add(p.id, quantity)}
             >
               <ShoppingBag size={16} aria-hidden />
               {t("addToCart")}
+            </Button>
+            <Button
+              className="buy-now-button"
+              disabled={p.stock < 1 || leaving}
+              aria-describedby={p.stock < 1 ? "product-stock" : undefined}
+              onClick={buyNow}
+            >
+              <Zap size={16} aria-hidden />
+              {t("buyNow")}
               <ArrowRight className="rtl:-scale-x-100" />
             </Button>
             <WishlistButton productId={p.id} title={p.title} className="detail-heart" />
