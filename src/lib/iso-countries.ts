@@ -47,3 +47,12 @@ export const COUNTRY_OPTIONS = () =>
   ISO_COUNTRY_CODES.map((code) => ({ code, name: countryNameEn(code) })).sort((a, b) =>
     a.name.localeCompare(b.name, "en"),
   );
+
+let sorted: { code: string; name: string }[] | null = null;
+/** The ISO code of a typed English name or code ("finland" → "FI"), or null. */
+export function countryCodeForName(name: string): string | null {
+  const n = name.trim().toLowerCase();
+  if (!n) return null;
+  sorted ??= COUNTRY_OPTIONS();
+  return sorted.find((c) => c.name.toLowerCase() === n || c.code.toLowerCase() === n)?.code ?? null;
+}

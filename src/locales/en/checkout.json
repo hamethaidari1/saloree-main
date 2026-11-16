@@ -44,5 +44,47 @@
     "newOrder": "Place a new order instead",
     "newOrderHint": "The unpaid order is cancelled automatically after about 30 minutes.",
     "expired": "That checkout can no longer be paid. Please place your order again from your bag."
-  }
+  },
+  "overlay": {
+    "title": "Securing your order…",
+    "titleRetry": "Opening the payment page…",
+    "text": "You will be redirected to our secure payment partner, Stripe. Please do not close this page.",
+    "step": {
+      "place": "Placing your order",
+      "reserve": "Reserving your items",
+      "connect": "Connecting to Stripe"
+    },
+    "stepDone": "done",
+    "stepWorking": "in progress",
+    "livePlacing": "Placing your order…",
+    "livePlaced": "Your order is placed and your items are reserved. Connecting to Stripe…",
+    "liveConnecting": "Connecting to Stripe…",
+    "liveConnected": "Connected to Stripe. Opening the payment page…"
+  },
+  "steps": {
+    "label": "Checkout steps",
+    "bag": "Bag",
+    "delivery": "Delivery",
+    "payment": "Payment"
+  },
+  "showSummary": "Show order summary",
+  "hideSummary": "Hide order summary",
+  "countryPlaceholder": "Search for your country",
+  "countryNone": "No country matches.",
+  "countryList": "Countries",
+  "countryPick": "Choose your country from the list.",
+  "phoneHint": "Include your country code, for example +93.",
+  "cardHelp": "You will pay on Stripe's secure page.",
+  "cardBrands": "Cards accepted",
+  "payAmount": "Pay {{amount}}",
+  "apply": "Apply",
+  "discountAdded": "{{code}} will be checked when you place your order.",
+  "trust": {
+    "label": "Secure checkout",
+    "secure": "Secure payment with Stripe",
+    "cod": "Cash on delivery available"
+  },
+  "unavailable": "Some items in your bag are no longer available and were left out.",
+  "separateOrders": "Items from {{stores}} become separate orders, one per store.",
+  "fillToContinue": "Fill in your delivery details to continue."
 }

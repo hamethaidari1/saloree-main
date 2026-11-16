@@ -161,11 +161,12 @@ const placed = {
 };
 
 describe("checkout: pay by card", () => {
-  it("flag off: the card option is not selectable and the app works as before", async () => {
+  // Redesign: with the flag off the card option is hidden (it used to show disabled).
+  it("flag off: the card option is not offered and the app works as before", async () => {
     vi.stubEnv("VITE_STRIPE_ENABLED", "false");
     renderCheckout();
-    expect(await screen.findByRole("radio", { name: /pay by card/i })).toBeDisabled();
-    expect(screen.getByRole("radio", { name: /pay on delivery/i })).toBeChecked();
+    expect(await screen.findByRole("radio", { name: /pay on delivery/i })).toBeChecked();
+    expect(screen.queryByRole("radio", { name: /pay by card/i })).toBeNull();
     expect(screen.getByRole("button", { name: /place order/i })).toBeEnabled();
   });
 
@@ -173,9 +174,19 @@ describe("checkout: pay by card", () => {
     renderCheckout();
     fireEvent.click(await screen.findByRole("radio", { name: /pay by card/i }));
     fillForm();
-    m().state.queue.push({ data: placed }, { data: { url: STRIPE_URL } });
-    fireEvent.click(screen.getByRole("button", { name: /continue to payment/i }));
-    await waitFor(() => expect(h.goTo).toHaveBeenCalledWith(STRIPE_URL));
+    m().state.queue.push(
+      { data: placed },
+      { data: { url: STRIPE_URL } },
+      // While the secure screen is up, the page checks the remembered checkout: still pending.
+      {
+        data: [
+          { id: "o-1", status: "pending", payment_status: "pending", payment_provider: "stripe" },
+        ],
+      },
+    );
+    fireEvent.click(screen.getByRole("button", { name: /pay \$35\.00/i }));
+    // The secure screen stays at least 3 seconds before the redirect.
+    await waitFor(() => expect(h.goTo).toHaveBeenCalledWith(STRIPE_URL), { timeout: 4000 });
     expect(m().state.rpcs[0]).toMatchObject({
       fn: "place_order",
       args: { p_payment_provider: "stripe" },
@@ -202,7 +213,7 @@ describe("checkout: pay by card", () => {
         ],
       },
     );
-    fireEvent.click(screen.getByRole("button", { name: /continue to payment/i }));
+    fireEvent.click(screen.getByRole("button", { name: /pay \$35\.00/i }));
     await waitFor(() =>
       expect(h.toast.error).toHaveBeenCalledWith("Stripe is not configured on the server"),
     );
@@ -213,11 +224,13 @@ describe("checkout: pay by card", () => {
   it("with a COD-paused store, pay by card is selected and the order can be placed", async () => {
     h.paused = ["store-b"];
     renderCheckout();
+    // Redesign: pay-on-delivery is hidden (not disabled) while a store has it paused.
+    await screen.findByRole("radio", { name: /pay by card/i });
     await waitFor(() =>
-      expect(screen.getByRole("radio", { name: /pay on delivery/i })).toBeDisabled(),
+      expect(screen.queryByRole("radio", { name: /pay on delivery/i })).toBeNull(),
     );
     expect(screen.getByRole("radio", { name: /pay by card/i })).toBeChecked();
-    expect(screen.getByRole("button", { name: /continue to payment/i })).toBeEnabled();
+    expect(screen.getByRole("button", { name: /pay \$35\.00/i })).toBeEnabled();
     expect(
       screen.getAllByText(/Cash on delivery is paused for: Beta Decor/).length,
     ).toBeGreaterThan(0);
@@ -242,7 +255,7 @@ describe("checkout: back from Stripe without paying", () => {
     expect(screen.getByRole("button", { name: /continue to payment|place order/i })).toBeDisabled();
     m().state.queue.push({ data: { url: STRIPE_URL } });
     fireEvent.click(screen.getByRole("button", { name: /try payment again/i }));
-    await waitFor(() => expect(h.goTo).toHaveBeenCalledWith(STRIPE_URL));
+    await waitFor(() => expect(h.goTo).toHaveBeenCalledWith(STRIPE_URL), { timeout: 4000 });
     expect(m().state.invokes[0]?.body).toMatchObject({ checkout_group_id: "g-1" });
     expect(m().state.rpcs).toEqual([]); // place_order not called again
   });
@@ -433,7 +446,7 @@ describe("My orders: payment state", () => {
     const pay = await screen.findByRole("button", { name: "Pay now" });
     m().state.queue.push({ data: { url: STRIPE_URL } });
     fireEvent.click(pay);
-    await waitFor(() => expect(h.goTo).toHaveBeenCalledWith(STRIPE_URL));
+    await waitFor(() => expect(h.goTo).toHaveBeenCalledWith(STRIPE_URL), { timeout: 4000 });
     expect(m().state.invokes[0]).toMatchObject({
       name: "create-checkout-session",
       body: { checkout_group_id: "g-aaaaaaaa1" },

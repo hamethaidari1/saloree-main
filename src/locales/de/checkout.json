@@ -44,5 +44,47 @@
     "newOrder": "Stattdessen neu bestellen",
     "newOrderHint": "Die unbezahlte Bestellung wird nach etwa 30 Minuten automatisch storniert.",
     "expired": "Diese Bestellung kann nicht mehr bezahlt werden. Bitte bestelle erneut aus deinem Warenkorb."
-  }
+  },
+  "overlay": {
+    "title": "Deine Bestellung wird gesichert…",
+    "titleRetry": "Die Zahlungsseite wird geöffnet…",
+    "text": "Du wirst zu unserem sicheren Zahlungspartner Stripe weitergeleitet. Bitte schließe diese Seite nicht.",
+    "step": {
+      "place": "Bestellung wird aufgegeben",
+      "reserve": "Artikel werden reserviert",
+      "connect": "Verbindung zu Stripe"
+    },
+    "stepDone": "erledigt",
+    "stepWorking": "läuft",
+    "livePlacing": "Deine Bestellung wird aufgegeben…",
+    "livePlaced": "Deine Bestellung ist aufgegeben und deine Artikel sind reserviert. Verbindung zu Stripe…",
+    "liveConnecting": "Verbindung zu Stripe…",
+    "liveConnected": "Mit Stripe verbunden. Die Zahlungsseite wird geöffnet…"
+  },
+  "steps": {
+    "label": "Schritte zur Kasse",
+    "bag": "Warenkorb",
+    "delivery": "Lieferung",
+    "payment": "Zahlung"
+  },
+  "showSummary": "Bestellübersicht anzeigen",
+  "hideSummary": "Bestellübersicht ausblenden",
+  "countryPlaceholder": "Land suchen",
+  "countryNone": "Kein Land gefunden.",
+  "countryList": "Länder",
+  "countryPick": "Wähle dein Land aus der Liste.",
+  "phoneHint": "Mit Ländervorwahl, zum Beispiel +93.",
+  "cardHelp": "Du bezahlst auf der sicheren Seite von Stripe.",
+  "cardBrands": "Akzeptierte Karten",
+  "payAmount": "{{amount}} bezahlen",
+  "apply": "Anwenden",
+  "discountAdded": "{{code}} wird geprüft, wenn du bestellst.",
+  "trust": {
+    "label": "Sicher bezahlen",
+    "secure": "Sichere Zahlung mit Stripe",
+    "cod": "Zahlung bei Lieferung möglich"
+  },
+  "unavailable": "Einige Artikel in deinem Warenkorb sind nicht mehr verfügbar und wurden weggelassen.",
+  "separateOrders": "Artikel von {{stores}} werden zu getrennten Bestellungen, eine pro Shop.",
+  "fillToContinue": "Gib deine Lieferdaten ein, um fortzufahren."
 }

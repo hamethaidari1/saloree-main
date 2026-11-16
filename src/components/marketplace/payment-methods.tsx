@@ -11,7 +11,7 @@ import {
 } from "@/lib/payment-logos";
 
 /** The supplied logo, or a plain text badge when the file is missing or broken. */
-function BrandLogo({ brand }: { brand: PaymentBrand }) {
+export function BrandLogo({ brand }: { brand: PaymentBrand }) {
   const [failed, setFailed] = useState(false);
   const ref = useRef<HTMLImageElement>(null);
   useEffect(() => {

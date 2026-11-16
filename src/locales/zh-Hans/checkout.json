@@ -44,5 +44,47 @@
     "newOrder": "改为重新下单",
     "newOrderHint": "未支付的订单约 30 分钟后会自动取消。",
     "expired": "该订单已无法支付。请从购物袋重新下单。"
-  }
+  },
+  "overlay": {
+    "title": "正在确保你的订单安全…",
+    "titleRetry": "正在打开付款页面…",
+    "text": "你将被转到我们的安全支付合作伙伴 Stripe。请不要关闭此页面。",
+    "step": {
+      "place": "提交订单",
+      "reserve": "预留商品",
+      "connect": "连接 Stripe"
+    },
+    "stepDone": "已完成",
+    "stepWorking": "进行中",
+    "livePlacing": "正在提交订单…",
+    "livePlaced": "订单已提交，商品已为你预留。正在连接 Stripe…",
+    "liveConnecting": "正在连接 Stripe…",
+    "liveConnected": "已连接 Stripe。正在打开付款页面…"
+  },
+  "steps": {
+    "label": "结账步骤",
+    "bag": "购物袋",
+    "delivery": "配送",
+    "payment": "付款"
+  },
+  "showSummary": "显示订单摘要",
+  "hideSummary": "隐藏订单摘要",
+  "countryPlaceholder": "搜索你的国家/地区",
+  "countryNone": "没有匹配的国家/地区。",
+  "countryList": "国家/地区",
+  "countryPick": "请从列表中选择你的国家/地区。",
+  "phoneHint": "请包含国家/地区代码，例如 +93。",
+  "cardHelp": "你将在 Stripe 的安全页面付款。",
+  "cardBrands": "可用的银行卡",
+  "payAmount": "支付 {{amount}}",
+  "apply": "使用",
+  "discountAdded": "下单时将验证 {{code}}。",
+  "trust": {
+    "label": "安全结账",
+    "secure": "通过 Stripe 安全付款",
+    "cod": "支持货到付款"
+  },
+  "unavailable": "购物袋中的部分商品已无法购买，已被移除。",
+  "separateOrders": "来自 {{stores}} 的商品会按店铺拆分为不同订单。",
+  "fillToContinue": "填写配送信息后即可继续。"
 }

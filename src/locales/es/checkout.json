@@ -44,5 +44,47 @@
     "newOrder": "Hacer un pedido nuevo",
     "newOrderHint": "El pedido sin pagar se cancela automáticamente tras unos 30 minutos.",
     "expired": "Ese pedido ya no se puede pagar. Vuelve a hacer tu pedido desde tu bolsa."
-  }
+  },
+  "overlay": {
+    "title": "Asegurando tu pedido…",
+    "titleRetry": "Abriendo la página de pago…",
+    "text": "Te redirigiremos a nuestro socio de pago seguro, Stripe. No cierres esta página.",
+    "step": {
+      "place": "Realizando tu pedido",
+      "reserve": "Reservando tus artículos",
+      "connect": "Conectando con Stripe"
+    },
+    "stepDone": "hecho",
+    "stepWorking": "en curso",
+    "livePlacing": "Realizando tu pedido…",
+    "livePlaced": "Tu pedido está realizado y tus artículos están reservados. Conectando con Stripe…",
+    "liveConnecting": "Conectando con Stripe…",
+    "liveConnected": "Conectado con Stripe. Abriendo la página de pago…"
+  },
+  "steps": {
+    "label": "Pasos del pago",
+    "bag": "Cesta",
+    "delivery": "Entrega",
+    "payment": "Pago"
+  },
+  "showSummary": "Mostrar resumen del pedido",
+  "hideSummary": "Ocultar resumen del pedido",
+  "countryPlaceholder": "Busca tu país",
+  "countryNone": "Ningún país coincide.",
+  "countryList": "Países",
+  "countryPick": "Elige tu país de la lista.",
+  "phoneHint": "Incluye el prefijo de tu país, por ejemplo +93.",
+  "cardHelp": "Pagarás en la página segura de Stripe.",
+  "cardBrands": "Tarjetas aceptadas",
+  "payAmount": "Pagar {{amount}}",
+  "apply": "Aplicar",
+  "discountAdded": "{{code}} se comprobará cuando realices tu pedido.",
+  "trust": {
+    "label": "Pago seguro",
+    "secure": "Pago seguro con Stripe",
+    "cod": "Pago contra reembolso disponible"
+  },
+  "unavailable": "Algunos artículos de tu cesta ya no están disponibles y se han omitido.",
+  "separateOrders": "Los artículos de {{stores}} se convierten en pedidos separados, uno por tienda.",
+  "fillToContinue": "Completa tus datos de entrega para continuar."
 }

@@ -151,14 +151,15 @@ describe("checkout with a COD-paused store", () => {
     expect(screen.queryByRole("alert")).toBeNull();
   });
 
-  it("disables pay-on-delivery, names the store, and says the order can't be placed (no online payment yet)", async () => {
+  // Redesign: pay-on-delivery is now hidden (not shown disabled) while a store has it paused.
+  it("hides pay-on-delivery, names the store, and says the order can't be placed (no online payment yet)", async () => {
     m().state.queue.push({ data: true }, { data: false });
     renderCheckout();
     const alert = await screen.findByRole("alert");
     expect(alert).toHaveTextContent(
       "Online payment isn't available yet, so this order can't be placed right now. Remove the products from Beta Decor to order the rest.",
     );
-    expect(screen.getByRole("radio", { name: /pay on delivery/i })).toBeDisabled();
+    expect(screen.queryByRole("radio", { name: /pay on delivery/i })).toBeNull();
     expect(
       screen.getByText("Cash on delivery is paused for: Beta Decor. Please pay online."),
     ).toBeTruthy();

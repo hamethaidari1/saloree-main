@@ -44,5 +44,47 @@
     "newOrder": "改為重新下單",
     "newOrderHint": "未付款的訂單約 30 分鐘後會自動取消。",
     "expired": "此訂單已無法付款。請從購物袋重新下單。"
-  }
+  },
+  "overlay": {
+    "title": "正在確保你的訂單安全…",
+    "titleRetry": "正在開啟付款頁面…",
+    "text": "你將被轉到我們的安全付款合作夥伴 Stripe。請不要關閉此頁面。",
+    "step": {
+      "place": "送出訂單",
+      "reserve": "保留商品",
+      "connect": "連線至 Stripe"
+    },
+    "stepDone": "已完成",
+    "stepWorking": "進行中",
+    "livePlacing": "正在送出訂單…",
+    "livePlaced": "訂單已送出，商品已為你保留。正在連線至 Stripe…",
+    "liveConnecting": "正在連線至 Stripe…",
+    "liveConnected": "已連線至 Stripe。正在開啟付款頁面…"
+  },
+  "steps": {
+    "label": "結帳步驟",
+    "bag": "購物袋",
+    "delivery": "配送",
+    "payment": "付款"
+  },
+  "showSummary": "顯示訂單摘要",
+  "hideSummary": "隱藏訂單摘要",
+  "countryPlaceholder": "搜尋你的國家/地區",
+  "countryNone": "沒有相符的國家/地區。",
+  "countryList": "國家/地區",
+  "countryPick": "請從清單中選擇你的國家/地區。",
+  "phoneHint": "請包含國家/地區代碼，例如 +93。",
+  "cardHelp": "你將在 Stripe 的安全頁面付款。",
+  "cardBrands": "接受的卡片",
+  "payAmount": "支付 {{amount}}",
+  "apply": "套用",
+  "discountAdded": "下單時將驗證 {{code}}。",
+  "trust": {
+    "label": "安全結帳",
+    "secure": "透過 Stripe 安全付款",
+    "cod": "提供貨到付款"
+  },
+  "unavailable": "購物袋中的部分商品已無法購買，已被移除。",
+  "separateOrders": "來自 {{stores}} 的商品會依店家分成不同訂單。",
+  "fillToContinue": "填寫配送資料後即可繼續。"
 }

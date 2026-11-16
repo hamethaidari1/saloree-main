@@ -28,7 +28,9 @@ import {
   cardPaymentService,
   orderPaymentState,
 } from "@/services/card-payment";
-import { goToPaymentPage, savePendingPayment } from "@/lib/pending-payment";
+import { savePendingPayment } from "@/lib/pending-payment";
+import { PaymentOverlay } from "@/components/checkout/payment-overlay";
+import { usePaymentOverlay } from "@/components/checkout/use-payment-overlay";
 import { stripeEnabled } from "@/services/checkout";
 
 export const Route = createFileRoute("/account")({
@@ -74,14 +76,18 @@ function AccountPage() {
   });
   // Pays the whole checkout on Stripe's page (the server reuses an open session).
   const [redirecting, setRedirecting] = useState<string | null>(null);
+  // The same "Opening the payment page" screen as checkout, on every way to Stripe.
+  const overlay = usePaymentOverlay({ onPageRestore: () => setRedirecting(null) });
   const payNow = useMutation({
     mutationFn: (groupId: string) => cardPaymentService.startPayment(groupId),
-    onSuccess: (url, groupId) => {
+    onSuccess: async (url, groupId) => {
+      overlay.mark("connected");
       savePendingPayment(groupId);
       setRedirecting(groupId);
-      goToPaymentPage(url);
+      await overlay.redirect(url);
     },
     onError: (e) => {
+      overlay.close();
       if (e instanceof CardPaymentError && e.problem !== "other") {
         toast.error(
           t(e.problem === "paid" ? "checkout.alreadyPaid" : "checkout.paymentExpired", {
@@ -223,8 +229,11 @@ function AccountPage() {
                     {payable && (
                       <Button
                         size="sm"
-                        disabled={paying || payNow.isPending}
-                        onClick={() => o.checkout_group_id && payNow.mutate(o.checkout_group_id)}
+                        disabled={paying || payNow.isPending || overlay.state.open}
+                        onClick={() => {
+                          if (!o.checkout_group_id || !overlay.start("retry")) return;
+                          payNow.mutate(o.checkout_group_id);
+                        }}
                       >
                         {paying
                           ? t("payment.opening", { ns: "orders" })
@@ -258,6 +267,7 @@ function AccountPage() {
         </ul>
       )}
       <ConfirmDialog request={confirm} busy={cancel.isPending} onClose={() => setConfirm(null)} />
+      <PaymentOverlay state={overlay.state} />
     </main>
   );
 }
