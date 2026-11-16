@@ -27,7 +27,15 @@ import {
   toFooterContent,
   type FooterContent,
 } from "@/services/site";
+import {
+  DEFAULT_INSTAGRAM_URL,
+  DEFAULT_TIKTOK_URL,
+  companyDetailsSchema,
+  mergeCompanyDetails,
+} from "@/services/finance";
 import type { FooterLinkRow, SiteSettingsFooterRow } from "@/data/db";
+import { readdirSync, readFileSync } from "node:fs";
+import { join } from "node:path";
 
 const m = () => mock.current!;
 beforeEach(() => m().reset());
@@ -128,8 +136,13 @@ describe("site footer: default columns", () => {
     expect(footer.textContent).toContain("Cash on delivery");
   });
 
-  it("uses '© <year> Saloree' and hides company details and social links when missing", async () => {
-    const { footer } = await renderFooter(toFooterContent(settings(), []));
+  it("uses '© <year> Saloree' and hides company details and social links when missing/hidden", async () => {
+    const { footer } = await renderFooter(
+      toFooterContent(
+        settings({ footer_settings: { instagram_url: "hide", tiktok_url: "hide" } }),
+        [],
+      ),
+    );
     expect(screen.getByTestId("footer-copyright").textContent).toBe(
       `© ${new Date().getFullYear()} Saloree`,
     );
@@ -143,13 +156,12 @@ describe("site footer: default columns", () => {
       settings({
         copyright_text: "© 2026 Saloree Ltd.",
         footer_description: "Independent stores, one cart.",
-        facebook_url: "https://facebook.com/saloree",
-        instagram_url: "javascript:alert(1)",
-        twitter_url: "",
         footer_settings: {
           legal_name: "Saloree Trading LLC",
           business_id: "AF-123456",
           address: "Kabul, Afghanistan",
+          instagram_url: "https://www.instagram.com/saloreecom/",
+          tiktok_url: "hide",
         },
       }),
       [],
@@ -163,11 +175,11 @@ describe("site footer: default columns", () => {
     expect(company.textContent).toContain("Kabul, Afghanistan");
     const social = within(footer).getByRole("list", { name: /social media/i });
     const socialLinks = within(social).getAllByRole("link");
-    expect(socialLinks).toHaveLength(1); // the javascript: and empty URLs are dropped
-    expect(socialLinks[0]).toHaveAttribute("href", "https://facebook.com/saloree");
+    expect(socialLinks).toHaveLength(1);
+    expect(socialLinks[0]).toHaveAttribute("href", "https://www.instagram.com/saloreecom/");
     expect(socialLinks[0]).toHaveAttribute("rel", "noopener noreferrer");
     expect(socialLinks[0]).toHaveAttribute("target", "_blank");
-    expect(socialLinks[0]).toHaveAccessibleName(/Facebook/);
+    expect(socialLinks[0]).toHaveAccessibleName(/Instagram/);
   });
 });
 
@@ -349,5 +361,211 @@ describe("siteService.getFooter", () => {
   it("surfaces database errors as-is", async () => {
     m().state.queue.push({ error: { code: "PGRST205", message: "Could not find the table" } });
     await expect(siteService.getFooter()).rejects.toMatchObject({ code: "PGRST205" });
+  });
+});
+
+describe("site footer: social media links (Instagram and TikTok)", () => {
+  it("renders both links with exact default hrefs, rel, target, and aria-label", async () => {
+    const { footer } = await renderFooter(toFooterContent(settings(), []));
+    const social = within(footer).getByRole("list", { name: /social media/i });
+    const links = within(social).getAllByRole("link");
+    expect(links).toHaveLength(2);
+
+    // Instagram
+    expect(links[0]).toHaveAttribute("href", DEFAULT_INSTAGRAM_URL);
+    expect(links[0].getAttribute("href")).toBe("https://www.instagram.com/saloreecom/");
+    expect(links[0]).toHaveAttribute("target", "_blank");
+    expect(links[0]).toHaveAttribute("rel", "noopener noreferrer");
+    expect(links[0]).toHaveAccessibleName(/Instagram/);
+    expect(links[0].getAttribute("aria-label")).toMatch(/Instagram/);
+    expect(links[0].textContent).toMatch(/opens in a new tab/i);
+
+    // TikTok
+    expect(links[1]).toHaveAttribute("href", DEFAULT_TIKTOK_URL);
+    expect(links[1].getAttribute("href")).toBe("https://www.tiktok.com/@saloree.com");
+    expect(links[1].getAttribute("href")).not.toContain("?lang=en");
+    expect(links[1]).toHaveAttribute("target", "_blank");
+    expect(links[1]).toHaveAttribute("rel", "noopener noreferrer");
+    expect(links[1]).toHaveAccessibleName(/TikTok/);
+    expect(links[1].getAttribute("aria-label")).toMatch(/TikTok/);
+    expect(links[1].textContent).toMatch(/opens in a new tab/i);
+
+    // Heading exists
+    expect(within(footer).getByRole("heading", { name: /Follow Saloree/i })).toBeTruthy();
+  });
+
+  it("falls back to default URLs when fields are empty", async () => {
+    const content = toFooterContent(
+      settings({
+        footer_settings: {
+          instagram_url: "",
+          tiktok_url: "   ",
+        },
+      }),
+      [],
+    );
+    const { footer } = await renderFooter(content);
+    const social = within(footer).getByRole("list", { name: /social media/i });
+    const links = within(social).getAllByRole("link");
+    expect(links).toHaveLength(2);
+    expect(links[0]).toHaveAttribute("href", DEFAULT_INSTAGRAM_URL);
+    expect(links[1]).toHaveAttribute("href", DEFAULT_TIKTOK_URL);
+  });
+
+  it("is hidden when explicitly hidden with 'hide'", async () => {
+    // Hide Instagram only
+    const hideIg = toFooterContent(
+      settings({ footer_settings: { instagram_url: "hide" } }),
+      [],
+    );
+    const view1 = await renderFooter(hideIg);
+    const social1 = within(view1.footer).getByRole("list", { name: /social media/i });
+    const links1 = within(social1).getAllByRole("link");
+    expect(links1).toHaveLength(1);
+    expect(links1[0]).toHaveAttribute("href", DEFAULT_TIKTOK_URL);
+
+    // Hide TikTok only
+    const hideTt = toFooterContent(
+      settings({ footer_settings: { tiktok_url: "hide" } }),
+      [],
+    );
+    const view2 = await renderFooter(hideTt);
+    const social2 = within(view2.footer).getByRole("list", { name: /social media/i });
+    const links2 = within(social2).getAllByRole("link");
+    expect(links2).toHaveLength(1);
+    expect(links2[0]).toHaveAttribute("href", DEFAULT_INSTAGRAM_URL);
+
+    // Hide both
+    const hideBoth = toFooterContent(
+      settings({ footer_settings: { instagram_url: "hide", tiktok_url: "hide" } }),
+      [],
+    );
+    const view3 = await renderFooter(hideBoth);
+    expect(within(view3.footer).queryByRole("list", { name: /social media/i })).toBeNull();
+    expect(within(view3.footer).queryByRole("heading", { name: /Follow Saloree/i })).toBeNull();
+  });
+
+  it("renders custom valid URLs when specified by owner", async () => {
+    const content = toFooterContent(
+      settings({
+        footer_settings: {
+          instagram_url: "https://www.instagram.com/custom_saloree/",
+          tiktok_url: "https://tiktok.com/@custom_saloree",
+        },
+      }),
+      [],
+    );
+    const { footer } = await renderFooter(content);
+    const social = within(footer).getByRole("list", { name: /social media/i });
+    const links = within(social).getAllByRole("link");
+    expect(links[0]).toHaveAttribute("href", "https://www.instagram.com/custom_saloree/");
+    expect(links[1]).toHaveAttribute("href", "https://tiktok.com/@custom_saloree");
+  });
+
+  it("drops unsafe or wrong-host URLs without crashing", async () => {
+    const content = toFooterContent(
+      settings({
+        footer_settings: {
+          instagram_url: "javascript:alert(1)",
+          tiktok_url: "https://evil.com/not-tiktok",
+        },
+      }),
+      [],
+    );
+    const { footer } = await renderFooter(content);
+    expect(within(footer).queryByRole("list", { name: /social media/i })).toBeNull();
+  });
+
+  it("no external requests are made by the icons (inline SVG only)", async () => {
+    const { footer } = await renderFooter(toFooterContent(settings(), []));
+    const social = within(footer).getByRole("list", { name: /social media/i });
+    const svgs = social.querySelectorAll("svg");
+    expect(svgs.length).toBe(2);
+    for (const svg of svgs) {
+      expect(svg.querySelector("image")).toBeNull();
+      expect(svg.innerHTML).not.toMatch(/https?:\/\//i);
+      expect(svg.innerHTML).not.toMatch(/xlink:href/i);
+    }
+    expect(social.querySelectorAll("img").length).toBe(0);
+  });
+});
+
+describe("companyDetailsSchema & admin footer_settings", () => {
+  it("zod rejects non-https URLs, invalid protocols and other hosts", () => {
+    expect(companyDetailsSchema.safeParse({ instagram_url: "http://instagram.com/saloree" }).success).toBe(false);
+    expect(companyDetailsSchema.safeParse({ instagram_url: "javascript:alert(1)" }).success).toBe(false);
+    expect(companyDetailsSchema.safeParse({ instagram_url: "https://facebook.com/saloree" }).success).toBe(false);
+    expect(companyDetailsSchema.safeParse({ instagram_url: "https://notinstagram.com/saloree" }).success).toBe(false);
+    expect(companyDetailsSchema.safeParse({ instagram_url: "https://www.instagram.com/" + "a".repeat(200) }).success).toBe(false);
+
+    expect(companyDetailsSchema.safeParse({ tiktok_url: "http://tiktok.com/@saloree" }).success).toBe(false);
+    expect(companyDetailsSchema.safeParse({ tiktok_url: "javascript:alert(1)" }).success).toBe(false);
+    expect(companyDetailsSchema.safeParse({ tiktok_url: "https://youtube.com/@saloree" }).success).toBe(false);
+    expect(companyDetailsSchema.safeParse({ tiktok_url: "https://www.tiktok.com/" + "a".repeat(200) }).success).toBe(false);
+  });
+
+  it("zod accepts valid https URLs, empty values and 'hide'", () => {
+    expect(
+      companyDetailsSchema.safeParse({
+        instagram_url: "https://www.instagram.com/saloreecom/",
+        tiktok_url: "https://www.tiktok.com/@saloree.com",
+      }).success,
+    ).toBe(true);
+
+    expect(
+      companyDetailsSchema.safeParse({
+        instagram_url: "https://instagram.com/saloreecom/",
+        tiktok_url: "https://tiktok.com/@saloree.com",
+      }).success,
+    ).toBe(true);
+
+    expect(
+      companyDetailsSchema.safeParse({
+        instagram_url: "hide",
+        tiktok_url: "HIDE",
+      }).success,
+    ).toBe(true);
+
+    expect(
+      companyDetailsSchema.safeParse({
+        instagram_url: "",
+        tiktok_url: null,
+      }).success,
+    ).toBe(true);
+  });
+
+  it("admin fields save into footer_settings without touching the other footer settings", () => {
+    const existing = {
+      theme: "dark",
+      legal_name: "Saloree LLC",
+      business_id: "AF-1",
+      custom_flag: true,
+    };
+    const parsed = companyDetailsSchema.parse({
+      instagram_url: "https://www.instagram.com/saloreecom/",
+      tiktok_url: "hide",
+    });
+    const merged = mergeCompanyDetails(existing, parsed);
+    expect(merged).toEqual({
+      theme: "dark",
+      legal_name: "Saloree LLC",
+      business_id: "AF-1",
+      custom_flag: true,
+      instagram_url: "https://www.instagram.com/saloreecom/",
+      tiktok_url: "hide",
+    });
+  });
+});
+
+describe("i18n check for social keys", () => {
+  it("followUs and opensInNewTab exist in all 10 locales", () => {
+    const root = join(process.cwd(), "src/locales");
+    const codes = ["ar", "de", "en", "es", "fi", "he", "ko", "pt", "zh-Hans", "zh-Hant"];
+    for (const code of codes) {
+      const footerJson = JSON.parse(readFileSync(join(root, code, "footer.json"), "utf8")) as Record<string, string>;
+      expect(footerJson.followUs, `${code} missing followUs`).toBeTruthy();
+      expect(footerJson.opensInNewTab, `${code} missing opensInNewTab`).toBeTruthy();
+      expect(footerJson.socialLink, `${code} missing socialLink`).toBeTruthy();
+    }
   });
 });

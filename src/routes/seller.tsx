@@ -1,16 +1,16 @@
-import { useEffect, useMemo, useState } from "react";
+import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { CatalogSkeleton } from "@/components/marketplace/shared";
-import { SELECTED_STORE_KEY, SellerProvider } from "@/components/seller/seller-context";
+import { SellerProvider } from "@/components/seller/seller-context";
 import { SellerShell } from "@/components/seller/seller-shell";
-import { StoreForm } from "@/components/seller/store-form";
+import { CreateStoreForm } from "@/components/seller/create-store";
+import { useCreateStore } from "@/components/seller/use-create-store";
 import { GettingStarted } from "@/components/seller/verification/onboarding";
 import { requireAuth } from "@/lib/auth";
-import { legalDocument } from "@/services/legal";
-import { friendlyError, sellerService, storeError } from "@/services/seller";
+import { readActiveStoreId, resolveActiveStore, writeActiveStoreId } from "@/lib/active-store";
+import { friendlyError, sellerService } from "@/services/seller";
 
 /** Layout for every /seller/* page: loads the seller's stores, then the sidebar shell. */
 export const Route = createFileRoute("/seller")({
@@ -25,7 +25,6 @@ export const Route = createFileRoute("/seller")({
 
 function SellerLayout() {
   const { user } = Route.useRouteContext();
-  const queryClient = useQueryClient();
   const storesKey = useMemo(() => ["seller", "stores", user.id] as const, [user.id]);
   const stores = useQuery({ queryKey: storesKey, queryFn: sellerService.getMyStores });
   const categories = useQuery({
@@ -33,42 +32,23 @@ function SellerLayout() {
     queryFn: sellerService.getCategories,
     staleTime: 5 * 60_000,
   });
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  useEffect(() => {
-    try {
-      setSelectedId(localStorage.getItem(SELECTED_STORE_KEY));
-    } catch {
-      /* storage unavailable */
-    }
-  }, []);
-  const selectStore = (id: string) => {
+  // The active store: remembered id, but only if it is one of MY stores (checked below).
+  const [selectedId, setSelectedId] = useState<string | null>(() => readActiveStoreId());
+  const selectStore = useCallback((id: string) => {
     setSelectedId(id);
-    try {
-      localStorage.setItem(SELECTED_STORE_KEY, id);
-    } catch {
-      /* storage unavailable */
-    }
-  };
-
-  const agreement = legalDocument("seller-agreement");
-  const createStore = useMutation({
-    mutationFn: (args: Parameters<typeof sellerService.createStore>) =>
-      sellerService.createStore(...args),
-    onSuccess: async (store) => {
-      toast.success(`${store.name} was created as a draft`);
-      if (agreement)
-        await sellerService
-          .recordSellerAgreement(store.id, agreement.updated)
-          .catch((e: { message?: string; code?: string }) =>
-            toast.warning(
-              `Your acceptance of the Seller Agreement could not be saved: ${e.message ?? String(e)}${e.code ? ` (${e.code})` : ""}`,
-            ),
-          );
-      selectStore(store.id);
-      await queryClient.invalidateQueries({ queryKey: storesKey });
-    },
-    onError: (e) => toast.error(storeError(e)),
+    writeActiveStoreId(id);
+  }, []);
+  const createStore = useCreateStore({
+    userId: user.id,
+    storesKey,
+    onCreated: (store) => selectStore(store.id),
   });
+  const active = stores.data ? resolveActiveStore(stores.data, selectedId) : null;
+  // A remembered id that isn't mine (or is gone) is replaced by the store actually shown.
+  const activeId = active?.id ?? null;
+  useEffect(() => {
+    if (activeId && activeId !== selectedId) selectStore(activeId);
+  }, [activeId, selectedId, selectStore]);
 
   if (stores.isPending || categories.isPending) return <CatalogSkeleton />;
   if (stores.isError || categories.isError)
@@ -91,7 +71,7 @@ function SellerLayout() {
       </main>
     );
 
-  const store = stores.data.find((s) => s.id === selectedId) ?? stores.data[0];
+  const store = active;
   if (!store)
     return (
       <GettingStarted userId={user.id} categoryNames={categories.data.map((c) => c.name)}>
@@ -103,11 +83,11 @@ function SellerLayout() {
             Your store starts as a draft, so you can add products before shoppers see it. It can be
             published once your verification is approved.
           </p>
-          <StoreForm
+          <CreateStoreForm
+            stores={stores.data}
             categoryNames={categories.data.map((c) => c.name)}
-            submitLabel="Create store"
-            agreement={agreement}
             busy={createStore.isPending}
+            error={createStore.error}
             onSubmit={(values, files) => createStore.mutateAsync([values, files])}
           />
         </section>
@@ -126,7 +106,11 @@ function SellerLayout() {
       }}
     >
       <SellerShell>
-        <Outlet />
+        {/* Keyed by the active store: switching remounts the page (same page type), so no
+            state of the other store survives; every query key also carries the store id. */}
+        <Fragment key={store.id}>
+          <Outlet />
+        </Fragment>
       </SellerShell>
     </SellerProvider>
   );

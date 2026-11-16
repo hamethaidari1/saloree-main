@@ -89,10 +89,10 @@ function AdminPanel({
           <OverviewPanel />
         </TabsContent>
         <TabsContent value="stores" className="mt-6">
-          <StoresPanel />
+          <StoresPanel canSetLimit />
         </TabsContent>
         <TabsContent value="applications" className="mt-6">
-          <SellerApplicationsPanel canReview />
+          <SellerApplicationsPanel canReview canSetLimit />
         </TabsContent>
         <TabsContent value="messages" className="mt-6">
           <StaffSupportPanel panel="admin" />

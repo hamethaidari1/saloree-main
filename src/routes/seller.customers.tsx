@@ -34,11 +34,11 @@ const COLUMNS: { key: CustomerSort["key"]; label: string; numeric?: boolean }[] 
 ];
 
 function CustomerOrders({ customer }: { customer: SellerCustomer }) {
-  const { stores } = useSeller();
-  const storeIds = stores.map((s) => s.id);
+  const { store } = useSeller();
+  // Only this store's orders of this customer.
   const orders = useQuery({
-    queryKey: ["seller", "customer-orders", customer.customer_id, ...storeIds],
-    queryFn: () => sellerDashboardService.customerOrders(customer.customer_id, storeIds),
+    queryKey: ["seller", "customer-orders", store.id, customer.customer_id],
+    queryFn: () => sellerDashboardService.customerOrders(customer.customer_id, [store.id]),
   });
   return (
     <div className="grid gap-4 px-5 pb-8">
@@ -84,7 +84,6 @@ function CustomerOrders({ customer }: { customer: SellerCustomer }) {
                 </div>
                 <p className="text-xs text-muted-foreground">
                   {new Date(o.created_at).toLocaleString()}
-                  {stores.length > 1 && o.stores?.name && ` · ${o.stores.name}`}
                 </p>
                 <ul className="checkout-lines">
                   {o.order_items.map((i) => (
@@ -110,9 +109,10 @@ function CustomerOrders({ customer }: { customer: SellerCustomer }) {
 }
 
 function CustomersPage() {
+  const { store } = useSeller();
   const customers = useQuery({
-    queryKey: ["seller", "customers"],
-    queryFn: sellerDashboardService.customers,
+    queryKey: ["seller", "customers", store.id],
+    queryFn: () => sellerDashboardService.customers(store.id),
   });
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState<CustomerSort>({ key: "last_order_at", dir: "desc" });

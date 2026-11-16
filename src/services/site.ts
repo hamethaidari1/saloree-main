@@ -2,6 +2,13 @@ import { queryOptions } from "@tanstack/react-query";
 import type { FooterLinkRow, SiteSettingsFooterRow } from "@/data/db";
 import { supabase } from "@/lib/supabase";
 import { safeHttpsUrl } from "@/lib/tracking";
+import {
+  DEFAULT_INSTAGRAM_URL,
+  DEFAULT_TIKTOK_URL,
+  INSTAGRAM_HOSTS,
+  TIKTOK_HOSTS,
+  resolveSocialUrl,
+} from "./finance";
 
 export interface FooterLink {
   label: string;
@@ -23,7 +30,7 @@ export interface FooterContent {
   description: string | null;
   /** copyright_text, or null to use "© <year> Saloree". */
   copyright: string | null;
-  social: { label: "Facebook" | "Instagram" | "X (Twitter)"; url: string }[];
+  social: { label: "Instagram" | "TikTok"; url: string }[];
   company: FooterCompany;
   /** Columns from footer_links; empty means "use the built-in columns". */
   columns: FooterColumn[];
@@ -55,17 +62,17 @@ export function toFooterContent(
   settings: SiteSettingsFooterRow | null,
   links: FooterLinkRow[],
 ): FooterContent {
-  const fs = settings?.footer_settings ?? {};
-  const social = (
-    [
-      ["Facebook", settings?.facebook_url],
-      ["Instagram", settings?.instagram_url],
-      ["X (Twitter)", settings?.twitter_url],
-    ] as const
-  ).flatMap(([label, url]) => {
-    const safe = safeHttpsUrl(url);
-    return safe ? [{ label, url: safe }] : [];
-  });
+  const fs = (settings?.footer_settings ?? {}) as Record<string, unknown>;
+  const rawInstagram =
+    fs["instagram_url"] !== undefined ? fs["instagram_url"] : settings?.instagram_url;
+  const instagram = resolveSocialUrl(rawInstagram, DEFAULT_INSTAGRAM_URL, INSTAGRAM_HOSTS);
+
+  const rawTikTok = fs["tiktok_url"];
+  const tiktok = resolveSocialUrl(rawTikTok, DEFAULT_TIKTOK_URL, TIKTOK_HOSTS);
+
+  const social: { label: "Instagram" | "TikTok"; url: string }[] = [];
+  if (instagram) social.push({ label: "Instagram", url: instagram });
+  if (tiktok) social.push({ label: "TikTok", url: tiktok });
 
   // Group active rows by category, columns in order of their first link.
   const columns: FooterColumn[] = [];

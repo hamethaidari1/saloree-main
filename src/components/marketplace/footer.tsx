@@ -4,18 +4,19 @@ import { LanguageSelect } from "./header/language-select";
 import { useEffect, type MouseEvent, type ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useRouter } from "@tanstack/react-router";
-import { ArrowUp, Facebook, Instagram, Twitter } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 import type { Category } from "@/data/catalog";
 import { EMPTY_FOOTER, footerQuery, type FooterContent } from "@/services/site";
 import { legalDocuments } from "@/services/legal";
 import { useLegalLinks } from "@/components/legal/legal-links";
 import { Logo } from "./logo";
 import { PaymentMethods } from "./payment-methods";
+import { InstagramIcon, TikTokIcon } from "./social-icons";
 
 /** How many database categories the "Shop" column lists. */
 const FOOTER_CATEGORY_COUNT = 4;
 
-const SOCIAL_ICONS = { Facebook, Instagram, "X (Twitter)": Twitter } as const;
+const SOCIAL_ICONS = { Instagram: InstagramIcon, TikTok: TikTokIcon } as const;
 
 function scrollToTop() {
   const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
@@ -226,8 +227,34 @@ export function SiteFooter({
         </div>
       </nav>
 
-      <div className="market-container">
+      <div className="market-container footer-middle">
         <PaymentMethods />
+        {content.social.length > 0 && (
+          <section className="footer-follow" aria-labelledby="footer-follow-heading">
+            <h2 id="footer-follow-heading" className="footer-heading footer-follow-heading">
+              {t("followUs")}
+            </h2>
+            <ul className="footer-social" aria-label={t("socialList")}>
+              {content.social.map((s) => {
+                const Icon = SOCIAL_ICONS[s.label];
+                return (
+                  <li key={s.label}>
+                    <a
+                      href={s.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={t("socialLink", { network: s.label })}
+                      className="footer-social-link"
+                    >
+                      <Icon aria-hidden="true" />
+                      <span className="sr-only"> {t("opensInNewTab")}</span>
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        )}
       </div>
 
       <div className="footer-base">
@@ -242,27 +269,6 @@ export function SiteFooter({
               </p>
             )}
           </div>
-
-          {content.social.length > 0 && (
-            <ul className="footer-social" aria-label={t("socialList")}>
-              {content.social.map((s) => {
-                const Icon = SOCIAL_ICONS[s.label];
-                return (
-                  <li key={s.label}>
-                    <a
-                      href={s.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={t("socialLink", { network: s.label })}
-                      className="footer-social-link"
-                    >
-                      <Icon aria-hidden="true" />
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          )}
 
           <div className="footer-legal">
             <div className="footer-lang">

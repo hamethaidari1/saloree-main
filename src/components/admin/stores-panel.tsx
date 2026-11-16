@@ -24,6 +24,7 @@ import {
   verificationKeys,
 } from "@/services/seller-verification";
 import { ConfirmDialog, type ConfirmRequest } from "./confirm-dialog";
+import { StoreLimitControl } from "@/components/staff/store-limit";
 import { adminKeys } from "./keys";
 import { matches, useAdminAction } from "./use-admin-action";
 
@@ -47,7 +48,15 @@ function OwnerVerification({ status }: { status: VerificationStatus | null | und
 }
 
 /** Store details + its products, in a side drawer. */
-function StoreDrawer({ store, onClose }: { store: AdminStore | null; onClose: () => void }) {
+function StoreDrawer({
+  store,
+  onClose,
+  canSetLimit,
+}: {
+  store: AdminStore | null;
+  onClose: () => void;
+  canSetLimit: boolean;
+}) {
   const products = useQuery({
     queryKey: [...adminKeys.stores, "products", store?.id ?? ""],
     queryFn: () => marketplaceService.storeProducts(store!.id),
@@ -81,6 +90,8 @@ function StoreDrawer({ store, onClose }: { store: AdminStore | null; onClose: ()
               <dt>Description</dt>
               <dd dir="auto">{store.description || "—"}</dd>
             </dl>
+            <h3 className="staff-subhead">Owner's stores</h3>
+            <StoreLimitControl userId={store.owner_id} canEdit={canSetLimit} />
             <h3 className="staff-subhead">Products ({store.productCount})</h3>
             {products.isPending ? (
               <div className="seller-skeleton" aria-busy="true" aria-label="Loading products">
@@ -135,10 +146,14 @@ function StoreDrawer({ store, onClose }: { store: AdminStore | null; onClose: ()
 export function StoresPanel({
   myUserId = null,
   canChangeOwn = true,
+  canSetLimit = false,
 }: {
   myUserId?: string | null;
   canChangeOwn?: boolean;
+  /** Admins only: change an owner's store limit from the store drawer. */
+  canSetLimit?: boolean;
 }) {
+  const [byOwner, setByOwner] = useState(false);
   const stores = useQuery({ queryKey: adminKeys.stores, queryFn: adminService.listStores });
   const ownerIds = [...new Set((stores.data ?? []).map((s) => s.owner_id))].sort();
   const verification = useQuery({
@@ -182,6 +197,14 @@ export function StoresPanel({
             <option value="draft">Waiting for approval (draft)</option>
             <option value="published">Published</option>
           </select>
+          <label className="seller-check text-sm">
+            <input
+              type="checkbox"
+              checked={byOwner}
+              onChange={(e) => setByOwner(e.target.checked)}
+            />
+            Group by owner
+          </label>
           <Input
             type="search"
             className="admin-search"
@@ -206,11 +229,22 @@ export function StoresPanel({
         }}
       >
         {(all) => {
-          const list = all.filter(
+          // How many stores each owner has: one person may run several.
+          const perOwner = new Map<string, number>();
+          for (const s of all) perOwner.set(s.owner_id, (perOwner.get(s.owner_id) ?? 0) + 1);
+          const filtered = all.filter(
             (s) =>
               (!status || s.status === status) &&
               matches(search, s.name, s.slug, s.ownerEmail, s.ownerName),
           );
+          const list = byOwner
+            ? [...filtered].sort(
+                (a, b) =>
+                  (a.ownerName ?? a.ownerEmail ?? a.owner_id).localeCompare(
+                    b.ownerName ?? b.ownerEmail ?? b.owner_id,
+                  ) || a.name.localeCompare(b.name),
+              )
+            : filtered;
           if (!list.length) return <p className="seller-hint">No stores match these filters.</p>;
           return (
             <ul className="seller-list">
@@ -241,6 +275,14 @@ export function StoresPanel({
                         )}
                         <span aria-hidden>·</span>
                         {s.productCount} product{s.productCount === 1 ? "" : "s"}
+                        {(perOwner.get(s.owner_id) ?? 1) > 1 && (
+                          <>
+                            <span aria-hidden>·</span>
+                            <span className="staff-owner-stores" data-testid="owner-store-count">
+                              Owner has {perOwner.get(s.owner_id)} stores
+                            </span>
+                          </>
+                        )}
                       </p>
                     </div>
                     <Badge variant={published ? "default" : "secondary"}>{s.status}</Badge>
@@ -308,7 +350,7 @@ export function StoresPanel({
           );
         }}
       </PanelState>
-      <StoreDrawer store={open} onClose={() => setOpen(null)} />
+      <StoreDrawer store={open} onClose={() => setOpen(null)} canSetLimit={canSetLimit} />
       <ConfirmDialog request={confirm} busy={change.isPending} onClose={() => setConfirm(null)} />
     </section>
   );

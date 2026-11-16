@@ -21,19 +21,19 @@ export const Route = createFileRoute("/seller/")({
 });
 
 function SellerHome() {
-  const { user, stores } = useSeller();
-  const storeIds = stores.map((s) => s.id);
+  const { user, store, stores } = useSeller();
+  // The cards are about the ACTIVE store only (its id is in every key).
   const analytics = useQuery({
-    queryKey: ["seller", "analytics", 7],
-    queryFn: () => sellerDashboardService.analytics(7),
+    queryKey: ["seller", "analytics", store.id, 7],
+    queryFn: () => sellerDashboardService.analytics(7, store.id),
   });
   const pending = useQuery({
-    queryKey: ["seller", "pending-count", ...storeIds],
-    queryFn: () => sellerDashboardService.pendingOrdersCount(storeIds),
+    queryKey: ["seller", "pending-count", store.id],
+    queryFn: () => sellerDashboardService.pendingOrdersCount([store.id]),
   });
   const lowStock = useQuery({
-    queryKey: ["seller", "low-stock", ...storeIds],
-    queryFn: () => sellerDashboardService.lowStock(storeIds),
+    queryKey: ["seller", "low-stock", store.id],
+    queryFn: () => sellerDashboardService.lowStock([store.id]),
   });
   const name = String(user.user_metadata?.["full_name"] ?? "").split(/\s+/)[0];
 
@@ -41,8 +41,9 @@ function SellerHome() {
     <div className="seller-page">
       <SellerPageHeader
         title={name ? `Welcome back, ${name}` : "Home"}
-        description={`Last 7 days${stores.length > 1 ? " · all your stores" : ""}`}
+        description={`${store.name} · last 7 days`}
       />
+      {stores.length > 1 && <AllStoresRow />}
 
       {analytics.isPending ? (
         <TilesSkeleton />
@@ -136,5 +137,45 @@ function SellerHome() {
         </section>
       </div>
     </div>
+  );
+}
+
+/** Sellers with several stores: a small overview of all of them (seller_analytics with no store). */
+function AllStoresRow() {
+  const all = useQuery({
+    queryKey: ["seller", "analytics", "all-stores", 7],
+    queryFn: () => sellerDashboardService.analytics(7, null),
+  });
+  const today = new Date().toISOString().slice(0, 10);
+  if (all.isPending) return null;
+  if (all.isError)
+    return <QueryError query={all} title="The all-stores overview could not be loaded." />;
+  const todayRow = all.data.by_day.find((d) => d.day.slice(0, 10) === today);
+  return (
+    <section
+      className="seller-all-stores"
+      aria-labelledby="all-stores-title"
+      data-testid="all-stores"
+    >
+      <h2 id="all-stores-title">All stores</h2>
+      <dl>
+        <div>
+          <dt>Orders today</dt>
+          <dd>{formatCount(todayRow?.orders ?? 0)}</dd>
+        </div>
+        <div>
+          <dt>Sales today</dt>
+          <dd>{money(todayRow?.sales ?? 0)}</dd>
+        </div>
+        <div>
+          <dt>Orders, last 7 days</dt>
+          <dd>{formatCount(all.data.orders)}</dd>
+        </div>
+        <div>
+          <dt>Sales, last 7 days</dt>
+          <dd>{money(all.data.gross_sales)}</dd>
+        </div>
+      </dl>
+    </section>
   );
 }

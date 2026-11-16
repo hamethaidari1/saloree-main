@@ -29,12 +29,13 @@ export const Route = createFileRoute("/seller/analytics")({
 });
 
 function AnalyticsPage() {
-  const { stores, store } = useSeller();
+  const { store } = useSeller();
   const { days = 30 } = Route.useSearch();
   const navigate = useNavigate({ from: "/seller/analytics" });
   const q = useQuery({
-    queryKey: ["seller", "analytics", days],
-    queryFn: () => sellerDashboardService.analytics(days),
+    // The active store only; its id is in the key so switching never shows another store's numbers.
+    queryKey: ["seller", "analytics", store.id, days],
+    queryFn: () => sellerDashboardService.analytics(days, store.id),
   });
   const total = q.data?.orders_by_status.reduce((s, r) => s + r.count, 0) ?? 0;
 
@@ -42,7 +43,7 @@ function AnalyticsPage() {
     <div className="seller-page">
       <SellerPageHeader
         title="Analytics"
-        description={stores.length > 1 ? "All your stores" : undefined}
+        description={store.name}
         actions={
           <div role="radiogroup" aria-label="Sales period" className="seller-segmented">
             {ANALYTICS_RANGES.map((d) => (

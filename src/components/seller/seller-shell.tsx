@@ -34,6 +34,9 @@ import { Logo } from "@/components/marketplace/logo";
 import { firstName } from "@/components/marketplace/header/account-menu";
 import { SIDEBAR_COLLAPSED_KEY, useSeller } from "./seller-context";
 import { VerificationBanner } from "./verification/status";
+import { StoreSwitcher } from "./store-switcher";
+import { useQuery } from "@tanstack/react-query";
+import { sellerDashboardService } from "@/services/seller-dashboard";
 import { UnreadBadge } from "@/components/support/notifier";
 import { useUnreadCounts } from "@/components/support/use-support";
 
@@ -67,44 +70,16 @@ export const SELLER_NAV = [
   },
 ] as const;
 
-function StoreSwitcher({ compact }: { compact: boolean }) {
-  const { store, stores, setStoreId } = useSeller();
-  if (compact)
-    return (
-      <span className="seller-store-chip" title={store.name} aria-label={`Store: ${store.name}`}>
-        {store.name.slice(0, 1).toUpperCase()}
-      </span>
-    );
-  return (
-    <div className="min-w-0">
-      {stores.length > 1 ? (
-        <label className="block">
-          <span className="sr-only">Switch store</span>
-          <select
-            className="seller-select h-9"
-            value={store.id}
-            onChange={(e) => setStoreId(e.target.value)}
-          >
-            {stores.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.name}
-              </option>
-            ))}
-          </select>
-        </label>
-      ) : (
-        <p className="truncate text-sm font-semibold">{store.name}</p>
-      )}
-      <Badge variant={store.status === "published" ? "default" : "secondary"} className="mt-1">
-        {store.status}
-      </Badge>
-    </div>
-  );
-}
-
 function NavBody({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: () => void }) {
-  const { user } = useSeller();
+  const { user, store } = useSeller();
   const supportUnread = useUnreadCounts(user.id).data?.mine ?? 0;
+  // Pending orders of the ACTIVE store (same cached count as Home).
+  const pendingOrders =
+    useQuery({
+      queryKey: ["seller", "pending-count", store.id],
+      queryFn: () => sellerDashboardService.pendingOrdersCount([store.id]),
+      retry: false,
+    }).data ?? 0;
   const name = String(user.user_metadata?.["full_name"] ?? "").trim() || firstName(user);
   return (
     <div className="flex h-full min-h-0 flex-1 flex-col">
@@ -112,7 +87,7 @@ function NavBody({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: (
         <Link to="/" aria-label="Saloree home" className="seller-sidebar-logo" onClick={onNavigate}>
           <Logo />
         </Link>
-        <StoreSwitcher compact={collapsed} />
+        <StoreSwitcher compact={collapsed} onNavigate={onNavigate} />
       </div>
 
       <nav aria-label="Seller" className="flex-1 overflow-y-auto px-2 py-3">
@@ -130,6 +105,12 @@ function NavBody({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: (
                 >
                   <Icon size={18} aria-hidden />
                   <span className="seller-nav-label">{item.label}</span>
+                  {item.to === "/seller/orders" && pendingOrders > 0 && (
+                    <>
+                      <UnreadBadge count={pendingOrders} />
+                      <span className="sr-only">, {pendingOrders} pending</span>
+                    </>
+                  )}
                   {item.to === "/seller/support" && (
                     <>
                       <UnreadBadge count={supportUnread} />

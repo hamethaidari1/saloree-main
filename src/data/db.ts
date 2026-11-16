@@ -13,6 +13,8 @@ export interface CategoryRow {
 export interface StoreRow {
   id: string;
   owner_id: string;
+  /** The Seller Agreement version (its "updated" date) the owner accepted for this store. */
+  seller_agreement_version?: string | null;
   name: string;
   slug: string;
   description: string | null;

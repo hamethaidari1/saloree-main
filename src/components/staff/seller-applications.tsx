@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { StoreLimitControl } from "./store-limit";
 import {
   Dialog,
   DialogContent,
@@ -192,10 +193,13 @@ function Facts({ rows }: { rows: [string, string | null | undefined][] }) {
 export function ApplicationDrawer({
   profile,
   canReview,
+  canSetLimit = false,
   onClose,
 }: {
   profile: SellerProfile | null;
   canReview: boolean;
+  /** Admins only: change how many stores this seller may have. */
+  canSetLimit?: boolean;
   onClose: () => void;
 }) {
   const [decision, setDecision] = useState<ReviewDecision | null>(null);
@@ -342,6 +346,9 @@ export function ApplicationDrawer({
               Each link is created when you click and works for 60 seconds.
             </p>
 
+            <h3 className="staff-subhead">Stores</h3>
+            <StoreLimitControl userId={p.user_id} canEdit={canSetLimit} />
+
             <h3 className="staff-subhead">History</h3>
             <Facts
               rows={[
@@ -364,7 +371,13 @@ export function ApplicationDrawer({
  * Seller applications (admin and content_admin review; finance_admin reads).
  * The database refuses a reviewer's own profile unless they're an admin.
  */
-export function SellerApplicationsPanel({ canReview }: { canReview: boolean }) {
+export function SellerApplicationsPanel({
+  canReview,
+  canSetLimit = false,
+}: {
+  canReview: boolean;
+  canSetLimit?: boolean;
+}) {
   const list = useQuery({
     queryKey: verificationKeys.staffList,
     queryFn: sellerVerificationService.listApplications,
@@ -481,7 +494,12 @@ export function SellerApplicationsPanel({ canReview }: { canReview: boolean }) {
           </table>
         </div>
       )}
-      <ApplicationDrawer profile={open} canReview={canReview} onClose={() => setOpenId(null)} />
+      <ApplicationDrawer
+        profile={open}
+        canReview={canReview}
+        canSetLimit={canSetLimit}
+        onClose={() => setOpenId(null)}
+      />
     </section>
   );
 }

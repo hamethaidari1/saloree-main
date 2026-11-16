@@ -120,11 +120,74 @@ export function filterFinanceOrders<T extends FinanceOrder>(
 // ---------------------------------------------------------------------------
 // Company details (site_settings.footer_settings)
 // ---------------------------------------------------------------------------
+export const DEFAULT_INSTAGRAM_URL = "https://www.instagram.com/saloreecom/";
+export const DEFAULT_TIKTOK_URL = "https://www.tiktok.com/@saloree.com";
+
+export const INSTAGRAM_HOSTS = ["instagram.com", "www.instagram.com"];
+export const TIKTOK_HOSTS = ["tiktok.com", "www.tiktok.com"];
+
+export function resolveSocialUrl(
+  value: unknown,
+  defaultUrl: string,
+  allowedHosts: string[],
+): string | null {
+  if (value === undefined || value === null) return defaultUrl;
+  if (typeof value !== "string") return defaultUrl;
+  const trimmed = value.trim();
+  if (trimmed === "") return defaultUrl;
+  if (trimmed.toLowerCase() === "hide") return null;
+
+  try {
+    const u = new URL(trimmed);
+    if (u.protocol === "https:" && allowedHosts.includes(u.hostname.toLowerCase())) {
+      return trimmed;
+    }
+  } catch {
+    return null;
+  }
+  return null;
+}
+
 const optional = (max: number, label: string) =>
   z.preprocess(
     (v) => (typeof v === "string" && v.trim() === "" ? null : typeof v === "string" ? v.trim() : v),
     z.string().max(max, `${label} can be at most ${max} characters.`).nullable(),
   );
+
+function validateSocialUrl(v: string, allowedHosts: string[]): boolean {
+  if (v.toLowerCase() === "hide") return true;
+  try {
+    const u = new URL(v);
+    return u.protocol === "https:" && allowedHosts.includes(u.hostname.toLowerCase());
+  } catch {
+    return false;
+  }
+}
+
+const socialUrlSchema = (name: string, allowedHosts: string[]) =>
+  z.preprocess(
+    (v) => {
+      if (typeof v !== "string") return v == null ? null : v;
+      const trimmed = v.trim();
+      if (!trimmed) return null;
+      if (trimmed.toLowerCase() === "hide") return "hide";
+      return trimmed;
+    },
+    z
+      .string()
+      .max(200, `${name} URL can be at most 200 characters.`)
+      .refine(
+        (v) => validateSocialUrl(v, allowedHosts),
+        {
+          message: `The ${name} URL must be a valid https:// URL on ${allowedHosts.join(" or ")}, or "hide".`,
+        },
+      )
+      .nullable()
+      .optional(),
+  );
+
+export const instagramUrlSchema = socialUrlSchema("Instagram", INSTAGRAM_HOSTS);
+export const tiktokUrlSchema = socialUrlSchema("TikTok", TIKTOK_HOSTS);
 
 export const companyDetailsSchema = z
   .object({
@@ -142,6 +205,8 @@ export const companyDetailsSchema = z
      * footer. Left out (undefined) = keep what is stored.
      */
     stripe_fees_text: optional(200, "The card fees wording").optional(),
+    instagram_url: instagramUrlSchema,
+    tiktok_url: tiktokUrlSchema,
   })
   .strict();
 export type CompanyDetails = z.output<typeof companyDetailsSchema>;
@@ -159,7 +224,7 @@ export function mergeCompanyDetails(
   for (const key of COMPANY_KEYS) {
     const v = values[key];
     if (v === undefined) continue;
-    if (v == null) delete next[key];
+    if (v == null || v === "") delete next[key];
     else next[key] = v;
   }
   return next;
@@ -173,6 +238,8 @@ export function companyFromFooterSettings(fs: Record<string, unknown> | null | u
     address: pick("address"),
     support_email: pick("support_email"),
     stripe_fees_text: pick("stripe_fees_text"),
+    instagram_url: pick("instagram_url"),
+    tiktok_url: pick("tiktok_url"),
   };
 }
 

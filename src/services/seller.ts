@@ -87,11 +87,16 @@ export const storeSlugSchema = z
 export const toStoreSlug = (name: string) => slugify(name).slice(0, 63).replace(/-+$/, "");
 
 /** Store save errors, including the database's unique and reserved-name checks. */
-export const storeError = (e: unknown) =>
-  friendlyError(e, {
+export const storeError = (e: unknown) => {
+  // The store-limit trigger's own words, whatever error code it uses
+  // ("Store limit reached: you can have N store(s). Contact Saloree support to open more.").
+  const message = (e as { message?: unknown } | null)?.message;
+  if (typeof message === "string" && /store limit reached/i.test(message)) return message;
+  return friendlyError(e, {
     "23505": "That store address is already taken. Choose another.",
     "23514": "That store address isn't allowed (it may be reserved). Choose another.",
   });
+};
 
 export const storeInputSchema = z.object({
   name: z.string().trim().min(2, "Store name needs at least 2 characters.").max(80),

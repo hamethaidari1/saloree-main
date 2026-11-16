@@ -91,8 +91,12 @@ export type CustomerOrder = OrderRow & {
 };
 
 export const sellerDashboardService = {
-  analytics: async (days: AnalyticsRange): Promise<SellerAnalytics> => {
-    const { data, error } = await supabase.rpc("seller_analytics", { p_days: days });
+  /** One store (`storeId`) or all of the seller's stores (null). */
+  analytics: async (days: AnalyticsRange, storeId: string | null): Promise<SellerAnalytics> => {
+    const { data, error } = await supabase.rpc("seller_analytics", {
+      p_days: days,
+      p_store_id: storeId,
+    });
     if (error) throw error;
     // Some PostgREST setups wrap a single JSON value in an array.
     const value: unknown = Array.isArray(data) && data.length === 1 ? data[0] : data;
@@ -101,8 +105,9 @@ export const sellerDashboardService = {
     return parsed.data;
   },
 
-  customers: async (): Promise<SellerCustomer[]> => {
-    const { data, error } = await supabase.rpc("seller_customers");
+  /** Customers of one store (`storeId`) or of all the seller's stores (null). */
+  customers: async (storeId: string | null): Promise<SellerCustomer[]> => {
+    const { data, error } = await supabase.rpc("seller_customers", { p_store_id: storeId });
     if (error) throw error;
     const parsed = z.array(customerSchema).safeParse(data ?? []);
     if (!parsed.success) throw new ShapeError("seller_customers", parsed.error.issues);
@@ -131,6 +136,22 @@ export const sellerDashboardService = {
       .eq("status", "pending");
     if (error) throw error;
     return n ?? 0;
+  },
+
+  /** Pending orders per store (for the switcher's "new orders elsewhere" dot). */
+  pendingByStore: async (storeIds: string[]): Promise<Record<string, number>> => {
+    const out: Record<string, number> = {};
+    if (!storeIds.length) return out;
+    const { data, error } = await supabase
+      .from("orders")
+      .select("store_id")
+      .in("store_id", storeIds)
+      .eq("status", "pending")
+      .limit(1000);
+    if (error) throw error;
+    for (const r of (data ?? []) as { store_id: string }[])
+      out[r.store_id] = (out[r.store_id] ?? 0) + 1;
+    return out;
   },
 
   lowStock: async (storeIds: string[]): Promise<LowStockProduct[]> => {

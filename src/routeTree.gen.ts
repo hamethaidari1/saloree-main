@@ -50,6 +50,7 @@ import { Route as SellerSupportRouteImport } from './routes/seller.support'
 import { Route as SellerThemesRouteImport } from './routes/seller.themes'
 import { Route as SellerVerificationRouteImport } from './routes/seller.verification'
 import { Route as StoreSlugRouteImport } from './routes/store.$slug'
+import { Route as SellerStoresNewRouteImport } from './routes/seller.stores.new'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -257,6 +258,11 @@ const StoreSlugRoute = StoreSlugRouteImport.update({
   path: '/store/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SellerStoresNewRoute = SellerStoresNewRouteImport.update({
+  id: '/stores/new',
+  path: '/stores/new',
+  getParentRoute: () => SellerRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -300,6 +306,7 @@ export interface FileRoutesByFullPath {
   '/legal/': typeof LegalIndexRoute
   '/order-confirmation/': typeof OrderConfirmationIndexRoute
   '/seller/': typeof SellerIndexRoute
+  '/seller/stores/new': typeof SellerStoresNewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -342,6 +349,7 @@ export interface FileRoutesByTo {
   '/legal': typeof LegalIndexRoute
   '/order-confirmation': typeof OrderConfirmationIndexRoute
   '/seller': typeof SellerIndexRoute
+  '/seller/stores/new': typeof SellerStoresNewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -386,6 +394,7 @@ export interface FileRoutesById {
   '/legal/': typeof LegalIndexRoute
   '/order-confirmation/': typeof OrderConfirmationIndexRoute
   '/seller/': typeof SellerIndexRoute
+  '/seller/stores/new': typeof SellerStoresNewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -431,6 +440,7 @@ export interface FileRouteTypes {
     | '/legal/'
     | '/order-confirmation/'
     | '/seller/'
+    | '/seller/stores/new'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -473,6 +483,7 @@ export interface FileRouteTypes {
     | '/legal'
     | '/order-confirmation'
     | '/seller'
+    | '/seller/stores/new'
   id:
     | '__root__'
     | '/'
@@ -516,6 +527,7 @@ export interface FileRouteTypes {
     | '/legal/'
     | '/order-confirmation/'
     | '/seller/'
+    | '/seller/stores/new'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -837,6 +849,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StoreSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/seller/stores/new': {
+      id: '/seller/stores/new'
+      path: '/stores/new'
+      fullPath: '/seller/stores/new'
+      preLoaderRoute: typeof SellerStoresNewRouteImport
+      parentRoute: typeof SellerRoute
+    }
   }
 }
 
@@ -855,6 +874,7 @@ interface SellerRouteChildren {
   SellerThemesRoute: typeof SellerThemesRoute
   SellerVerificationRoute: typeof SellerVerificationRoute
   SellerIndexRoute: typeof SellerIndexRoute
+  SellerStoresNewRoute: typeof SellerStoresNewRoute
 }
 
 const SellerRouteChildren: SellerRouteChildren = {
@@ -872,6 +892,7 @@ const SellerRouteChildren: SellerRouteChildren = {
   SellerThemesRoute: SellerThemesRoute,
   SellerVerificationRoute: SellerVerificationRoute,
   SellerIndexRoute: SellerIndexRoute,
+  SellerStoresNewRoute: SellerStoresNewRoute,
 }
 
 const SellerRouteWithChildren =

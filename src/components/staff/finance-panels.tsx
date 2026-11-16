@@ -22,11 +22,16 @@ import { money } from "@/services/catalog";
 import { friendlyError } from "@/services/errors";
 import {
   companyDetailsSchema,
+  DEFAULT_INSTAGRAM_URL,
+  DEFAULT_TIKTOK_URL,
   EMPTY_ORDER_FILTER,
   FINANCE_ORDER_LIMIT,
   FINANCE_PERIODS,
   filterFinanceOrders,
   financeService,
+  INSTAGRAM_HOSTS,
+  resolveSocialUrl,
+  TIKTOK_HOSTS,
   type FinanceOrder,
   type FinanceOrderFilter,
   type FinancePeriod,
@@ -34,6 +39,7 @@ import {
 import { lineAmounts, orderTotal, formatAddress } from "@/services/orders";
 import { shippingService } from "@/services/shipping";
 import { LoadError } from "./marketplace-panels";
+import { InstagramIcon, TikTokIcon } from "@/components/marketplace/social-icons";
 
 const count = new Intl.NumberFormat("en-US");
 const usd = (n: number) => money(n, "USD");
@@ -489,6 +495,24 @@ const COMPANY_FIELDS = [
     max: 200,
     hint: 'Who pays the Stripe card fees, as it should read in the Seller Agreement, e.g. "paid by the seller" or "paid by Saloree". Not shown in the footer. While it is empty, the sentence that mentions it is hidden.',
   },
+  {
+    key: "instagram_url",
+    label: "Instagram URL",
+    max: 200,
+    placeholder: DEFAULT_INSTAGRAM_URL,
+    hint: 'Leave empty to use the default (https://www.instagram.com/saloreecom/). Enter a custom https://instagram.com URL, or check "Hide" / enter "hide" to hide the icon.',
+    isSocial: true,
+    socialName: "Instagram",
+  },
+  {
+    key: "tiktok_url",
+    label: "TikTok URL",
+    max: 200,
+    placeholder: DEFAULT_TIKTOK_URL,
+    hint: 'Leave empty to use the default (https://www.tiktok.com/@saloree.com). Enter a custom https://tiktok.com URL, or check "Hide" / enter "hide" to hide the icon.',
+    isSocial: true,
+    socialName: "TikTok",
+  },
 ] as const;
 type CompanyKey = (typeof COMPANY_FIELDS)[number]["key"];
 
@@ -516,6 +540,8 @@ function CompanyForm({ initial }: { initial: Record<CompanyKey, string> }) {
     address: initial.address,
     support_email: initial.support_email,
     stripe_fees_text: initial.stripe_fees_text,
+    instagram_url: initial.instagram_url ?? "",
+    tiktok_url: initial.tiktok_url ?? "",
   }));
   const [errors, setErrors] = useState<Partial<Record<CompanyKey, string>>>({});
   const save = useAdminAction(
@@ -530,6 +556,18 @@ function CompanyForm({ initial }: { initial: Record<CompanyKey, string> }) {
     values.address.trim(),
     values.support_email.trim() && `Support: ${values.support_email.trim()}`,
   ].filter(Boolean);
+
+  const instagramPreview = resolveSocialUrl(
+    values.instagram_url,
+    DEFAULT_INSTAGRAM_URL,
+    INSTAGRAM_HOSTS,
+  );
+  const tiktokPreview = resolveSocialUrl(
+    values.tiktok_url,
+    DEFAULT_TIKTOK_URL,
+    TIKTOK_HOSTS,
+  );
+
   return (
     <section className="staff-two-col">
       <form
@@ -560,11 +598,13 @@ function CompanyForm({ initial }: { initial: Record<CompanyKey, string> }) {
         </p>
         {COMPANY_FIELDS.map((f) => {
           const id = `company-${f.key}`;
+          const isSocial = "isSocial" in f && f.isSocial;
           const common = {
             id,
             value: values[f.key],
             maxLength: f.max,
             "aria-invalid": !!errors[f.key],
+            placeholder: "placeholder" in f ? f.placeholder : undefined,
             onChange: (e: { target: { value: string } }) =>
               setValues((v) => ({ ...v, [f.key]: e.target.value })),
           };
@@ -579,6 +619,21 @@ function CompanyForm({ initial }: { initial: Record<CompanyKey, string> }) {
                   {...common}
                   {...("hint" in f ? { "aria-describedby": `${id}-hint` } : {})}
                 />
+              )}
+              {isSocial && (
+                <label className="flex items-center gap-2 text-xs text-muted-foreground mt-1 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={values[f.key]?.trim().toLowerCase() === "hide"}
+                    onChange={(e) =>
+                      setValues((v) => ({
+                        ...v,
+                        [f.key]: e.target.checked ? "hide" : "",
+                      }))
+                    }
+                  />
+                  <span>Hide {f.socialName} icon from footer</span>
+                </label>
               )}
               {"hint" in f && (
                 <p id={`${id}-hint`} className="seller-hint">
@@ -599,16 +654,46 @@ function CompanyForm({ initial }: { initial: Record<CompanyKey, string> }) {
         <h3 id="company-preview-heading" className="mb-3 text-base font-semibold">
           Footer preview
         </h3>
-        <div className="staff-footer-preview">
-          {preview.length ? (
-            preview.map((line) => (
-              <span key={line} dir="auto">
-                {line}
-              </span>
-            ))
-          ) : (
-            <span>Nothing is shown when all fields are empty.</span>
+        <div className="staff-footer-preview flex flex-col items-center gap-3">
+          {(instagramPreview || tiktokPreview) && (
+            <div
+              className="staff-preview-social flex flex-col items-center gap-1.5 pb-2 border-b border-border/40 w-full"
+              data-testid="admin-footer-preview-social"
+            >
+              <span className="text-xs font-semibold text-foreground">Follow Saloree</span>
+              <div className="flex items-center gap-2">
+                {instagramPreview && (
+                  <span
+                    className="footer-social-link"
+                    data-testid="admin-preview-instagram"
+                    title={`Instagram: ${instagramPreview}`}
+                  >
+                    <InstagramIcon />
+                  </span>
+                )}
+                {tiktokPreview && (
+                  <span
+                    className="footer-social-link"
+                    data-testid="admin-preview-tiktok"
+                    title={`TikTok: ${tiktokPreview}`}
+                  >
+                    <TikTokIcon />
+                  </span>
+                )}
+              </div>
+            </div>
           )}
+          <div className="flex flex-wrap justify-center gap-x-4 gap-y-1">
+            {preview.length ? (
+              preview.map((line) => (
+                <span key={line} dir="auto">
+                  {line}
+                </span>
+              ))
+            ) : (
+              <span>Nothing is shown when all fields are empty.</span>
+            )}
+          </div>
         </div>
       </section>
     </section>

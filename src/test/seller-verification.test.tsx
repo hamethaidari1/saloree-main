@@ -750,13 +750,13 @@ describe("staff: seller applications", () => {
 
   it("the panels give review rights only to admin and content_admin", () => {
     const read = (p: string) => readFileSync(join(process.cwd(), p), "utf8");
-    expect(read("src/routes/admin.tsx")).toContain("<SellerApplicationsPanel canReview />");
-    expect(read("src/routes/admin_.marketplace.tsx")).toContain(
-      "<SellerApplicationsPanel canReview />",
-    );
-    expect(read("src/routes/admin_.finance.tsx")).toContain(
-      '<SellerApplicationsPanel canReview={roles.includes("admin")} />',
-    );
+    const panel = (p: string) =>
+      read(p)
+        .match(/<SellerApplicationsPanel\b[^>]*\/>/)?.[0]
+        .replace(/\s+/g, " ") ?? "";
+    expect(panel("src/routes/admin.tsx")).toMatch(/\bcanReview\b(?!=)/);
+    expect(panel("src/routes/admin_.marketplace.tsx")).toMatch(/\bcanReview\b(?!=)/);
+    expect(panel("src/routes/admin_.finance.tsx")).toContain('canReview={roles.includes("admin")}');
   });
 });
 

@@ -81,7 +81,10 @@ function FinancePage() {
         </TabsContent>
         <TabsContent value="applications" className="mt-6">
           {/* Finance reads the same list and details; only admin/content_admin decide. */}
-          <SellerApplicationsPanel canReview={roles.includes("admin")} />
+          <SellerApplicationsPanel
+            canReview={roles.includes("admin")}
+            canSetLimit={roles.includes("admin")}
+          />
         </TabsContent>
         <TabsContent value="commission" className="mt-6 grid gap-6">
           <CommissionPanel />

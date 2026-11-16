@@ -31,5 +31,6 @@ export function useSeller() {
   return ctx;
 }
 
-export const SELECTED_STORE_KEY = "saloree-seller-store";
+/** The active store id's storage key (one definition, in lib/active-store). */
+export { ACTIVE_STORE_KEY as SELECTED_STORE_KEY } from "@/lib/active-store";
 export const SIDEBAR_COLLAPSED_KEY = "saloree-seller-sidebar-collapsed";

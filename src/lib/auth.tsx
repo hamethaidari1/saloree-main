@@ -1,3 +1,4 @@
+import { clearActiveStoreId } from "@/lib/active-store";
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { redirect } from "@tanstack/react-router";
 import type { User } from "@supabase/supabase-js";
@@ -118,6 +119,8 @@ export async function signIn(email: string, password: string) {
 export async function signOut() {
   const { error } = await supabase.auth.signOut();
   if (error) throw error;
+  // Shared computers: the next person must not start in this seller's store.
+  clearActiveStoreId();
 }
 
 /** profiles.full_name (RLS: own row). null if empty or unreadable. */

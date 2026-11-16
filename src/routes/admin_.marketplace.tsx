@@ -75,11 +75,11 @@ function MarketplacePage() {
         </TabsContent>
         <TabsContent value="stores" className="mt-6">
           {/* The database refuses status changes on your own store unless you're an admin. */}
-          <StoresPanel myUserId={user.id} canChangeOwn={isAdmin} />
+          <StoresPanel myUserId={user.id} canChangeOwn={isAdmin} canSetLimit={isAdmin} />
         </TabsContent>
         <TabsContent value="applications" className="mt-6">
           {/* admin and content_admin review; the database refuses your own profile unless admin. */}
-          <SellerApplicationsPanel canReview />
+          <SellerApplicationsPanel canReview canSetLimit={isAdmin} />
         </TabsContent>
         <TabsContent value="messages" className="mt-6">
           <StaffSupportPanel panel="marketplace" />

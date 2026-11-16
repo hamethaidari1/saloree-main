@@ -34,10 +34,13 @@ const analyticsReply = {
 };
 
 describe("seller_analytics", () => {
-  it("calls the RPC with p_days and coerces numeric strings", async () => {
+  // Contract change: seller_analytics now takes p_store_id (one store, or null = all mine).
+  it("calls the RPC with p_days and p_store_id, and coerces numeric strings", async () => {
     m().state.queue.push({ data: analyticsReply });
-    const a = await sellerDashboardService.analytics(30);
-    expect(m().state.rpcs).toEqual([{ fn: "seller_analytics", args: { p_days: 30 } }]);
+    const a = await sellerDashboardService.analytics(30, "store-1");
+    expect(m().state.rpcs).toEqual([
+      { fn: "seller_analytics", args: { p_days: 30, p_store_id: "store-1" } },
+    ]);
     expect(a).toMatchObject({
       gross_sales: 120.5,
       net_earnings: 108.45,
@@ -56,7 +59,7 @@ describe("seller_analytics", () => {
     m().state.queue.push({
       data: [{ ...analyticsReply, orders_by_status: [{ status: "pending", count: "2" }] }],
     });
-    const a = await sellerDashboardService.analytics(7);
+    const a = await sellerDashboardService.analytics(7, null);
     expect(a.orders_by_status).toEqual([{ status: "pending", count: 2 }]);
   });
 
@@ -64,20 +67,22 @@ describe("seller_analytics", () => {
     m().state.queue.push({
       data: { ...analyticsReply, by_day: null, top_products: null, orders_by_status: null },
     });
-    const a = await sellerDashboardService.analytics(7);
+    const a = await sellerDashboardService.analytics(7, null);
     expect([a.by_day, a.top_products, a.orders_by_status]).toEqual([[], [], []]);
   });
 
   it("names the missing fields instead of showing wrong numbers", async () => {
     m().state.queue.push({ data: { total_sales: 1, by_day: [] } });
-    await expect(sellerDashboardService.analytics(7)).rejects.toThrow(
+    await expect(sellerDashboardService.analytics(7, null)).rejects.toThrow(
       /seller_analytics returned an unexpected shape \(check: .*gross_sales/,
     );
   });
 
   it("surfaces database errors as-is (e.g. function missing)", async () => {
     m().state.queue.push({ error: { code: "PGRST202", message: "Could not find the function" } });
-    await expect(sellerDashboardService.analytics(7)).rejects.toMatchObject({ code: "PGRST202" });
+    await expect(sellerDashboardService.analytics(7, null)).rejects.toMatchObject({
+      code: "PGRST202",
+    });
   });
 });
 
@@ -97,13 +102,14 @@ const customerRow = (patch: Partial<SellerCustomer> = {}): SellerCustomer => ({
 describe("seller_customers", () => {
   it("calls the RPC and parses rows", async () => {
     m().state.queue.push({ data: [{ ...customerRow(), total_spent: "50.00", orders_count: "2" }] });
-    const rows = await sellerDashboardService.customers();
-    expect(m().state.rpcs[0]?.fn).toBe("seller_customers");
+    const rows = await sellerDashboardService.customers("store-1");
+    // Contract change: p_store_id limits to one store (null = all mine).
+    expect(m().state.rpcs[0]).toEqual({ fn: "seller_customers", args: { p_store_id: "store-1" } });
     expect(rows).toEqual([customerRow()]);
   });
   it("rejects an unexpected shape", async () => {
     m().state.queue.push({ data: [{ id: "c1" }] });
-    await expect(sellerDashboardService.customers()).rejects.toThrow(/seller_customers/);
+    await expect(sellerDashboardService.customers(null)).rejects.toThrow(/seller_customers/);
   });
   it("loads one customer's orders limited to my stores", async () => {
     m().state.queue.push({ data: [{ id: "o1" }] });
