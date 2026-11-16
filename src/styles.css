@@ -6405,7 +6405,8 @@ body:has(.country-suggest[data-variant="strip"]) .side-widget {
 }
 .checkout-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
+  /* minmax(0, …): no column can be widened by its content (the grid "blowout"). */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
   gap: 32px;
   align-items: start;
   margin-block-start: 24px;
@@ -6546,9 +6547,8 @@ body:has(.country-suggest[data-variant="strip"]) .side-widget {
   gap: 8px;
   margin-block-start: 8px;
 }
-.checkout-brands img {
-  inline-size: auto;
-  block-size: 24px;
+.checkout-brands {
+  min-inline-size: 0;
 }
 /* Summary and pay button: one sticky column on desktop. */
 .checkout-side {
@@ -6584,11 +6584,15 @@ body:has(.country-suggest[data-variant="strip"]) .side-widget {
   object-fit: cover;
   background: var(--muted);
 }
+/* Long titles (even one very long word) wrap, then stop at 2 lines with "…";
+   the full title is in the element's title attribute. */
 .checkout-item-title {
-  display: block;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
   font-size: 14px;
   font-weight: 500;
 }
@@ -6880,4 +6884,115 @@ body:has(.country-suggest[data-variant="strip"]) .side-widget {
 .pay-overlay[data-reduced-motion] .pay-overlay-bar span,
 .pay-overlay[data-reduced-motion] .pay-overlay-dot {
   animation: none;
+}
+
+/* ---------------------------------------------------------------------------
+   No horizontal overflow from long content (titles, store names, one long word).
+   Grid and flex children default to min-width: auto, so their content could
+   widen them past the page; these let them shrink and the text wrap instead.
+   --------------------------------------------------------------------------- */
+.checkout-page,
+.checkout-main,
+.checkout-side,
+.checkout-card,
+.checkout-summary-body,
+.checkout-pay,
+.checkout-method-text,
+.checkout-items li > span,
+.checkout-fields > *,
+.checkout-trust li {
+  min-inline-size: 0;
+}
+.checkout-side {
+  max-inline-size: 420px;
+}
+.checkout-items small,
+.checkout-trust li,
+.checkout-note,
+.checkout-pending,
+.checkout-notice {
+  overflow-wrap: anywhere;
+}
+.checkout-item-price,
+.checkout-items img {
+  flex: none;
+}
+.checkout-discount-row > input {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+.checkout-discount-row > button {
+  flex: none;
+}
+/* Order lines in My orders, the confirmation page and staff drawers. */
+.checkout-lines > li > span:first-child {
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+.checkout-lines > li > span:last-child {
+  flex: none;
+}
+.summary-row > :first-child {
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+/* The bag. */
+.cart-layout > *,
+.cart-line > * {
+  min-inline-size: 0;
+}
+.cart-line h3,
+.cart-line p,
+.cart-store-heading {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 899px) {
+  .checkout-side {
+    max-inline-size: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Payment logos: every card/wallet logo on a small white chip, so dark logos
+   (Apple Pay, Google Pay) read on the dark footer and on the light checkout
+   card alike. Cash on delivery uses the same chip.
+   --------------------------------------------------------------------------- */
+.pay-list {
+  gap: 8px;
+}
+.pay-logo,
+.pay-cod {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  block-size: 28px;
+  min-block-size: 28px;
+  padding-inline: 6px;
+  border: 1px solid var(--footer-chip-border);
+  border-radius: 4px;
+  background: var(--footer-chip-bg);
+  color: var(--footer-chip-text);
+}
+.pay-cod {
+  padding-inline: 8px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.pay-cod svg {
+  inline-size: 16px;
+  block-size: 16px;
+}
+.pay-logo img {
+  block-size: 20px;
+  inline-size: auto;
+}
+/* While a logo file is missing, the brand name sits in the same chip. */
+.pay-logo .pay-chip-text {
+  block-size: auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-size: 11px;
 }

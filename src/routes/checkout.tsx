@@ -556,7 +556,7 @@ function CheckoutPage() {
                   <li key={l.productId}>
                     <img src={l.product.image} alt="" loading="lazy" width={56} height={56} />
                     <span className="min-w-0 flex-1">
-                      <span className="checkout-item-title" dir="auto">
+                      <span className="checkout-item-title" dir="auto" title={l.product.title}>
                         {t("line", { quantity: format.number(l.quantity), title: l.product.title })}
                       </span>
                       {l.store && <small>{l.store.name}</small>}
