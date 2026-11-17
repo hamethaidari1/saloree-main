@@ -7315,3 +7315,107 @@ html:lang(de) :is(input, textarea, select, code, .tabular-nums) {
 .staff-owner-stores {
   font-weight: 600;
 }
+
+/* ---------------------------------------------------------------------------
+   Admin → Visitors (site-wide visitor analytics)
+   --------------------------------------------------------------------------- */
+.visitors-tabs {
+  justify-self: start;
+}
+.visitors-tabs button[aria-selected="true"] {
+  background: var(--card);
+  font-weight: 600;
+  box-shadow: 0 0 0 1px var(--border);
+}
+.visitors-tabs button:focus-visible {
+  outline: 2px solid var(--ring);
+}
+.seller-segmented button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.visitors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  gap: 16px;
+  align-items: start;
+}
+.visitors-list {
+  min-inline-size: 0;
+}
+.visitors-scroll {
+  overflow-x: auto;
+  max-inline-size: 100%;
+}
+.visitors-list th[scope="row"] {
+  max-inline-size: 260px;
+  overflow-wrap: anywhere;
+  font-weight: 500;
+  text-align: start;
+}
+.visitors-page {
+  display: inline-grid;
+  gap: 1px;
+  min-inline-size: 0;
+}
+.visitors-path {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 12px;
+  color: var(--muted-foreground);
+  overflow-wrap: anywhere;
+}
+.visitors-live-icon {
+  color: var(--brand);
+}
+.visitors-live-count {
+  margin-block-end: 8px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.visitors-live-list {
+  display: grid;
+  gap: 8px;
+}
+.visitors-live-list li {
+  display: grid;
+  gap: 2px;
+  padding-block-end: 8px;
+  border-block-end: 1px solid var(--border);
+}
+.visitors-live-list li:last-child {
+  border-block-end: 0;
+}
+.visitors-funnel {
+  display: grid;
+  gap: 10px;
+}
+.visitors-funnel li {
+  display: grid;
+  grid-template-columns: minmax(7rem, auto) 4rem 1fr 3.5rem;
+  align-items: center;
+  gap: 8px;
+}
+.visitors-visit {
+  flex-wrap: wrap;
+}
+.visitors-journey {
+  flex-basis: 100%;
+  display: grid;
+  gap: 6px;
+  margin-inline-start: 6px;
+  padding-inline-start: 14px;
+  border-inline-start: 2px solid var(--border);
+}
+.visitors-journey li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+}
+.visitors-pager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}

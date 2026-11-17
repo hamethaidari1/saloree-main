@@ -1,0 +1,114 @@
+{
+  "title": "Besucher",
+  "intro": "Wer den Marktplatz besucht, woher die Besucher kommen und welche Seiten sie öffnen.",
+  "privacy": "Besucher sind anonym. Der Code ändert sich jeden Tag. Es werden keine Namen, E-Mail-Adressen oder IP-Adressen gespeichert. Die Daten werden 90 Tage aufbewahrt.",
+  "utc": "Tage in UTC.",
+  "range": {
+    "label": "Zeitraum",
+    "today": "Heute",
+    "7": "7 Tage",
+    "30": "30 Tage",
+    "90": "90 Tage"
+  },
+  "store": {
+    "label": "Shop",
+    "all": "Alle Shops"
+  },
+  "tabs": {
+    "overview": "Übersicht",
+    "visits": "Besuche"
+  },
+  "cards": {
+    "visitors": "Besucher",
+    "visitorsHint": "Einmal pro Tag und Gerät gezählt.",
+    "pageViews": "Seitenaufrufe",
+    "pageViewsHint": "Jede geöffnete Seite.",
+    "pagesPerVisit": "Seiten pro Besuch",
+    "bounce": "Nach 1 Seite verlassen",
+    "bounceHint": "Besuche mit nur einer Seite."
+  },
+  "live": {
+    "title": "Jetzt live",
+    "count": "Besucher in den letzten 5 Minuten: {{n}}",
+    "none": "Gerade ist niemand auf der Website.",
+    "refresh": "Wird alle 15 Sekunden aktualisiert, solange dieser Tab offen ist.",
+    "error": "Live-Besucher konnten nicht geladen werden."
+  },
+  "chart": {
+    "title": "Besucher und Seitenaufrufe pro Tag",
+    "day": "Tag"
+  },
+  "lists": {
+    "top_pages": "Meistbesuchte Seiten",
+    "entry_pages": "Einstiegsseiten",
+    "sources": "Quellen",
+    "referrers": "Verweisende Websites",
+    "campaigns": "Kampagnen",
+    "countries": "Länder",
+    "cities": "Städte",
+    "devices": "Geräte",
+    "browsers": "Browser",
+    "systems": "Betriebssysteme",
+    "languages": "Sprachen",
+    "stores": "Shops",
+    "none": "In diesem Zeitraum noch nichts.",
+    "visits": "Besuche",
+    "share": "Anteil"
+  },
+  "funnel": {
+    "title": "Einkaufsschritte",
+    "hint": "Besuche, die jeden Schritt erreicht haben, verglichen mit der Produktseite.",
+    "product": "Produktseite",
+    "cart": "Warenkorb",
+    "checkout": "Kasse"
+  },
+  "source": {
+    "direct": "Direkt",
+    "search": "Suche",
+    "social": "Soziale Netzwerke",
+    "email": "E-Mail",
+    "campaign": "Kampagne",
+    "referral": "Verweis",
+    "other": "Andere"
+  },
+  "device": {
+    "desktop": "Desktop",
+    "mobile": "Mobil",
+    "tablet": "Tablet",
+    "other": "Andere"
+  },
+  "path": {
+    "home": "Startseite",
+    "cart": "Warenkorb",
+    "checkout": "Kasse",
+    "product": "Produkt",
+    "store": "Shop"
+  },
+  "unknown": "Unbekannt",
+  "empty": {
+    "title": "In diesem Zeitraum noch keine Besuche",
+    "text": "Besuche erscheinen hier, sobald Menschen die Website öffnen."
+  },
+  "error": {
+    "title": "Die Besucherzahlen konnten nicht geladen werden.",
+    "retry": "Erneut versuchen"
+  },
+  "visits": {
+    "rangeHint": "Die Besuchsliste umfasst höchstens 7 Tage. Wähle Heute oder 7 Tage.",
+    "disabledRange": "Für die Besuchsliste nicht verfügbar (höchstens 7 Tage).",
+    "visit": "Besuch #{{code}}",
+    "pages": "Seiten: {{n}}",
+    "showJourney": "Verlauf anzeigen",
+    "hideJourney": "Verlauf ausblenden",
+    "journey": "Verlauf",
+    "country": "Land",
+    "anyCountry": "Alle Länder",
+    "source": "Quelle",
+    "anySource": "Alle Quellen",
+    "total": "Gefundene Besuche: {{n}}",
+    "page": "Seite {{page}} von {{pages}}",
+    "previous": "Zurück",
+    "next": "Weiter",
+    "loading": "Besuche werden geladen"
+  }
+}

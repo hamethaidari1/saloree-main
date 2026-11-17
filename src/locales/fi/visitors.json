@@ -1,0 +1,114 @@
+{
+  "title": "Kävijät",
+  "intro": "Ketkä vierailevat kauppapaikassa, mistä he tulevat ja mitä sivuja he avaavat.",
+  "privacy": "Kävijät ovat anonyymejä. Koodi vaihtuu joka päivä. Nimiä, sähköpostiosoitteita tai IP-osoitteita ei tallenneta. Tietoja säilytetään 90 päivää.",
+  "utc": "Päivät ovat UTC-ajassa.",
+  "range": {
+    "label": "Ajanjakso",
+    "today": "Tänään",
+    "7": "7 päivää",
+    "30": "30 päivää",
+    "90": "90 päivää"
+  },
+  "store": {
+    "label": "Kauppa",
+    "all": "Kaikki kaupat"
+  },
+  "tabs": {
+    "overview": "Yleiskatsaus",
+    "visits": "Käynnit"
+  },
+  "cards": {
+    "visitors": "Kävijät",
+    "visitorsHint": "Lasketaan kerran päivässä laitetta kohden.",
+    "pageViews": "Sivunäytöt",
+    "pageViewsHint": "Jokainen avattu sivu.",
+    "pagesPerVisit": "Sivuja käyntiä kohden",
+    "bounce": "Poistui 1 sivun jälkeen",
+    "bounceHint": "Käynnit, joissa avattiin vain yksi sivu."
+  },
+  "live": {
+    "title": "Nyt paikalla",
+    "count": "Kävijät viimeisen 5 minuutin aikana: {{n}}",
+    "none": "Sivustolla ei ole juuri nyt ketään.",
+    "refresh": "Päivittyy 15 sekunnin välein, kun tämä välilehti on auki.",
+    "error": "Paikalla olevia kävijöitä ei voitu ladata."
+  },
+  "chart": {
+    "title": "Kävijät ja sivunäytöt päivittäin",
+    "day": "Päivä"
+  },
+  "lists": {
+    "top_pages": "Suosituimmat sivut",
+    "entry_pages": "Aloitussivut",
+    "sources": "Lähteet",
+    "referrers": "Viittaavat sivustot",
+    "campaigns": "Kampanjat",
+    "countries": "Maat",
+    "cities": "Kaupungit",
+    "devices": "Laitteet",
+    "browsers": "Selaimet",
+    "systems": "Käyttöjärjestelmät",
+    "languages": "Kielet",
+    "stores": "Kaupat",
+    "none": "Tällä ajanjaksolla ei vielä mitään.",
+    "visits": "Käynnit",
+    "share": "Osuus"
+  },
+  "funnel": {
+    "title": "Ostoksen vaiheet",
+    "hint": "Käynnit, jotka etenivät kuhunkin vaiheeseen, verrattuna tuotesivuun.",
+    "product": "Tuotesivu",
+    "cart": "Ostoskori",
+    "checkout": "Kassa"
+  },
+  "source": {
+    "direct": "Suora",
+    "search": "Haku",
+    "social": "Sosiaalinen media",
+    "email": "Sähköposti",
+    "campaign": "Kampanja",
+    "referral": "Viittaus",
+    "other": "Muu"
+  },
+  "device": {
+    "desktop": "Tietokone",
+    "mobile": "Mobiili",
+    "tablet": "Tabletti",
+    "other": "Muu"
+  },
+  "path": {
+    "home": "Etusivu",
+    "cart": "Ostoskori",
+    "checkout": "Kassa",
+    "product": "Tuote",
+    "store": "Kauppa"
+  },
+  "unknown": "Tuntematon",
+  "empty": {
+    "title": "Tällä ajanjaksolla ei vielä käyntejä",
+    "text": "Käynnit näkyvät täällä, kun ihmiset avaavat sivuston."
+  },
+  "error": {
+    "title": "Kävijämääriä ei voitu ladata.",
+    "retry": "Yritä uudelleen"
+  },
+  "visits": {
+    "rangeHint": "Käyntiluettelo kattaa enintään 7 päivää. Valitse Tänään tai 7 päivää.",
+    "disabledRange": "Ei käytettävissä käyntiluettelossa (enintään 7 päivää).",
+    "visit": "Käynti #{{code}}",
+    "pages": "Sivuja: {{n}}",
+    "showJourney": "Näytä reitti",
+    "hideJourney": "Piilota reitti",
+    "journey": "Reitti",
+    "country": "Maa",
+    "anyCountry": "Kaikki maat",
+    "source": "Lähde",
+    "anySource": "Kaikki lähteet",
+    "total": "Löydetyt käynnit: {{n}}",
+    "page": "Sivu {{page}}/{{pages}}",
+    "previous": "Edellinen",
+    "next": "Seuraava",
+    "loading": "Ladataan käyntejä"
+  }
+}

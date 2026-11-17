@@ -1,0 +1,114 @@
+{
+  "title": "Visitantes",
+  "intro": "Quién visita el marketplace, de dónde viene y qué páginas abre.",
+  "privacy": "Los visitantes son anónimos. El código cambia cada día. No se guardan nombres, correos electrónicos ni direcciones IP. Los datos se conservan 90 días.",
+  "utc": "Los días están en UTC.",
+  "range": {
+    "label": "Período",
+    "today": "Hoy",
+    "7": "7 días",
+    "30": "30 días",
+    "90": "90 días"
+  },
+  "store": {
+    "label": "Tienda",
+    "all": "Todas las tiendas"
+  },
+  "tabs": {
+    "overview": "Resumen",
+    "visits": "Visitas"
+  },
+  "cards": {
+    "visitors": "Visitantes",
+    "visitorsHint": "Se cuenta una vez al día por dispositivo.",
+    "pageViews": "Páginas vistas",
+    "pageViewsHint": "Cada página abierta.",
+    "pagesPerVisit": "Páginas por visita",
+    "bounce": "Se fue tras 1 página",
+    "bounceHint": "Visitas que abrieron solo una página."
+  },
+  "live": {
+    "title": "En vivo",
+    "count": "Visitantes en los últimos 5 minutos: {{n}}",
+    "none": "Ahora mismo no hay nadie en el sitio.",
+    "refresh": "Se actualiza cada 15 segundos mientras esta pestaña está abierta.",
+    "error": "No se pudieron cargar los visitantes en vivo."
+  },
+  "chart": {
+    "title": "Visitantes y páginas vistas por día",
+    "day": "Día"
+  },
+  "lists": {
+    "top_pages": "Páginas más vistas",
+    "entry_pages": "Páginas de entrada",
+    "sources": "Fuentes",
+    "referrers": "Sitios de referencia",
+    "campaigns": "Campañas",
+    "countries": "Países",
+    "cities": "Ciudades",
+    "devices": "Dispositivos",
+    "browsers": "Navegadores",
+    "systems": "Sistemas operativos",
+    "languages": "Idiomas",
+    "stores": "Tiendas",
+    "none": "Todavía no hay nada en este período.",
+    "visits": "Visitas",
+    "share": "Porcentaje"
+  },
+  "funnel": {
+    "title": "Pasos de compra",
+    "hint": "Visitas que llegaron a cada paso, comparadas con la página de producto.",
+    "product": "Página de producto",
+    "cart": "Carrito",
+    "checkout": "Pago"
+  },
+  "source": {
+    "direct": "Directo",
+    "search": "Búsqueda",
+    "social": "Redes sociales",
+    "email": "Correo electrónico",
+    "campaign": "Campaña",
+    "referral": "Referencia",
+    "other": "Otro"
+  },
+  "device": {
+    "desktop": "Ordenador",
+    "mobile": "Móvil",
+    "tablet": "Tableta",
+    "other": "Otro"
+  },
+  "path": {
+    "home": "Inicio",
+    "cart": "Carrito",
+    "checkout": "Pago",
+    "product": "Producto",
+    "store": "Tienda"
+  },
+  "unknown": "Desconocido",
+  "empty": {
+    "title": "Todavía no hay visitas en este período",
+    "text": "Las visitas aparecen aquí cuando la gente abre el sitio."
+  },
+  "error": {
+    "title": "No se pudieron cargar las cifras de visitantes.",
+    "retry": "Intentar de nuevo"
+  },
+  "visits": {
+    "rangeHint": "La lista de visitas abarca como máximo 7 días. Elige Hoy o 7 días.",
+    "disabledRange": "No disponible para la lista de visitas (máximo 7 días).",
+    "visit": "Visita #{{code}}",
+    "pages": "Páginas: {{n}}",
+    "showJourney": "Ver el recorrido",
+    "hideJourney": "Ocultar el recorrido",
+    "journey": "Recorrido",
+    "country": "País",
+    "anyCountry": "Todos los países",
+    "source": "Fuente",
+    "anySource": "Todas las fuentes",
+    "total": "Visitas encontradas: {{n}}",
+    "page": "Página {{page}} de {{pages}}",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "loading": "Cargando visitas"
+  }
+}

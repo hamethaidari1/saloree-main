@@ -18,6 +18,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { CartProvider } from "@/components/marketplace/cart-context";
 import { PendingWishlistSave } from "@/components/marketplace/wishlist-button";
 import { StorefrontTracker } from "@/components/marketplace/storefront-tracker";
+import { SiteTracker } from "@/components/marketplace/site-tracker";
 import { AuthProvider } from "@/lib/auth";
 import { LOGO } from "@/lib/brand";
 import { DEV_STORE_PARAM, isMainOnlyPath, mainSiteUrl, resolveDevStore } from "@/lib/host";
@@ -291,6 +292,7 @@ function RootComponent() {
             <CartProvider>
               <PendingWishlistSave />
               <StorefrontTracker />
+              <SiteTracker />
               {/* Live support badges and "New message from Saloree team" toasts. */}
               <SupportNotifier />
               {store ? <StoreHeader store={store} /> : chrome && !appShell && <Navbar />}

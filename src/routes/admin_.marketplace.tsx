@@ -14,10 +14,12 @@ import { NoAccess, StaffShell } from "@/components/staff/staff-shell";
 import { SellerApplicationsPanel } from "@/components/staff/seller-applications";
 import { FeedbackPanel } from "@/components/staff/feedback-panel";
 import { StaffMessagesTabLabel, StaffSupportPanel } from "@/components/staff/staff-support";
+import { VisitorsPanel } from "@/components/staff/visitors-panel";
 import { requirePanel } from "@/lib/auth";
 
 const TABS = [
   ["overview", "Overview"],
+  ["visitors", "Visitors"],
   ["stores", "Stores"],
   ["applications", "Seller applications"],
   ["feedback", "Feedback"],
@@ -72,6 +74,10 @@ function MarketplacePage() {
         </TabsList>
         <TabsContent value="overview" className="mt-6">
           <MarketplaceOverview />
+        </TabsContent>
+        <TabsContent value="visitors" className="mt-6">
+          {/* admin and content_admin (this panel's roles); the database checks the same. */}
+          <VisitorsPanel />
         </TabsContent>
         <TabsContent value="stores" className="mt-6">
           {/* The database refuses status changes on your own store unless you're an admin. */}

@@ -26,6 +26,7 @@ import { Route as WishlistRouteImport } from './routes/wishlist'
 import { Route as AccountMessagesRouteImport } from './routes/account_.messages'
 import { Route as AdminFinanceRouteImport } from './routes/admin_.finance'
 import { Route as AdminMarketplaceRouteImport } from './routes/admin_.marketplace'
+import { Route as ApiPageviewRouteImport } from './routes/api.pageview'
 import { Route as ApiTrackRouteImport } from './routes/api.track'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
@@ -135,6 +136,11 @@ const AdminFinanceRoute = AdminFinanceRouteImport.update({
 const AdminMarketplaceRoute = AdminMarketplaceRouteImport.update({
   id: '/admin_/marketplace',
   path: '/admin/marketplace',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPageviewRoute = ApiPageviewRouteImport.update({
+  id: '/api/pageview',
+  path: '/api/pageview',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiTrackRoute = ApiTrackRouteImport.update({
@@ -282,6 +288,7 @@ export interface FileRoutesByFullPath {
   '/account/messages': typeof AccountMessagesRoute
   '/admin/finance': typeof AdminFinanceRoute
   '/admin/marketplace': typeof AdminMarketplaceRoute
+  '/api/pageview': typeof ApiPageviewRoute
   '/api/track': typeof ApiTrackRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/category/$slug': typeof CategorySlugRoute
@@ -325,6 +332,7 @@ export interface FileRoutesByTo {
   '/account/messages': typeof AccountMessagesRoute
   '/admin/finance': typeof AdminFinanceRoute
   '/admin/marketplace': typeof AdminMarketplaceRoute
+  '/api/pageview': typeof ApiPageviewRoute
   '/api/track': typeof ApiTrackRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/category/$slug': typeof CategorySlugRoute
@@ -370,6 +378,7 @@ export interface FileRoutesById {
   '/account_/messages': typeof AccountMessagesRoute
   '/admin_/finance': typeof AdminFinanceRoute
   '/admin_/marketplace': typeof AdminMarketplaceRoute
+  '/api/pageview': typeof ApiPageviewRoute
   '/api/track': typeof ApiTrackRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/category/$slug': typeof CategorySlugRoute
@@ -416,6 +425,7 @@ export interface FileRouteTypes {
     | '/account/messages'
     | '/admin/finance'
     | '/admin/marketplace'
+    | '/api/pageview'
     | '/api/track'
     | '/auth/callback'
     | '/category/$slug'
@@ -459,6 +469,7 @@ export interface FileRouteTypes {
     | '/account/messages'
     | '/admin/finance'
     | '/admin/marketplace'
+    | '/api/pageview'
     | '/api/track'
     | '/auth/callback'
     | '/category/$slug'
@@ -503,6 +514,7 @@ export interface FileRouteTypes {
     | '/account_/messages'
     | '/admin_/finance'
     | '/admin_/marketplace'
+    | '/api/pageview'
     | '/api/track'
     | '/auth/callback'
     | '/category/$slug'
@@ -548,6 +560,7 @@ export interface RootRouteChildren {
   AccountMessagesRoute: typeof AccountMessagesRoute
   AdminFinanceRoute: typeof AdminFinanceRoute
   AdminMarketplaceRoute: typeof AdminMarketplaceRoute
+  ApiPageviewRoute: typeof ApiPageviewRoute
   ApiTrackRoute: typeof ApiTrackRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
   CategorySlugRoute: typeof CategorySlugRoute
@@ -679,6 +692,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/marketplace'
       fullPath: '/admin/marketplace'
       preLoaderRoute: typeof AdminMarketplaceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/pageview': {
+      id: '/api/pageview'
+      path: '/api/pageview'
+      fullPath: '/api/pageview'
+      preLoaderRoute: typeof ApiPageviewRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/track': {
@@ -916,6 +936,7 @@ const rootRouteChildren: RootRouteChildren = {
   AccountMessagesRoute: AccountMessagesRoute,
   AdminFinanceRoute: AdminFinanceRoute,
   AdminMarketplaceRoute: AdminMarketplaceRoute,
+  ApiPageviewRoute: ApiPageviewRoute,
   ApiTrackRoute: ApiTrackRoute,
   AuthCallbackRoute: AuthCallbackRoute,
   CategorySlugRoute: CategorySlugRoute,

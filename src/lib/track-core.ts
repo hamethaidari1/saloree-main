@@ -16,7 +16,8 @@ export const trackBodySchema = z.object({ store_id: z.string().uuid() }).strict(
 /** Bodies longer than this are ignored without being parsed. */
 export const MAX_TRACK_BODY = 256;
 
-const BOT_RE = /bot|crawler|spider|slurp|headless|preview|curl|wget|python|lighthouse|monitor/i;
+const BOT_RE =
+  /bot|crawl|spider|slurp|preview|facebookexternalhit|headless|lighthouse|monitor|curl|wget|python/i;
 
 /** Crawlers, link previews, scripts and uptime checks; an empty user agent counts as a bot. */
 export function isBot(userAgent: string | null | undefined): boolean {
@@ -51,6 +52,12 @@ export const utcDay = (d: Date) => d.toISOString().slice(0, 10);
 const hex = (buf: ArrayBuffer) =>
   [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
 
+/** sha256 of the parts joined with "|", as lowercase hex. */
+export async function sha256Hex(parts: readonly string[]): Promise<string> {
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(parts.join("|")));
+  return hex(digest);
+}
+
 /**
  * Anonymous daily visitor id: the first 40 hex characters of
  * sha256(ip | userAgent | storeId | utcDay | salt). It changes every day and
@@ -64,7 +71,6 @@ export async function visitorHash(input: {
   day: string;
   salt: string;
 }): Promise<string> {
-  const text = [input.ip, input.userAgent, input.storeId, input.day, input.salt].join("|");
-  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
-  return hex(digest).slice(0, 40);
+  const parts = [input.ip, input.userAgent, input.storeId, input.day, input.salt];
+  return (await sha256Hex(parts)).slice(0, 40);
 }

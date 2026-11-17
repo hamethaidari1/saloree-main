@@ -1,0 +1,114 @@
+{
+  "title": "Visitors",
+  "intro": "Who visits the marketplace, where they come from and which pages they open.",
+  "privacy": "Visitors are anonymous. The code changes every day. No names, e-mails or IP addresses are stored. Data is kept 90 days.",
+  "utc": "Days are in UTC.",
+  "range": {
+    "label": "Period",
+    "today": "Today",
+    "7": "7 days",
+    "30": "30 days",
+    "90": "90 days"
+  },
+  "store": {
+    "label": "Store",
+    "all": "All stores"
+  },
+  "tabs": {
+    "overview": "Overview",
+    "visits": "Visits"
+  },
+  "cards": {
+    "visitors": "Visitors",
+    "visitorsHint": "Counted once per day per device.",
+    "pageViews": "Page views",
+    "pageViewsHint": "Every page opened.",
+    "pagesPerVisit": "Pages per visit",
+    "bounce": "Left after 1 page",
+    "bounceHint": "Visits that opened only one page."
+  },
+  "live": {
+    "title": "Live now",
+    "count": "Visitors in the last 5 minutes: {{n}}",
+    "none": "Nobody is on the site right now.",
+    "refresh": "Updates every 15 seconds while this tab is open.",
+    "error": "Live visitors could not be loaded."
+  },
+  "chart": {
+    "title": "Visitors and page views by day",
+    "day": "Day"
+  },
+  "lists": {
+    "top_pages": "Top pages",
+    "entry_pages": "Entry pages",
+    "sources": "Sources",
+    "referrers": "Referrers",
+    "campaigns": "Campaigns",
+    "countries": "Countries",
+    "cities": "Cities",
+    "devices": "Devices",
+    "browsers": "Browsers",
+    "systems": "Operating systems",
+    "languages": "Languages",
+    "stores": "Stores",
+    "none": "Nothing yet in this period.",
+    "visits": "Visits",
+    "share": "Share"
+  },
+  "funnel": {
+    "title": "Shopping steps",
+    "hint": "Visits that reached each step, compared with the product page.",
+    "product": "Product page",
+    "cart": "Cart",
+    "checkout": "Checkout"
+  },
+  "source": {
+    "direct": "Direct",
+    "search": "Search",
+    "social": "Social",
+    "email": "E-mail",
+    "campaign": "Campaign",
+    "referral": "Referral",
+    "other": "Other"
+  },
+  "device": {
+    "desktop": "Desktop",
+    "mobile": "Mobile",
+    "tablet": "Tablet",
+    "other": "Other"
+  },
+  "path": {
+    "home": "Home",
+    "cart": "Cart",
+    "checkout": "Checkout",
+    "product": "Product",
+    "store": "Store"
+  },
+  "unknown": "Unknown",
+  "empty": {
+    "title": "No visits yet in this period",
+    "text": "Visits appear here as people open the site."
+  },
+  "error": {
+    "title": "Visitor numbers could not be loaded.",
+    "retry": "Try again"
+  },
+  "visits": {
+    "rangeHint": "The visit list covers at most 7 days. Choose Today or 7 days.",
+    "disabledRange": "Not available for the visit list (at most 7 days).",
+    "visit": "Visit #{{code}}",
+    "pages": "Pages: {{n}}",
+    "showJourney": "Show the journey",
+    "hideJourney": "Hide the journey",
+    "journey": "Journey",
+    "country": "Country",
+    "anyCountry": "All countries",
+    "source": "Source",
+    "anySource": "All sources",
+    "total": "Visits found: {{n}}",
+    "page": "Page {{page}} of {{pages}}",
+    "previous": "Previous",
+    "next": "Next",
+    "loading": "Loading visits"
+  }
+}

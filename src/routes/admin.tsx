@@ -16,9 +16,11 @@ import { AuditLogPanel, TeamPanel } from "@/components/staff/team-panels";
 import { SellerApplicationsPanel } from "@/components/staff/seller-applications";
 import { FeedbackPanel } from "@/components/staff/feedback-panel";
 import { StaffMessagesTabLabel, StaffSupportPanel } from "@/components/staff/staff-support";
+import { VisitorsPanel } from "@/components/staff/visitors-panel";
 
 const TABS = [
   ["overview", "Overview"],
+  ["visitors", "Visitors"],
   ["stores", "Stores"],
   ["applications", "Seller applications"],
   ["feedback", "Feedback"],
@@ -87,6 +89,9 @@ function AdminPanel({
         </TabsList>
         <TabsContent value="overview" className="mt-6">
           <OverviewPanel />
+        </TabsContent>
+        <TabsContent value="visitors" className="mt-6">
+          <VisitorsPanel />
         </TabsContent>
         <TabsContent value="stores" className="mt-6">
           <StoresPanel canSetLimit />

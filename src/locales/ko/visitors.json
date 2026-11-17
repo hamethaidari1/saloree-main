@@ -1,0 +1,114 @@
+{
+  "title": "방문자",
+  "intro": "누가 마켓플레이스를 방문하는지, 어디에서 오는지, 어떤 페이지를 여는지 보여 줍니다.",
+  "privacy": "방문자는 익명입니다. 코드는 매일 바뀝니다. 이름, 이메일 주소, IP 주소는 저장되지 않습니다. 데이터는 90일 동안 보관됩니다.",
+  "utc": "날짜는 UTC 기준입니다.",
+  "range": {
+    "label": "기간",
+    "today": "오늘",
+    "7": "7일",
+    "30": "30일",
+    "90": "90일"
+  },
+  "store": {
+    "label": "스토어",
+    "all": "모든 스토어"
+  },
+  "tabs": {
+    "overview": "개요",
+    "visits": "방문"
+  },
+  "cards": {
+    "visitors": "방문자",
+    "visitorsHint": "기기당 하루에 한 번 집계됩니다.",
+    "pageViews": "페이지뷰",
+    "pageViewsHint": "열린 모든 페이지.",
+    "pagesPerVisit": "방문당 페이지 수",
+    "bounce": "1페이지 후 이탈",
+    "bounceHint": "한 페이지만 연 방문."
+  },
+  "live": {
+    "title": "실시간",
+    "count": "최근 5분간 방문자: {{n}}",
+    "none": "지금은 사이트에 아무도 없습니다.",
+    "refresh": "이 탭이 열려 있는 동안 15초마다 업데이트됩니다.",
+    "error": "실시간 방문자를 불러올 수 없습니다."
+  },
+  "chart": {
+    "title": "일별 방문자 및 페이지뷰",
+    "day": "날짜"
+  },
+  "lists": {
+    "top_pages": "인기 페이지",
+    "entry_pages": "진입 페이지",
+    "sources": "유입 경로",
+    "referrers": "참조 사이트",
+    "campaigns": "캠페인",
+    "countries": "국가",
+    "cities": "도시",
+    "devices": "기기",
+    "browsers": "브라우저",
+    "systems": "운영 체제",
+    "languages": "언어",
+    "stores": "스토어",
+    "none": "이 기간에는 아직 데이터가 없습니다.",
+    "visits": "방문",
+    "share": "비율"
+  },
+  "funnel": {
+    "title": "구매 단계",
+    "hint": "각 단계에 도달한 방문 수(상품 페이지 대비).",
+    "product": "상품 페이지",
+    "cart": "장바구니",
+    "checkout": "결제"
+  },
+  "source": {
+    "direct": "직접",
+    "search": "검색",
+    "social": "소셜",
+    "email": "이메일",
+    "campaign": "캠페인",
+    "referral": "추천",
+    "other": "기타"
+  },
+  "device": {
+    "desktop": "데스크톱",
+    "mobile": "모바일",
+    "tablet": "태블릿",
+    "other": "기타"
+  },
+  "path": {
+    "home": "홈",
+    "cart": "장바구니",
+    "checkout": "결제",
+    "product": "상품",
+    "store": "스토어"
+  },
+  "unknown": "알 수 없음",
+  "empty": {
+    "title": "이 기간에는 아직 방문이 없습니다",
+    "text": "사람들이 사이트를 열면 여기에 방문이 표시됩니다."
+  },
+  "error": {
+    "title": "방문자 수를 불러올 수 없습니다.",
+    "retry": "다시 시도"
+  },
+  "visits": {
+    "rangeHint": "방문 목록은 최대 7일까지입니다. 오늘 또는 7일을 선택하세요.",
+    "disabledRange": "방문 목록에서는 사용할 수 없습니다(최대 7일).",
+    "visit": "방문 #{{code}}",
+    "pages": "페이지: {{n}}",
+    "showJourney": "경로 보기",
+    "hideJourney": "경로 숨기기",
+    "journey": "경로",
+    "country": "국가",
+    "anyCountry": "모든 국가",
+    "source": "유입 경로",
+    "anySource": "모든 유입 경로",
+    "total": "찾은 방문: {{n}}",
+    "page": "{{page}}/{{pages}} 페이지",
+    "previous": "이전",
+    "next": "다음",
+    "loading": "방문을 불러오는 중"
+  }
+}

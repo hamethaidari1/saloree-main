@@ -1,0 +1,114 @@
+{
+  "title": "访客",
+  "intro": "谁在访问市场、他们从哪里来、打开了哪些页面。",
+  "privacy": "访客是匿名的。代码每天都会变化。不会存储姓名、电子邮件或 IP 地址。数据保留 90 天。",
+  "utc": "日期以 UTC 为准。",
+  "range": {
+    "label": "时间段",
+    "today": "今天",
+    "7": "7 天",
+    "30": "30 天",
+    "90": "90 天"
+  },
+  "store": {
+    "label": "店铺",
+    "all": "所有店铺"
+  },
+  "tabs": {
+    "overview": "概览",
+    "visits": "访问"
+  },
+  "cards": {
+    "visitors": "访客",
+    "visitorsHint": "每台设备每天计一次。",
+    "pageViews": "页面浏览量",
+    "pageViewsHint": "每个打开的页面。",
+    "pagesPerVisit": "每次访问的页面数",
+    "bounce": "看 1 页后离开",
+    "bounceHint": "只打开了一个页面的访问。"
+  },
+  "live": {
+    "title": "实时",
+    "count": "最近 5 分钟的访客：{{n}}",
+    "none": "目前网站上没有人。",
+    "refresh": "此标签页打开时每 15 秒更新一次。",
+    "error": "无法加载实时访客。"
+  },
+  "chart": {
+    "title": "每日访客和页面浏览量",
+    "day": "日期"
+  },
+  "lists": {
+    "top_pages": "热门页面",
+    "entry_pages": "入口页面",
+    "sources": "来源",
+    "referrers": "引荐网站",
+    "campaigns": "营销活动",
+    "countries": "国家/地区",
+    "cities": "城市",
+    "devices": "设备",
+    "browsers": "浏览器",
+    "systems": "操作系统",
+    "languages": "语言",
+    "stores": "店铺",
+    "none": "此时间段内暂无数据。",
+    "visits": "访问",
+    "share": "占比"
+  },
+  "funnel": {
+    "title": "购物步骤",
+    "hint": "到达每个步骤的访问，与商品页相比。",
+    "product": "商品页",
+    "cart": "购物车",
+    "checkout": "结账"
+  },
+  "source": {
+    "direct": "直接访问",
+    "search": "搜索",
+    "social": "社交媒体",
+    "email": "电子邮件",
+    "campaign": "营销活动",
+    "referral": "引荐",
+    "other": "其他"
+  },
+  "device": {
+    "desktop": "桌面设备",
+    "mobile": "手机",
+    "tablet": "平板",
+    "other": "其他"
+  },
+  "path": {
+    "home": "首页",
+    "cart": "购物车",
+    "checkout": "结账",
+    "product": "商品",
+    "store": "店铺"
+  },
+  "unknown": "未知",
+  "empty": {
+    "title": "此时间段内暂无访问",
+    "text": "有人打开网站后，访问会显示在这里。"
+  },
+  "error": {
+    "title": "无法加载访客数据。",
+    "retry": "重试"
+  },
+  "visits": {
+    "rangeHint": "访问列表最多涵盖 7 天。请选择“今天”或“7 天”。",
+    "disabledRange": "访问列表不可用（最多 7 天）。",
+    "visit": "访问 #{{code}}",
+    "pages": "页面数：{{n}}",
+    "showJourney": "显示访问路径",
+    "hideJourney": "隐藏访问路径",
+    "journey": "访问路径",
+    "country": "国家/地区",
+    "anyCountry": "所有国家/地区",
+    "source": "来源",
+    "anySource": "所有来源",
+    "total": "找到的访问：{{n}}",
+    "page": "第 {{page}} 页，共 {{pages}} 页",
+    "previous": "上一页",
+    "next": "下一页",
+    "loading": "正在加载访问"
+  }
+}
