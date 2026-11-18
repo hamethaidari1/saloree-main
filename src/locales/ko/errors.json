@@ -22,7 +22,8 @@
     "discountFormat": "올바른 할인 코드 형식이 아닙니다.",
     "codPaused": "장바구니의 상점 중 한 곳이 지금 착불 결제를 받지 않습니다. 주문이 접수되지 않았습니다.",
     "paymentExpired": "이 주문은 더 이상 결제할 수 없습니다. 장바구니에서 다시 주문해 주세요.",
-    "alreadyPaid": "이미 결제된 주문입니다."
+    "alreadyPaid": "이미 결제된 주문입니다.",
+    "invalidOptions": "장바구니의 각 상품에 대해 올바른 색상과 사이즈를 선택하세요."
   },
   "orders": {
     "cannotCancel": "이 주문은 더 이상 취소할 수 없습니다."

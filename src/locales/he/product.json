@@ -62,7 +62,18 @@
     "sortPriceHigh": "מחיר: מהגבוה לנמוך",
     "sortPopular": "הפופולריים ביותר",
     "emptyTitle": "עדיין אין מציאות",
-    "emptyText": "כדאי לנסות חיפוש אחר או לשנות את המסננים."
+    "emptyText": "כדאי לנסות חיפוש אחר או לשנות את המסננים.",
+    "brand": "מותג",
+    "color": "צבע",
+    "size": "מידה",
+    "allBrands": "כל המותגים",
+    "allColors": "כל הצבעים",
+    "allSizes": "כל המידות",
+    "filterBy": {
+      "brand": "סינון לפי מותג",
+      "color": "סינון לפי צבע",
+      "size": "סינון לפי מידה"
+    }
   },
   "wishlist": {
     "metaTitle": "רשימת משאלות — Saloree",
@@ -102,5 +113,17 @@
   },
   "buyNow": "קנייה עכשיו",
   "showMore": "הצגת עוד",
-  "showLess": "הצגת פחות"
+  "showLess": "הצגת פחות",
+  "options": {
+    "color": "צבע",
+    "size": "מידה",
+    "colorValue": "צבע: {{value}}",
+    "sizeValue": "מידה: {{value}}",
+    "chooseColor": "יש לבחור צבע.",
+    "chooseSize": "יש לבחור מידה.",
+    "chooseBoth": "יש לבחור צבע ומידה.",
+    "chooseOptions": "בחירת אפשרויות",
+    "chooseOptionsAria": "בחירת אפשרויות עבור {{title}}",
+    "brandLink": "עוד מהמותג {{brand}}"
+  }
 }

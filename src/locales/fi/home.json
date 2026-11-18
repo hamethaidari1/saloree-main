@@ -27,9 +27,21 @@
     "title": "Löydä omasi",
     "subtitle": "Vähän inspiraatiota elämän jokaiseen nurkkaan."
   },
-  "featured": {
-    "title": "Katso tarkemmin",
-    "subtitle": "Valitut löytömme. Tulevat suosikkisi."
+  "shelves": {
+    "viewAllAria": "Näytä kaikki: {{title}}",
+    "count": "Näytettyjä tuotteita: {{shown}}",
+    "newTitle": "Uutuudet",
+    "newSubtitle": "Kauppojemme juuri lisäämät.",
+    "popularTitle": "Suositut juuri nyt",
+    "popularSubtitle": "Mistä muut ostajat pitävät eniten.",
+    "moreTitle": "Lisää tuotteita sinulle",
+    "moreSubtitle": "Jatka koko kauppapaikan tutkimista.",
+    "showing": "Näytetään {{shown}}/{{total}} tuotetta",
+    "loadMore": "Lataa {{n}} lisää",
+    "browseAll": "Selaa kaikkia tuotteita",
+    "emptyTitle": "Ei vielä tuotteita",
+    "emptyText": "Tuotteet näkyvät täällä heti, kun kaupat julkaisevat ne.",
+    "emptyCta": "Tutustu kauppoihin"
   },
   "edit": {
     "eyebrow": "ARJEN VALINNAT",
@@ -37,20 +49,9 @@
     "text": "Luonnollisia materiaaleja, harkittuja yksityiskohtia ja pieniä asioita, joilla on suuri merkitys.",
     "cta": "Ole kuin kotonasi"
   },
-  "fresh": {
-    "title": "Juuri hyllyyn tulleet",
-    "subtitle": "Uutuuksia, joissa on jotain erityistä.",
-    "link": "Katso uutuudet"
-  },
   "stores": {
     "title": "Pienet kaupat. Suuri persoonallisuus.",
     "subtitle": "Tutustu ihmisiin suosikkilöytöjesi takana."
-  },
-  "discover": {
-    "title": "Löydä jotain, mistä pidät",
-    "subtitle": "Kaikki kauppamme. Yksi ihana paikka tutkia.",
-    "all": "Kaikki löydöt",
-    "more": "Löydä lisää"
   },
   "carousel": {
     "label": "Nostot",

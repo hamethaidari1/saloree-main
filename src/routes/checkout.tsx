@@ -20,7 +20,8 @@ import { requireAuth } from "@/lib/auth";
 import { buyNowQuantity, parseBuyNowSearch } from "@/lib/buy-now";
 import { countryNameEn } from "@/lib/iso-countries";
 import { PAYMENT_BRANDS } from "@/lib/payment-logos";
-import { cartTotal } from "@/services/cart";
+import { cartTotal, lineKey } from "@/services/cart";
+import { SelectedOptions } from "@/components/marketplace/product-options";
 import { useFormat, useLocale } from "@/i18n/hooks";
 import { codPausedStores, isCodPausedError } from "@/services/payouts";
 import { translateError, validationMessage } from "@/i18n/messages";
@@ -89,6 +90,8 @@ function CheckoutPage() {
     ? {
         productId: search.buy,
         quantity: buyNowQuantity(search.qty, expressProduct?.stock ?? 0),
+        ...(search.color ? { color: search.color } : {}),
+        ...(search.size ? { size: search.size } : {}),
       }
     : null;
   const items = express === null ? bagItems : express.quantity > 0 ? [express] : [];
@@ -592,12 +595,13 @@ function CheckoutPage() {
               <h2 id="checkout-summary-title">{t("yourOrder")}</h2>
               <ul className="checkout-items">
                 {lines.map((l) => (
-                  <li key={l.productId}>
+                  <li key={lineKey(l)}>
                     <img src={l.product.image} alt="" loading="lazy" width={56} height={56} />
                     <span className="min-w-0 flex-1">
                       <span className="checkout-item-title" dir="auto" title={l.product.title}>
                         {t("line", { quantity: format.number(l.quantity), title: l.product.title })}
                       </span>
+                      <SelectedOptions color={l.color} size={l.size} />
                       {l.store && <small>{l.store.name}</small>}
                     </span>
                     <span className="checkout-item-price">

@@ -56,6 +56,12 @@ export interface Product {
   stock: number;
   description: string;
   badge?: string;
+  /** e.g. "Nike"; null/absent = none. */
+  brand?: string | null;
+  /** The colors the buyer chooses from; empty/absent = no color choice. */
+  colors?: string[];
+  /** The sizes the buyer chooses from; empty/absent = no size choice. */
+  sizes?: string[];
 }
 export interface Store {
   /** Database id (absent on test fixtures). */

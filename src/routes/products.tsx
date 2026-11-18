@@ -7,8 +7,11 @@ import { CatalogSkeleton } from "@/components/marketplace/shared";
 export const Route = createFileRoute("/products")({
   validateSearch: (
     s: Record<string, unknown>,
-  ): { q?: string; category?: string; sort?: string; sale?: boolean } => ({
+  ): { q?: string; category?: string; sort?: string; sale?: boolean; brand?: string } => ({
     ...(typeof s["q"] === "string" ? { q: s["q"] } : {}),
+    ...(typeof s["brand"] === "string" && s["brand"].trim() && s["brand"].length <= 80
+      ? { brand: s["brand"] }
+      : {}),
     ...(typeof s["category"] === "string" && s["category"] ? { category: s["category"] } : {}),
     ...(typeof s["sort"] === "string" ? { sort: s["sort"] } : {}),
     ...(s["sale"] === true || s["sale"] === "true" ? { sale: true } : {}),
@@ -37,10 +40,11 @@ export const Route = createFileRoute("/products")({
   component: ProductsPage,
 });
 function ProductsPage() {
-  const { q, category, sort, sale } = Route.useSearch();
+  const { q, category, sort, sale, brand } = Route.useSearch();
   return (
     <Browse
-      key={`${q}-${category}-${sort}-${sale}`}
+      key={`${q}-${category}-${sort}-${sale}-${brand}`}
+      brand={brand ?? ""}
       query={q ?? ""}
       category={category ?? ""}
       initialSort={sort ?? "newest"}

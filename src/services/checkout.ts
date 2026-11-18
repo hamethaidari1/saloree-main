@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { supabase } from "@/lib/supabase";
-import type { CartItem } from "./cart";
+import { lineKey, type CartItem } from "./cart";
 import { NotPermittedError } from "./errors";
 
 // Orders are created ONLY by the `place_order` database function, which
@@ -129,13 +129,34 @@ export const isInvalidDiscountError = (e: unknown) =>
   typeof (e as { message?: unknown } | null)?.message === "string" &&
   (e as { message: string }).message.includes(INVALID_DISCOUNT_MESSAGE);
 
-/** Merges duplicate lines and drops invalid quantities; prices are not sent. */
-export function toOrderItems(items: CartItem[]) {
-  const merged = new Map<string, number>();
-  for (const i of items)
-    if (Number.isInteger(i.quantity) && i.quantity > 0)
-      merged.set(i.productId, (merged.get(i.productId) ?? 0) + i.quantity);
-  return [...merged].map(([product_id, quantity]) => ({ product_id, quantity }));
+export interface OrderItemInput {
+  product_id: string;
+  quantity: number;
+  selected_color: string | null;
+  selected_size: string | null;
+}
+
+/**
+ * One entry per line (product + color + size): equal lines merged, invalid
+ * quantities dropped; prices are not sent. place_order checks on the server
+ * that each color/size is one of the product's own (exact match).
+ */
+export function toOrderItems(items: CartItem[]): OrderItemInput[] {
+  const merged = new Map<string, OrderItemInput>();
+  for (const i of items) {
+    if (!Number.isInteger(i.quantity) || i.quantity < 1) continue;
+    const key = lineKey(i);
+    const prior = merged.get(key);
+    if (prior) prior.quantity += i.quantity;
+    else
+      merged.set(key, {
+        product_id: i.productId,
+        quantity: i.quantity,
+        selected_color: i.color ?? null,
+        selected_size: i.size ?? null,
+      });
+  }
+  return [...merged.values()];
 }
 
 export const checkoutService = {

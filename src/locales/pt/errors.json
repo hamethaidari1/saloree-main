@@ -22,7 +22,8 @@
     "discountFormat": "Isso não parece um código de desconto.",
     "codPaused": "Uma loja na sua sacola não está aceitando pagamento na entrega agora. Seu pedido não foi feito.",
     "paymentExpired": "Este pedido não pode mais ser pago. Faça-o novamente pela sua sacola.",
-    "alreadyPaid": "Este pedido já está pago."
+    "alreadyPaid": "Este pedido já está pago.",
+    "invalidOptions": "Escolha uma cor e um tamanho válidos para cada artigo do seu carrinho."
   },
   "orders": {
     "cannotCancel": "Este pedido não pode mais ser cancelado."

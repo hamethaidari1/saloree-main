@@ -40,6 +40,12 @@ export interface ProductRow {
   featured_image: string | null;
   status: "active" | (string & {});
   created_at: string;
+  /** 1–80 characters, or null. */
+  brand?: string | null;
+  /** At most 20, each 1–30 characters; [] = no color choice. */
+  colors?: string[] | null;
+  /** At most 30, each 1–20 characters; [] = no size choice. */
+  sizes?: string[] | null;
 }
 
 export interface ProfileRow {
@@ -202,4 +208,7 @@ export interface OrderItemRow {
   unit_price: number | null;
   total: number | null;
   created_at: string;
+  /** The buyer's choice, checked by place_order against the product. */
+  selected_color?: string | null;
+  selected_size?: string | null;
 }

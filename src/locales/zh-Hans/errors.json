@@ -22,7 +22,8 @@
     "discountFormat": "这看起来不像优惠码。",
     "codPaused": "购物袋中有店铺暂不接受货到付款。您的订单未提交。",
     "paymentExpired": "此订单已无法支付。请从购物袋重新下单。",
-    "alreadyPaid": "此订单已付款。"
+    "alreadyPaid": "此订单已付款。",
+    "invalidOptions": "请为购物袋中的每件商品选择有效的颜色和尺码。"
   },
   "orders": {
     "cannotCancel": "此订单已无法取消。"

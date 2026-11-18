@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { hasOptions } from "@/lib/product-options";
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import {
@@ -60,7 +61,10 @@ export function SectionHeading({
   subtitle,
   to = "/products",
   children,
+  id,
 }: {
+  /** The heading's id, for a section's aria-labelledby. */
+  id?: string;
   title: string;
   subtitle?: string;
   to?: "/products" | "/stores";
@@ -70,7 +74,7 @@ export function SectionHeading({
   return (
     <div className="section-heading">
       <div className="min-w-0">
-        <h2>{title}</h2>
+        <h2 id={id}>{title}</h2>
         {subtitle && <p>{subtitle}</p>}
       </div>
       {children ?? (
@@ -93,7 +97,11 @@ export function Rating({ rating, reviews }: { rating: number; reviews?: number }
     </span>
   );
 }
-export function ProductCard({ product }: { product: Product }) {
+/**
+ * `eager`: the first visible row loads its photo right away (it is in the
+ * first screen); every other card loads its photo lazily.
+ */
+export function ProductCard({ product, eager = false }: { product: Product; eager?: boolean }) {
   const store = useCatalog().stores.find((s) => s.slug === product.storeSlug);
   const { t } = useTranslation("product");
   const format = useFormat();
@@ -111,7 +119,15 @@ export function ProductCard({ product }: { product: Product }) {
           params={{ id: product.id }}
           aria-label={t("card.view", { title: product.title })}
         >
-          <img src={product.image} alt={product.title} width="384" height="512" loading="lazy" />
+          <img
+            src={product.image}
+            alt={product.title}
+            width="384"
+            height="512"
+            loading={eager ? "eager" : "lazy"}
+            decoding="async"
+            {...(eager ? { fetchPriority: "high" as const } : {})}
+          />
         </Link>
         <WishlistButton productId={product.id} title={product.title} className="product-save" />
       </div>
@@ -119,6 +135,11 @@ export function ProductCard({ product }: { product: Product }) {
         <StoreLink slug={product.storeSlug} className="product-store">
           {store?.name}
         </StoreLink>
+        {product.brand && (
+          <span className="product-brand" dir="auto">
+            {product.brand}
+          </span>
+        )}
         <Link to="/product/$id" params={{ id: product.id }} className="product-title">
           {product.title}
         </Link>
@@ -130,16 +151,35 @@ export function ProductCard({ product }: { product: Product }) {
               <span className="old-price">{format.price(product.originalPrice)}</span>
             )}
           </span>
-          <Button
-            size="icon"
-            variant="ghost"
-            className="product-cart"
-            title={t("card.addTitle")}
-            aria-label={t("card.addAria", { title: product.title })}
-            onClick={() => add(product.id)}
-          >
-            <Plus size={14} />
-          </Button>
+          {hasOptions(product) ? (
+            // A color/size must be chosen first: the "+" opens the product page.
+            <Button
+              asChild
+              size="icon"
+              variant="ghost"
+              className="product-cart"
+              title={t("options.chooseOptions")}
+            >
+              <Link
+                to="/product/$id"
+                params={{ id: product.id }}
+                aria-label={t("options.chooseOptionsAria", { title: product.title })}
+              >
+                <Plus size={14} />
+              </Link>
+            </Button>
+          ) : (
+            <Button
+              size="icon"
+              variant="ghost"
+              className="product-cart"
+              title={t("card.addTitle")}
+              aria-label={t("card.addAria", { title: product.title })}
+              onClick={() => add(product.id)}
+            >
+              <Plus size={14} />
+            </Button>
+          )}
         </div>
       </div>
     </article>

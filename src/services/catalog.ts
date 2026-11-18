@@ -13,7 +13,7 @@ const TONES = ["sage", "rose", "blue", "peach"] as const;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 const PRODUCT_SELECT =
-  "id, store_id, category_id, title, slug, description, price, compare_price, stock, featured_image, status, created_at," +
+  "id, store_id, category_id, title, slug, description, price, compare_price, stock, featured_image, status, created_at, brand, colors, sizes," +
   " stores!inner(slug, status), categories(slug), product_images(image_url, sort_order)";
 const STORE_SELECT =
   "id, owner_id, name, slug, description, logo_url, banner_url, category, location, status, created_at, updated_at";
@@ -81,6 +81,9 @@ export function toProduct(row: ProductQueryRow): Product {
     stock: Math.max(0, row.stock ?? 0),
     description: row.description ?? "",
     createdAt: Date.parse(row.created_at),
+    brand: row.brand?.trim() || null,
+    colors: row.colors ?? [],
+    sizes: row.sizes ?? [],
   };
 }
 
@@ -170,6 +173,46 @@ export const money = (amount: number, currency: string | null = "USD") => {
     return `${amount.toFixed(2)} ${currency}`;
   }
 };
+
+const fold = (v: string) => v.trim().toLocaleLowerCase();
+
+/**
+ * Brand / color / size filters (case-insensitive): a product matches a color
+ * or size when it is one of the product's own; "" = any.
+ */
+export function matchOptions<T extends Pick<Product, "brand" | "colors" | "sizes">>(
+  products: T[],
+  f: { brand?: string; color?: string; size?: string },
+): T[] {
+  const brand = f.brand ? fold(f.brand) : "";
+  const color = f.color ? fold(f.color) : "";
+  const size = f.size ? fold(f.size) : "";
+  return products.filter(
+    (p) =>
+      (!brand || fold(p.brand ?? "") === brand) &&
+      (!color || (p.colors ?? []).some((c) => fold(c) === color)) &&
+      (!size || (p.sizes ?? []).some((s) => fold(s) === size)),
+  );
+}
+
+/** The brands, colors and sizes that occur, each once (case-insensitive), sorted. */
+export function optionFacets(products: Pick<Product, "brand" | "colors" | "sizes">[]) {
+  const unique = (values: (string | null | undefined)[]) => {
+    const seen = new Map<string, string>();
+    for (const v of values) {
+      const t = v?.trim();
+      if (t && !seen.has(fold(t))) seen.set(fold(t), t);
+    }
+    return [...seen.values()];
+  };
+  const alpha = (a: string, b: string) => a.localeCompare(b);
+  return {
+    brands: unique(products.map((p) => p.brand)).sort(alpha),
+    colors: unique(products.flatMap((p) => p.colors ?? [])).sort(alpha),
+    // Sizes keep their first-seen order (S, M, L… rather than L, M, S).
+    sizes: unique(products.flatMap((p) => p.sizes ?? [])),
+  };
+}
 
 export function filterProducts(
   options: {

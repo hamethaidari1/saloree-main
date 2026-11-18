@@ -27,9 +27,21 @@
     "title": "找到你的心头好",
     "subtitle": "为生活的每个角落带来一点灵感。"
   },
-  "featured": {
-    "title": "值得一看",
-    "subtitle": "我们的精选好物，你即将爱上的单品。"
+  "shelves": {
+    "viewAllAria": "查看全部：{{title}}",
+    "count": "已显示的商品：{{shown}}",
+    "newTitle": "新品上架",
+    "newSubtitle": "我们的店铺刚刚上新。",
+    "popularTitle": "当下热门",
+    "popularSubtitle": "其他买家最喜欢的商品。",
+    "moreTitle": "为你推荐更多商品",
+    "moreSubtitle": "继续探索整个市场。",
+    "showing": "显示 {{shown}} 件，共 {{total}} 件商品",
+    "loadMore": "再加载 {{n}} 件",
+    "browseAll": "浏览所有商品",
+    "emptyTitle": "暂无商品",
+    "emptyText": "店铺发布商品后会立即显示在这里。",
+    "emptyCta": "发现店铺"
   },
   "edit": {
     "eyebrow": "日常精选",
@@ -37,20 +49,9 @@
     "text": "自然质感、用心细节，以及带来大不同的小物件。",
     "cta": "宾至如归"
   },
-  "fresh": {
-    "title": "新品上架",
-    "subtitle": "别具一格的新品。",
-    "link": "选购新品"
-  },
   "stores": {
     "title": "小店铺，大个性。",
     "subtitle": "认识你喜爱的好物背后的人。"
-  },
-  "discover": {
-    "title": "发现你喜欢的好物",
-    "subtitle": "所有店铺，一个美好的探索之地。",
-    "all": "全部好物",
-    "more": "发现更多好物"
   },
   "carousel": {
     "label": "精选",

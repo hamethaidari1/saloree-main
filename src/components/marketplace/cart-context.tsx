@@ -3,13 +3,16 @@ import { createContext, useContext, useEffect, useRef, useState, type ReactNode 
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { defaultCartStorage, type CartStorage } from "@/lib/cartStorage";
-import { normalizeCart, updateCart, type CartItem } from "@/services/cart";
+import { lineKey, normalizeCart, updateCart, type CartItem, type CartLine } from "@/services/cart";
+import type { Selection } from "@/lib/product-options";
 import { catalogQuery } from "@/services/catalog";
 interface CartContextValue {
   items: CartItem[];
   ready: boolean;
-  add: (id: string, quantity?: number) => void;
-  setQuantity: (id: string, q: number) => void;
+  /** Adds to the line for this product in this color/size (a new line for another choice). */
+  add: (id: string, quantity?: number, selection?: Selection) => void;
+  /** Sets one line's quantity; 0 removes it. A bare id means the product's plain line. */
+  setQuantity: (line: CartLine | string, q: number) => void;
   clear: () => void;
 }
 const CartContext = createContext<CartContextValue | undefined>(undefined);
@@ -50,14 +53,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
     if (ready) storage.current?.save(items);
   }, [items, ready]);
 
-  const setQuantity = (id: string, q: number) =>
-    setItems((prev) => updateCart(prev, id, q, products ?? []));
-  const add = (id: string, q = 1) => {
+  const setQuantity = (line: CartLine | string, q: number) =>
+    setItems((prev) => updateCart(prev, line, q, products ?? []));
+  const add = (id: string, q = 1, selection: Selection = {}) => {
+    const line: CartLine = {
+      productId: id,
+      color: selection.color ?? null,
+      size: selection.size ?? null,
+    };
     setItems((prev) =>
       updateCart(
         prev,
-        id,
-        (prev.find((i) => i.productId === id)?.quantity ?? 0) + q,
+        line,
+        (prev.find((i) => lineKey(i) === lineKey(line))?.quantity ?? 0) + q,
         products ?? [],
       ),
     );

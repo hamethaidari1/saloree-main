@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { SelectedOptions } from "@/components/marketplace/product-options";
 import { headT } from "@/i18n/head";
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
@@ -174,6 +175,7 @@ function AccountPage() {
                             quantity: format.number(i.quantity),
                             title: i.title ?? t("itemFallback"),
                           })}
+                          <SelectedOptions color={i.selected_color} size={i.selected_size} />
                           <small>{t("each", { price: format.price(unit, o.currency) })}</small>
                         </span>
                         <span>{format.price(line, o.currency)}</span>

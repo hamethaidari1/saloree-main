@@ -27,9 +27,21 @@
     "title": "Encontre o seu estilo",
     "subtitle": "Um pouco de inspiração para cada canto da sua vida."
   },
-  "featured": {
-    "title": "Vale a pena conferir",
-    "subtitle": "Nossos achados em destaque. Seus futuros favoritos."
+  "shelves": {
+    "viewAllAria": "Ver tudo: {{title}}",
+    "count": "Produtos mostrados: {{shown}}",
+    "newTitle": "Novidades",
+    "newSubtitle": "Acabados de adicionar pelas nossas lojas.",
+    "popularTitle": "Populares agora",
+    "popularSubtitle": "O que os outros compradores mais adoram.",
+    "moreTitle": "Mais produtos para si",
+    "moreSubtitle": "Continue a explorar todo o marketplace.",
+    "showing": "A mostrar {{shown}} de {{total}} produtos",
+    "loadMore": "Carregar mais {{n}}",
+    "browseAll": "Ver todos os produtos",
+    "emptyTitle": "Ainda não há produtos",
+    "emptyText": "Os produtos aparecem aqui assim que as lojas os publicarem.",
+    "emptyCta": "Descobrir lojas"
   },
   "edit": {
     "eyebrow": "A SELEÇÃO DO DIA A DIA",
@@ -37,20 +49,9 @@
     "text": "Texturas naturais, detalhes cuidadosos e pequenas coisas que fazem uma grande diferença.",
     "cta": "Fique à vontade"
   },
-  "fresh": {
-    "title": "Acabou de chegar",
-    "subtitle": "Novidades com um toque especial.",
-    "link": "Ver novidades"
-  },
   "stores": {
     "title": "Lojas pequenas. Grande personalidade.",
     "subtitle": "Conheça as pessoas por trás dos seus achados favoritos."
-  },
-  "discover": {
-    "title": "Descubra algo que você ame",
-    "subtitle": "Todas as nossas lojas. Um lugar encantador para explorar.",
-    "all": "Todos os achados",
-    "more": "Descobrir mais achados"
   },
   "carousel": {
     "label": "Destaques",

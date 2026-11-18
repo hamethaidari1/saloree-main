@@ -58,7 +58,18 @@
     "sortPriceHigh": "價格由高至低",
     "sortPopular": "最受歡迎",
     "emptyTitle": "目前沒有好物",
-    "emptyText": "試試其他關鍵字或調整篩選條件。"
+    "emptyText": "試試其他關鍵字或調整篩選條件。",
+    "brand": "品牌",
+    "color": "顏色",
+    "size": "尺寸",
+    "allBrands": "所有品牌",
+    "allColors": "所有顏色",
+    "allSizes": "所有尺寸",
+    "filterBy": {
+      "brand": "依品牌篩選",
+      "color": "依顏色篩選",
+      "size": "依尺寸篩選"
+    }
   },
   "wishlist": {
     "metaTitle": "願望清單 — Saloree",
@@ -96,5 +107,17 @@
   },
   "buyNow": "立即購買",
   "showMore": "顯示更多",
-  "showLess": "收合"
+  "showLess": "收合",
+  "options": {
+    "color": "顏色",
+    "size": "尺寸",
+    "colorValue": "顏色：{{value}}",
+    "sizeValue": "尺寸：{{value}}",
+    "chooseColor": "請選擇顏色。",
+    "chooseSize": "請選擇尺寸。",
+    "chooseBoth": "請選擇顏色和尺寸。",
+    "chooseOptions": "選擇選項",
+    "chooseOptionsAria": "為 {{title}} 選擇選項",
+    "brandLink": "查看 {{brand}} 品牌的更多商品"
+  }
 }

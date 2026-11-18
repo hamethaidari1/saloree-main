@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { brandSchema, colorsSchema, sizesSchema } from "@/lib/product-options";
 import type { CategoryRow, OrderItemRow, OrderRow, ProductRow, StoreRow } from "@/data/db";
 import { RESERVED_STORE_SLUGS } from "@/lib/host";
 import { supabase } from "@/lib/supabase";
@@ -133,6 +134,9 @@ export const productInputSchema = z
     ),
     category_id: z.string().uuid("Choose a category."),
     status: z.enum(PRODUCT_STATUSES),
+    brand: brandSchema,
+    colors: colorsSchema,
+    sizes: sizesSchema,
   })
   .refine((v) => v.compare_price == null || v.compare_price > v.price, {
     path: ["compare_price"],

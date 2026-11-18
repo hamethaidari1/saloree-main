@@ -22,7 +22,8 @@
     "discountFormat": "That doesn't look like a discount code.",
     "codPaused": "A store in your bag isn't accepting cash on delivery right now. Your order was not placed.",
     "paymentExpired": "This order can no longer be paid. Please place it again from your bag.",
-    "alreadyPaid": "This order is already paid."
+    "alreadyPaid": "This order is already paid.",
+    "invalidOptions": "Please choose a valid color and size for each item in your bag."
   },
   "orders": {
     "cannotCancel": "This order can no longer be cancelled."

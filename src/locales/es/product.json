@@ -62,7 +62,18 @@
     "sortPriceHigh": "Precio: de mayor a menor",
     "sortPopular": "Más populares",
     "emptyTitle": "Aún no hay hallazgos",
-    "emptyText": "Prueba otra búsqueda o ajusta los filtros."
+    "emptyText": "Prueba otra búsqueda o ajusta los filtros.",
+    "brand": "Marca",
+    "color": "Color",
+    "size": "Talla",
+    "allBrands": "Todas las marcas",
+    "allColors": "Todos los colores",
+    "allSizes": "Todas las tallas",
+    "filterBy": {
+      "brand": "Filtrar por marca",
+      "color": "Filtrar por color",
+      "size": "Filtrar por talla"
+    }
   },
   "wishlist": {
     "metaTitle": "Lista de deseos — Saloree",
@@ -102,5 +113,17 @@
   },
   "buyNow": "Comprar ahora",
   "showMore": "Mostrar más",
-  "showLess": "Mostrar menos"
+  "showLess": "Mostrar menos",
+  "options": {
+    "color": "Color",
+    "size": "Talla",
+    "colorValue": "Color: {{value}}",
+    "sizeValue": "Talla: {{value}}",
+    "chooseColor": "Selecciona un color.",
+    "chooseSize": "Selecciona una talla.",
+    "chooseBoth": "Selecciona un color y una talla.",
+    "chooseOptions": "Elegir opciones",
+    "chooseOptionsAria": "Elegir opciones para {{title}}",
+    "brandLink": "Más de la marca {{brand}}"
+  }
 }

@@ -68,7 +68,18 @@
     "sortPriceHigh": "السعر: من الأعلى إلى الأقل",
     "sortPopular": "الأكثر رواجًا",
     "emptyTitle": "لا توجد نتائج بعد",
-    "emptyText": "جرّب بحثًا مختلفًا أو عدّل عوامل التصفية."
+    "emptyText": "جرّب بحثًا مختلفًا أو عدّل عوامل التصفية.",
+    "brand": "العلامة التجارية",
+    "color": "اللون",
+    "size": "المقاس",
+    "allBrands": "كل العلامات التجارية",
+    "allColors": "كل الألوان",
+    "allSizes": "كل المقاسات",
+    "filterBy": {
+      "brand": "تصفية حسب العلامة التجارية",
+      "color": "تصفية حسب اللون",
+      "size": "تصفية حسب المقاس"
+    }
   },
   "wishlist": {
     "metaTitle": "قائمة الرغبات — Saloree",
@@ -111,5 +122,17 @@
   },
   "buyNow": "اشترِ الآن",
   "showMore": "عرض المزيد",
-  "showLess": "عرض أقل"
+  "showLess": "عرض أقل",
+  "options": {
+    "color": "اللون",
+    "size": "المقاس",
+    "colorValue": "اللون: {{value}}",
+    "sizeValue": "المقاس: {{value}}",
+    "chooseColor": "يرجى اختيار لون.",
+    "chooseSize": "يرجى اختيار مقاس.",
+    "chooseBoth": "يرجى اختيار لون ومقاس.",
+    "chooseOptions": "اختر الخيارات",
+    "chooseOptionsAria": "اختر الخيارات لـ {{title}}",
+    "brandLink": "المزيد من العلامة التجارية {{brand}}"
+  }
 }

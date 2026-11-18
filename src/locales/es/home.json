@@ -27,9 +27,21 @@
     "title": "Encuentra lo tuyo",
     "subtitle": "Un poco de inspiración para cada rincón de tu vida."
   },
-  "featured": {
-    "title": "Merece una mirada",
-    "subtitle": "Nuestros hallazgos destacados. Tus próximos favoritos."
+  "shelves": {
+    "viewAllAria": "Ver todo: {{title}}",
+    "count": "Productos mostrados: {{shown}}",
+    "newTitle": "Novedades",
+    "newSubtitle": "Recién añadidos por nuestras tiendas.",
+    "popularTitle": "Populares ahora",
+    "popularSubtitle": "Lo que más les gusta a otros compradores.",
+    "moreTitle": "Más productos para ti",
+    "moreSubtitle": "Sigue explorando todo el marketplace.",
+    "showing": "Mostrando {{shown}} de {{total}} productos",
+    "loadMore": "Cargar {{n}} más",
+    "browseAll": "Ver todos los productos",
+    "emptyTitle": "Todavía no hay productos",
+    "emptyText": "Los productos aparecerán aquí en cuanto las tiendas los publiquen.",
+    "emptyCta": "Descubrir tiendas"
   },
   "edit": {
     "eyebrow": "LA SELECCIÓN DEL DÍA A DÍA",
@@ -37,20 +49,9 @@
     "text": "Texturas naturales, detalles cuidados y pequeñas cosas que marcan una gran diferencia.",
     "cta": "Siéntete como en casa"
   },
-  "fresh": {
-    "title": "Recién llegados",
-    "subtitle": "Novedades con un toque especial.",
-    "link": "Ver novedades"
-  },
   "stores": {
     "title": "Tiendas pequeñas. Gran personalidad.",
     "subtitle": "Conoce a las personas detrás de tus hallazgos favoritos."
-  },
-  "discover": {
-    "title": "Descubre algo que te encante",
-    "subtitle": "Todas nuestras tiendas. Un lugar encantador para explorar.",
-    "all": "Todos los hallazgos",
-    "more": "Descubre más hallazgos"
   },
   "carousel": {
     "label": "Destacados",

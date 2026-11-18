@@ -1,4 +1,6 @@
 import { useTranslation } from "react-i18next";
+import { SelectedOptions } from "@/components/marketplace/product-options";
+import { lineKey, lineMax } from "@/services/cart";
 import { headT } from "@/i18n/head";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ChevronRight, Trash2, Store, ArrowRight, ShieldCheck } from "lucide-react";
@@ -70,7 +72,7 @@ function CartPage() {
                     const p = products.find((p) => p.id === item.productId);
                     if (!p || p.storeSlug !== store.slug) return null;
                     return (
-                      <article key={p.id} className="cart-line">
+                      <article key={lineKey(item)} className="cart-line">
                         <Link to="/product/$id" params={{ id: p.id }}>
                           <img src={p.image} alt={p.title} width="105" height="105" />
                         </Link>
@@ -78,11 +80,13 @@ function CartPage() {
                           <Link to="/product/$id" params={{ id: p.id }}>
                             <h3>{p.title}</h3>
                           </Link>
+                          <SelectedOptions color={item.color} size={item.size} />
                           <p>{t("each", { price: format.price(p.price) })}</p>
                           <QuantityPicker
                             value={item.quantity}
-                            max={p.stock}
-                            onChange={(q) => setQuantity(p.id, q)}
+                            // Stock is shared by all colors/sizes of the product.
+                            max={lineMax(items, item, p.stock)}
+                            onChange={(q) => setQuantity(item, q)}
                           />
                         </div>
                         <div className="cart-line-end">
@@ -93,7 +97,7 @@ function CartPage() {
                             aria-label={t("remove", { title: p.title })}
                             title={t("removeTitle")}
                             onClick={() => {
-                              setQuantity(p.id, 0);
+                              setQuantity(item, 0);
                               toast.success(t("removed"));
                             }}
                           >

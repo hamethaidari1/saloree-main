@@ -5,7 +5,7 @@ import { Link } from "@tanstack/react-router";
 import { SlidersHorizontal, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { catalogQuery, filterProducts } from "@/services/catalog";
+import { catalogQuery, filterProducts, matchOptions, optionFacets } from "@/services/catalog";
 import { useStoreSlug } from "@/lib/store-mode";
 import { ProductCard, EmptyState } from "./shared";
 export function Browse({
@@ -13,11 +13,14 @@ export function Browse({
   query = "",
   initialSort = "newest",
   sale = false,
+  brand: initialBrand = "",
 }: {
   category?: string;
   query?: string;
   initialSort?: string;
   sale?: boolean;
+  /** From /products?brand=… (the brand link on a product page). */
+  brand?: string;
 }) {
   const { t } = useTranslation("product");
   const format = useFormat();
@@ -26,6 +29,9 @@ export function Browse({
   const [store, setStore] = useState("");
   const [maxPrice, setMaxPrice] = useState(200);
   const [rating, setRating] = useState(0);
+  const [brand, setBrand] = useState(initialBrand);
+  const [color, setColor] = useState("");
+  const [size, setSize] = useState("");
   const [sort, setSort] = useState(initialSort);
   const [page, setPage] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
@@ -39,9 +45,14 @@ export function Browse({
       )
     : catalog.categories;
   const hasRatings = catalog.products.some((p) => p.rating > 0);
-  const filtered = filterProducts(
-    { query, category, store: storeSlug ?? store, maxPrice, rating, sort },
-    catalog,
+  // Brand / color / size choices come from the products themselves.
+  const scope = storeSlug
+    ? catalog.products.filter((p) => p.storeSlug === storeSlug)
+    : catalog.products;
+  const facets = optionFacets(scope);
+  const filtered = matchOptions(
+    filterProducts({ query, category, store: storeSlug ?? store, maxPrice, rating, sort }, catalog),
+    { brand, color, size },
   ).filter((p) => !sale || p.originalPrice);
   const pages = Math.ceil(filtered.length / 9);
   const current = categories.find((c) => c.slug === initialCategory);
@@ -83,6 +94,9 @@ export function Browse({
                 setStore("");
                 setMaxPrice(200);
                 setRating(0);
+                setBrand("");
+                setColor("");
+                setSize("");
                 setPage(1);
               }}
             >
@@ -142,6 +156,32 @@ export function Browse({
               </label>
             ))}
           </div>
+          {(
+            [
+              ["brand", facets.brands, brand, setBrand, "browse.allBrands"],
+              ["color", facets.colors, color, setColor, "browse.allColors"],
+              ["size", facets.sizes, size, setSize, "browse.allSizes"],
+            ] as const
+          ).map(([key, values, value, set, all]) =>
+            values.length || value ? (
+              <div className="filter-group" key={key}>
+                <h3>{t(`browse.${key}`)}</h3>
+                <select
+                  aria-label={t(`browse.filterBy.${key}`)}
+                  value={value}
+                  onChange={(e) => resetPage(() => set(e.target.value))}
+                >
+                  <option value="">{t(all)}</option>
+                  {/* A brand from the address that no product has (any more) stays selectable. */}
+                  {[...(value && !values.includes(value) ? [value] : []), ...values].map((v) => (
+                    <option key={v} value={v}>
+                      {v}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            ) : null,
+          )}
           <div className="filter-group" hidden={!!storeSlug}>
             <h3>{t("browse.store")}</h3>
             <select

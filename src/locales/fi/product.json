@@ -60,7 +60,18 @@
     "sortPriceHigh": "Hinta: kalleimmasta halvimpaan",
     "sortPopular": "Suosituimmat",
     "emptyTitle": "Ei löytöjä vielä",
-    "emptyText": "Kokeile toista hakua tai muuta suodattimia."
+    "emptyText": "Kokeile toista hakua tai muuta suodattimia.",
+    "brand": "Tuotemerkki",
+    "color": "Väri",
+    "size": "Koko",
+    "allBrands": "Kaikki tuotemerkit",
+    "allColors": "Kaikki värit",
+    "allSizes": "Kaikki koot",
+    "filterBy": {
+      "brand": "Suodata tuotemerkin mukaan",
+      "color": "Suodata värin mukaan",
+      "size": "Suodata koon mukaan"
+    }
   },
   "wishlist": {
     "metaTitle": "Toivelista — Saloree",
@@ -99,5 +110,17 @@
   },
   "buyNow": "Osta nyt",
   "showMore": "Näytä lisää",
-  "showLess": "Näytä vähemmän"
+  "showLess": "Näytä vähemmän",
+  "options": {
+    "color": "Väri",
+    "size": "Koko",
+    "colorValue": "Väri: {{value}}",
+    "sizeValue": "Koko: {{value}}",
+    "chooseColor": "Valitse väri.",
+    "chooseSize": "Valitse koko.",
+    "chooseBoth": "Valitse väri ja koko.",
+    "chooseOptions": "Valitse vaihtoehdot",
+    "chooseOptionsAria": "Valitse vaihtoehdot: {{title}}",
+    "brandLink": "Lisää tuotemerkiltä {{brand}}"
+  }
 }

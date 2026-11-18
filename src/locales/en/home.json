@@ -27,9 +27,21 @@
     "title": "Find your kind of thing",
     "subtitle": "A little inspiration for every corner of your life."
   },
-  "featured": {
-    "title": "Worth a closer look",
-    "subtitle": "Our featured finds. Your soon-to-be favorites."
+  "shelves": {
+    "viewAllAria": "View all: {{title}}",
+    "count": "Products shown: {{shown}}",
+    "newTitle": "New arrivals",
+    "newSubtitle": "Just added by our stores.",
+    "popularTitle": "Popular right now",
+    "popularSubtitle": "What other shoppers love most.",
+    "moreTitle": "More products for you",
+    "moreSubtitle": "Keep exploring the whole marketplace.",
+    "showing": "Showing {{shown}} of {{total}} products",
+    "loadMore": "Load {{n}} more",
+    "browseAll": "Browse all products",
+    "emptyTitle": "No products yet",
+    "emptyText": "Products appear here as soon as stores publish them.",
+    "emptyCta": "Discover stores"
   },
   "edit": {
     "eyebrow": "THE EVERYDAY EDIT",
@@ -37,20 +49,9 @@
     "text": "Natural textures, thoughtful details, and little things that make a big difference.",
     "cta": "Make yourself at home"
   },
-  "fresh": {
-    "title": "Fresh on the shelves",
-    "subtitle": "New arrivals with a little extra something.",
-    "link": "Shop new arrivals"
-  },
   "stores": {
     "title": "Small stores. Big personality.",
     "subtitle": "Get to know the people behind your favorite finds."
-  },
-  "discover": {
-    "title": "Discover something you love",
-    "subtitle": "All our stores. One lovely place to explore.",
-    "all": "All finds",
-    "more": "Discover more finds"
   },
   "carousel": {
     "label": "Highlights",

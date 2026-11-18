@@ -12,6 +12,8 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { catalogQuery, catalogService, imagesOf } from "@/services/catalog";
 import { ProductGallery } from "@/components/marketplace/product-gallery";
 import { useFormat } from "@/i18n/hooks";
+import { OptionPicker } from "@/components/marketplace/product-options";
+import { missingMessageKey, missingOptions } from "@/lib/product-options";
 import { useCart } from "@/components/marketplace/cart-context";
 import { StoreAddressLink, StoreLink } from "@/components/marketplace/store-link";
 import { storeFromMatches, useStoreSlug } from "@/lib/store-mode";
@@ -74,6 +76,12 @@ function ProductDetail({ product: p }: { product: import("@/data/catalog").Produ
   const store = stores.find((s) => s.slug === p.storeSlug);
   const storeSlug = useStoreSlug();
   const [quantity, setQuantity] = useState(1);
+  const [color, setColor] = useState<string | null>(null);
+  const [size, setSize] = useState<string | null>(null);
+  // "Please select…" shows after a try without the required choice.
+  const [tried, setTried] = useState(false);
+  const missing = missingOptions(p, { color, size });
+  const showMissing = tried && missing.length > 0;
   const { add } = useCart();
   const navigate = useNavigate();
   // One click: a second click (or Enter held down) does nothing.
@@ -83,13 +91,28 @@ function ProductDetail({ product: p }: { product: import("@/data/catalog").Produ
    * Checks out only this product, with this quantity. Nothing is added to the
    * bag. Signed out, the checkout's guard sends the visitor to sign-in and back.
    */
+  /** False (and the message shows) while a required color/size is not chosen. */
+  const chosen = () => {
+    setTried(true);
+    if (!missing.length) return true;
+    document.getElementById("product-options-error")?.focus();
+    return false;
+  };
+  const addToBag = () => {
+    if (chosen()) add(p.id, quantity, { color, size });
+  };
   const buyNow = () => {
-    if (leavingRef.current || p.stock < 1) return;
+    if (leavingRef.current || p.stock < 1 || !chosen()) return;
     leavingRef.current = true;
     setLeaving(true);
     void navigate({
       to: "/checkout",
-      search: { buy: p.id, qty: buyNowQuantity(quantity, p.stock) },
+      search: {
+        buy: p.id,
+        qty: buyNowQuantity(quantity, p.stock),
+        ...(color ? { color } : {}),
+        ...(size ? { size } : {}),
+      },
     }).finally(() => {
       leavingRef.current = false;
       setLeaving(false);
@@ -118,6 +141,16 @@ function ProductDetail({ product: p }: { product: import("@/data/catalog").Produ
             {store?.name}
           </StoreLink>
           <h1>{p.title}</h1>
+          {p.brand && (
+            <Link
+              to="/products"
+              search={{ brand: p.brand }}
+              className="product-brand-link"
+              aria-label={t("options.brandLink", { brand: p.brand })}
+            >
+              <span dir="auto">{p.brand}</span>
+            </Link>
+          )}
           <Rating rating={p.rating} reviews={p.reviews} />
           <div className="detail-price">
             {format.price(p.price)}
@@ -127,13 +160,48 @@ function ProductDetail({ product: p }: { product: import("@/data/catalog").Produ
           <span className="stock-indicator" id="product-stock">
             {p.stock > 0 ? t("inStock", { count: p.stock }) : t("outOfStock")}
           </span>
+          {(!!p.colors?.length || !!p.sizes?.length) && (
+            <div className="product-options">
+              {!!p.colors?.length && (
+                <OptionPicker
+                  kind="color"
+                  values={p.colors}
+                  value={color}
+                  onChange={setColor}
+                  invalid={showMissing && missing.includes("color")}
+                  errorId="product-options-error"
+                />
+              )}
+              {!!p.sizes?.length && (
+                <OptionPicker
+                  kind="size"
+                  values={p.sizes}
+                  value={size}
+                  onChange={setSize}
+                  invalid={showMissing && missing.includes("size")}
+                  errorId="product-options-error"
+                />
+              )}
+              {showMissing && (
+                <p
+                  id="product-options-error"
+                  className="option-error"
+                  role="alert"
+                  tabIndex={-1}
+                  data-testid="options-error"
+                >
+                  {t(missingMessageKey(missing))}
+                </p>
+              )}
+            </div>
+          )}
           <div className="purchase-row">
             <QuantityPicker value={quantity} max={p.stock} onChange={setQuantity} />
             <Button
               variant="outline"
               className="add-button"
               disabled={p.stock < 1}
-              onClick={() => add(p.id, quantity)}
+              onClick={addToBag}
             >
               <ShoppingBag size={16} aria-hidden />
               {t("addToCart")}

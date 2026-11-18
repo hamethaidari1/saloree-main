@@ -24,6 +24,8 @@ export function errorKey(error: unknown, overrides: ErrorOverrides = {}): string
   if (code === "23505") return overrides["23505"] ?? "db.duplicate";
   if (code === "23503") return "db.inUse";
   if (code === "23514" && overrides["23514"]) return overrides["23514"];
+  // place_order: a color/size that isn't one of the product's own.
+  if (/please choose a valid color and size/i.test(message)) return "checkout.invalidOptions";
 
   // Supabase Auth (error codes first, then the classic messages)
   if (code === "invalid_credentials" || /invalid login credentials/i.test(message))

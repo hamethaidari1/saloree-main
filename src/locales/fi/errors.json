@@ -22,7 +22,8 @@
     "discountFormat": "Tämä ei näytä alennuskoodilta.",
     "codPaused": "Yksi ostoskorisi kaupoista ei juuri nyt hyväksy maksua toimituksen yhteydessä. Tilausta ei tehty.",
     "paymentExpired": "Tätä tilausta ei voi enää maksaa. Tee tilaus uudelleen ostoskoristasi.",
-    "alreadyPaid": "Tämä tilaus on jo maksettu."
+    "alreadyPaid": "Tämä tilaus on jo maksettu.",
+    "invalidOptions": "Valitse jokaiselle ostoskorin tuotteelle kelvollinen väri ja koko."
   },
   "orders": {
     "cannotCancel": "Tätä tilausta ei voi enää perua."

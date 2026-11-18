@@ -27,9 +27,21 @@
     "title": "Finde, was zu dir passt",
     "subtitle": "Ein wenig Inspiration für jeden Bereich deines Lebens."
   },
-  "featured": {
-    "title": "Einen zweiten Blick wert",
-    "subtitle": "Unsere Empfehlungen. Deine künftigen Favoriten."
+  "shelves": {
+    "viewAllAria": "Alle ansehen: {{title}}",
+    "count": "Angezeigte Produkte: {{shown}}",
+    "newTitle": "Neuheiten",
+    "newSubtitle": "Gerade von unseren Shops hinzugefügt.",
+    "popularTitle": "Gerade beliebt",
+    "popularSubtitle": "Was andere Kundinnen und Kunden am meisten lieben.",
+    "moreTitle": "Mehr Produkte für dich",
+    "moreSubtitle": "Entdecke den ganzen Marktplatz.",
+    "showing": "{{shown}} von {{total}} Produkten werden angezeigt",
+    "loadMore": "{{n}} weitere laden",
+    "browseAll": "Alle Produkte ansehen",
+    "emptyTitle": "Noch keine Produkte",
+    "emptyText": "Produkte erscheinen hier, sobald Shops sie veröffentlichen.",
+    "emptyCta": "Shops entdecken"
   },
   "edit": {
     "eyebrow": "DIE ALLTAGSAUSWAHL",
@@ -37,20 +49,9 @@
     "text": "Natürliche Materialien, durchdachte Details und kleine Dinge, die einen großen Unterschied machen.",
     "cta": "Fühl dich wie zu Hause"
   },
-  "fresh": {
-    "title": "Frisch eingetroffen",
-    "subtitle": "Neuheiten mit dem gewissen Etwas.",
-    "link": "Neuheiten ansehen"
-  },
   "stores": {
     "title": "Kleine Shops. Große Persönlichkeit.",
     "subtitle": "Lerne die Menschen hinter deinen Lieblingsfundstücken kennen."
-  },
-  "discover": {
-    "title": "Entdecke etwas, das du liebst",
-    "subtitle": "Alle unsere Shops. Ein schöner Ort zum Stöbern.",
-    "all": "Alle Fundstücke",
-    "more": "Mehr Fundstücke entdecken"
   },
   "carousel": {
     "label": "Highlights",

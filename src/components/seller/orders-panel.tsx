@@ -136,7 +136,19 @@ function OrderDetail({
               const { unit, line } = lineAmounts(i);
               return (
                 <tr key={i.id}>
-                  <td>{i.title ?? "Item"}</td>
+                  <td>
+                    {i.title ?? "Item"}
+                    {(i.selected_color || i.selected_size) && (
+                      <span className="selected-options" data-testid="seller-item-options">
+                        {[
+                          i.selected_color && `Color: ${i.selected_color}`,
+                          i.selected_size && `Size: ${i.selected_size}`,
+                        ]
+                          .filter(Boolean)
+                          .join(" · ")}
+                      </span>
+                    )}
+                  </td>
                   <td>{i.quantity}</td>
                   <td>{money(unit, cur)}</td>
                   <td>{money(line, cur)}</td>

@@ -1,15 +1,18 @@
 /**
  * Where the shopping cart is saved. localStorage is per-origin, so on
  * production the cart lives in a cookie scoped to `.<root domain>` and is
- * shared by saloree.com and every <store>.saloree.com. Only product ids and
- * quantities are stored — prices and names always come from the database,
- * and `place_order` re-validates everything on the server.
+ * shared by saloree.com and every <store>.saloree.com. Only product ids,
+ * quantities and the chosen color/size are stored — prices and names always
+ * come from the database, and `place_order` re-validates everything
+ * (including that the color and size are the product's own) on the server.
  */
 import { hostConfig, normalizeHost } from "./host";
 
 export interface StoredCartItem {
   productId: string;
   quantity: number;
+  color?: string | null;
+  size?: string | null;
 }
 export interface CartStorage {
   /** Raw saved items; the cart validates them against the live catalog. */
@@ -25,16 +28,41 @@ export const CART_COOKIE_MAX_AGE = 60 * 60 * 24 * 30; // 30 days
 export const CART_COOKIE_MAX_BYTES = 3800;
 
 const ID_RE = /^[A-Za-z0-9-]{1,64}$/;
+/** Longer than any color (30) or size (20) the database accepts. */
+const MAX_OPTION = 40;
 
-/** "id:qty|id:qty", URI-encoded — compact and free of cookie-unsafe characters. */
+const option = (v: unknown) =>
+  typeof v === "string" && v.length > 0 && v.length <= MAX_OPTION ? v : null;
+
+/**
+ * "id:qty|id:qty:color:size", URI-encoded — compact and free of cookie-unsafe
+ * characters. A line without color or size keeps the short "id:qty" form; the
+ * color and size are each encoded first, so ":" and "|" in them are safe.
+ */
 export function encodeCart(items: StoredCartItem[]) {
   return encodeURIComponent(
     items
       .filter((i) => ID_RE.test(i.productId) && Number.isInteger(i.quantity) && i.quantity > 0)
-      .map((i) => `${i.productId}:${i.quantity}`)
+      .map((i) => {
+        const color = option(i.color);
+        const size = option(i.size);
+        const base = `${i.productId}:${i.quantity}`;
+        return color || size
+          ? `${base}:${encodeURIComponent(color ?? "")}:${encodeURIComponent(size ?? "")}`
+          : base;
+      })
       .join("|"),
   );
 }
+
+const decodeOption = (v: string | undefined) => {
+  if (!v) return null;
+  try {
+    return option(decodeURIComponent(v));
+  } catch {
+    return null;
+  }
+};
 
 export function decodeCart(value: string | null | undefined): StoredCartItem[] {
   if (!value) return [];
@@ -46,11 +74,16 @@ export function decodeCart(value: string | null | undefined): StoredCartItem[] {
   }
   const out: StoredCartItem[] = [];
   for (const part of raw.split("|")) {
-    const [id, qty, extra] = part.split(":");
+    const fields = part.split(":");
+    // "id:qty" or "id:qty:color:size"; anything else is not ours.
+    if (fields.length !== 2 && fields.length !== 4) continue;
+    const [id, qty, color, size] = fields;
     const quantity = Number(qty);
-    if (extra !== undefined || !id || !ID_RE.test(id)) continue;
+    if (!id || !ID_RE.test(id)) continue;
     if (!Number.isInteger(quantity) || quantity < 1) continue;
-    out.push({ productId: id, quantity });
+    const c = decodeOption(color);
+    const s = decodeOption(size);
+    out.push({ productId: id, quantity, ...(c ? { color: c } : {}), ...(s ? { size: s } : {}) });
   }
   return out;
 }
@@ -62,12 +95,14 @@ function parseLocal(json: string | null): StoredCartItem[] {
     if (!Array.isArray(data)) return [];
     return data.flatMap((i: unknown) => {
       if (typeof i !== "object" || i === null) return [];
-      const { productId, quantity } = i as Record<string, unknown>;
+      const { productId, quantity, color, size } = i as Record<string, unknown>;
+      const c = option(color);
+      const s = option(size);
       return typeof productId === "string" &&
         typeof quantity === "number" &&
         Number.isInteger(quantity) &&
         quantity > 0
-        ? [{ productId, quantity }]
+        ? [{ productId, quantity, ...(c ? { color: c } : {}), ...(s ? { size: s } : {}) }]
         : [];
     });
   } catch {
@@ -92,7 +127,14 @@ export function createLocalCartStorage(storage: KeyValue | null): CartStorage {
       try {
         storage?.setItem(
           CART_KEY,
-          JSON.stringify(items.map(({ productId, quantity }) => ({ productId, quantity }))),
+          JSON.stringify(
+            items.map(({ productId, quantity, color, size }) => ({
+              productId,
+              quantity,
+              ...(option(color) ? { color } : {}),
+              ...(option(size) ? { size } : {}),
+            })),
+          ),
         );
       } catch {
         /* Shopping still works without storage. */

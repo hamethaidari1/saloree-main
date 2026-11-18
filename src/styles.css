@@ -7419,3 +7419,269 @@ html:lang(de) :is(input, textarea, select, code, .tabular-nums) {
   justify-content: center;
   gap: 12px;
 }
+
+/* ---------------------------------------------------------------------------
+   Marketplace home: a shorter hero and dense product shelves
+   (2 columns on phones, 3 on tablets, 4 on laptops, 5 on wide screens).
+   --------------------------------------------------------------------------- */
+.home-page .home-hero {
+  height: 330px;
+}
+.home-page .hero-content {
+  padding-block: 36px;
+}
+.home-shelf {
+  padding-block: 24px 4px;
+}
+.home-shelf .section-heading {
+  margin-bottom: 14px;
+}
+.home-shelf .section-heading a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+.product-grid.home-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px 12px;
+}
+.home-grid .product-card {
+  min-inline-size: 0;
+}
+.home-grid .product-info {
+  padding-block: 8px 2px;
+}
+/* Two lines of title, then an ellipsis; nothing overflows the card. */
+.home-grid .product-title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  white-space: normal;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  line-height: 1.35;
+  min-block-size: calc(2 * 1.35em);
+}
+.home-grid .product-store {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.home-grid .product-price {
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+.home-more {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  margin-block-start: 24px;
+}
+.home-more-status {
+  font-size: 13px;
+  color: var(--muted-foreground);
+}
+.home-empty {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 40px 16px;
+  text-align: center;
+}
+@media (min-width: 1440px) {
+  .product-grid.home-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+  /* 12 per shelf = full rows at 2, 3 and 4 columns; at 5 columns two full rows. */
+  .home-shelf:not(.home-shelf-more) .home-grid > .product-card:nth-child(n + 11) {
+    display: none;
+  }
+}
+@media (min-width: 1500px) {
+  .home-page .home-hero {
+    height: 360px;
+  }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .product-grid.home-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px 10px;
+  }
+}
+@media (max-width: 767px) {
+  .home-page .home-hero {
+    height: 340px;
+  }
+  .home-page .hero-content {
+    padding-block: 22px;
+  }
+  .product-grid.home-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 8px;
+  }
+  .home-shelf {
+    padding-block: 18px 2px;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Product options: brand, color and size (product page, cards, cart, seller form)
+   --------------------------------------------------------------------------- */
+.product-brand-link {
+  display: inline-block;
+  margin-block: 2px 6px;
+  font-size: 13px;
+  color: var(--muted-foreground);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.product-brand-link:hover {
+  color: var(--foreground);
+}
+.product-brand {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 10px;
+  color: var(--muted-foreground);
+}
+.product-options {
+  display: grid;
+  gap: 14px;
+  margin-block: 16px 4px;
+}
+.option-label {
+  margin-block-end: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.option-current {
+  font-weight: 400;
+  color: var(--muted-foreground);
+}
+.option-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.option-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-block-size: 36px;
+  min-inline-size: 44px;
+  max-inline-size: 100%;
+  padding-inline: 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--foreground);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+  justify-content: center;
+}
+.option-pill:hover {
+  border-color: var(--foreground);
+}
+.option-pill[aria-checked="true"] {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary);
+  background: color-mix(in oklab, var(--primary) 10%, var(--card));
+  font-weight: 600;
+}
+.option-pill:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+.option-picker[data-invalid] .option-pill:not([aria-checked="true"]) {
+  border-color: var(--destructive);
+}
+.option-swatch {
+  display: inline-block;
+  flex: none;
+  inline-size: 14px;
+  block-size: 14px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--foreground) 25%, transparent);
+}
+.option-error {
+  font-size: 13px;
+  color: var(--destructive);
+}
+.option-error:focus {
+  outline: none;
+}
+.selected-options {
+  display: block;
+  margin-block: 2px;
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+.product-options-fields {
+  display: grid;
+  gap: 14px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+.product-options-fields legend {
+  padding-inline: 4px;
+}
+.option-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.option-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-inline-size: 100%;
+  padding-block: 3px;
+  padding-inline: 10px 4px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--muted);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.option-chip-remove {
+  display: inline-grid;
+  place-items: center;
+  inline-size: 22px;
+  block-size: 22px;
+  border-radius: 999px;
+  color: var(--muted-foreground);
+}
+.option-chip-remove:hover {
+  background: var(--card);
+  color: var(--foreground);
+}
+.option-chip-remove:focus-visible,
+.option-suggestion:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 1px;
+}
+.option-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.option-suggestion {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border: 1px dashed var(--border);
+  border-radius: 999px;
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+.option-suggestion:hover {
+  border-style: solid;
+  color: var(--foreground);
+}

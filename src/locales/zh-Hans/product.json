@@ -58,7 +58,18 @@
     "sortPriceHigh": "价格从高到低",
     "sortPopular": "最受欢迎",
     "emptyTitle": "暂无好物",
-    "emptyText": "试试其他关键词或调整筛选条件。"
+    "emptyText": "试试其他关键词或调整筛选条件。",
+    "brand": "品牌",
+    "color": "颜色",
+    "size": "尺码",
+    "allBrands": "所有品牌",
+    "allColors": "所有颜色",
+    "allSizes": "所有尺码",
+    "filterBy": {
+      "brand": "按品牌筛选",
+      "color": "按颜色筛选",
+      "size": "按尺码筛选"
+    }
   },
   "wishlist": {
     "metaTitle": "心愿单 — Saloree",
@@ -96,5 +107,17 @@
   },
   "buyNow": "立即购买",
   "showMore": "显示更多",
-  "showLess": "收起"
+  "showLess": "收起",
+  "options": {
+    "color": "颜色",
+    "size": "尺码",
+    "colorValue": "颜色：{{value}}",
+    "sizeValue": "尺码：{{value}}",
+    "chooseColor": "请选择颜色。",
+    "chooseSize": "请选择尺码。",
+    "chooseBoth": "请选择颜色和尺码。",
+    "chooseOptions": "选择选项",
+    "chooseOptionsAria": "为 {{title}} 选择选项",
+    "brandLink": "查看 {{brand}} 品牌的更多商品"
+  }
 }

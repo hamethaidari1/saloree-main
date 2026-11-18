@@ -61,7 +61,7 @@ Deno.serve(async (req) => {
 
     const { data: orders, error } = await user
       .from("orders")
-      .select("id, store_id, total, currency, email, status, payment_provider, payment_status, stripe_checkout_session_id")
+      .select("id, store_id, total, currency, email, status, payment_provider, payment_status, stripe_checkout_session_id, order_items(title, quantity, selected_color, selected_size)")
       .eq("checkout_group_id", group)
       .eq("customer_id", who.user.id);
     if (error) return json({ error: error.message }, 400, origin);
@@ -99,6 +99,20 @@ Deno.serve(async (req) => {
     const names = new Map((stores ?? []).map((s) => [s.id, s.name as string]));
 
     const sep = (p: string) => (p.includes("?") ? "&" : "?");
+    // "2 × T-shirt (Color: Black, Size: M); 1 × Mug" — shown on Stripe's page.
+    type Item = { title: string | null; quantity: number; selected_color: string | null; selected_size: string | null };
+    const itemsText = (items: Item[] | null | undefined) => {
+      const text = (items ?? [])
+        .map((i) => {
+          const opts = [
+            i.selected_color ? `Color: ${i.selected_color}` : "",
+            i.selected_size ? `Size: ${i.selected_size}` : "",
+          ].filter(Boolean).join(", ");
+          return `${i.quantity} × ${i.title ?? "Item"}${opts ? ` (${opts})` : ""}`;
+        })
+        .join("; ");
+      return text.length > 450 ? `${text.slice(0, 449)}…` : text;
+    };
     // Same bucket => identical parameters => Stripe returns the same session (no double charge,
     // no idempotency conflict). Created at the start..end of a bucket, the session lives 31..36 minutes.
     const bucket = Math.floor(Date.now() / 300000);
@@ -112,7 +126,10 @@ Deno.serve(async (req) => {
           price_data: {
             currency,
             unit_amount: Math.round(Number(o.total) * 100),
-            product_data: { name: `Order from ${names.get(o.store_id) ?? "Saloree store"}` },
+            product_data: {
+              name: `Order from ${names.get(o.store_id) ?? "Saloree store"}`,
+              ...(itemsText(o.order_items) ? { description: itemsText(o.order_items) } : {}),
+            },
           },
         })),
         metadata: { checkout_group_id: group },

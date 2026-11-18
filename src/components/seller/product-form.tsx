@@ -13,6 +13,14 @@ import {
   type SellerProduct,
 } from "@/services/seller";
 import { ProductImagesField } from "./image-fields";
+import { OptionChips } from "./option-chips";
+import { COLOR_SUGGESTIONS, MAX_BRAND, SIZE_PRESETS } from "@/lib/product-options";
+
+const SIZE_GROUPS = [
+  { label: "Clothing (XS–XXL)", values: SIZE_PRESETS.clothing },
+  { label: "Shoes (36–46)", values: SIZE_PRESETS.shoes },
+  { label: "One size", values: SIZE_PRESETS.oneSize },
+] as const;
 
 type FormValues = {
   title: string;
@@ -23,6 +31,9 @@ type FormValues = {
   stock: string;
   category_id: string;
   status: (typeof PRODUCT_STATUSES)[number];
+  brand: string;
+  colors: string[];
+  sizes: string[];
 };
 type FieldErrors = Partial<Record<keyof FormValues, string>>;
 
@@ -57,6 +68,9 @@ export function ProductForm({
     stock: product ? String(product.stock) : "1",
     category_id: product?.category_id ?? "",
     status: product?.status === "active" ? "active" : "draft",
+    brand: product?.brand ?? "",
+    colors: product?.colors ?? [],
+    sizes: product?.sizes ?? [],
   });
   const [slugEdited, setSlugEdited] = useState(!!product);
   const [images, setImages] = useState<ImageItem[]>(() => initialImages(product));
@@ -210,6 +224,39 @@ export function ProductForm({
           {error("status")}
         </div>
       </div>
+      <fieldset className="seller-fieldset product-options-fields">
+        <legend className="font-semibold">Product options</legend>
+        <p className="seller-hint">
+          All optional. Stock is one number for the product, shared by every color and size.
+        </p>
+        <div className="seller-field">
+          <Label htmlFor="product-brand">Brand</Label>
+          <Input
+            {...field("brand")}
+            value={values.brand}
+            maxLength={MAX_BRAND}
+            placeholder="e.g. Nike"
+            onChange={(e) => set("brand", e.target.value)}
+          />
+          {error("brand")}
+        </div>
+        <OptionChips
+          kind="color"
+          label="Colors"
+          values={values.colors}
+          onChange={(v) => set("colors", v)}
+          suggestions={COLOR_SUGGESTIONS}
+          error={errors.colors}
+        />
+        <OptionChips
+          kind="size"
+          label="Sizes"
+          values={values.sizes}
+          onChange={(v) => set("sizes", v)}
+          presets={SIZE_GROUPS}
+          error={errors.sizes}
+        />
+      </fieldset>
       <ProductImagesField items={images} onChange={setImages} />
       <div className="seller-form-actions">
         <Button type="button" variant="ghost" onClick={onCancel} disabled={busy}>

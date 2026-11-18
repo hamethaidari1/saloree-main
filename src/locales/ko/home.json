@@ -27,9 +27,21 @@
     "title": "나에게 맞는 것을 찾아보세요",
     "subtitle": "일상의 모든 순간을 위한 작은 영감."
   },
-  "featured": {
-    "title": "눈여겨볼 만한 상품",
-    "subtitle": "추천 상품. 곧 당신의 최애가 될 아이템."
+  "shelves": {
+    "viewAllAria": "모두 보기: {{title}}",
+    "count": "표시된 상품: {{shown}}",
+    "newTitle": "신상품",
+    "newSubtitle": "스토어에서 방금 추가한 상품입니다.",
+    "popularTitle": "지금 인기 있는 상품",
+    "popularSubtitle": "다른 쇼핑객이 가장 좋아하는 상품입니다.",
+    "moreTitle": "추천 상품 더 보기",
+    "moreSubtitle": "마켓플레이스 전체를 계속 둘러보세요.",
+    "showing": "상품 {{total}}개 중 {{shown}}개 표시",
+    "loadMore": "{{n}}개 더 불러오기",
+    "browseAll": "모든 상품 둘러보기",
+    "emptyTitle": "아직 상품이 없습니다",
+    "emptyText": "스토어에서 상품을 게시하면 바로 여기에 표시됩니다.",
+    "emptyCta": "스토어 둘러보기"
   },
   "edit": {
     "eyebrow": "일상 셀렉션",
@@ -37,20 +49,9 @@
     "text": "자연스러운 질감, 세심한 디테일, 큰 차이를 만드는 작은 것들.",
     "cta": "편안하게 둘러보세요"
   },
-  "fresh": {
-    "title": "새로 들어온 상품",
-    "subtitle": "특별함을 더한 신상품.",
-    "link": "신상품 쇼핑하기"
-  },
   "stores": {
     "title": "작은 상점. 큰 개성.",
     "subtitle": "좋아하는 상품 뒤에 있는 사람들을 만나 보세요."
-  },
-  "discover": {
-    "title": "마음에 드는 무언가를 찾아보세요",
-    "subtitle": "모든 상점을 한곳에서 둘러보세요.",
-    "all": "전체 상품",
-    "more": "더 많은 상품 보기"
   },
   "carousel": {
     "label": "주요 소식",

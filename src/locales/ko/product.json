@@ -58,7 +58,18 @@
     "sortPriceHigh": "가격 높은순",
     "sortPopular": "인기순",
     "emptyTitle": "아직 상품이 없습니다",
-    "emptyText": "다른 검색어를 입력하거나 필터를 조정해 보세요."
+    "emptyText": "다른 검색어를 입력하거나 필터를 조정해 보세요.",
+    "brand": "브랜드",
+    "color": "색상",
+    "size": "사이즈",
+    "allBrands": "모든 브랜드",
+    "allColors": "모든 색상",
+    "allSizes": "모든 사이즈",
+    "filterBy": {
+      "brand": "브랜드로 필터",
+      "color": "색상으로 필터",
+      "size": "사이즈로 필터"
+    }
   },
   "wishlist": {
     "metaTitle": "위시리스트 — Saloree",
@@ -96,5 +107,17 @@
   },
   "buyNow": "바로 구매",
   "showMore": "더 보기",
-  "showLess": "간단히 보기"
+  "showLess": "간단히 보기",
+  "options": {
+    "color": "색상",
+    "size": "사이즈",
+    "colorValue": "색상: {{value}}",
+    "sizeValue": "사이즈: {{value}}",
+    "chooseColor": "색상을 선택하세요.",
+    "chooseSize": "사이즈를 선택하세요.",
+    "chooseBoth": "색상과 사이즈를 선택하세요.",
+    "chooseOptions": "옵션 선택",
+    "chooseOptionsAria": "{{title}} 옵션 선택",
+    "brandLink": "{{brand}} 브랜드 상품 더 보기"
+  }
 }

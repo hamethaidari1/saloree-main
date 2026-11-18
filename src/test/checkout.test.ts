@@ -104,8 +104,8 @@ describe("placeOrder", () => {
         fn: "place_order",
         args: {
           p_items: [
-            { product_id: P1, quantity: 2 },
-            { product_id: P2, quantity: 1 },
+            { product_id: P1, quantity: 2, selected_color: null, selected_size: null },
+            { product_id: P2, quantity: 1, selected_color: null, selected_size: null },
           ],
           p_customer: { ...customer, notes: null },
           p_payment_provider: "cod",
@@ -179,7 +179,12 @@ describe("placeOrder", () => {
   it("never sends prices — only product ids and quantities", async () => {
     await checkoutService.placeOrder([{ productId: P1, quantity: 1 }], customer);
     const args = db.rpcCalls[0]?.args as { p_items: object[] };
-    expect(Object.keys(args.p_items[0] ?? {}).sort()).toEqual(["product_id", "quantity"]);
+    expect(Object.keys(args.p_items[0] ?? {}).sort()).toEqual([
+      "product_id",
+      "quantity",
+      "selected_color",
+      "selected_size",
+    ]);
   });
 
   it("requires sign-in", async () => {
@@ -232,7 +237,7 @@ describe("cart → order items", () => {
         { productId: P2, quantity: 0 },
         { productId: P2, quantity: 1.5 },
       ]),
-    ).toEqual([{ product_id: P1, quantity: 3 }]));
+    ).toEqual([{ product_id: P1, quantity: 3, selected_color: null, selected_size: null }]));
 });
 
 describe("checkout form validation", () => {

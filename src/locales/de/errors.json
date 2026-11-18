@@ -22,7 +22,8 @@
     "discountFormat": "Das sieht nicht nach einem Rabattcode aus.",
     "codPaused": "Ein Shop in deinem Warenkorb nimmt gerade keine Zahlung bei Lieferung an. Deine Bestellung wurde nicht aufgegeben.",
     "paymentExpired": "Diese Bestellung kann nicht mehr bezahlt werden. Bitte gib sie aus deinem Warenkorb erneut auf.",
-    "alreadyPaid": "Diese Bestellung ist bereits bezahlt."
+    "alreadyPaid": "Diese Bestellung ist bereits bezahlt.",
+    "invalidOptions": "Bitte wähle für jeden Artikel in deinem Warenkorb eine gültige Farbe und Größe."
   },
   "orders": {
     "cannotCancel": "Diese Bestellung kann nicht mehr storniert werden."
