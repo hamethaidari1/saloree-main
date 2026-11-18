@@ -154,8 +154,8 @@ export function ProductImagesField({
         )}
       </ul>
       <span className="text-xs text-muted-foreground">
-        The first image is the cover. PNG, JPG, WebP or GIF, up to 5 MB each, max{" "}
-        {MAX_PRODUCT_IMAGES}.
+        The first image is the cover. PNG, JPG, WebP or GIF, up to 15 MB each (photos are made
+        smaller before upload), max {MAX_PRODUCT_IMAGES}.
       </span>
       <input
         ref={input}

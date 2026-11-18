@@ -44,6 +44,8 @@ export function ProductsPanel({
   // undefined = closed, null = new product, product = editing.
   const [editing, setEditing] = useState<SellerProduct | null | undefined>(undefined);
   const [deleting, setDeleting] = useState<SellerProduct | null>(null);
+  // "Photo 2 of 5" while new photos are shrunk and uploaded.
+  const [photoProgress, setPhotoProgress] = useState<{ done: number; total: number } | null>(null);
 
   const refresh = () =>
     Promise.all([
@@ -54,6 +56,7 @@ export function ProductsPanel({
   const save = useMutation({
     mutationFn: (args: Parameters<typeof sellerService.saveProduct>) =>
       sellerService.saveProduct(...args),
+    onSettled: () => setPhotoProgress(null),
     onSuccess: async (_d, [, , , existing]) => {
       toast.success(existing ? "Product updated" : "Product added");
       setEditing(undefined);
@@ -170,9 +173,14 @@ export function ProductsPanel({
               product={editing ?? undefined}
               categories={categories}
               busy={save.isPending}
+              progress={
+                photoProgress && photoProgress.done < photoProgress.total
+                  ? `Preparing photo ${photoProgress.done + 1} of ${photoProgress.total}…`
+                  : null
+              }
               onCancel={() => setEditing(undefined)}
               onSubmit={(values, images) =>
-                save.mutateAsync([store.id, values, images, editing ?? undefined])
+                save.mutateAsync([store.id, values, images, editing ?? undefined, setPhotoProgress])
               }
             />
           )}

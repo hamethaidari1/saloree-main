@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { thumbOrFull, thumbUrl } from "@/lib/image-optimize";
 import { headT } from "@/i18n/head";
 import { useCategoryName } from "@/i18n/hooks";
 import { createFileRoute, Link, useLoaderData } from "@tanstack/react-router";
@@ -17,6 +18,7 @@ import {
   CatalogSkeleton,
 } from "@/components/marketplace/shared";
 import { HeroCarousel } from "@/components/marketplace/hero-carousel";
+import { HERO_SIZES, HERO_SLIDES } from "@/data/hero-slides";
 import { organizationLd, pageHead, websiteLd } from "@/lib/seo";
 import { origin, storeSeo } from "@/lib/seo-pages";
 import { siteVerificationQuery } from "@/lib/site-verification";
@@ -66,8 +68,23 @@ export const Route = createFileRoute("/")({
           ]
         : [],
     });
+    // The first hero photo is the largest thing on the first screen: fetch it early.
+    const first = HERO_SLIDES[0];
+    const heroPreload =
+      first?.kind === "image"
+        ? [
+            {
+              rel: "preload",
+              as: "image",
+              href: first.image.src,
+              imageSrcSet: first.image.srcSet,
+              imageSizes: HERO_SIZES,
+              fetchPriority: "high" as const,
+            },
+          ]
+        : [];
     return {
-      links: head.links,
+      links: [...head.links, ...heroPreload],
       meta: [
         ...head.meta,
         // Open Graph keeps its own, shorter wording.
@@ -180,7 +197,15 @@ function MarketplaceHome() {
           </div>
           <div className="editorial-image">
             {editImages.map((p) => (
-              <img key={p.id} src={p.image} alt={p.title} width="384" height="512" loading="lazy" />
+              <img
+                key={p.id}
+                src={thumbUrl(p.image)}
+                onError={thumbOrFull(p.image)}
+                alt={p.title}
+                width="384"
+                height="512"
+                loading="lazy"
+              />
             ))}
           </div>
         </section>

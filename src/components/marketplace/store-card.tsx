@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { thumbUrl } from "@/lib/image-optimize";
 import { Link } from "@tanstack/react-router";
 import type { Store } from "@/data/catalog";
 import { storeAddressLabel } from "@/lib/host";
@@ -26,7 +27,7 @@ function StoreBadge({ store, size }: { store: Store; size: "md" | "lg" }) {
       {store.logo && !logo.failed ? (
         <img
           ref={logo.ref}
-          src={store.logo}
+          src={thumbUrl(store.logo)}
           alt=""
           width={88}
           height={88}
@@ -60,7 +61,7 @@ export function StoreCard({ store }: { store: Store }) {
         {showBanner ? (
           <img
             ref={banner.ref}
-            src={store.banner ?? undefined}
+            src={thumbUrl(store.banner) ?? undefined}
             alt=""
             width={640}
             height={360}

@@ -1,4 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
+// Photos are shrunk before upload; jsdom has no canvas encoder (see ./fake-image).
+vi.mock("@/lib/image-optimize", async (orig) =>
+  (await import("./fake-image")).withFakeCodec(await orig<typeof import("@/lib/image-optimize")>()),
+);
 
 // Records every write the service makes, instead of talking to Supabase.
 const db = vi.hoisted(() => ({
@@ -123,11 +127,17 @@ describe("saveProduct", () => {
     await sellerService.saveProduct(STORE, productInputSchema.parse(formValues), [
       { kind: "new", key: "k", file, preview: "blob:x" },
     ]);
-    const upload = db.writes.find((w) => w.op === "upload");
-    expect(upload?.payload).toMatch(
-      new RegExp(`^user-1/products/${STORE}/[0-9a-f-]{36}/[0-9a-f-]{36}\\.png$`),
-    );
-    expect(productInsert()?.featured_image).toMatch(/product-images\/user-1\//);
+    // The shrunk photo and its thumbnail; never the original file.
+    const uploads = db.writes.filter((w) => w.op === "upload").map((w) => String(w.payload));
+    expect(uploads).toEqual([
+      expect.stringMatching(
+        new RegExp(`^user-1/products/${STORE}/[0-9a-f-]{36}/[0-9a-f-]{36}\\.thumb\\.webp$`),
+      ),
+      expect.stringMatching(
+        new RegExp(`^user-1/products/${STORE}/[0-9a-f-]{36}/[0-9a-f-]{36}\\.opt\\.webp$`),
+      ),
+    ]);
+    expect(productInsert()?.featured_image).toMatch(/product-images\/user-1\/.*\.opt\.webp$/);
     const images = db.writes.find((w) => w.table === "product_images" && w.op === "insert");
     expect(images?.payload).toEqual([
       expect.objectContaining({ sort_order: 0, image_url: productInsert()?.featured_image }),

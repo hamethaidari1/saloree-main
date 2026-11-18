@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { thumbOrFull, thumbUrl } from "@/lib/image-optimize";
 import { productParam } from "@/services/catalog";
 /**
  * Building blocks shared by every store template. All content is the
@@ -149,7 +150,12 @@ export function TemplateProductCard({
         aria-label={product.title}
       >
         {product.image ? (
-          <img src={product.image} alt="" loading="lazy" />
+          <img
+            src={thumbUrl(product.image)}
+            onError={thumbOrFull(product.image)}
+            alt=""
+            loading="lazy"
+          />
         ) : (
           <ImageOff aria-hidden />
         )}

@@ -82,9 +82,12 @@ describe("store validation", () => {
 
 describe("uploads", () => {
   const file = (type: string, size: number) => new File([new Uint8Array(size)], "x", { type });
-  it("accepts images up to 5 MB only", () => {
+  // Photos are shrunk in the browser before upload: the picked file may be up to 15 MB;
+  // the stored (shrunk) file stays within MAX_IMAGE_BYTES (5 MB).
+  it("accepts picked images up to 15 MB", () => {
     expect(() => validateImage(file("image/png", 1000))).not.toThrow();
-    expect(() => validateImage(file("image/png", MAX_IMAGE_BYTES + 1))).toThrow(/5 MB/);
+    expect(() => validateImage(file("image/png", MAX_IMAGE_BYTES + 1))).not.toThrow();
+    expect(() => validateImage(file("image/png", 15 * 1024 * 1024 + 1))).toThrow(/15 MB/);
     expect(() => validateImage(file("application/pdf", 10))).toThrow(/PNG/);
     expect(() => validateImage(file("image/svg+xml", 10))).toThrow();
   });

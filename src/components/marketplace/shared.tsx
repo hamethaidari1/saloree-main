@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { thumbOrFull, thumbUrl } from "@/lib/image-optimize";
 import { hasOptions } from "@/lib/product-options";
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
@@ -120,7 +121,8 @@ export function ProductCard({ product, eager = false }: { product: Product; eage
           aria-label={t("card.view", { title: product.title })}
         >
           <img
-            src={product.image}
+            src={thumbUrl(product.image)}
+            onError={thumbOrFull(product.image)}
             alt={product.title}
             width="384"
             height="512"

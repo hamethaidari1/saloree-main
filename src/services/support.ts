@@ -11,6 +11,7 @@
  * errors carry only the database's message and code.
  */
 import { z } from "zod";
+import { optimizeImage } from "@/lib/image-optimize";
 import { supabase } from "@/lib/supabase";
 import {
   ATTACHMENT_MIME_TYPES,
@@ -280,14 +281,21 @@ export const supportService = {
     threadId: string,
     file: File,
   ): Promise<{ path: string; mime: AttachmentMime }> => {
-    const problem = attachmentProblem(file);
+    // The picked file's type is checked first (size: the shrunk file, below).
+    const picked = attachmentProblem({ name: file.name, type: file.type, size: 1 });
+    if (picked) throw new SupportDbError(picked, null);
+    // Shrunk to at most 1920 px, WebP (or JPEG), metadata removed, before upload.
+    const img = await optimizeImage(file, "attachment");
+    const base = file.name.replace(/\.[^.]*$/, "") || "photo";
+    const shrunk = new File([img.main], `${base}.${img.ext}`, { type: img.mime });
+    const problem = attachmentProblem(shrunk);
     if (problem) throw new SupportDbError(problem, null);
-    const path = attachmentPath(threadId, file.name, crypto.randomUUID());
+    const path = attachmentPath(threadId, shrunk.name, crypto.randomUUID());
     const { error } = await supabase.storage
       .from(ATTACHMENTS_BUCKET)
-      .upload(path, file, { contentType: file.type, upsert: false });
+      .upload(path, shrunk, { contentType: shrunk.type, upsert: false });
     if (error) throw dbError(error as { message?: string });
-    return { path, mime: file.type as AttachmentMime };
+    return { path, mime: shrunk.type as AttachmentMime };
   },
 
   sendMessage: async (input: {

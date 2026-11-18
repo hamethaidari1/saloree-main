@@ -50,12 +50,15 @@ export function ProductForm({
   product,
   categories,
   busy,
+  progress = null,
   onSubmit,
   onCancel,
 }: {
   product?: SellerProduct | undefined;
   categories: CategoryRow[];
   busy: boolean;
+  /** e.g. "Preparing photo 2 of 5…" while photos are shrunk and uploaded. */
+  progress?: string | null;
   onSubmit: (values: ProductInput, images: ImageItem[]) => Promise<unknown>;
   onCancel: () => void;
 }) {
@@ -258,6 +261,9 @@ export function ProductForm({
         />
       </fieldset>
       <ProductImagesField items={images} onChange={setImages} />
+      <p className="seller-hint" role="status" aria-live="polite">
+        {busy && progress ? progress : ""}
+      </p>
       <div className="seller-form-actions">
         <Button type="button" variant="ghost" onClick={onCancel} disabled={busy}>
           Cancel

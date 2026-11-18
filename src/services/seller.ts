@@ -1,4 +1,12 @@
 import { z } from "zod";
+import {
+  MAX_INPUT_BYTES,
+  optimizedName,
+  optimizeImage,
+  thumbName,
+  thumbUrl,
+  type ImagePreset,
+} from "@/lib/image-optimize";
 import { brandSchema, colorsSchema, sizesSchema } from "@/lib/product-options";
 import type { CategoryRow, OrderItemRow, OrderRow, ProductRow, StoreRow } from "@/data/db";
 import { RESERVED_STORE_SLUGS } from "@/lib/host";
@@ -23,6 +31,7 @@ const BUCKETS = {
   banner: "store-banners",
   product: "product-images",
 } as const;
+/** The most a stored (already shrunk) image may weigh — the buckets' own limit. */
 export const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
 const IMAGE_TYPES = ["image/png", "image/jpeg", "image/webp", "image/gif"];
 export const IMAGE_ACCEPT = IMAGE_TYPES.join(",");
@@ -147,7 +156,9 @@ export type ProductInput = z.output<typeof productInputSchema>;
 
 export function validateImage(file: File) {
   if (!IMAGE_TYPES.includes(file.type)) throw new Error(`${file.name}: use PNG, JPG, WebP or GIF.`);
-  if (file.size > MAX_IMAGE_BYTES) throw new Error(`${file.name}: images must be 5 MB or smaller.`);
+  // Photos are shrunk in the browser before upload, so a bigger original is fine.
+  if (file.size > MAX_INPUT_BYTES)
+    throw new Error(`${file.name}: the photo is over 15 MB. Choose a smaller one.`);
 }
 
 export { friendlyError };
@@ -164,29 +175,44 @@ async function requireUserId() {
 }
 
 /**
- * Uploads to `{bucket}/{user_id}/{...folders}/{uuid}.{ext}` — the first
- * folder is always the uploader's id so storage policies can lock to it.
+ * Shrinks the photo (see lib/image-optimize), then uploads
+ * `{bucket}/{user_id}/{...folders}/{uuid}.thumb.webp` and `…/{uuid}.opt.webp`
+ * — the first folder is always the uploader's id so storage policies can
+ * lock to it. The original is never uploaded. Returns the optimized file's
+ * public URL (its thumbnail URL follows from it: thumbUrl()).
  */
 async function uploadImage(
   bucket: (typeof BUCKETS)[keyof typeof BUCKETS],
   userId: string,
   folders: string[],
   file: File,
+  preset: ImagePreset,
 ) {
   validateImage(file);
-  const ext = (file.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "");
-  const path = [userId, ...folders, `${crypto.randomUUID()}.${ext || "jpg"}`].join("/");
-  const { error } = await supabase.storage
-    .from(bucket)
-    .upload(path, file, { contentType: file.type, upsert: false });
-  if (error) throw error;
+  const img = await optimizeImage(file, preset);
+  if (img.main.size > MAX_IMAGE_BYTES)
+    throw new Error(`${file.name}: even after shrinking, this image is over 5 MB.`);
+  const id = crypto.randomUUID();
+  const dir = [userId, ...folders];
+  const put = async (name: string, blob: Blob) => {
+    const path = [...dir, name].join("/");
+    const { error } = await supabase.storage
+      .from(bucket)
+      .upload(path, blob, { contentType: img.mime, upsert: false, cacheControl: "31536000" });
+    if (error) throw error;
+    return path;
+  };
+  // The thumbnail first: a saved .opt. URL always has its thumbnail.
+  if (img.thumb) await put(thumbName(id, img.ext), img.thumb);
+  const path = await put(optimizedName(id, img.ext), img.main);
   return supabase.storage.from(bucket).getPublicUrl(path).data.publicUrl;
 }
 
-/** Best-effort removal; only touches files inside the caller's own folder. */
+/** Best-effort removal (with each optimized image's thumbnail); only the caller's own folder. */
 async function removeImages(bucket: string, userId: string, urls: (string | null | undefined)[]) {
   const marker = `/object/public/${bucket}/`;
   const paths = urls
+    .flatMap((u) => (u && thumbUrl(u) !== u ? [u, thumbUrl(u)] : [u]))
     .map((u) => (u && u.includes(marker) ? decodeURIComponent(u.split(marker)[1] ?? "") : ""))
     .filter((p) => p.startsWith(`${userId}/`));
   if (paths.length) await supabase.storage.from(bucket).remove(paths);
@@ -244,8 +270,8 @@ export const sellerService = {
   uploadStoreImage: async (kind: "logo" | "banner", file: File): Promise<string> => {
     const userId = await requireUserId();
     return kind === "logo"
-      ? uploadImage(BUCKETS.logo, userId, ["logos"], file)
-      : uploadImage(BUCKETS.banner, userId, ["banners"], file);
+      ? uploadImage(BUCKETS.logo, userId, ["logos"], file, "logo")
+      : uploadImage(BUCKETS.banner, userId, ["banners"], file, "banner");
   },
 
   getCategories: async (): Promise<CategoryRow[]> => {
@@ -278,11 +304,11 @@ export const sellerService = {
     const uploaded: { bucket: string; url: string }[] = [];
     try {
       const logo_url = files.logo
-        ? await uploadImage(BUCKETS.logo, userId, ["logos"], files.logo)
+        ? await uploadImage(BUCKETS.logo, userId, ["logos"], files.logo, "logo")
         : null;
       if (logo_url) uploaded.push({ bucket: BUCKETS.logo, url: logo_url });
       const banner_url = files.banner
-        ? await uploadImage(BUCKETS.banner, userId, ["banners"], files.banner)
+        ? await uploadImage(BUCKETS.banner, userId, ["banners"], files.banner, "banner")
         : null;
       if (banner_url) uploaded.push({ bucket: BUCKETS.banner, url: banner_url });
       // The address is the seller's choice; a taken one is reported (23505), not renamed.
@@ -326,10 +352,10 @@ export const sellerService = {
     const userId = await requireUserId();
     const values = storeInputSchema.parse(input);
     const logo_url = files.logo
-      ? await uploadImage(BUCKETS.logo, userId, ["logos"], files.logo)
+      ? await uploadImage(BUCKETS.logo, userId, ["logos"], files.logo, "logo")
       : store.logo_url;
     const banner_url = files.banner
-      ? await uploadImage(BUCKETS.banner, userId, ["banners"], files.banner)
+      ? await uploadImage(BUCKETS.banner, userId, ["banners"], files.banner, "banner")
       : store.banner_url;
     try {
       const { data, error } = await supabase
@@ -372,10 +398,14 @@ export const sellerService = {
     input: ProductInput,
     images: ImageItem[],
     existing?: SellerProduct,
+    /** "Photo 2 of 5": after each new photo is shrunk and uploaded. */
+    onProgress?: (p: { done: number; total: number }) => void,
   ): Promise<void> => {
     const userId = await requireUserId();
     const values = productInputSchema.parse(input);
     for (const img of images) if (img.kind === "new") validateImage(img.file);
+    const newCount = images.filter((i) => i.kind === "new").length;
+    if (newCount) onProgress?.({ done: 0, total: newCount });
     const productId = existing?.id ?? crypto.randomUUID();
     const folders = ["products", storeId, productId];
 
@@ -385,7 +415,8 @@ export const sellerService = {
       for (const img of images) {
         if (img.kind === "existing") urls.push(img.url);
         else {
-          const url = await uploadImage(BUCKETS.product, userId, folders, img.file);
+          const url = await uploadImage(BUCKETS.product, userId, folders, img.file, "product");
+          onProgress?.({ done: newUrls.length + 1, total: newCount });
           newUrls.push(url);
           urls.push(url);
         }

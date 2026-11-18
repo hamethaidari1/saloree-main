@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { thumbOrFull, thumbUrl } from "@/lib/image-optimize";
 import { productParam } from "@/services/catalog";
 import { SelectedOptions } from "@/components/marketplace/product-options";
 import { lineKey, lineMax } from "@/services/cart";
@@ -76,7 +77,13 @@ function CartPage() {
                     return (
                       <article key={lineKey(item)} className="cart-line">
                         <Link to="/product/$id" params={{ id: productParam(p) }}>
-                          <img src={p.image} alt={p.title} width="105" height="105" />
+                          <img
+                            src={thumbUrl(p.image)}
+                            onError={thumbOrFull(p.image)}
+                            alt={p.title}
+                            width="105"
+                            height="105"
+                          />
                         </Link>
                         <div className="min-w-0">
                           <Link to="/product/$id" params={{ id: productParam(p) }}>

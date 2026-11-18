@@ -8,6 +8,7 @@
  *  - profiles: only store owners (name, email).
  */
 import { z } from "zod";
+import { optimizedName, optimizeImage, thumbName } from "@/lib/image-optimize";
 import type { ProductRow, StoreRow } from "@/data/db";
 import { supabase } from "@/lib/supabase";
 import { safeHttpsUrl } from "@/lib/tracking";
@@ -255,15 +256,21 @@ export const marketplaceService = {
   uploadContentImage: async (file: File): Promise<string> => {
     if (!file.type.startsWith("image/"))
       throw new Error("Choose an image file (JPG, PNG or WebP).");
-    if (file.size > CONTENT_IMAGE_MAX_BYTES) throw new Error("Images can be up to 5 MB.");
+    // Shrunk to 1920 px WebP (+ thumbnail) in the browser; the original is never uploaded.
+    const img = await optimizeImage(file, "banner");
+    if (img.main.size > CONTENT_IMAGE_MAX_BYTES) throw new Error("Images can be up to 5 MB.");
     const uid = await currentUserId();
-    const ext = (file.name.split(".").pop() ?? "jpg").toLowerCase().replace(/[^a-z0-9]/g, "");
-    const path = `${uid}/homepage/${crypto.randomUUID()}.${ext || "jpg"}`;
-    const { error } = await supabase.storage
-      .from(CONTENT_IMAGE_BUCKET)
-      .upload(path, file, { contentType: file.type, upsert: false });
+    const id = crypto.randomUUID();
+    const bucket = supabase.storage.from(CONTENT_IMAGE_BUCKET);
+    const opts = { contentType: img.mime, upsert: false, cacheControl: "31536000" };
+    if (img.thumb) {
+      const t = await bucket.upload(`${uid}/homepage/${thumbName(id, img.ext)}`, img.thumb, opts);
+      if (t.error) throw t.error;
+    }
+    const path = `${uid}/homepage/${optimizedName(id, img.ext)}`;
+    const { error } = await bucket.upload(path, img.main, opts);
     if (error) throw error;
-    return supabase.storage.from(CONTENT_IMAGE_BUCKET).getPublicUrl(path).data.publicUrl;
+    return bucket.getPublicUrl(path).data.publicUrl;
   },
 
   /** The one site_settings row, content fields only (footer_settings is never read here). */

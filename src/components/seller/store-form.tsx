@@ -182,7 +182,7 @@ export function StoreForm({
         <SingleImageField
           id="store-logo"
           label="Logo"
-          hint="Square, up to 5 MB"
+          hint="Square, up to 15 MB (made smaller before upload)"
           variant="logo"
           currentUrl={store?.logo_url ?? null}
           file={files.logo}
@@ -191,7 +191,7 @@ export function StoreForm({
         <SingleImageField
           id="store-banner"
           label="Banner"
-          hint="Wide (about 5:1), up to 5 MB"
+          hint="Wide (about 5:1), up to 15 MB (made smaller before upload)"
           variant="banner"
           currentUrl={store?.banner_url ?? null}
           file={files.banner}

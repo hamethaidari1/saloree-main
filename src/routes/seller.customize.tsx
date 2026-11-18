@@ -271,7 +271,11 @@ function Editor({
                 <SingleImageField
                   id={`customize-${kind}`}
                   label={kind === "logo" ? "Logo" : "Banner"}
-                  hint={kind === "logo" ? "Square, up to 5 MB" : "Wide (about 5:1), up to 5 MB"}
+                  hint={
+                    kind === "logo"
+                      ? "Square, up to 15 MB (made smaller before upload)"
+                      : "Wide (about 5:1), up to 15 MB (made smaller before upload)"
+                  }
                   variant={kind}
                   currentUrl={draft[kind].url || null}
                   file={draft[kind].file}

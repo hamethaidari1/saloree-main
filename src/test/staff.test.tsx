@@ -1,4 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
+// Photos are shrunk before upload; jsdom has no canvas encoder (see ./fake-image).
+vi.mock("@/lib/image-optimize", async (orig) =>
+  (await import("./fake-image")).withFakeCodec(await orig<typeof import("@/lib/image-optimize")>()),
+);
 import { fireEvent, screen, within } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { ReactNode } from "react";
@@ -286,9 +290,11 @@ describe("marketplace service (content_admin)", () => {
     const url = await marketplaceService.uploadContentImage(
       new File(["x"], "Banner.PNG", { type: "image/png" }),
     );
-    expect(m().state.uploads[0]).toMatchObject({ bucket: "store-banners" });
-    expect(m().state.uploads[0]!.path).toMatch(/^user-1\/homepage\/[0-9a-f-]+\.png$/);
-    expect(url).toMatch(/^https:\/\//);
+    // Shrunk to WebP with a thumbnail; the original PNG is never uploaded.
+    expect(m().state.uploads.map((u) => u.bucket)).toEqual(["store-banners", "store-banners"]);
+    expect(m().state.uploads[0]!.path).toMatch(/^user-1\/homepage\/[0-9a-f-]+\.thumb\.webp$/);
+    expect(m().state.uploads[1]!.path).toMatch(/^user-1\/homepage\/[0-9a-f-]+\.opt\.webp$/);
+    expect(url).toMatch(/^https:\/\/.*\.opt\.webp$/);
     await expect(
       marketplaceService.uploadContentImage(new File(["x"], "a.pdf", { type: "application/pdf" })),
     ).rejects.toThrow(/image/);

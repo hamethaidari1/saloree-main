@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { thumbOrFull, thumbUrl } from "@/lib/image-optimize";
 import { useRef, useState, type KeyboardEvent } from "react";
 import { useLocale } from "@/i18n/hooks";
 import { dirFor } from "@/i18n/locales";
@@ -64,7 +65,14 @@ export function ProductGallery({ title, images }: { title: string; images: strin
               onClick={() => setIndex(i)}
             >
               {/* Small and right under the photo: load at once (lazy left gaps in the strip). */}
-              <img src={src} alt="" width="72" height="72" decoding="async" />
+              <img
+                src={thumbUrl(src)}
+                onError={thumbOrFull(src)}
+                alt=""
+                width="72"
+                height="72"
+                decoding="async"
+              />
             </button>
           ))}
         </div>

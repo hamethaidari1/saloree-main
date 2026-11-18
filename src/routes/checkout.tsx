@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { thumbOrFull, thumbUrl } from "@/lib/image-optimize";
 import { headT } from "@/i18n/head";
 import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
@@ -596,7 +597,14 @@ function CheckoutPage() {
               <ul className="checkout-items">
                 {lines.map((l) => (
                   <li key={lineKey(l)}>
-                    <img src={l.product.image} alt="" loading="lazy" width={56} height={56} />
+                    <img
+                      src={thumbUrl(l.product.image)}
+                      onError={thumbOrFull(l.product.image)}
+                      alt=""
+                      loading="lazy"
+                      width={56}
+                      height={56}
+                    />
                     <span className="min-w-0 flex-1">
                       <span className="checkout-item-title" dir="auto" title={l.product.title}>
                         {t("line", { quantity: format.number(l.quantity), title: l.product.title })}

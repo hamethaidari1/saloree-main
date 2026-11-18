@@ -1,6 +1,10 @@
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+// Photos are shrunk before upload; jsdom has no canvas encoder (see ./fake-image).
+vi.mock("@/lib/image-optimize", async (orig) =>
+  (await import("./fake-image")).withFakeCodec(await orig<typeof import("@/lib/image-optimize")>()),
+);
 import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { ReactNode } from "react";
@@ -235,9 +239,11 @@ describe("service: the real RPC names and arguments", () => {
   it("images: <thread_id>/<uuid>-<safe-name> in the private bucket, shown by 60-second links", async () => {
     const file = new File(["x"], "My Photo (1).PNG", { type: "image/png" });
     const up = await supportService.uploadAttachment(T1, file);
-    expect(up.mime).toBe("image/png");
+    // Shrunk and saved as WebP (metadata removed) before upload.
+    expect(up.mime).toBe("image/webp");
+    expect(m().state.uploads).toHaveLength(1);
     expect(m().state.uploads[0]!.bucket).toBe("support-attachments");
-    expect(up.path).toMatch(new RegExp(`^${T1}/[0-9a-f-]{36}-my-photo-1\\.png$`));
+    expect(up.path).toMatch(new RegExp(`^${T1}/[0-9a-f-]{36}-my-photo-1\\.webp$`));
     await supportService.attachmentUrl(up.path);
     expect(m().state.signed).toEqual([
       { bucket: "support-attachments", path: up.path, expiresIn: 60 },

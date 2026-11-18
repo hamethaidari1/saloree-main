@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { thumbOrFull, thumbUrl } from "@/lib/image-optimize";
 import { productParam } from "@/services/catalog";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
@@ -129,7 +130,14 @@ function WishlistCard({ item }: { item: WishlistItem }) {
         className="wishlist-photo"
         tabIndex={-1}
       >
-        <img src={p.image} alt="" width="384" height="512" loading="lazy" />
+        <img
+          src={thumbUrl(p.image)}
+          onError={thumbOrFull(p.image)}
+          alt=""
+          width="384"
+          height="512"
+          loading="lazy"
+        />
       </Link>
       <div className="wishlist-info">
         <StoreLink slug={p.storeSlug} className="product-store">

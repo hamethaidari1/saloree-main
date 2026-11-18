@@ -1,4 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
+// Photos are shrunk before upload; jsdom has no canvas encoder (see ./fake-image).
+vi.mock("@/lib/image-optimize", async (orig) =>
+  (await import("./fake-image")).withFakeCodec(await orig<typeof import("@/lib/image-optimize")>()),
+);
 import { createSupabaseMock } from "./supabase-mock";
 
 const mock = vi.hoisted(() => ({}) as { current?: ReturnType<typeof createSupabaseMock> });
@@ -246,11 +250,13 @@ describe("sellerService.uploadStoreImage", () => {
   it("uploads into the seller's own folder", async () => {
     const file = new File([new Uint8Array(10)], "logo.png", { type: "image/png" });
     const url = await sellerService.uploadStoreImage("logo", file);
-    expect(m().state.uploads[0]?.bucket).toBe("store-logos");
-    expect(m().state.uploads[0]?.path).toMatch(/^user-1\/logos\/[0-9a-f-]{36}\.png$/);
-    expect(url).toMatch(/^https:\/\/.*\/store-logos\/user-1\/logos\//);
+    // Shrunk (512 px WebP) with a thumbnail; the original PNG is never uploaded.
+    expect(m().state.uploads.map((u) => u.bucket)).toEqual(["store-logos", "store-logos"]);
+    expect(m().state.uploads[0]?.path).toMatch(/^user-1\/logos\/[0-9a-f-]{36}\.thumb\.webp$/);
+    expect(m().state.uploads[1]?.path).toMatch(/^user-1\/logos\/[0-9a-f-]{36}\.opt\.webp$/);
+    expect(url).toMatch(/^https:\/\/.*\/store-logos\/user-1\/logos\/.*\.opt\.webp$/);
     await sellerService.uploadStoreImage("banner", file);
-    expect(m().state.uploads[1]?.path).toMatch(/^user-1\/banners\//);
+    expect(m().state.uploads[3]?.path).toMatch(/^user-1\/banners\/.*\.opt\.webp$/);
   });
 });
 
