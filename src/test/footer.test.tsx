@@ -69,7 +69,8 @@ async function renderFooter(content: FooterContent) {
       <RouterProvider router={router} />
     </QueryClientProvider>,
   );
-  const footer = await screen.findByRole("contentinfo");
+  // Inside this render only: a test may render several footers.
+  const footer = await within(view.container).findByRole("contentinfo");
   return { ...view, footer };
 }
 
@@ -373,22 +374,22 @@ describe("site footer: social media links (Instagram and TikTok)", () => {
 
     // Instagram
     expect(links[0]).toHaveAttribute("href", DEFAULT_INSTAGRAM_URL);
-    expect(links[0].getAttribute("href")).toBe("https://www.instagram.com/saloreecom/");
+    expect(links[0]!.getAttribute("href")).toBe("https://www.instagram.com/saloreecom/");
     expect(links[0]).toHaveAttribute("target", "_blank");
     expect(links[0]).toHaveAttribute("rel", "noopener noreferrer");
     expect(links[0]).toHaveAccessibleName(/Instagram/);
-    expect(links[0].getAttribute("aria-label")).toMatch(/Instagram/);
-    expect(links[0].textContent).toMatch(/opens in a new tab/i);
+    expect(links[0]!.getAttribute("aria-label")).toMatch(/Instagram/);
+    expect(links[0]!.textContent).toMatch(/opens in a new tab/i);
 
     // TikTok
     expect(links[1]).toHaveAttribute("href", DEFAULT_TIKTOK_URL);
-    expect(links[1].getAttribute("href")).toBe("https://www.tiktok.com/@saloree.com");
-    expect(links[1].getAttribute("href")).not.toContain("?lang=en");
+    expect(links[1]!.getAttribute("href")).toBe("https://www.tiktok.com/@saloree.com");
+    expect(links[1]!.getAttribute("href")).not.toContain("?lang=en");
     expect(links[1]).toHaveAttribute("target", "_blank");
     expect(links[1]).toHaveAttribute("rel", "noopener noreferrer");
     expect(links[1]).toHaveAccessibleName(/TikTok/);
-    expect(links[1].getAttribute("aria-label")).toMatch(/TikTok/);
-    expect(links[1].textContent).toMatch(/opens in a new tab/i);
+    expect(links[1]!.getAttribute("aria-label")).toMatch(/TikTok/);
+    expect(links[1]!.textContent).toMatch(/opens in a new tab/i);
 
     // Heading exists
     expect(within(footer).getByRole("heading", { name: /Follow Saloree/i })).toBeTruthy();
@@ -414,10 +415,7 @@ describe("site footer: social media links (Instagram and TikTok)", () => {
 
   it("is hidden when explicitly hidden with 'hide'", async () => {
     // Hide Instagram only
-    const hideIg = toFooterContent(
-      settings({ footer_settings: { instagram_url: "hide" } }),
-      [],
-    );
+    const hideIg = toFooterContent(settings({ footer_settings: { instagram_url: "hide" } }), []);
     const view1 = await renderFooter(hideIg);
     const social1 = within(view1.footer).getByRole("list", { name: /social media/i });
     const links1 = within(social1).getAllByRole("link");
@@ -425,10 +423,7 @@ describe("site footer: social media links (Instagram and TikTok)", () => {
     expect(links1[0]).toHaveAttribute("href", DEFAULT_TIKTOK_URL);
 
     // Hide TikTok only
-    const hideTt = toFooterContent(
-      settings({ footer_settings: { tiktok_url: "hide" } }),
-      [],
-    );
+    const hideTt = toFooterContent(settings({ footer_settings: { tiktok_url: "hide" } }), []);
     const view2 = await renderFooter(hideTt);
     const social2 = within(view2.footer).getByRole("list", { name: /social media/i });
     const links2 = within(social2).getAllByRole("link");
@@ -492,16 +487,37 @@ describe("site footer: social media links (Instagram and TikTok)", () => {
 
 describe("companyDetailsSchema & admin footer_settings", () => {
   it("zod rejects non-https URLs, invalid protocols and other hosts", () => {
-    expect(companyDetailsSchema.safeParse({ instagram_url: "http://instagram.com/saloree" }).success).toBe(false);
-    expect(companyDetailsSchema.safeParse({ instagram_url: "javascript:alert(1)" }).success).toBe(false);
-    expect(companyDetailsSchema.safeParse({ instagram_url: "https://facebook.com/saloree" }).success).toBe(false);
-    expect(companyDetailsSchema.safeParse({ instagram_url: "https://notinstagram.com/saloree" }).success).toBe(false);
-    expect(companyDetailsSchema.safeParse({ instagram_url: "https://www.instagram.com/" + "a".repeat(200) }).success).toBe(false);
+    expect(
+      companyDetailsSchema.safeParse({ instagram_url: "http://instagram.com/saloree" }).success,
+    ).toBe(false);
+    expect(companyDetailsSchema.safeParse({ instagram_url: "javascript:alert(1)" }).success).toBe(
+      false,
+    );
+    expect(
+      companyDetailsSchema.safeParse({ instagram_url: "https://facebook.com/saloree" }).success,
+    ).toBe(false);
+    expect(
+      companyDetailsSchema.safeParse({ instagram_url: "https://notinstagram.com/saloree" }).success,
+    ).toBe(false);
+    expect(
+      companyDetailsSchema.safeParse({
+        instagram_url: "https://www.instagram.com/" + "a".repeat(200),
+      }).success,
+    ).toBe(false);
 
-    expect(companyDetailsSchema.safeParse({ tiktok_url: "http://tiktok.com/@saloree" }).success).toBe(false);
-    expect(companyDetailsSchema.safeParse({ tiktok_url: "javascript:alert(1)" }).success).toBe(false);
-    expect(companyDetailsSchema.safeParse({ tiktok_url: "https://youtube.com/@saloree" }).success).toBe(false);
-    expect(companyDetailsSchema.safeParse({ tiktok_url: "https://www.tiktok.com/" + "a".repeat(200) }).success).toBe(false);
+    expect(
+      companyDetailsSchema.safeParse({ tiktok_url: "http://tiktok.com/@saloree" }).success,
+    ).toBe(false);
+    expect(companyDetailsSchema.safeParse({ tiktok_url: "javascript:alert(1)" }).success).toBe(
+      false,
+    );
+    expect(
+      companyDetailsSchema.safeParse({ tiktok_url: "https://youtube.com/@saloree" }).success,
+    ).toBe(false);
+    expect(
+      companyDetailsSchema.safeParse({ tiktok_url: "https://www.tiktok.com/" + "a".repeat(200) })
+        .success,
+    ).toBe(false);
   });
 
   it("zod accepts valid https URLs, empty values and 'hide'", () => {
@@ -562,10 +578,12 @@ describe("i18n check for social keys", () => {
     const root = join(process.cwd(), "src/locales");
     const codes = ["ar", "de", "en", "es", "fi", "he", "ko", "pt", "zh-Hans", "zh-Hant"];
     for (const code of codes) {
-      const footerJson = JSON.parse(readFileSync(join(root, code, "footer.json"), "utf8")) as Record<string, string>;
-      expect(footerJson.followUs, `${code} missing followUs`).toBeTruthy();
-      expect(footerJson.opensInNewTab, `${code} missing opensInNewTab`).toBeTruthy();
-      expect(footerJson.socialLink, `${code} missing socialLink`).toBeTruthy();
+      const footerJson = JSON.parse(
+        readFileSync(join(root, code, "footer.json"), "utf8"),
+      ) as Record<string, string>;
+      expect(footerJson["followUs"], `${code} missing followUs`).toBeTruthy();
+      expect(footerJson["opensInNewTab"], `${code} missing opensInNewTab`).toBeTruthy();
+      expect(footerJson["socialLink"], `${code} missing socialLink`).toBeTruthy();
     }
   });
 });

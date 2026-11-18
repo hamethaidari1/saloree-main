@@ -35,4 +35,3 @@ export function TikTokIcon(props: SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
-

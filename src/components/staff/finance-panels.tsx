@@ -562,11 +562,7 @@ function CompanyForm({ initial }: { initial: Record<CompanyKey, string> }) {
     DEFAULT_INSTAGRAM_URL,
     INSTAGRAM_HOSTS,
   );
-  const tiktokPreview = resolveSocialUrl(
-    values.tiktok_url,
-    DEFAULT_TIKTOK_URL,
-    TIKTOK_HOSTS,
-  );
+  const tiktokPreview = resolveSocialUrl(values.tiktok_url, DEFAULT_TIKTOK_URL, TIKTOK_HOSTS);
 
   return (
     <section className="staff-two-col">

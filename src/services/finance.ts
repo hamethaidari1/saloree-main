@@ -176,12 +176,9 @@ const socialUrlSchema = (name: string, allowedHosts: string[]) =>
     z
       .string()
       .max(200, `${name} URL can be at most 200 characters.`)
-      .refine(
-        (v) => validateSocialUrl(v, allowedHosts),
-        {
-          message: `The ${name} URL must be a valid https:// URL on ${allowedHosts.join(" or ")}, or "hide".`,
-        },
-      )
+      .refine((v) => validateSocialUrl(v, allowedHosts), {
+        message: `The ${name} URL must be a valid https:// URL on ${allowedHosts.join(" or ")}, or "hide".`,
+      })
       .nullable()
       .optional(),
   );
@@ -191,14 +188,18 @@ export const tiktokUrlSchema = socialUrlSchema("TikTok", TIKTOK_HOSTS);
 
 export const companyDetailsSchema = z
   .object({
-    legal_name: optional(120, "The legal name"),
-    business_id: optional(60, "The business ID"),
-    address: optional(240, "The address"),
-    support_email: z.preprocess(
-      (v) =>
-        typeof v === "string" && v.trim() === "" ? null : typeof v === "string" ? v.trim() : v,
-      z.string().email("Enter a valid email address.").max(254).nullable(),
-    ),
+    // Every key may be left out: a key that is not sent keeps its stored value
+    // (see mergeCompanyDetails). The admin form always sends all of them.
+    legal_name: optional(120, "The legal name").optional(),
+    business_id: optional(60, "The business ID").optional(),
+    address: optional(240, "The address").optional(),
+    support_email: z
+      .preprocess(
+        (v) =>
+          typeof v === "string" && v.trim() === "" ? null : typeof v === "string" ? v.trim() : v,
+        z.string().email("Enter a valid email address.").max(254).nullable(),
+      )
+      .optional(),
     /**
      * Legal pages only: who pays the card (Stripe) fees, e.g. "paid by the
      * seller". Fills [[WHO_PAYS_STRIPE_FEES]]; not shown in the
