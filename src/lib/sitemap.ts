@@ -8,8 +8,6 @@ import { canonicalFor } from "./seo";
 
 /** Google's limit is 50,000; smaller files keep each response quick. */
 export const SITEMAP_MAX_URLS = 5000;
-/** The category page's default price filter (Browse): products above it aren't listed there. */
-export const CATEGORY_LISTED_MAX_PRICE = 200;
 
 export interface SitemapEntry {
   path: string;
@@ -47,8 +45,7 @@ export function sitemapEntries(d: SitemapData): SitemapEntry[] {
   // A category page is indexed only when it lists at least one product.
   const listedIn = new Map<string, string[]>();
   for (const p of live)
-    if (p.category && Number(p.price) <= CATEGORY_LISTED_MAX_PRICE)
-      listedIn.set(p.category, [...(listedIn.get(p.category) ?? []), p.created_at]);
+    if (p.category) listedIn.set(p.category, [...(listedIn.get(p.category) ?? []), p.created_at]);
   const latest = newest(live.map((p) => p.created_at));
 
   return [

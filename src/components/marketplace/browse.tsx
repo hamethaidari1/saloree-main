@@ -5,7 +5,14 @@ import { Link } from "@tanstack/react-router";
 import { SlidersHorizontal, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { catalogQuery, filterProducts, matchOptions, optionFacets } from "@/services/catalog";
+import {
+  catalogQuery,
+  filterProducts,
+  matchOptions,
+  optionFacets,
+  priceBounds,
+  priceStep,
+} from "@/services/catalog";
 import { useStoreSlug } from "@/lib/store-mode";
 import { ProductCard, EmptyState } from "./shared";
 export function Browse({
@@ -27,7 +34,8 @@ export function Browse({
   const categoryName = useCategoryName();
   const [category, setCategory] = useState(initialCategory);
   const [store, setStore] = useState("");
-  const [maxPrice, setMaxPrice] = useState(200);
+  // No price filter until the shopper moves the slider.
+  const [maxPrice, setMaxPrice] = useState<number | null>(null);
   const [rating, setRating] = useState(0);
   const [brand, setBrand] = useState(initialBrand);
   const [color, setColor] = useState("");
@@ -50,10 +58,13 @@ export function Browse({
     ? catalog.products.filter((p) => p.storeSlug === storeSlug)
     : catalog.products;
   const facets = optionFacets(scope);
-  const filtered = matchOptions(
-    filterProducts({ query, category, store: storeSlug ?? store, maxPrice, rating, sort }, catalog),
+  // Everything the other filters leave in view: the slider's range comes from these.
+  const inView = matchOptions(
+    filterProducts({ query, category, store: storeSlug ?? store, rating, sort }, catalog),
     { brand, color, size },
   ).filter((p) => !sale || p.originalPrice);
+  const bounds = priceBounds(inView);
+  const filtered = maxPrice === null ? inView : inView.filter((p) => p.price <= maxPrice);
   const pages = Math.ceil(filtered.length / 9);
   const current = categories.find((c) => c.slug === initialCategory);
   const title = query
@@ -92,7 +103,7 @@ export function Browse({
               onClick={() => {
                 setCategory(initialCategory);
                 setStore("");
-                setMaxPrice(200);
+                setMaxPrice(null);
                 setRating(0);
                 setBrand("");
                 setColor("");
@@ -131,15 +142,26 @@ export function Browse({
             <input
               type="range"
               aria-label={t("browse.maxPrice")}
-              min="0"
-              max="200"
-              step="5"
-              value={maxPrice}
-              onChange={(e) => resetPage(() => setMaxPrice(Number(e.target.value)))}
+              min={bounds.min}
+              max={bounds.max}
+              step={priceStep(bounds)}
+              value={Math.min(maxPrice ?? bounds.max, bounds.max)}
+              disabled={bounds.max <= bounds.min}
+              onChange={(e) => {
+                const v = Number(e.target.value);
+                // Back at the top: no filter again (new, pricier products stay visible).
+                resetPage(() => setMaxPrice(v >= bounds.max ? null : v));
+              }}
             />
             <div className="flex justify-between text-xs mt-3 text-muted-foreground">
-              <span>{wholeDollars(0)}</span>
-              <span>{t("browse.upTo", { price: wholeDollars(maxPrice) })}</span>
+              <span>{wholeDollars(bounds.min)}</span>
+              <span>
+                {t("browse.upTo", {
+                  price: wholeDollars(
+                    maxPrice === null ? bounds.max : Math.min(maxPrice, bounds.max),
+                  ),
+                })}
+              </span>
             </div>
           </div>
           <div className="filter-group" hidden={!hasRatings}>

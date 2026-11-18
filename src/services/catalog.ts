@@ -228,6 +228,20 @@ export function optionFacets(products: Pick<Product, "brand" | "colors" | "sizes
   };
 }
 
+/**
+ * The price slider's range: whole units from the cheapest to the dearest of
+ * the products in view (equal when there is one price; 0–0 when none).
+ */
+export function priceBounds(products: Pick<Product, "price">[]) {
+  if (!products.length) return { min: 0, max: 0 };
+  const prices = products.map((p) => p.price);
+  return { min: Math.floor(Math.min(...prices)), max: Math.ceil(Math.max(...prices)) };
+}
+
+/** A step that gives the slider about 100 positions (1 for small ranges). */
+export const priceStep = (b: { min: number; max: number }) =>
+  Math.max(1, Math.round((b.max - b.min) / 100));
+
 export function filterProducts(
   options: {
     query?: string;

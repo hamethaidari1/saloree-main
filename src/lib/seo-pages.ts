@@ -191,13 +191,10 @@ export function categorySeo(
   });
 }
 
-/**
- * The products the category page lists first: the category's, newest first,
- * within the page's default price filter (up to 200), like Browse.
- */
+/** The products the category page lists first: the category's, newest first, like Browse. */
 export function categoryProducts(slug: string, products: Product[]) {
   return products
-    .filter((p) => p.category === slug && p.price <= 200)
+    .filter((p) => p.category === slug)
     .sort((a, b) => (b.createdAt ?? 0) - (a.createdAt ?? 0));
 }
 

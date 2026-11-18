@@ -257,11 +257,11 @@ describe("sitemap", () => {
       expect(paths).not.toContain(noindex);
   });
 
-  it("a category whose products the page doesn't list (over the 200 price filter) is left out", () => {
+  it("a category with only pricier products is listed (no default price filter any more)", () => {
     const paths = sitemapEntries(data({ products: [product({ price: 249.99 })] })).map(
       (e) => e.path,
     );
-    expect(paths).not.toContain("/category/home");
+    expect(paths).toContain("/category/home");
     expect(paths).toContain("/product/blue-mug");
   });
 
