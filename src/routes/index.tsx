@@ -6,6 +6,7 @@ import { createFileRoute, Link, useLoaderData } from "@tanstack/react-router";
 import { StoreHome } from "@/components/marketplace/storefront";
 import { CategoryGrid } from "@/components/marketplace/category-grid";
 import { storeFromMatches } from "@/lib/store-mode";
+import { SITE_LOGO_SQUARE } from "@/lib/brand";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { ArrowRight } from "lucide-react";
@@ -59,7 +60,7 @@ export const Route = createFileRoute("/")({
         ? [
             organizationLd({
               origin: o,
-              logo: "/logo.png",
+              logo: SITE_LOGO_SQUARE,
               legalName: loaderData?.footer?.company.legalName ?? null,
               // The footer's own Instagram / TikTok links.
               sameAs: (loaderData?.footer?.social ?? []).map((s) => s.url),

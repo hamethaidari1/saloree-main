@@ -21,7 +21,7 @@ import { PendingWishlistSave } from "@/components/marketplace/wishlist-button";
 import { StorefrontTracker } from "@/components/marketplace/storefront-tracker";
 import { SiteTracker } from "@/components/marketplace/site-tracker";
 import { AuthProvider } from "@/lib/auth";
-import { LOGO } from "@/lib/brand";
+import { SITE_ICON_LINKS, SITE_THEME_COLOR } from "@/lib/brand";
 import { DEV_STORE_PARAM, isMainOnlyPath, mainSiteUrl, resolveDevStore } from "@/lib/host";
 import { hidesSiteChrome } from "@/lib/layout";
 import { persistDevStore, resolveStoreSlug } from "@/lib/store-mode";
@@ -202,7 +202,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     const description = store
       ? store.description || t("meta.storeDescription", { store: store.name })
       : t("meta.defaultDescription");
-    const icon = store?.logo ?? LOGO.src;
     return {
       // Each content route, / included, must still set its own head(). Never add og:image or
       // twitter:image here: every page without its own would inherit the root's preview image.
@@ -218,6 +217,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         { property: "og:site_name", content: store?.name ?? "Saloree" },
         { property: "og:locale", content: ogLocale(match.context.i18n?.locale ?? DEFAULT_LOCALE) },
         { name: "twitter:card", content: "summary_large_image" },
+        ...(store ? [] : [{ name: "theme-color", content: SITE_THEME_COLOR }]),
         ...(missingStore ? [{ name: "robots", content: "noindex" }] : []),
       ],
       links: [
@@ -225,9 +225,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           rel: "stylesheet",
           href: appCss,
         },
-        // Store logo when it has one, Saloree's otherwise.
-        { rel: "icon", href: icon, ...(store?.logo ? {} : { type: LOGO.type }) },
-        { rel: "apple-touch-icon", href: icon },
+        // A store's own site shows its logo; Saloree's pages show the square site icons
+        // (Google's search-result icon needs a square, multiple of 48 px).
+        ...(store?.logo
+          ? [
+              { rel: "icon", href: store.logo },
+              { rel: "apple-touch-icon", href: store.logo },
+            ]
+          : SITE_ICON_LINKS),
         { rel: "preconnect", href: "https://fonts.googleapis.com" },
         { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
         {
