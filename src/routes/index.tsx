@@ -17,6 +17,10 @@ import {
   CatalogSkeleton,
 } from "@/components/marketplace/shared";
 import { HeroCarousel } from "@/components/marketplace/hero-carousel";
+import { organizationLd, pageHead, websiteLd } from "@/lib/seo";
+import { origin, storeSeo } from "@/lib/seo-pages";
+import { siteVerificationQuery } from "@/lib/site-verification";
+import { footerQuery } from "@/services/site";
 import { HomeEmpty, MoreForYou, Shelf } from "@/components/marketplace/home-shelves";
 import {
   allForYou,
@@ -26,35 +30,55 @@ import {
   popular,
 } from "@/lib/home-sections";
 export const Route = createFileRoute("/")({
-  head: ({ matches }) => {
-    // On a store's own site the home page is that store.
+  loader: async ({ context }) => {
+    const [catalog, footer, verification] = await Promise.all([
+      context.queryClient.ensureQueryData(catalogQuery),
+      // Real links for the Organization data; a failure just leaves them out.
+      context.storeSlug ? null : context.queryClient.ensureQueryData(footerQuery).catch(() => null),
+      context.storeSlug
+        ? null
+        : context.queryClient.ensureQueryData(siteVerificationQuery).catch(() => null),
+    ]);
+    return { catalog, footer, verification };
+  },
+  head: ({ matches, loaderData }) => {
+    // On a store's own site the home page is that store: same tags as /store/<slug>.
     const store = storeFromMatches(matches);
-    if (store) {
-      const description =
-        store.description || headT(matches)("meta.storeDescription", { store: store.name });
-      return {
-        meta: [
-          { title: store.name },
-          { name: "description", content: description },
-          { property: "og:title", content: store.name },
-          { property: "og:description", content: description },
-          { property: "og:type", content: "website" },
-        ],
-      };
-    }
+    if (store) return storeSeo(store, matches);
     const t = headT(matches, "home");
+    const o = origin();
+    const head = pageHead({
+      title: t("meta.title"),
+      description: t("meta.description"),
+      path: "/",
+      origin: o,
+      imageAlt: "Saloree",
+      jsonLd: o
+        ? [
+            organizationLd({
+              origin: o,
+              logo: "/logo.png",
+              legalName: loaderData?.footer?.company.legalName ?? null,
+              // The footer's own Instagram / TikTok links.
+              sameAs: (loaderData?.footer?.social ?? []).map((s) => s.url),
+            }),
+            websiteLd(o),
+          ]
+        : [],
+    });
     return {
+      links: head.links,
       meta: [
-        { title: t("meta.title") },
-        { name: "description", content: t("meta.description") },
+        ...head.meta,
+        // Open Graph keeps its own, shorter wording.
         { property: "og:title", content: t("meta.ogTitle") },
         { property: "og:description", content: t("meta.ogDescription") },
-        { property: "og:type", content: "website" },
-        { name: "twitter:card", content: "summary_large_image" },
+        ...(loaderData?.verification
+          ? [{ name: "google-site-verification", content: loaderData.verification }]
+          : []),
       ],
     };
   },
-  loader: ({ context }) => context.queryClient.ensureQueryData(catalogQuery),
   pendingComponent: CatalogSkeleton,
   component: Home,
 });
@@ -173,6 +197,10 @@ function MarketplaceHome() {
         </section>
       )}
       <MoreForYou products={shelves.more} />
+      <section className="market-section home-about" aria-labelledby="home-about-title">
+        <h2 id="home-about-title">{t("about.title")}</h2>
+        <p>{t("about.text")}</p>
+      </section>
     </main>
   );
 }

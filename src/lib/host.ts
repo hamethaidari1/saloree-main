@@ -176,13 +176,13 @@ export function storeUrl(slug: string, cfg: HostConfig = hostConfig()) {
  * store override. No domain configured: a relative path.
  */
 /**
- * The canonical address of a main-site page: https://<root domain><path>.
- * Null when no domain is configured (then no canonical link is printed).
+ * The canonical address of a main-site page: https://www.<root domain><path>
+ * (the bare domain redirects to www). Null when no domain is configured
+ * (then no canonical link is printed).
  */
 export function canonicalUrl(path: string, cfg: HostConfig = hostConfig()) {
-  return cfg.rootDomain
-    ? `https://${cfg.rootDomain}${path.startsWith("/") ? path : `/${path}`}`
-    : null;
+  const root = cfg.rootDomain.replace(/^www\./, "");
+  return root ? `https://www.${root}${path.startsWith("/") ? path : `/${path}`}` : null;
 }
 
 export function mainSiteUrl(path = "/", cfg: HostConfig = hostConfig()) {

@@ -1,11 +1,11 @@
 import { useTranslation } from "react-i18next";
 import { headT } from "@/i18n/head";
-import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, redirect, useNavigate } from "@tanstack/react-router";
+import { productSeo } from "@/lib/seo-pages";
 import { useRef, useState } from "react";
 import { ChevronRight, ArrowRight, Truck, ShieldCheck, ShoppingBag, Zap } from "lucide-react";
 import { ProductDescription } from "@/components/marketplace/product-description";
 import { buyNowQuantity } from "@/lib/buy-now";
-import { descriptionText } from "@/lib/rich-text";
 import { WishlistButton } from "@/components/marketplace/wishlist-button";
 import { Button } from "@/components/ui/button";
 import { useSuspenseQuery } from "@tanstack/react-query";
@@ -16,7 +16,7 @@ import { OptionPicker } from "@/components/marketplace/product-options";
 import { missingMessageKey, missingOptions } from "@/lib/product-options";
 import { useCart } from "@/components/marketplace/cart-context";
 import { StoreAddressLink, StoreLink } from "@/components/marketplace/store-link";
-import { storeFromMatches, useStoreSlug } from "@/lib/store-mode";
+import { useStoreSlug } from "@/lib/store-mode";
 import {
   Rating,
   QuantityPicker,
@@ -33,32 +33,22 @@ export const Route = createFileRoute("/product/$id")({
     // A store's own site only shows that store's products.
     if (!product || (context.storeSlug && product.storeSlug !== context.storeSlug))
       throw notFound();
+    // One address per product: an old /product/<id> link moves to /product/<slug> (301).
+    if (product.slug && params.id !== product.slug)
+      throw redirect({
+        to: "/product/$id",
+        params: { id: product.slug },
+        search: true,
+        statusCode: 301,
+      });
     return product;
   },
   head: ({ loaderData, matches }) => {
     const t = headT(matches, "product");
-    const title = t("titleWithSite", {
-      ns: "common",
-      title: loaderData?.title ?? t("meta.fallbackTitle"),
-      site: storeFromMatches(matches)?.name ?? "Saloree",
-    });
-    return {
-      meta: [
-        { title },
-        // Plain text: the description's Markdown ("#", "**", "- ") never reaches the tags.
-        {
-          name: "description",
-          content: descriptionText(loaderData?.description) || t("meta.description"),
-        },
-        { property: "og:title", content: title },
-        {
-          property: "og:description",
-          content: descriptionText(loaderData?.description) || t("meta.ogDescription"),
-        },
-        { property: "og:type", content: "website" },
-        { name: "twitter:card", content: "summary_large_image" },
-      ],
-    };
+    if (!loaderData)
+      return { meta: [{ title: t("meta.fallbackTitle") }, { name: "robots", content: "noindex" }] };
+    // Title, description, canonical (/product/<slug> on www), Open Graph and Product JSON-LD.
+    return productSeo(loaderData, matches);
   },
   pendingComponent: CatalogSkeleton,
   component: ProductPage,

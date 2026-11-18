@@ -75,5 +75,9 @@
       "cta": "Alle Produkte ansehen",
       "videoLabel": "Kurzes Video: „Kleine Shops.“ „Wunderbare Entdeckungen.“ „Alles, was du liebst – von den Menschen, die es machen.“ „Ein gemeinsamer Warenkorb.“ Es endet mit dem Saloree-Logo."
     }
+  },
+  "about": {
+    "title": "So funktioniert Saloree",
+    "text": "Saloree ist ein Online-Marktplatz, auf dem unabhängige Shops ihre Produkte nebeneinander verkaufen. Du kannst alle Shops durchstöbern, Artikel mehrerer Verkäufer in einen gemeinsamen Warenkorb legen und einmal bezahlen. Jeder Shop verpackt und versendet seine Bestellung selbst, und du kannst jede Bestellung in deinem Konto verfolgen."
   }
 }

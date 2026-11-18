@@ -75,5 +75,9 @@
       "cta": "Katso kaikki tuotteet",
       "videoLabel": "Lyhyt video: ”Pienet kaupat.” ”Ihania löytöjä.” ”Kaikki, mitä rakastat, sen tekijöiltä.” ”Yksi yhteinen ostoskori.” Lopussa näkyy Saloreen logo."
     }
+  },
+  "about": {
+    "title": "Näin Saloree toimii",
+    "text": "Saloree on verkkokauppapaikka, jossa itsenäiset kaupat myyvät tuotteitaan rinnakkain. Voit selata kaikkia kauppoja, koota usean myyjän tuotteet yhteen ostoskoriin ja maksaa kerralla. Jokainen kauppa pakkaa ja lähettää oman tilauksensa, ja voit seurata jokaista tilausta tililläsi."
   }
 }

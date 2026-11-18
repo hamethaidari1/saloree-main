@@ -406,9 +406,10 @@ describe("/wishlist page", () => {
     expect(cards).toHaveLength(2);
     expect(screen.getByLabelText("2 saved products")).toHaveTextContent("2");
     const lamp = cards[0]!;
+    // Product links use the readable slug (/product/<slug>); the id URL 301s there.
     expect(within(lamp).getByRole("link", { name: "Lamp 1" })).toHaveAttribute(
       "href",
-      `/product/${P1}`,
+      `/product/lamp-${P1.slice(0, 1)}`,
     );
     expect(lamp).toHaveTextContent("Alpha Store");
     expect(lamp).toHaveTextContent("$12.50");

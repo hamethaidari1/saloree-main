@@ -80,5 +80,13 @@
     "badEmail": "Anna kelvollinen sähköpostiosoite tai jätä kenttä tyhjäksi.",
     "honeypot": "Jätä tämä kenttä tyhjäksi",
     "failed": "Viestiäsi ei voitu lähettää:"
+  },
+  "seo": {
+    "productTail": "Myyjä: {{store}}. Saloree on itsenäisten kauppojen kauppapaikka.",
+    "storeSuffix": " – kaupat Saloree-palvelussa",
+    "storeTail": "Tutustu kaupan {{store}} tuotteisiin. Saloree on itsenäisten kauppojen kauppapaikka, jossa kaikki ostokset maksetaan yhdellä yhteisellä ostoskorilla.",
+    "stores": "Kaupat",
+    "categorySuffix": " – osta verkosta | Saloree",
+    "categoryDescription": "Osta {{category}} verkosta itsenäisiltä kaupoilta Saloree-kauppapaikalla. Vertaa tuotteita, hintoja ja myyjiä yhdessä paikassa ja maksa yhdellä ostoskorilla."
   }
 }

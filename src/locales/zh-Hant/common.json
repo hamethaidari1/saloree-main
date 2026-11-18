@@ -80,5 +80,13 @@
     "badEmail": "請輸入有效的電子郵件地址，或留空。",
     "honeypot": "請將此欄留空",
     "failed": "無法傳送你的留言："
+  },
+  "seo": {
+    "productTail": "由 {{store}} 在 Saloree 販售。Saloree 是獨立商店的線上市集。",
+    "storeSuffix": " – 在 Saloree 購物",
+    "storeTail": "在 Saloree 選購 {{store}} 的商品。Saloree 是獨立商店的線上市集：瀏覽各店商品，用一個共享購物袋一次結帳。",
+    "stores": "商店",
+    "categorySuffix": " – 線上購買 | Saloree",
+    "categoryDescription": "在 Saloree 向獨立商店線上購買{{category}}商品。在同一處比較商品、價格與賣家，並用一個共享購物袋一次結帳。"
   }
 }

@@ -21,6 +21,7 @@ import { Route as ProductsRouteImport } from './routes/products'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SellerRouteImport } from './routes/seller'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as StoresRouteImport } from './routes/stores'
 import { Route as WishlistRouteImport } from './routes/wishlist'
 import { Route as AccountMessagesRouteImport } from './routes/account_.messages'
@@ -111,6 +112,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
 const SellerRoute = SellerRouteImport.update({
   id: '/seller',
   path: '/seller',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StoresRoute = StoresRouteImport.update({
@@ -283,6 +289,7 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/seller': typeof SellerRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stores': typeof StoresRoute
   '/wishlist': typeof WishlistRoute
   '/account/messages': typeof AccountMessagesRoute
@@ -327,6 +334,7 @@ export interface FileRoutesByTo {
   '/products': typeof ProductsRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stores': typeof StoresRoute
   '/wishlist': typeof WishlistRoute
   '/account/messages': typeof AccountMessagesRoute
@@ -373,6 +381,7 @@ export interface FileRoutesById {
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/seller': typeof SellerRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stores': typeof StoresRoute
   '/wishlist': typeof WishlistRoute
   '/account_/messages': typeof AccountMessagesRoute
@@ -420,6 +429,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/seller'
+    | '/sitemap.xml'
     | '/stores'
     | '/wishlist'
     | '/account/messages'
@@ -464,6 +474,7 @@ export interface FileRouteTypes {
     | '/products'
     | '/register'
     | '/reset-password'
+    | '/sitemap.xml'
     | '/stores'
     | '/wishlist'
     | '/account/messages'
@@ -509,6 +520,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/seller'
+    | '/sitemap.xml'
     | '/stores'
     | '/wishlist'
     | '/account_/messages'
@@ -555,6 +567,7 @@ export interface RootRouteChildren {
   RegisterRoute: typeof RegisterRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SellerRoute: typeof SellerRouteWithChildren
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StoresRoute: typeof StoresRoute
   WishlistRoute: typeof WishlistRoute
   AccountMessagesRoute: typeof AccountMessagesRoute
@@ -657,6 +670,13 @@ declare module '@tanstack/react-router' {
       path: '/seller'
       fullPath: '/seller'
       preLoaderRoute: typeof SellerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/stores': {
@@ -931,6 +951,7 @@ const rootRouteChildren: RootRouteChildren = {
   RegisterRoute: RegisterRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SellerRoute: SellerRouteWithChildren,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   StoresRoute: StoresRoute,
   WishlistRoute: WishlistRoute,
   AccountMessagesRoute: AccountMessagesRoute,

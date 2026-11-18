@@ -7685,3 +7685,21 @@ html:lang(de) :is(input, textarea, select, code, .tabular-nums) {
   border-style: solid;
   color: var(--foreground);
 }
+
+/* Home: "How Saloree works" (real, short) */
+.home-about {
+  max-inline-size: 760px;
+  margin-inline: auto;
+  padding-block: 40px 24px;
+  text-align: center;
+}
+.home-about h2 {
+  margin-block-end: 10px;
+  font-size: 22px;
+  font-weight: 650;
+}
+.home-about p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--muted-foreground);
+}

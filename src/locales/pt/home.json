@@ -75,5 +75,9 @@
       "cta": "Ver todos os produtos",
       "videoLabel": "Vídeo curto: “Lojas pequenas.” “Descobertas maravilhosas.” “Tudo o que você ama, de quem faz.” “Um carrinho compartilhado.” Termina com o logotipo da Saloree."
     }
+  },
+  "about": {
+    "title": "Como funciona a Saloree",
+    "text": "A Saloree é um marketplace online onde lojas independentes vendem os seus produtos lado a lado. Pode explorar todas as lojas, juntar artigos de vários vendedores num só carrinho e pagar uma vez. Cada loja embala e envia a sua própria encomenda, e pode acompanhar cada encomenda na sua conta."
   }
 }

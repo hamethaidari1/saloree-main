@@ -225,8 +225,9 @@ export function Browse({
           {filtered.length ? (
             <>
               <div className="product-grid">
-                {filtered.slice((page - 1) * 9, page * 9).map((p) => (
-                  <ProductCard key={p.id} product={p} />
+                {filtered.slice((page - 1) * 9, page * 9).map((p, i) => (
+                  // The first row (3 cards) is the page's largest image: not lazy.
+                  <ProductCard key={p.id} product={p} eager={page === 1 && i < 3} />
                 ))}
               </div>
               <div className="pagination">

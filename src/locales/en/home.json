@@ -75,5 +75,9 @@
       "cta": "Shop all products",
       "videoLabel": "Short video: “Small stores.” “Wonderful discoveries.” “Everything you love, from people who make it.” “One shared cart.” It ends with the Saloree logo."
     }
+  },
+  "about": {
+    "title": "How Saloree works",
+    "text": "Saloree is an online marketplace where independent stores sell their products side by side. You can browse every store, put items from several sellers in one shared cart and check out once. Each store packs and ships its own order, and you can follow every order from your account."
   }
 }

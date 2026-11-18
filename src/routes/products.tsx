@@ -1,4 +1,5 @@
 import { headT } from "@/i18n/head";
+import { listingExtras } from "@/lib/seo-pages";
 import { createFileRoute } from "@tanstack/react-router";
 import { storeFromMatches } from "@/lib/store-mode";
 import { Browse } from "@/components/marketplace/browse";
@@ -16,9 +17,11 @@ export const Route = createFileRoute("/products")({
     ...(typeof s["sort"] === "string" ? { sort: s["sort"] } : {}),
     ...(s["sale"] === true || s["sale"] === "true" ? { sale: true } : {}),
   }),
-  head: ({ matches }) => {
+  head: ({ matches, match }) => {
     const t = headT(matches, "product");
     const store = storeFromMatches(matches);
+    // Search results and filtered lists aren't pages of their own: noindex, follow.
+    const filtered = Object.keys(match.search ?? {}).length > 0;
     const title = t("titleWithSite", {
       ns: "common",
       title: store ? t("meta.storeProductsTitle") : t("meta.productsTitle"),
@@ -32,7 +35,9 @@ export const Route = createFileRoute("/products")({
         { property: "og:description", content: t("meta.productsOgDescription") },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
+        ...(store ? [] : listingExtras("/products", filtered).meta),
       ],
+      links: store ? [] : listingExtras("/products", filtered).links,
     };
   },
   loader: ({ context }) => context.queryClient.ensureQueryData(catalogQuery),

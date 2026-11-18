@@ -1,4 +1,5 @@
 import { headT } from "@/i18n/head";
+import { categorySeo } from "@/lib/seo-pages";
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { storeFromMatches } from "@/lib/store-mode";
 import { Browse } from "@/components/marketplace/browse";
@@ -12,6 +13,8 @@ export const Route = createFileRoute("/category/$slug")({
     return category;
   },
   head: ({ loaderData, matches }) => {
+    // The marketplace's category page (a store's own site keeps its simpler tags).
+    if (loaderData && !storeFromMatches(matches)) return categorySeo(loaderData, matches);
     const t = headT(matches, "product");
     const name = loaderData
       ? headT(matches, "categories")(loaderData.slug, { defaultValue: loaderData.name })

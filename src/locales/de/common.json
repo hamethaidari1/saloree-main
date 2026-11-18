@@ -80,5 +80,13 @@
     "badEmail": "Gib eine gültige E-Mail-Adresse ein oder lass das Feld leer.",
     "honeypot": "Dieses Feld leer lassen",
     "failed": "Deine Nachricht konnte nicht gesendet werden:"
+  },
+  "seo": {
+    "productTail": "Verkauft von {{store}} auf Saloree, dem Marktplatz für unabhängige Shops.",
+    "storeSuffix": " – Shoppen auf Saloree",
+    "storeTail": "Shoppe bei {{store}} auf Saloree, dem Marktplatz für unabhängige Shops: Produkte entdecken und mit einem gemeinsamen Warenkorb bezahlen.",
+    "stores": "Shops",
+    "categorySuffix": " – Online kaufen | Saloree",
+    "categoryDescription": "{{category}} online kaufen bei unabhängigen Shops auf Saloree. Vergleiche Produkte, Preise und Verkäufer an einem Ort und bezahle mit einem gemeinsamen Warenkorb."
   }
 }

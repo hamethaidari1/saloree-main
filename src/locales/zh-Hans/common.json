@@ -80,5 +80,13 @@
     "badEmail": "请输入有效的电子邮件地址，或留空。",
     "honeypot": "请将此栏留空",
     "failed": "无法发送你的留言："
+  },
+  "seo": {
+    "productTail": "由 {{store}} 在 Saloree 销售。Saloree 是独立店铺的在线市场。",
+    "storeSuffix": " – 在 Saloree 购物",
+    "storeTail": "在 Saloree 选购 {{store}} 的商品。Saloree 是独立店铺的在线市场：浏览各店商品，用一个共享购物袋一次结账。",
+    "stores": "店铺",
+    "categorySuffix": " – 在线购买 | Saloree",
+    "categoryDescription": "在 Saloree 向独立店铺在线购买{{category}}商品。在一个地方比较商品、价格和卖家，并用一个共享购物袋一次结账。"
   }
 }

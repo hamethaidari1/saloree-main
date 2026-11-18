@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Trans, useTranslation } from "react-i18next";
 import type { ReactNode } from "react";
 import { headT } from "@/i18n/head";
+import { listingExtras } from "@/lib/seo-pages";
 
 export const Route = createFileRoute("/help")({
   head: ({ matches }) => {
@@ -12,7 +13,9 @@ export const Route = createFileRoute("/help")({
       meta: [
         { title: t("help.metaTitle") },
         { name: "description", content: t("help.metaDescription") },
+        ...listingExtras("/help", false).meta,
       ],
+      links: listingExtras("/help", false).links,
     };
   },
   component: HelpPage,

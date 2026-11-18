@@ -80,5 +80,13 @@
     "badEmail": "올바른 이메일 주소를 입력하거나 비워 두세요.",
     "honeypot": "이 칸은 비워 두세요",
     "failed": "메시지를 보내지 못했습니다:"
+  },
+  "seo": {
+    "productTail": "{{store}}에서 판매합니다. Saloree는 독립 스토어를 위한 마켓플레이스입니다.",
+    "storeSuffix": " – Saloree에서 쇼핑",
+    "storeTail": "Saloree에서 {{store}}의 상품을 둘러보세요. Saloree는 독립 스토어를 위한 마켓플레이스로, 하나의 공유 장바구니로 한 번에 결제할 수 있습니다.",
+    "stores": "스토어",
+    "categorySuffix": " – 온라인 구매 | Saloree",
+    "categoryDescription": "Saloree의 독립 스토어에서 {{category}} 상품을 온라인으로 구매하세요. 상품, 가격, 판매자를 한곳에서 비교하고 하나의 공유 장바구니로 결제하세요."
   }
 }

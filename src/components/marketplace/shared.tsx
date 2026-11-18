@@ -18,7 +18,7 @@ import { WishlistButton } from "./wishlist-button";
 import { Logo } from "./logo";
 import { useQuery } from "@tanstack/react-query";
 import type { Catalog, Product, Store } from "@/data/catalog";
-import { catalogQuery } from "@/services/catalog";
+import { catalogQuery, productParam } from "@/services/catalog";
 import { useFormat } from "@/i18n/hooks";
 import { useCart } from "./cart-context";
 import { StoreAddressLink, StoreLink } from "./store-link";
@@ -116,7 +116,7 @@ export function ProductCard({ product, eager = false }: { product: Product; eage
         )}
         <Link
           to="/product/$id"
-          params={{ id: product.id }}
+          params={{ id: productParam(product) }}
           aria-label={t("card.view", { title: product.title })}
         >
           <img
@@ -140,7 +140,7 @@ export function ProductCard({ product, eager = false }: { product: Product; eage
             {product.brand}
           </span>
         )}
-        <Link to="/product/$id" params={{ id: product.id }} className="product-title">
+        <Link to="/product/$id" params={{ id: productParam(product) }} className="product-title">
           {product.title}
         </Link>
         <Rating rating={product.rating} reviews={product.reviews} />
@@ -162,7 +162,7 @@ export function ProductCard({ product, eager = false }: { product: Product; eage
             >
               <Link
                 to="/product/$id"
-                params={{ id: product.id }}
+                params={{ id: productParam(product) }}
                 aria-label={t("options.chooseOptionsAria", { title: product.title })}
               >
                 <Plus size={14} />

@@ -80,5 +80,13 @@
     "badEmail": "Enter a valid e-mail address, or leave it empty.",
     "honeypot": "Leave this field empty",
     "failed": "Your message could not be sent:"
+  },
+  "seo": {
+    "productTail": "Sold by {{store}} on Saloree, the marketplace for independent stores.",
+    "storeSuffix": " – Shop on Saloree",
+    "storeTail": "Shop {{store}} on Saloree, the marketplace for independent stores: browse its products and check out with one shared cart.",
+    "stores": "Stores",
+    "categorySuffix": " – Buy online | Saloree",
+    "categoryDescription": "Buy {{category}} online from independent stores on Saloree. Compare products, prices and sellers in one place, and check out with one shared cart."
   }
 }

@@ -18,6 +18,7 @@ export const Route = createFileRoute("/register")({
     s["role"] === "seller" || s["role"] === "customer" ? { role: s["role"] } : {},
   head: ({ matches }) => ({
     meta: [
+      { name: "robots", content: "noindex, follow" },
       { title: headT(matches, "auth")("register.metaTitle") },
       { name: "description", content: headT(matches, "auth")("register.metaDescription") },
     ],

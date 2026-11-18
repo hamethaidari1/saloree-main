@@ -38,6 +38,8 @@ export interface Product {
   /** Unix ms; used for "newest" sorting. */
   createdAt?: number;
   id: string;
+  /** The readable URL part (/product/<slug>); absent on old test fixtures (the id is used). */
+  slug?: string;
   title: string;
   price: number;
   originalPrice?: number;

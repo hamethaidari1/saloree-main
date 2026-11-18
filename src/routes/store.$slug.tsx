@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { headT } from "@/i18n/head";
+import { storeSeo } from "@/lib/seo-pages";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ChevronRight } from "lucide-react";
 import { catalogService, catalogQuery } from "@/services/catalog";
@@ -26,17 +27,18 @@ export const Route = createFileRoute("/store/$slug")({
   head: ({ loaderData, matches }) => {
     const t = headT(matches, "store");
     const store = loaderData?.store;
+    if (store) return storeSeo(store, matches);
     const title = t("titleWithSite", {
       ns: "common",
-      title: store?.name ?? t("page.fallbackName"),
+      title: t("page.fallbackName"),
       site: "Saloree",
     });
     return {
       meta: [
         { title },
-        { name: "description", content: store?.description || t("page.description") },
+        { name: "description", content: t("page.description") },
         { property: "og:title", content: title },
-        { property: "og:description", content: store?.description || t("page.ogDescription") },
+        { property: "og:description", content: t("page.ogDescription") },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
       ],

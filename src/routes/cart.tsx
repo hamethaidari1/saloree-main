@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { productParam } from "@/services/catalog";
 import { SelectedOptions } from "@/components/marketplace/product-options";
 import { lineKey, lineMax } from "@/services/cart";
 import { headT } from "@/i18n/head";
@@ -23,6 +24,7 @@ export const Route = createFileRoute("/cart")({
     const t = headT(matches, "cart");
     return {
       meta: [
+        { name: "robots", content: "noindex, follow" },
         { title: t("meta.title") },
         { name: "description", content: t("meta.description") },
         { property: "og:title", content: t("meta.title") },
@@ -73,11 +75,11 @@ function CartPage() {
                     if (!p || p.storeSlug !== store.slug) return null;
                     return (
                       <article key={lineKey(item)} className="cart-line">
-                        <Link to="/product/$id" params={{ id: p.id }}>
+                        <Link to="/product/$id" params={{ id: productParam(p) }}>
                           <img src={p.image} alt={p.title} width="105" height="105" />
                         </Link>
                         <div className="min-w-0">
-                          <Link to="/product/$id" params={{ id: p.id }}>
+                          <Link to="/product/$id" params={{ id: productParam(p) }}>
                             <h3>{p.title}</h3>
                           </Link>
                           <SelectedOptions color={item.color} size={item.size} />

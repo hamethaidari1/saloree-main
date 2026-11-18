@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ogLocale } from "@/lib/seo";
 import {
   Outlet,
   Link,
@@ -214,6 +215,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:type", content: "website" },
+        { property: "og:site_name", content: store?.name ?? "Saloree" },
+        { property: "og:locale", content: ogLocale(match.context.i18n?.locale ?? DEFAULT_LOCALE) },
         { name: "twitter:card", content: "summary_large_image" },
         ...(missingStore ? [{ name: "robots", content: "noindex" }] : []),
       ],

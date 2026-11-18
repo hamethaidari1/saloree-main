@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { productParam } from "@/services/catalog";
 /**
  * Building blocks shared by every store template. All content is the
  * store's real data; all styling comes from the scoped --tpl-* variables.
@@ -143,7 +144,7 @@ export function TemplateProductCard({
     <article className="tpl-card" data-variant={variant}>
       <Link
         to="/product/$id"
-        params={{ id: product.id }}
+        params={{ id: productParam(product) }}
         className="tpl-card-media"
         aria-label={product.title}
       >
@@ -164,7 +165,7 @@ export function TemplateProductCard({
       {/* A sibling of the link (never inside it), placed over the photo. */}
       <WishlistButton productId={product.id} title={product.title} className="tpl-heart" />
       <div className="tpl-card-body">
-        <Link to="/product/$id" params={{ id: product.id }} className="tpl-card-title">
+        <Link to="/product/$id" params={{ id: productParam(product) }} className="tpl-card-title">
           {product.title}
         </Link>
         {variant !== "minimal" && <Rating rating={product.rating} reviews={product.reviews} />}

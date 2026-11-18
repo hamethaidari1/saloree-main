@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { productParam } from "@/services/catalog";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, Heart, Plus, Trash2 } from "lucide-react";
@@ -122,14 +123,19 @@ function WishlistCard({ item }: { item: WishlistItem }) {
 
   return (
     <li className="wishlist-card" aria-busy={remove.isPending || undefined}>
-      <Link to="/product/$id" params={{ id: p.id }} className="wishlist-photo" tabIndex={-1}>
+      <Link
+        to="/product/$id"
+        params={{ id: productParam(p) }}
+        className="wishlist-photo"
+        tabIndex={-1}
+      >
         <img src={p.image} alt="" width="384" height="512" loading="lazy" />
       </Link>
       <div className="wishlist-info">
         <StoreLink slug={p.storeSlug} className="product-store">
           {item.storeName}
         </StoreLink>
-        <Link to="/product/$id" params={{ id: p.id }} className="product-title">
+        <Link to="/product/$id" params={{ id: productParam(p) }} className="product-title">
           {p.title}
         </Link>
         <span className="product-price">

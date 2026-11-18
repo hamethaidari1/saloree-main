@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { headT } from "@/i18n/head";
+import { listingExtras } from "@/lib/seo-pages";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ChevronRight } from "lucide-react";
@@ -16,7 +17,9 @@ export const Route = createFileRoute("/stores")({
         { property: "og:description", content: t("stores.ogDescription") },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
+        ...listingExtras("/stores", false).meta,
       ],
+      links: listingExtras("/stores", false).links,
     };
   },
   loader: ({ context }) => context.queryClient.ensureQueryData(catalogQuery),

@@ -11,6 +11,14 @@ const PLACEHOLDER_IMAGE =
   );
 const TONES = ["sage", "rose", "blue", "peach"] as const;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+/** The seller form's slug rule (lowercase letters, numbers, single hyphens). */
+const PRODUCT_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/i;
+
+/** The product's URL part: its slug, else (older data, fixtures) its id. */
+export const productParam = (p: { id: string; slug?: string | undefined }) => p.slug || p.id;
+/** "/product/<slug>" — the one address of a product page. */
+export const productPath = (p: { id: string; slug?: string | undefined }) =>
+  `/product/${encodeURIComponent(productParam(p))}`;
 
 const PRODUCT_SELECT =
   "id, store_id, category_id, title, slug, description, price, compare_price, stock, featured_image, status, created_at, brand, colors, sizes," +
@@ -69,6 +77,7 @@ export function toProduct(row: ProductQueryRow): Product {
   const onSale = compare !== undefined && compare > price;
   return {
     id: row.id,
+    ...(row.slug ? { slug: row.slug } : {}),
     title: row.title,
     price,
     ...(onSale ? { originalPrice: compare, badge: "Sale" } : {}),
@@ -138,9 +147,14 @@ export const catalogService = {
       categories: toCategories(categoriesRes.data as CategoryRow[]),
     };
   },
-  getProduct: async (id: string): Promise<Product | undefined> => {
-    if (!UUID.test(id)) return undefined;
-    const { data, error } = await productsQuery().eq("id", id).maybeSingle();
+  /** By its slug (the URL) or, for old links, its id. */
+  getProduct: async (idOrSlug: string): Promise<Product | undefined> => {
+    const byId = UUID.test(idOrSlug);
+    if (!byId && !PRODUCT_SLUG.test(idOrSlug)) return undefined;
+    const { data, error } = await productsQuery()
+      .eq(byId ? "id" : "slug", byId ? idOrSlug : idOrSlug.toLowerCase())
+      .limit(1)
+      .maybeSingle();
     if (error) throw error;
     return data ? toProduct(data as unknown as ProductQueryRow) : undefined;
   },
